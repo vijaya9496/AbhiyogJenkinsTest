@@ -24,12 +24,13 @@ public class LitigationUnits {
 	@Column(name = "litigation_units_id")
 	private int litigationUnitsId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "unit_id")
 	private Units units;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "litigation_id")
+	@OneToOne(cascade = CascadeType.MERGE)
+//	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "litigation_oid")
 	private Litigation litigation;
 
 	public int getLitigationUnitsId() {

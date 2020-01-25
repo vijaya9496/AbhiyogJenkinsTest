@@ -1,9 +1,12 @@
 package com.fg.ss.abhiyog.common.service;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,6 +35,9 @@ public class UserService implements IUserService{
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	private BaseResponseVO baseResponseVO = BaseResponseVO.getInstance();
 	
@@ -87,7 +93,10 @@ public class UserService implements IUserService{
 			return null;
 		}
 		System.out.println("AllUsers:: " +allUsers.size());
-		return allUsers.stream().map(users->convertToDto(users)).collect(Collectors.toList());
+		Type listType = new TypeToken<List<UserVO>>(){}.getType();
+        List<UserVO> userVOList = modelMapper.map(allUsers, listType);
+        return userVOList;
+//		return allUsers.stream().map(users->convertToDto(users)).collect(Collectors.toList());
 	}
 
 	@Override

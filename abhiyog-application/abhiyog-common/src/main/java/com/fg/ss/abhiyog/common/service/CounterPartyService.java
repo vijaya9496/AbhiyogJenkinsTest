@@ -1,9 +1,12 @@
 package com.fg.ss.abhiyog.common.service;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,7 @@ import com.fg.ss.abhiyog.common.model.Dept;
 import com.fg.ss.abhiyog.common.repository.CounterPartyRepository;
 import com.fg.ss.abhiyog.common.repository.DeptRepository;
 import com.fg.ss.abhiyog.common.vo.CounterPartyVO;
+import com.fg.ss.abhiyog.common.vo.ZoneVO;
 
 
 
@@ -23,6 +27,9 @@ public class CounterPartyService implements ICounterPartyService{
 	
 	@Autowired
 	private DeptRepository deptRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	
 	
@@ -73,7 +80,10 @@ public class CounterPartyService implements ICounterPartyService{
 	@Override
 	public List<CounterPartyVO> findAll() {
 		List<CounterPartyDtls> counterPartyDtls = counterPartyRepository.findAll();
-		return counterPartyDtls.stream().map(allCounterPartyDtls -> convertToDTO(allCounterPartyDtls)).collect(Collectors.toList());
+		Type listType = new TypeToken<List<CounterPartyVO>>(){}.getType();
+        List<CounterPartyVO> counterPartyVoList = modelMapper.map(counterPartyDtls, listType);
+        return counterPartyVoList;
+//		return counterPartyDtls.stream().map(allCounterPartyDtls -> convertToDTO(allCounterPartyDtls)).collect(Collectors.toList());
 	}
 	private CounterPartyVO convertToDTO(CounterPartyDtls allCounterPartyDtls) {
 		CounterPartyVO counterPartyVo = new CounterPartyVO();

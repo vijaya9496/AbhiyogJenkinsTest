@@ -23,54 +23,50 @@ import com.fg.ss.abhiyog.common.vo.ChangePasswordVO;
 import com.fg.ss.abhiyog.common.vo.ResetPasswordVO;
 import com.fg.ss.abhiyog.common.vo.UserVO;
 
-
-
-
 @RestController
 @RequestMapping("/masters/user")
 public class UserRestController {
-	
+
 	@Autowired
 	private IUserService userService;
-	
+
 	@Autowired
 	private EmailService emailService;
-	
+
 	private BaseResponseVO baseResponseVO = BaseResponseVO.getInstance();
-	
+
 	@GetMapping("/getMsg")
 	public String sayHi() {
-		
+
 		return "Hello";
 	}
 
 	@PostMapping("/addNewUser")
-	public ResponseEntity<BaseResponseVO> save(@RequestBody UserVO userVO){
-		
-		User user = userService.findUserByLoginId(userVO.getLoginId()); 
-		if(user == null) {
-			baseResponseVO= userService.saveUserData(userVO);
-		}else {
+	public ResponseEntity<BaseResponseVO> save(@RequestBody UserVO userVO) {
+
+		User user = userService.findUserByLoginId(userVO.getLoginId());
+		if (user == null) {
+			baseResponseVO = userService.saveUserData(userVO);
+		} else {
 			baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
 			baseResponseVO.setResponseMessage("USER ALREADY EXISTED");
-			
+
 		}
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
-		
+
 	}
-	
+
 	@GetMapping("/getAllUsers")
-	public ResponseEntity<BaseResponseVO> getUsers(){
+	public ResponseEntity<BaseResponseVO> getUsers() {
 		List<UserVO> allUsers = userService.getAllUsers();
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(allUsers);
 		return ResponseEntity.ok().body(baseResponseVO);
-		
+
 	}
-	
-	
+
 	@GetMapping("/getUserById/{loginId}")
 	public ResponseEntity<BaseResponseVO> getUsersById(@PathVariable String loginId) {
 		UserVO userDtls = userService.findUserDtlsByLoginId(loginId);
@@ -79,48 +75,47 @@ public class UserRestController {
 		baseResponseVO.setData(userDtls);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
+
 	@PutMapping("/updateUser")
-	public ResponseEntity<BaseResponseVO> updateUserById(@RequestBody UpdateDTO updateDto){
+	public ResponseEntity<BaseResponseVO> updateUserById(@RequestBody UpdateDTO updateDto) {
 		User user = userService.findUserByLoginId(updateDto.getLoginId());
-		if(user != null) {
+		if (user != null) {
 			Role roles = userService.findByRole(updateDto.getRole());
-			
-			if(roles != null) {
-				int isUpdated = userService.update(updateDto.getFirstName(), updateDto.getLastName(), updateDto.getMiddleName(), 
-						updateDto.getPhone(), updateDto.getMobile(), updateDto.getEmailId(), 
-						updateDto.getPersonalEmailId(), updateDto.getAddress(), updateDto.getCity(), roles.getId(), updateDto.getLoginId());
-					if(isUpdated > 0) {
-						baseResponseVO.setResponseCode(HttpStatus.OK.value());
-						baseResponseVO.setResponseMessage("USER UPDATED SUCCESSFULLY");
-					}
-			}else {
+
+			if (roles != null) {
+				int isUpdated = userService.update(updateDto.getFirstName(), updateDto.getLastName(),
+						updateDto.getMiddleName(), updateDto.getPhone(), updateDto.getMobile(), updateDto.getEmailId(),
+						updateDto.getPersonalEmailId(), updateDto.getAddress(), updateDto.getCity(), roles.getId(),
+						updateDto.getLoginId());
+				if (isUpdated > 0) {
+					baseResponseVO.setResponseCode(HttpStatus.OK.value());
+					baseResponseVO.setResponseMessage("USER UPDATED SUCCESSFULLY");
+				}
+			} else {
 				baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
 				baseResponseVO.setResponseMessage("INVALID ROLE");
 			}
-		}else {
+		} else {
 			baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
 			baseResponseVO.setResponseMessage("USER NOT EXISTED TO UPDATE");
 		}
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
-		
+
 	}
-	
-	
+
 	@PostMapping("/changePassword")
 	public ResponseEntity<BaseResponseVO> changePassword(@RequestBody ChangePasswordVO changePasswordVO) {
 		baseResponseVO = userService.changePassword(changePasswordVO);
 		return ResponseEntity.ok().body(baseResponseVO);
-		
+
 	}
-	
-	
+
 	@PostMapping("/resetPassword")
-	public ResponseEntity<BaseResponseVO> resetPassword(@RequestBody ResetPasswordVO resetPasswordVO){
+	public ResponseEntity<BaseResponseVO> resetPassword(@RequestBody ResetPasswordVO resetPasswordVO) {
 		User user = userService.findUserByLoginId(resetPasswordVO.getLoginId());
-		baseResponseVO=emailService.sendMail(user.getEmailId(),resetPasswordVO.getLoginId());
+		baseResponseVO = emailService.sendMail(user.getEmailId(), resetPasswordVO.getLoginId());
 		return ResponseEntity.ok().body(baseResponseVO);
-		
+
 	}
 }

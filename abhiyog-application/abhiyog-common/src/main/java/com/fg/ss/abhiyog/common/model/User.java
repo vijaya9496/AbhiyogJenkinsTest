@@ -19,80 +19,90 @@ import javax.validation.constraints.Email;
 
 import org.hibernate.annotations.ColumnDefault;
 
-
 @Entity
 @Table(name = "ltgn_user")
 public class User {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="user_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "user_id")
 	private int id;
-	
-	@Column(name="login_id")
+
+	@Column(name = "login_id")
 	private String loginId;
-	
-	@Column(name="login_password")
+
+	@Column(name = "login_password")
 	private String password;
-	
-	@Column(name="create_date")
+
+	@Column(name = "create_date")
 	private LocalDateTime createdate;
-	
-	@Column(name="status")
+
+	@Column(name = "status")
 	private String status;
-	
-	@Column(name="first_name")
+
+	@Column(name = "first_name")
 	private String firstName;
-	
-	@Column(name="middle_name")
+
+	@Column(name = "middle_name")
 	private String middleName;
-	
-	@Column(name="last_name")
+
+	@Column(name = "last_name")
 	private String lastName;
-	
-	@Column(name="gender")
+
+	@Column(name = "gender")
 	@ColumnDefault("male")
 	private String gender;
-	
+
 	@Email(message = "*Please provide a valid Email")
-	@Column(name="email_id")
+	@Column(name = "email_id")
 	private String emailId;
-	
+
 	@Email(message = "*Please provide a valid Email")
-	@Column(name="personal_email_id")
+	@Column(name = "personal_email_id")
 	private String personalEmailId;
-	
-	@Column(name="address")
+
+	@Column(name = "address")
 	private String address;
-	
-	@Column(name="phone")
+
+	@Column(name = "phone")
 	private String phone;
-	
-	@Column(name="mobile")
+
+	@Column(name = "mobile")
 	private String mobile;
-	
-	@Column(name="city")
+
+	@Column(name = "city")
 	private String city;
-	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="role_id")
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "role_id")
 	private Role roles;
-	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="user_id")
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
 	private List<UnitHeads> unitHeads;
-	
-	
-	@OneToMany(mappedBy="user")
+
+	@OneToMany(mappedBy = "user")
 //	@JoinColumn(name="user_id")
 	private List<ShowCauseNotice> showCauseNotice;
-	
-	@OneToMany(mappedBy="userDtls")
+
+	@OneToMany(mappedBy = "userDtls")
 	private List<ShowCauseNoticeForms> showCauseNoticeForms;
-	
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="user_id")
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
 	private Litigation litigation;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
+	private List<LitigationDocs> litigationDocs;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
+	private LtgnLitigationLog ltgnLitigationLog;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
+	private LitigationHistoryTLog litigationHistoryTLog;
 
 	public int getId() {
 		return id;
@@ -253,7 +263,29 @@ public class User {
 	public void setLitigation(Litigation litigation) {
 		this.litigation = litigation;
 	}
-	
-	
-	
+
+	public List<LitigationDocs> getLitigationDocs() {
+		return litigationDocs;
+	}
+
+	public void setLitigationDocs(List<LitigationDocs> litigationDocs) {
+		this.litigationDocs = litigationDocs;
+	}
+
+	public LtgnLitigationLog getLtgnLitigationLog() {
+		return ltgnLitigationLog;
+	}
+
+	public void setLtgnLitigationLog(LtgnLitigationLog ltgnLitigationLog) {
+		this.ltgnLitigationLog = ltgnLitigationLog;
+	}
+
+	public LitigationHistoryTLog getLitigationHistoryTLog() {
+		return litigationHistoryTLog;
+	}
+
+	public void setLitigationHistoryTLog(LitigationHistoryTLog litigationHistoryTLog) {
+		this.litigationHistoryTLog = litigationHistoryTLog;
+	}
+
 }

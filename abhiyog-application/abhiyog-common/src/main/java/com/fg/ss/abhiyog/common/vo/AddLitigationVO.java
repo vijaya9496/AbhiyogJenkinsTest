@@ -1,6 +1,9 @@
 package com.fg.ss.abhiyog.common.vo;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AddLitigationVO {
 
@@ -12,10 +15,12 @@ public class AddLitigationVO {
 	private String address;
 	private String storeOfficePremises; // operational or non-operational
 	private String coFormat;
-	private String[] matterByAgainst;
+	private String[] matterByAgainst;	//using for sending request
+	private List<String> matterByAgainstList = new ArrayList<String>();
 	private String coZone;
 	private String customerType;
-	private String defendant;
+	private String againstPartyClientCustomerType;
+	private String counterParty; // this might be changed based on selection of type on ui side.
 	private String coCounterParties;
 	private String subject;
 	private String category;
@@ -39,10 +44,14 @@ public class AddLitigationVO {
 	private String stage;
 	private String counselAssesment;
 	private String remark;
-	private Date nextHearingDate;
+	private LocalDate nextHearingDate;
 	private String seniorCounsel;
 	private String lawfirm; // Lawfirm/Individual
 	private String function;
+	private Date caseRelateFromDate;
+	private Date caseRelateToDate;
+	private String litigationId; //to display in RestoreLitigation
+ 
 
 	public String getLoginId() {
 		return loginId;
@@ -132,12 +141,14 @@ public class AddLitigationVO {
 		this.customerType = customerType;
 	}
 
-	public String getDefendant() {
-		return defendant;
+	
+
+	public String getCounterParty() {
+		return counterParty;
 	}
 
-	public void setDefendant(String defendant) {
-		this.defendant = defendant;
+	public void setCounterParty(String counterParty) {
+		this.counterParty = counterParty;
 	}
 
 	public String getCoCounterParties() {
@@ -316,11 +327,11 @@ public class AddLitigationVO {
 		this.counselAssesment = counselAssesment;
 	}
 
-	public Date getNextHearingDate() {
+	public LocalDate getNextHearingDate() {
 		return nextHearingDate;
 	}
 
-	public void setNextHearingDate(Date nextHearingDate) {
+	public void setNextHearingDate(LocalDate nextHearingDate) {
 		this.nextHearingDate = nextHearingDate;
 	}
 
@@ -356,5 +367,44 @@ public class AddLitigationVO {
 		this.function = function;
 	}
 
+	public Date getCaseRelateFromDate() {
+		return caseRelateFromDate;
+	}
+
+	public void setCaseRelateFromDate(Date caseRelateFromDate) {
+		this.caseRelateFromDate = caseRelateFromDate;
+	}
+
+	public Date getCaseRelateToDate() {
+		return caseRelateToDate;
+	}
+
+	public void setCaseRelateToDate(Date caseRelateToDate) {
+		this.caseRelateToDate = caseRelateToDate;
+	}
+
+	public List<String> getMatterByAgainstList() {
+		return matterByAgainstList;
+	}
+
+	public void setMatterByAgainstList(List<String> matterByAgainstList) {
+		this.matterByAgainstList = matterByAgainstList;
+	}
+
+	public String getAgainstPartyClientCustomerType() {
+		return againstPartyClientCustomerType;
+	}
+
+	public void setAgainstPartyClientCustomerType(String againstPartyClientCustomerType) {
+		this.againstPartyClientCustomerType = againstPartyClientCustomerType;
+	}
+
+	public String getLitigationId() {
+		return litigationId;
+	}
+
+	public void setLitigationId(String litigationId) {
+		this.litigationId = litigationId;
+	}
 	
 }

@@ -4,7 +4,7 @@ public class OutsideCounselVO {
 
 	private String function;
 	private String lawfirm;
-	private String partner;
+	private String lawfirmHead; //partner
 	private String emailId;
 	private String address;
 	private String mobile;
@@ -28,12 +28,14 @@ public class OutsideCounselVO {
 		this.lawfirm = lawfirm;
 	}
 
-	public String getPartner() {
-		return partner;
+	
+
+	public String getLawfirmHead() {
+		return lawfirmHead;
 	}
 
-	public void setPartner(String partner) {
-		this.partner = partner;
+	public void setLawfirmHead(String lawfirmHead) {
+		this.lawfirmHead = lawfirmHead;
 	}
 
 	public String getEmailId() {
@@ -91,8 +93,8 @@ public class OutsideCounselVO {
 		builder.append(function);
 		builder.append(", lawfirm=");
 		builder.append(lawfirm);
-		builder.append(", partner=");
-		builder.append(partner);
+		builder.append(", lawfirmHead=");
+		builder.append(lawfirmHead);
 		builder.append(", emailId=");
 		builder.append(emailId);
 		builder.append(", address=");

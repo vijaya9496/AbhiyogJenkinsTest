@@ -1,8 +1,11 @@
 package com.fg.ss.abhiyog.common.service;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +13,7 @@ import com.fg.ss.abhiyog.common.model.Dept;
 import com.fg.ss.abhiyog.common.model.LawFirm;
 import com.fg.ss.abhiyog.common.repository.DeptRepository;
 import com.fg.ss.abhiyog.common.repository.OutsideCounselRepository;
+import com.fg.ss.abhiyog.common.vo.CounterPartyVO;
 import com.fg.ss.abhiyog.common.vo.OutsideCounselVO;
 
 
@@ -22,6 +26,9 @@ public class OutsideCounselService implements IOutsideCounselService{
 	
 	@Autowired
 	private DeptRepository deptRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	@Override
 	public LawFirm findByLawfirm(String lawfirm) {
@@ -36,7 +43,7 @@ public class OutsideCounselService implements IOutsideCounselService{
 			lawfirmDtls.setLawfirmId(lawfirm.getLawfirmId());
 		}
 		lawfirmDtls.setLawfirm(outsideCounselVO.getLawfirm());
-		lawfirmDtls.setLawfirmHead(outsideCounselVO.getPartner());
+		lawfirmDtls.setLawfirmHead(outsideCounselVO.getLawfirmHead());
 		lawfirmDtls.setLawfirmHeadEmailId(outsideCounselVO.getEmailId());
 		lawfirmDtls.setAddress(outsideCounselVO.getAddress());
 		lawfirmDtls.setMobile(outsideCounselVO.getMobile());
@@ -58,12 +65,15 @@ public class OutsideCounselService implements IOutsideCounselService{
 	@Override
 	public List<OutsideCounselVO> findAll() {
 		List<LawFirm> counselSummary = outsideCounselRepository.findAll();
-		return counselSummary.stream().map(allCounselSummary -> convertToDTO(allCounselSummary)).collect(Collectors.toList());
+		Type listType = new TypeToken<List<OutsideCounselVO>>(){}.getType();
+        List<OutsideCounselVO> counterPartyVoList = modelMapper.map(counselSummary, listType);
+        return counterPartyVoList;
+//		return counselSummary.stream().map(allCounselSummary -> convertToDTO(allCounselSummary)).collect(Collectors.toList());
 	}
 	private OutsideCounselVO convertToDTO(LawFirm allCounselSummary) {
 		OutsideCounselVO outsideCounselDto = new OutsideCounselVO();
 		outsideCounselDto.setLawfirm(allCounselSummary.getLawfirm());
-		outsideCounselDto.setPartner(allCounselSummary.getLawfirmHead());
+		outsideCounselDto.setLawfirmHead(allCounselSummary.getLawfirmHead());
 		outsideCounselDto.setEmailId(allCounselSummary.getLawfirmHeadEmailId());
 		outsideCounselDto.setMobile(allCounselSummary.getMobile());
 		outsideCounselDto.setAddress(allCounselSummary.getAddress());

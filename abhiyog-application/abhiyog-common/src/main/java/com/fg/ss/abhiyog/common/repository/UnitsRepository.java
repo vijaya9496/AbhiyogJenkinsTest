@@ -26,6 +26,9 @@ public interface UnitsRepository extends JpaRepository<Units, Integer> {
 			+ " u.unitName=:unitName")
 	Units getUnitDtlsByEntityName(@Param("entityName") String entityName, @Param("zoneName") String zoneName,
 			@Param("unitName") String unitName);
-//	Units findUnitByName(String entityName, String unitName, String zoneName);
+
+	@Query(value = "select u from Units as u join LitigationUnits as lu on u.unitId = lu.units.unitId join Litigation as lt on lt.litigationOId = lu.litigation.litigationOId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId where lt.litigationId =:litigationId")
+	List<Units> findDtlsByLitigationId(@Param("litigationId")String litigationId);
+
 
 }

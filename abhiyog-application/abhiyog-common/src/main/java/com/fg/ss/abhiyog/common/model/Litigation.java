@@ -75,7 +75,7 @@ public class Litigation {
 	private int fileNumber;
 
 	@Column(name = "next_date_of_hearing")
-	private Date nextDateOfHearing;
+	private LocalDate nextDateOfHearing;
 
 	@Column(name = "time_of_case_am_pm")
 	private String timeOfCaseAmPm;
@@ -148,6 +148,9 @@ public class Litigation {
 
 	@Column(name = "co_region")
 	private String coRegion;
+	
+	@Column(name="delete_status")
+	private int deleteStatus;
 
 	@Column(name = "exact_claim_amount")
 	private float exactClaimAmount;
@@ -255,7 +258,7 @@ public class Litigation {
 	@JoinColumn(name = "representative_id")
 	private LtgnRepresentativeMaster ltgnRepresentativeMaster;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "customer_id")
 	private CounterPartyDtls counterPartyDtls;
 
@@ -266,11 +269,31 @@ public class Litigation {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "litigation_added_by_id")
 	private User user;
-	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="litigation_oid")
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "litigation_oid")
 	private LitigationUnits litigationUnits;
 
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "litigation_oid")
+	private List<ConnectedLitigation> connectedLitigation;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "litigation_oid")
+	private List<Witness> witness;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "litigation_oid")
+	private LitigationDocs litigationDocs;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "litigation_oid")
+	private LawfirmBilling lawfirmBilling;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="litigation_oid")
+	private List<LtgnLitigationLog> ltgnLitigationLog;
+	
 	public int getLitigationOId() {
 		return litigationOId;
 	}
@@ -407,11 +430,11 @@ public class Litigation {
 		this.fileNumber = fileNumber;
 	}
 
-	public Date getNextDateOfHearing() {
+	public LocalDate getNextDateOfHearing() {
 		return nextDateOfHearing;
 	}
 
-	public void setNextDateOfHearing(Date nextDateOfHearing) {
+	public void setNextDateOfHearing(LocalDate nextDateOfHearing) {
 		this.nextDateOfHearing = nextDateOfHearing;
 	}
 
@@ -877,6 +900,46 @@ public class Litigation {
 
 	public void setLitigationUnits(LitigationUnits litigationUnits) {
 		this.litigationUnits = litigationUnits;
+	}
+
+	public List<ConnectedLitigation> getConnectedLitigation() {
+		return connectedLitigation;
+	}
+
+	public void setConnectedLitigation(List<ConnectedLitigation> connectedLitigation) {
+		this.connectedLitigation = connectedLitigation;
+	}
+
+	public List<Witness> getWitness() {
+		return witness;
+	}
+
+	public void setWitness(List<Witness> witness) {
+		this.witness = witness;
+	}
+
+	public LitigationDocs getLitigationDocs() {
+		return litigationDocs;
+	}
+
+	public void setLitigationDocs(LitigationDocs litigationDocs) {
+		this.litigationDocs = litigationDocs;
+	}
+
+	public LawfirmBilling getLawfirmBilling() {
+		return lawfirmBilling;
+	}
+
+	public void setLawfirmBilling(LawfirmBilling lawfirmBilling) {
+		this.lawfirmBilling = lawfirmBilling;
+	}
+
+	public List<LtgnLitigationLog> getLtgnLitigationLog() {
+		return ltgnLitigationLog;
+	}
+
+	public void setLtgnLitigationLog(List<LtgnLitigationLog> ltgnLitigationLog) {
+		this.ltgnLitigationLog = ltgnLitigationLog;
 	}
 	
 	

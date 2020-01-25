@@ -1,5 +1,6 @@
 package com.fg.ss.abhiyog.common.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,11 +20,12 @@ public class LitigationMatterByAgainst {
 	@Column(name = "litigation_matter_by_against_id")
 	private int litigationMatterByAgainstId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "litigation_oid")//litigation_id
+	@ManyToOne(cascade=CascadeType.PERSIST)
+//	fetch = FetchType.LAZY
+	@JoinColumn(name = "litigation_oid")//litigation_oid
 	private Litigation litigation;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name = "representative_id")//matter_by_against_id
 	private LtgnRepresentativeMaster ltgnRepresentativeMaster;
 

@@ -24,10 +24,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "update User u set u.firstName=?1, u.lastName=?2, u.middleName=?3, u.phone=?4, u.mobile=?5, "
-			+ "u.emailId=?6, u.personalEmailId=?7, u.address=?8, u.city=?9, u.roles.id=?10 where u.loginId=?11")
-	int updateUser(String firstName, String lastName, String middleName, String phone, String mobile, String emailId,
-			String personalEmailId, String address, String city, int roleId, String loginId);
+	@Query(value = "update User u set u.firstName=:firstName, u.lastName=:lastName, u.middleName=:middleName, u.phone=:phone, u.mobile=:mobile, "
+			+ "u.emailId=:emailId, u.personalEmailId=:personalEmailId, u.address=:address, u.city=:city, u.roles.id=:roleId where u.loginId=:loginId")
+	int updateUser(@Param("firstName")String firstName, @Param("lastName")String lastName, @Param("middleName")String middleName, @Param("phone")String phone, @Param("mobile")String mobile, @Param("emailId")String emailId,
+			@Param("personalEmailId")String personalEmailId, @Param("address")String address, @Param("city")String city, @Param("roleId")int roleId, @Param("loginId")String loginId);
 
 	@Query(value = "select u from User u where u.loginId=:loginId")
 	User getPassword(@Param("loginId")String loginId);
@@ -36,5 +36,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Transactional
 	@Query(value = "update User u set u.password=:encodeNewPassword where u.loginId=:loginId")
 	int changePassword(@Param("loginId")String loginId, @Param("encodeNewPassword")String encodeNewPassword);
+
+	@Query(value="select u from User as u where u.roles.id = 6")
+	List<User> findToEmailIds();
 
 }

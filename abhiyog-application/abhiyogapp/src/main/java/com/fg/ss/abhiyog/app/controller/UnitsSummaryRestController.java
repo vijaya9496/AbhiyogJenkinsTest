@@ -1,5 +1,7 @@
 package com.fg.ss.abhiyog.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,7 @@ public class UnitsSummaryRestController {
 	
 	@GetMapping("/companyUnitsSummary")
 	public ResponseEntity<BaseResponseVO> getCompanyUnitsSummary(){
-		UnitSummaryVO unitSummary = unitsSummaryService.getUnitSummary();
+		List<UnitSummaryVO> unitSummary = unitsSummaryService.getUnitSummary();
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(unitSummary);

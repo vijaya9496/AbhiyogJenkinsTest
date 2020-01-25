@@ -1,8 +1,11 @@
 package com.fg.ss.abhiyog.common.service;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -11,12 +14,16 @@ import com.fg.ss.abhiyog.common.model.EntitySummary;
 import com.fg.ss.abhiyog.common.repository.EntityRepository;
 import com.fg.ss.abhiyog.common.vo.BaseResponseVO;
 import com.fg.ss.abhiyog.common.vo.EntityVO;
+import com.fg.ss.abhiyog.common.vo.FormatVO;
 
 @Service
 public class EntityService implements IEntityService {
 
 	@Autowired
 	private EntityRepository entityRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	private BaseResponseVO baseResponseVO = BaseResponseVO.getInstance();
 
@@ -26,7 +33,10 @@ public class EntityService implements IEntityService {
 		if (entityDtls == null) {
 			return null;
 		}
-		return entityDtls.stream().map(entities -> convertToDto(entities)).collect(Collectors.toList());
+		Type listType = new TypeToken<List<EntityVO>>(){}.getType();
+        List<EntityVO> entityVoList = modelMapper.map(entityDtls, listType);
+        return entityVoList;
+//		return entityDtls.stream().map(entities -> convertToDto(entities)).collect(Collectors.toList());
 	}
 
 	private EntityVO convertToDto(EntitySummary entities) {

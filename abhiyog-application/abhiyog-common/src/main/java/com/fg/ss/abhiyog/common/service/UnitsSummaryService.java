@@ -1,9 +1,12 @@
 package com.fg.ss.abhiyog.common.service;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,7 @@ import com.fg.ss.abhiyog.common.repository.UnitsRepository;
 import com.fg.ss.abhiyog.common.repository.UserRepository;
 import com.fg.ss.abhiyog.common.repository.ZonesRespository;
 import com.fg.ss.abhiyog.common.vo.BaseResponseVO;
+import com.fg.ss.abhiyog.common.vo.OutsideCounselVO;
 import com.fg.ss.abhiyog.common.vo.UnitSummaryVO;
 
 @Service
@@ -47,28 +51,23 @@ public class UnitsSummaryService implements IUnitsSummaryService {
 	private BaseResponseVO baseResponseVO = BaseResponseVO.getInstance();
 
 	@Override
-	public UnitSummaryVO getUnitSummary() {
+	public List<UnitSummaryVO> getUnitSummary() {
 		List<Units> unitSummary = unitsRepository.getUnitSummary();
 //		System.out.println("unitSummary size:: " +unitSummary.size());
 		if (unitSummary == null) {
 			return null;
 		}
-
-		UnitSummaryVO unitSummaryDTO = convertToDTO(unitSummary);
-		return unitSummaryDTO;
-
+		return unitSummary.stream().map(unitSummaryDtls -> convertToDTO(unitSummaryDtls)).collect(Collectors.toList());
 	}
 
-	private UnitSummaryVO convertToDTO(List<Units> unitSummary) {
+	private UnitSummaryVO convertToDTO(Units unitSummaryDtls) {
 		UnitSummaryVO unitSummaryDto = new UnitSummaryVO();
-		for (Units unitSummaryDtls : unitSummary) {
 			unitSummaryDto.setEntityName(unitSummaryDtls.getEntitySummary().getEntityName());
 			unitSummaryDto.setZoneName(unitSummaryDtls.getRegions().getZoneName());
 			unitSummaryDto.setUnitName(unitSummaryDtls.getUnitName());
-		}
-		for (int i = 0; i < unitSummary.size(); i++) {
-			unitSummaryDto.getUnitHead().add((unitSummary.get(i).getUnitHeads().get(i).getUser().getLoginId()));
-		}
+			for (UnitHeads unitheads: unitSummaryDtls.getUnitHeads()) {
+				unitSummaryDto.getUnitHead().add(unitheads.getUser().getLoginId());
+			}
 		return unitSummaryDto;
 	}
 
