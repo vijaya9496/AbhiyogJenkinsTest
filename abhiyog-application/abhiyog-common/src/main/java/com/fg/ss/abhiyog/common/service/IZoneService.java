@@ -14,7 +14,7 @@ public interface IZoneService {
 
 	Zone checkZoneExistence(String zoneName);
 
-	BaseResponseVO saveZoneData(ZoneVO zoneVO);
+	void saveZoneData(ZoneVO zoneVO);
 
 	
 

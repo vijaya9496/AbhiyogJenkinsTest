@@ -1,24 +1,31 @@
 package com.fg.ss.abhiyog.common.service;
 
-import java.lang.reflect.Type;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
+import com.fg.ss.abhiyog.common.model.Litigation;
 import com.fg.ss.abhiyog.common.model.Role;
 import com.fg.ss.abhiyog.common.model.User;
 import com.fg.ss.abhiyog.common.repository.RoleRepository;
 import com.fg.ss.abhiyog.common.repository.UserRepository;
 import com.fg.ss.abhiyog.common.vo.BaseResponseVO;
-import com.fg.ss.abhiyog.common.vo.ChangePasswordVO;
 import com.fg.ss.abhiyog.common.vo.UserVO;
 
 
@@ -27,6 +34,7 @@ import com.fg.ss.abhiyog.common.vo.UserVO;
 @Transactional
 public class UserService implements IUserService{
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -37,7 +45,7 @@ public class UserService implements IUserService{
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
-	private ModelMapper modelMapper;
+	private EntityManager entityManager;
 	
 	private BaseResponseVO baseResponseVO = BaseResponseVO.getInstance();
 	
@@ -51,38 +59,40 @@ public class UserService implements IUserService{
 	}
 
 	@Override
-	public BaseResponseVO saveUserData(UserVO userVO) {
+	public boolean saveUserData(UserVO userVO) {
+		boolean isInserted = false;
 		User user = new User();
-		
+		if(userVO.getLoginId() != null) {
+			User checkUserExistence = userRepository.findByLoginId(userVO.getLoginId());
+			if(checkUserExistence != null) {
+				user.setId(checkUserExistence.getId());
+				user.setPassword(checkUserExistence.getPassword());
+				user.setStatus(userVO.getStatus());
+			}else {
+				user.setStatus("active");
+				user.setPassword(bCryptPasswordEncoder.encode(userVO.getPassword()));
+			}
+		}
 		user.setFirstName(userVO.getFirstName());
 		user.setMiddleName(userVO.getMiddleName());
 		user.setLastName(userVO.getLastName());
 		user.setAddress(userVO.getAddress());
 		user.setCity(userVO.getCity());
-		user.setGender(userVO.getGender());
+		user.setGender("Male");
 		user.setEmailId(userVO.getEmailId());
 		user.setPersonalEmailId(userVO.getPersonalEmailId());
 		user.setPhone(userVO.getPhone());
 		user.setMobile(userVO.getMobile());
-
 		user.setLoginId(userVO.getLoginId());
-		user.setPassword(bCryptPasswordEncoder.encode(userVO.getPassword()));
-		user.setStatus(userVO.getStatus());
 		LocalDateTime dateTime =  LocalDateTime.now();
 		user.setCreatedate(dateTime);
-		
-		Role roles = findByRole(userVO.getRole());
-		System.out.println("roles:"+roles.getId());
+		Role roles = findByRole(userVO.getRoleDesc());
 		if(roles != null) {
 			user.setRoles(roles);
 			userRepository.save(user);
-			baseResponseVO.setResponseCode(HttpStatus.CREATED.value());
-			baseResponseVO.setResponseMessage("USER CREATED SUCCESSFULLY");
-		}else {
-			baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
-			baseResponseVO.setResponseMessage("INVALID ROLE");
+			isInserted = true;
 		}
-		return baseResponseVO;
+		return isInserted;
 	}
 
 	@Override
@@ -92,11 +102,11 @@ public class UserService implements IUserService{
 			System.out.println("AllUsers:: " +allUsers.size());
 			return null;
 		}
-		System.out.println("AllUsers:: " +allUsers.size());
+		/*System.out.println("AllUsers:: " +allUsers.size());
 		Type listType = new TypeToken<List<UserVO>>(){}.getType();
         List<UserVO> userVOList = modelMapper.map(allUsers, listType);
-        return userVOList;
-//		return allUsers.stream().map(users->convertToDto(users)).collect(Collectors.toList());
+        return userVOList;*/
+		return allUsers.stream().map(users->convertToDto(users)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -115,48 +125,33 @@ public class UserService implements IUserService{
 		return roles;
 	}
 
-	@Override
-	public int update(String firstName, String lastName, String middleName, String phone, String mobile,
-			String emailId, String personalEmailId, String address, String city, int roleId, String loginId) {
-		int updated = userRepository.updateUser(firstName, lastName,middleName,phone,mobile,
-				emailId, personalEmailId, address, city, roleId, loginId);
+	/*@Override
+	public int update(UserVO user) {
+		int updated = userRepository.updateUser(user);
 		
 		return updated;
 		
-	}
+	}*/
 
 	@Override
-	public BaseResponseVO changePassword(ChangePasswordVO changePasswordVO) {
+	public int changePassword(UserVO userVO) {
 //		BaseResponseVO baseResponseVO = new BaseResponseVO();
 		User user = new User();
 		
-		user = userRepository.getPassword(changePasswordVO.getLoginId());
-		
-			if(bCryptPasswordEncoder.matches(changePasswordVO.getOldPassword(), user.getPassword())) {
-				if(changePasswordVO.getNewPassword().equals(changePasswordVO.getConfirmNewPassword())){
-					int	passwordChanged = userRepository.changePassword(changePasswordVO.getLoginId(),bCryptPasswordEncoder.encode(changePasswordVO.getNewPassword()));
-					if(passwordChanged > 0) {
-						baseResponseVO.setResponseCode(HttpStatus.OK.value());
-						baseResponseVO.setResponseMessage("PASSWORD CHANGED SUCCESSFULLY");
-					}else {
-						baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
-						baseResponseVO.setResponseMessage("UNABLE TO CHANGE PASSWORD");
-					}
-				}else {
-					baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
-					baseResponseVO.setResponseMessage("NEW and CONFIRM NEW PASSWORD SHOULD BE EQUAL");
+		user = userRepository.findByLoginId(userVO.getLoginId());
+			int	passwordChanged = 0;
+			if(bCryptPasswordEncoder.matches(userVO.getOldPassword(), user.getPassword())) {
+				if(userVO.getNewPassword().equals(userVO.getConfirmNewPassword())){
+					passwordChanged = userRepository.changePassword(userVO.getLoginId(),bCryptPasswordEncoder.encode(userVO.getNewPassword()));
+					return passwordChanged;
 				}
-			}else {
-				baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
-				baseResponseVO.setResponseMessage("INVALID OLD PASSWORD");
 			}
-			baseResponseVO.setData(null);
-		
-		return baseResponseVO;
+		return passwordChanged;
 	}
 
 	private UserVO convertToDto(User users) {
 		UserVO userDto = new UserVO();
+		userDto.setId(users.getId());
 		userDto.setLoginId(users.getLoginId());
 		userDto.setFirstName(users.getFirstName()+ " " +users.getLastName());
 		userDto.setEmailId(users.getEmailId());
@@ -164,6 +159,68 @@ public class UserService implements IUserService{
 		userDto.setRoleDesc(users.getRoles().getRoleDesc());
 		return userDto;
 	}
+
+	@Override
+	public List<Role> getAllRoles() {
+		List<Role> allRoles = roleRepository.findAll();
+		return allRoles;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserVO> getUserSummaryData(String role, String status) {
+		List<User> userSummary = new ArrayList<>();
+		Map<String, Object> parameterMap = new HashMap<>();
+		List<String> whereClause = new ArrayList<>();
+		StringBuilder reportQuery = new StringBuilder();
+		
+		reportQuery.append("select u from User u join Role r on r.id=u.roles.id ");
+		
+		if(!role.equals("ALL")) {
+			System.out.println(role);
+			whereClause.add(" r.roleDesc=:role ");
+			parameterMap.put("role", role);
+//			reportQuery.append( StringUtils.join(whereClause, " and "));
+		} 
+		if(!status.equals("ALL")) {
+			whereClause.add(" u.status=:status ");
+			parameterMap.put("status", status);
+//			reportQuery.append(" where " + StringUtils.join(whereClause, " and "));
+		} 
+		if(!status.equals("ALL") || !role.equals("ALL")) {
+			reportQuery.append(" where " + StringUtils.join(whereClause, " and "));
+		}
+		
+		Query jpaQuery = entityManager.createQuery(reportQuery.toString());
+		LOGGER.info("Created Query::  " + reportQuery.toString());
+		for(String key: parameterMap.keySet()) {
+			jpaQuery.setParameter(key, parameterMap.get(key));
+		}
+		userSummary = jpaQuery.getResultList();
+		LOGGER.info("userSummary Size:: " +userSummary.size());
+		return userSummary.stream().map(allUserSummaryDtls ->convertToDto(allUserSummaryDtls)).collect(Collectors.toList());
+	}
+
+	@Override
+	public UserVO getUserProfile(int id) {
+		User userProfileDtls = userRepository.getUserProfileByID(id);
+		UserVO userVO = new UserVO();
+		userVO.setLoginId(userProfileDtls.getLoginId());
+		userVO.setRoleDesc(userProfileDtls.getRoles().getRoleDesc());
+		userVO.setStatus(userProfileDtls.getStatus());
+		userVO.setFirstName(userProfileDtls.getFirstName());
+		userVO.setMiddleName(userProfileDtls.getMiddleName());
+		userVO.setLastName(userProfileDtls.getLastName());
+		userVO.setAddress(userProfileDtls.getAddress());
+		userVO.setCity(userProfileDtls.getCity());
+		userVO.setPhone(userProfileDtls.getPhone());
+		userVO.setMobile(userProfileDtls.getMobile());
+		userVO.setEmailId(userProfileDtls.getEmailId());
+		userVO.setPersonalEmailId(userProfileDtls.getPersonalEmailId());
+		return userVO;
+	}
+
+	
 
 	
 	

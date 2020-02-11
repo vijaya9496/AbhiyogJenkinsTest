@@ -57,13 +57,10 @@ public class ZoneService implements IZoneService{
 	}
 
 	@Override
-	public BaseResponseVO saveZoneData(ZoneVO zoneVO) {
+	public void saveZoneData(ZoneVO zoneVO) {
 		Zone zone = new Zone();
 		zone.setZoneName(zoneVO.getZoneName());
 		zonesRepository.save(zone);
-		baseResponseVO.setResponseCode(HttpStatus.OK.value());
-		baseResponseVO.setResponseMessage("ZONE ADDED SUCCESSFULLY");
-		return baseResponseVO;
 	}
 
 	

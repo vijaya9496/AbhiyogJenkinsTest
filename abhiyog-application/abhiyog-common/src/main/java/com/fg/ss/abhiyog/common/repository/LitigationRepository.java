@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -95,6 +97,28 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 			"join fetch lt.courtType ct\r\n" + 
 			"where lt.nextDateOfHearing between CURDATE() and adddate(now(),7)")
 	List<Litigation> findNextSevenDaysHearingDateDtls();
+
+	@Query(value="select count(lt) from Litigation as lt, Zone r, Units u where u.unitId = lt.units.unitId and r.zoneId = u.regions.zoneId and r.zoneName = :zoneName")
+	int findCountofCasesByZoneName(@Param("zoneName")String zoneName);
+
+	@Query(value="select count(lt) from Litigation as lt, EntitySummary as e, Units as u where u.unitId = lt.units.unitId and e.entityId = u.entitySummary.entityId and e.entityName=:entityName")
+	int findCountofCasesByEntityName(@Param("entityName")String entityName);
+
+	@Query(value="select count(lt) from Litigation as lt, LtgnCaseType as lct where lct.caseTypeId = lt.ltgnCaseType.caseTypeId and lct.caseType=:caseType")
+	int findCountofCasesByCaseType(@Param("caseType")String caseType);
+
+	@Query(value="select count(lt) from Litigation as lt, LitigationMatterByAgainst as lma, LtgnRepresentativeMaster as lrm where lrm.representativeId = lma.ltgnRepresentativeMaster.representativeId and lt.litigationOId = lma.litigation.litigationOId and lrm.representativeName=:litigationStatistic")
+	int findLitigationByStatistics(@Param("litigationStatistic")String litigationStatistic);
+
+	/*@Query(value="select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId join Format as f on f.formatId = lt.format.formatId "
+			+ "where r.zoneName=:zone OR :zone IS NULL and f.format=:format OR :format IS NULL and e.entityName=:entity OR :entity IS NULL and cpd.customerName=:counterParty OR :counterParty IS NULL and lt.ltgnCaseType.caseType=:category OR :category IS NULL and "
+			+ "c.claim=:possibleClaim OR :possibleClaim IS NULL and lt.state.stateName=:state OR :state IS NULL and lt.lawFirm.lawfirm=:lawfirmIndividual OR :lawfirmIndividual IS NULL and "
+			+ "lt.courtType.courtType=:courtType OR :courtType IS NULL  and lt.underAct.underAct=:underActs OR :underActs IS NULL and rs.risk=:risk OR :risk IS NULL and "
+			+ "s.status=:status OR :status IS NULL and lt.ltgnRepresentativeMaster.representativeName=:matterByAgainst OR :matterByAgainst IS NULL  and lt.ltgnRepresentativeMaster.representativeName=:litigationByAgainst OR :litigationByAgainst IS NULL")
+	List<Litigation> findLitigationSummaryByFieldSelection(@Param("zone")String zone, @Param("format")String format, @Param("entity")String entity, 
+			@Param("counterParty")String counterParty, @Param("category")String category, @Param("possibleClaim")String possibleClaim, @Param("state")String state, @Param("lawfirmIndividual")String lawfirmIndividual,
+			@Param("courtType")String courtType, @Param("underActs")String underActs, @Param("risk")String risk, @Param("status")String status, @Param("matterByAgainst")String matterByAgainst,
+			@Param("litigationByAgainst")String litigationByAgainst);*/
 	
 	
 

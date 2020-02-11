@@ -8,6 +8,7 @@ import java.util.List;
 //@JsonIgnoreProperties(ignoreUnknown=true)
 public class UnitSummaryVO {
 
+	private int unitId;
 	private String loginId;
 	private String entityName;
 	private String zoneName;
@@ -64,6 +65,14 @@ public class UnitSummaryVO {
 		this.unitHead = unitHead;
 	}
 
+	public int getUnitId() {
+		return unitId;
+	}
+
+	public void setUnitId(int unitId) {
+		this.unitId = unitId;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -82,7 +91,5 @@ public class UnitSummaryVO {
 		builder.append("]");
 		return builder.toString();
 	}
-
-	
 
 }

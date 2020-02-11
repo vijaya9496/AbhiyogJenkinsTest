@@ -18,6 +18,7 @@ public class CounterPartyVO {
 	private String faxNo2;
 	private String address;
 	private String website;
+	private int id;	//customer_id;
 	public String getFunction() {
 		return function;
 	}
@@ -113,6 +114,14 @@ public class CounterPartyVO {
 	}
 	public void setWebsite(String website) {
 		this.website = website;
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	@Override
 	public String toString() {

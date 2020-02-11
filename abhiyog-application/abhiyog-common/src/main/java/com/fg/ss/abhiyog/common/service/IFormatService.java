@@ -14,6 +14,10 @@ public interface IFormatService{
 
 	Format getFormatByName(String format);
 
-	BaseResponseVO saveFormatData(FormatVO formatVO);
+	void saveFormatData(FormatVO formatVO);
+
+	String findById(int id);
+
+	int updateFormatByName(String format, String updateFormatName);
 
 }

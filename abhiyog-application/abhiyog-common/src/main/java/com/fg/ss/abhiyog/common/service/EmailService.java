@@ -60,16 +60,18 @@ public class EmailService {
 
 	private BaseResponseVO baseResponseVO = BaseResponseVO.getInstance();
 
-	public BaseResponseVO sendMail(String recepientEmailId, String loginId) {
+	public boolean sendMail(String recepientEmailId, String loginId) {
 		int updatePassword = userRepository.changePassword(loginId, bcryptPasswordEncoder.encode(sampleResetPassword));
+		boolean isMailSent = false;
 		if (updatePassword > 0) {
-			baseResponseVO = send(sampleResetPassword, fromEmail, recepientEmailId, mailContent, emailSubject);
+			isMailSent = send(sampleResetPassword, fromEmail, recepientEmailId, mailContent, emailSubject);
 		}
-		return baseResponseVO;
+		return isMailSent;
 	}
 
-	private BaseResponseVO send(String sampleResetPassword, String fromEmail, String recepientEmailId,
+	private boolean send(String sampleResetPassword, String fromEmail, String recepientEmailId,
 			String mailContent, String emailSubject) {
+		boolean isMailSent = false;
 		MimeMessage message = javaMailSender.createMimeMessage();
 
 		try {
@@ -80,15 +82,17 @@ public class EmailService {
 			helper.setText(mailContent);
 			helper.setText("Password::" + " " + sampleResetPassword);
 			javaMailSender.send(message);
-			baseResponseVO.setResponseCode(HttpStatus.OK.value());
-			baseResponseVO.setResponseMessage("Password Sent To Company Email ID");
+			isMailSent=true;
+			/*baseResponseVO.setResponseCode(HttpStatus.OK.value());
+			baseResponseVO.setResponseMessage("Password Sent To Company Email ID");*/
 		} catch (MessagingException e) {
-			baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
-			baseResponseVO.setResponseMessage("Unable to Send Password to Mail");
+			/*baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
+			baseResponseVO.setResponseMessage("Unable to Send Password to Mail");*/
+			isMailSent=false;
 			e.printStackTrace();
 		}
-		baseResponseVO.setData(null);
-		return baseResponseVO;
+//		baseResponseVO.setData(null);
+		return isMailSent;
 
 	}
 

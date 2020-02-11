@@ -2,6 +2,7 @@ package com.fg.ss.abhiyog.common.service;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -55,13 +56,26 @@ public class FormatService implements IFormatService{
 	}
 
 	@Override
-	public BaseResponseVO saveFormatData(FormatVO formatVO) {
+	public void saveFormatData(FormatVO formatVO) {
 		Format format = new Format();
 		format.setFormat(formatVO.getFormat());
 		formatRepository.save(format);
-		baseResponseVO.setResponseCode(HttpStatus.OK.value());
+		/*baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("FORMAT ADDED SUCCESSFULLY");
-		return baseResponseVO;
+		return baseResponseVO;*/
+	}
+
+	@Override
+	public String findById(int id) {
+		Optional<Format> formatDtls = formatRepository.findById(id);
+		String formatName = formatDtls.get().getFormat();
+		return formatName;
+	}
+
+	@Override
+	public int updateFormatByName(String format, String updateFormatName) {
+		int isUpdated = formatRepository.updateFormat(format, updateFormatName);
+		return isUpdated;
 	}
 
 }

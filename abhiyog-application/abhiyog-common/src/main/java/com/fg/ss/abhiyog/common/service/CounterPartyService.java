@@ -3,7 +3,7 @@ package com.fg.ss.abhiyog.common.service;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -15,7 +15,6 @@ import com.fg.ss.abhiyog.common.model.Dept;
 import com.fg.ss.abhiyog.common.repository.CounterPartyRepository;
 import com.fg.ss.abhiyog.common.repository.DeptRepository;
 import com.fg.ss.abhiyog.common.vo.CounterPartyVO;
-import com.fg.ss.abhiyog.common.vo.ZoneVO;
 
 
 
@@ -73,7 +72,7 @@ public class CounterPartyService implements ICounterPartyService{
 			LocalDateTime dateTime =  LocalDateTime.now();
 			counterPartyDtls.setCreateDate(dateTime);
 			
-			Dept dept = deptRepository.findByDeptName(counterPartyVO.getFunction());
+			Dept dept = deptRepository.findByDeptName("Legal");
 			counterPartyDtls.setDept(dept);
 			counterPartyRepository.save(counterPartyDtls);
 	}
@@ -92,6 +91,27 @@ public class CounterPartyService implements ICounterPartyService{
 		counterPartyVo.setAddress(allCounterPartyDtls.getAddress());
 		counterPartyVo.setMobile1(allCounterPartyDtls.getMobile1());
 		return counterPartyVo;
+	}
+	@Override
+	public CounterPartyVO getCounterPartyProfile(int id) {
+		CounterPartyVO counterPartyVO = new CounterPartyVO();
+		Optional<CounterPartyDtls> counterPartyDtls = counterPartyRepository.findById(id);
+		counterPartyVO.setCounterPartyName(counterPartyDtls.get().getCustomerName());
+		counterPartyVO.setContactPerson1(counterPartyDtls.get().getContactPerson1());
+		counterPartyVO.setContactPerson2(counterPartyDtls.get().getContactPerson2());
+		counterPartyVO.setDesignation1(counterPartyDtls.get().getDesignation1());
+		counterPartyVO.setDesignation2(counterPartyDtls.get().getDesignation2());
+		counterPartyVO.setEmailId1(counterPartyDtls.get().getEmailId1());
+		counterPartyVO.setEmailId2(counterPartyDtls.get().getEmailId2());
+		counterPartyVO.setMobile1(counterPartyDtls.get().getMobile1());
+		counterPartyVO.setMobile2(counterPartyDtls.get().getMobile2());
+		counterPartyVO.setTelephone1(counterPartyDtls.get().getTelePhone1());
+		counterPartyVO.setTelephone2(counterPartyDtls.get().getTelePhone2());
+		counterPartyVO.setFaxNo1(counterPartyDtls.get().getFax1());
+		counterPartyVO.setFaxNo2(counterPartyDtls.get().getFax2());
+		counterPartyVO.setAddress(counterPartyDtls.get().getAddress());
+		counterPartyVO.setWebsite(counterPartyDtls.get().getWebsite());
+		return counterPartyVO;
 	}
 
 }

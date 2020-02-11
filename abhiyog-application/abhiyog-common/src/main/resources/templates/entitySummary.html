@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="header :: headerFragment">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Insert title here</title>
+</head>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" media="screen"
+	href="../static/css/bootstrap.min.css" type="text/css"
+	th:href="@{css/bootstrap.min.css}" />
+<link rel="stylesheet" media="screen" href="../static/css/common.css"
+	type="text/css" th:href="@{css/common.css}" />
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&display=swap"
+	rel="stylesheet" type="text/css" />
+<link rel="stylesheet" media="screen" href="../static/css/jquery-ui.css"
+	type="text/css" th:href="@{css/jquery-ui.css}" />
+<link rel="stylesheet" media="screen" href="../static/css/ui.jqgrid.css"
+	type="text/css" th:href="@{css/ui.jqgrid.css}" />
+<link rel="stylesheet" media="screen"
+	href="../static/css/jquery.multiselect.css" type="text/css"
+	th:href="@{css/jquery.multiselect.css}" />
+<!-- Left Nev Css & Js -->
+<link rel="stylesheet" href="../static/css/style2.css"
+	th:href="@{css/style2.css}" type="text/css" />
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"
+	type="text/javascript"></script>
+<script src="../static/js/bootstrap.min.js"
+	th:src="@{js/bootstrap.min.js}" type="text/javascript"></script>
+<script src="../static/js/jquery.min.js" type="text/javascript"
+	th:src="@{js/jquery.min.js}"></script>
+<script src="../static/js/jquery-ui.min.js" type="text/javascript"
+	th:src="@{js/jquery-ui.min.js}"></script>
+<script src="../static/js/jquery.multiselect.js" type="text/javascript"
+	th:src="@{js/jquery.multiselect.js}"></script>
+<script src="../static/js/grid.locale-en.js" type="text/javascript"
+	th:src="@{js/grid.locale-en.js}"></script>
+<script src="../static/js/jquery.jqGrid.src-multiple1.js"
+	type="text/javascript" th:src="@{js/jquery.jqGrid.src-multiple1.js}"></script>
+<script src="../static/js/entitySummary.js" type="text/javascript"
+	th:src="@{js/entitySummary.js}"></script>
+<div th:include="header :: header"></div>
+<body>
+<div class="wrapper">
+	<div class="middle-part midiile-bg">
+		<div class="middle-right">
+			<span class="welcome-head">Entity SUMMARY</span>
+<!-- 			<div class="container"> -->
+				<form id="entitySummaryForm" th:object="${entityVO}"
+					class="form-horizontal">
+					<div class="bottom-buttons">
+						<input type="button" class="fourth login-bottom apply"
+							id="newEntityBtn" value="New Entity">
+					</div>
+					<div class="data-tablemain">
+						<table id="entitySummary" class="bgtable" align="center">
+
+						</table>
+						<div id="entitySummarypager"></div>
+					</div>
+				</form>
+<!-- 			</div> -->
+		</div>
+	</div>
+	</div>
+	<div th:include="footer :: footer"></div>
+</body>
+</html>

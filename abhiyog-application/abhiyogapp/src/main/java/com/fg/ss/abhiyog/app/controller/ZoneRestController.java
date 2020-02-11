@@ -36,7 +36,7 @@ public class ZoneRestController {
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
 	
-	@PostMapping("/addNewZone")
+/*	@PostMapping("/addNewZone")
 	public ResponseEntity<BaseResponseVO> addNewZone(@RequestBody ZoneVO zoneVO){
 		Zone isZoneExisted = zoneService.checkZoneExistence(zoneVO.getZoneName());
 		if(isZoneExisted == null) {
@@ -48,5 +48,5 @@ public class ZoneRestController {
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
 		
-	}
+	}*/
 }

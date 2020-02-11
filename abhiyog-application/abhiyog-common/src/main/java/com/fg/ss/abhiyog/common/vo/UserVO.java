@@ -2,6 +2,7 @@ package com.fg.ss.abhiyog.common.vo;
 
 public class UserVO {
 
+	private int id; //userID(primarykey)
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -17,6 +18,27 @@ public class UserVO {
 	private String gender;
 	private String status;
 	private String roleDesc;
+	private String fullName;
+	private int roleId;
+	
+	private String oldPassword;
+	private String newPassword;
+	private String confirmNewPassword;
+	
+	private String zoneName;
+	private String format;
+	private String entityName;
+	private String deptName;
+	private String counterPartyName;
+	private String categoryName;
+	private String claim;
+	private String stateName;
+	private String lawfirm;
+	private String courtTypeName;
+	private String underActName;
+	private String risk;
+	private String matterBy;
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -107,6 +129,127 @@ public class UserVO {
 	public void setRoleDesc(String roleDesc) {
 		this.roleDesc = roleDesc;
 	}
+	
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	
+	public int getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
+	public String getOldPassword() {
+		return oldPassword;
+	}
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+	public String getNewPassword() {
+		return newPassword;
+	}
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+	public String getConfirmNewPassword() {
+		return confirmNewPassword;
+	}
+	public void setConfirmNewPassword(String confirmNewPassword) {
+		this.confirmNewPassword = confirmNewPassword;
+	}
+	
+	public String getZoneName() {
+		return zoneName;
+	}
+	public void setZoneName(String zoneName) {
+		this.zoneName = zoneName;
+	}
+	
+	public String getFormat() {
+		return format;
+	}
+	public void setFormat(String format) {
+		this.format = format;
+	}
+	public String getEntityName() {
+		return entityName;
+	}
+	public void setEntityName(String entityName) {
+		this.entityName = entityName;
+	}
+	public String getDeptName() {
+		return deptName;
+	}
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+	public String getCounterPartyName() {
+		return counterPartyName;
+	}
+	public void setCounterPartyName(String counterPartyName) {
+		this.counterPartyName = counterPartyName;
+	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	public String getClaim() {
+		return claim;
+	}
+	public void setClaim(String claim) {
+		this.claim = claim;
+	}
+	public String getStateName() {
+		return stateName;
+	}
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
+	}
+	public String getLawfirm() {
+		return lawfirm;
+	}
+	public void setLawfirm(String lawfirm) {
+		this.lawfirm = lawfirm;
+	}
+	public String getCourtTypeName() {
+		return courtTypeName;
+	}
+	public void setCourtTypeName(String courtTypeName) {
+		this.courtTypeName = courtTypeName;
+	}
+	public String getUnderActName() {
+		return underActName;
+	}
+	public void setUnderActName(String underActName) {
+		this.underActName = underActName;
+	}
+	public String getRisk() {
+		return risk;
+	}
+	public void setRisk(String risk) {
+		this.risk = risk;
+	}
+	
+	public String getMatterBy() {
+		return matterBy;
+	}
+	public void setMatterBy(String matterBy) {
+		this.matterBy = matterBy;
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -140,9 +283,22 @@ public class UserVO {
 		builder.append(status);
 		builder.append(", roleDesc=");
 		builder.append(roleDesc);
+		builder.append(", fullName=");
+		builder.append(fullName);
+		builder.append(", roleId=");
+		builder.append(roleId);
+		builder.append(", oldPassword=");
+		builder.append(oldPassword);
+		builder.append(", newPassword=");
+		builder.append(newPassword);
+		builder.append(", confirmNewPassword=");
+		builder.append(confirmNewPassword);
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	
+	
 	
 	
 

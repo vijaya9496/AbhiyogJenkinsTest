@@ -1,15 +1,20 @@
 package com.fg.ss.abhiyog.common.service;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import org.modelmapper.TypeToken;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 import com.fg.ss.abhiyog.common.model.Country;
 import com.fg.ss.abhiyog.common.model.EntitySummary;
@@ -24,11 +29,13 @@ import com.fg.ss.abhiyog.common.repository.UnitsRepository;
 import com.fg.ss.abhiyog.common.repository.UserRepository;
 import com.fg.ss.abhiyog.common.repository.ZonesRespository;
 import com.fg.ss.abhiyog.common.vo.BaseResponseVO;
-import com.fg.ss.abhiyog.common.vo.OutsideCounselVO;
 import com.fg.ss.abhiyog.common.vo.UnitSummaryVO;
+import com.fg.ss.abhiyog.common.vo.UserVO;
 
 @Service
 public class UnitsSummaryService implements IUnitsSummaryService {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(UnitsSummaryService.class);
 
 	@Autowired
 	private UnitsRepository unitsRepository;
@@ -48,6 +55,9 @@ public class UnitsSummaryService implements IUnitsSummaryService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private EntityManager entityManager;
+
 	private BaseResponseVO baseResponseVO = BaseResponseVO.getInstance();
 
 	@Override
@@ -57,18 +67,28 @@ public class UnitsSummaryService implements IUnitsSummaryService {
 		if (unitSummary == null) {
 			return null;
 		}
-		return unitSummary.stream().map(unitSummaryDtls -> convertToDTO(unitSummaryDtls)).collect(Collectors.toList());
+		return convertToDTO(unitSummary);
 	}
 
-	private UnitSummaryVO convertToDTO(Units unitSummaryDtls) {
-		UnitSummaryVO unitSummaryDto = new UnitSummaryVO();
-			unitSummaryDto.setEntityName(unitSummaryDtls.getEntitySummary().getEntityName());
-			unitSummaryDto.setZoneName(unitSummaryDtls.getRegions().getZoneName());
-			unitSummaryDto.setUnitName(unitSummaryDtls.getUnitName());
-			for (UnitHeads unitheads: unitSummaryDtls.getUnitHeads()) {
-				unitSummaryDto.getUnitHead().add(unitheads.getUser().getLoginId());
+	private List<UnitSummaryVO> convertToDTO(List<Units> units) {
+		Map<Integer, List<Units>> groupedData = units.stream()
+				.collect(Collectors.groupingBy(Units::getUnitId, Collectors.toList()));
+		List<UnitSummaryVO> listUnitSummaryData = new ArrayList<>();
+
+		for (Entry<Integer, List<Units>> unitList : groupedData.entrySet()) {
+			UnitSummaryVO unitSummaryDto = new UnitSummaryVO();
+			unitSummaryDto.setUnitId(unitList.getValue().get(0).getUnitId());
+			unitSummaryDto.setEntityName(unitList.getValue().get(0).getEntitySummary().getEntityName());
+			unitSummaryDto.setZoneName(unitList.getValue().get(0).getRegions().getZoneName());
+			unitSummaryDto.setUnitName(unitList.getValue().get(0).getUnitName());
+			for (UnitHeads unitheads : unitList.getValue().get(0).getUnitHeads()) {
+				unitSummaryDto.getUnitHead()
+						.add(unitheads.getUser().getFirstName() + " " + unitheads.getUser().getLastName());
 			}
-		return unitSummaryDto;
+			listUnitSummaryData.add(unitSummaryDto);
+		}
+
+		return listUnitSummaryData;
 	}
 
 	/*
@@ -79,25 +99,22 @@ public class UnitsSummaryService implements IUnitsSummaryService {
 	 */
 
 	@Override
-	public BaseResponseVO saveFormData(UnitSummaryVO unitSummaryVO) {
+	public void saveFormData(String entityName, String zoneName, String unitName, String loginId) {
 		String countryName = "India";
 		Units units = new Units();
 		UnitHeads unitHeads = new UnitHeads();
-		units.setUnitName(unitSummaryVO.getUnitName());
-		EntitySummary entityDtls = entityRepository.getEntityByName(unitSummaryVO.getEntityName());
+		units.setUnitName(unitName);
+		EntitySummary entityDtls = entityRepository.getEntityByName(entityName);
 		units.setEntitySummary(entityDtls);
-		Zone regionDtls = zoneRepository.findByZoneName(unitSummaryVO.getZoneName());
+		Zone regionDtls = zoneRepository.findByZoneName(zoneName);
 		units.setRegions(regionDtls);
 		Country countryDtls = countryRepository.findByName(countryName);
 		units.setCountry(countryDtls);
-		User userDtls = userRepository.findByLoginId(unitSummaryVO.getLoginId());
+		User userDtls = userRepository.findByLoginId(loginId);
 		unitHeads.setUser(userDtls);
 		unitHeads.setUnits(units);
 		unitsRepository.save(units);
 		unitHeadsRepository.save(unitHeads);
-		baseResponseVO.setResponseCode(HttpStatus.CREATED.value());
-		baseResponseVO.setResponseMessage("UNIT/LOCATION CREATED SUCCESSFULLY");
-		return baseResponseVO;
 	}
 
 	@Override
@@ -106,63 +123,153 @@ public class UnitsSummaryService implements IUnitsSummaryService {
 		return unitsDtls;
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
-	public BaseResponseVO updateCompanyUnitDetails(UnitSummaryVO unitSummaryVO) {
+	public int updateCompanyUnitDetails(UnitSummaryVO unitSummaryVO) {
 //		System.out.println("name:: " +unitSummaryVO.getName());
 		// fetching units details
 		Units unitsEntity = unitsRepository.getUnitDtls(unitSummaryVO.getUnitName());
 		UnitHeads unitHeads = new UnitHeads();
+		int isInserted = 0;
 		ArrayList<String> loginIdList = new ArrayList<String>();
 		if (unitsEntity != null) {
-			System.out.println("Size:: " + unitSummaryVO.getUnitHeadNames().length);
+			System.out.println("Size:: " + unitSummaryVO.getUnitHead().size());
 			// fetching unitHeads Details based on unitID
 			List<UnitHeads> listUserDtls = unitHeadsRepository.getDtlsByUnitID(unitsEntity.getUnitId());
+			
 			// comparing with above fetched values with newly updated values
 			for (UnitHeads listDtls : listUserDtls) {
-				if (!Arrays.asList(unitSummaryVO.getUnitHeadNames()).contains(listDtls.getUser().getLoginId()))
-					loginIdList.add(listDtls.getUser().getLoginId());
+				System.out.println("firstName:: " +listDtls.getUser().getFirstName());
+				System.out.println("LastName:: " +listDtls.getUser().getLastName());
+				String fullName = listDtls.getUser().getFirstName() + " " + listDtls.getUser().getLastName();
+				if (!(unitSummaryVO.getUnitHead()).contains(fullName))
+					loginIdList.add(fullName);
 			}
 			System.out.println("loginIdList::" + loginIdList.size());
 			// delete row using remain list values
 			for (String loginId : loginIdList) {
-				int isDeleted = unitHeadsRepository.deleteUserId(loginId);
+				String userNames[] = loginId.split("\\s+");
+				int isDeleted = unitHeadsRepository.deleteUserId(userNames[0], userNames[1]);
 				if (isDeleted > 0) {
 					System.out.println("DELETED SUCCESSFULLY");
 				}
 			}
 
 			// insert rows in unitheads
-			for (String loginId : unitSummaryVO.getUnitHeadNames()) {
+			for (String loginId : unitSummaryVO.getUnitHead()) {
 				System.out.println("name:: " + loginId);
-				User user = userRepository.findByLoginId(loginId);
+				String[] names = loginId.split("\\s+");
+//				User user = userRepository.findByLoginId(loginId);
+				User user  = userRepository.findUserBy(names[0], names[1]);
 				if (user != null) {
 					System.out.println("UserID::" + user.getId());
-					unitHeads = unitHeadsRepository.getDtlsByUserID(user.getId());
+					unitHeads = unitHeadsRepository.getDtlsByUserID(user.getId(), unitsEntity.getUnitId());
 					if (unitHeads == null) {
-						int isInserted = unitHeadsRepository.saveUnitHeadData(user.getId(), unitsEntity.getUnitId());
-						if (isInserted > 0) {
-							baseResponseVO.setResponseCode(HttpStatus.CREATED.value());
-							baseResponseVO.setResponseMessage("SUCCESSFULLY USER MAPPED WITH UNITNAME");
-						} else {
-							baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
-							baseResponseVO.setResponseMessage("UNABLE TO ADD DATA");
-						}
-					} else {
+						 isInserted = unitHeadsRepository.saveUnitHeadData(user.getId(), unitsEntity.getUnitId());
+						
+					} 
+					/*else {
 						baseResponseVO.setResponseCode(HttpStatus.CREATED.value());
 						baseResponseVO.setResponseMessage("UNITNAME ALREADY MAPPED");
-					}
+					}*/
 
-				} else {
+				} 
+				/*else {
 					baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
 					baseResponseVO.setResponseMessage("UNABLE TO MAP UNIT HEAD NAME TO UNITNAME");
-				}
+				}*/
 			}
 
-		} else {
+		} 
+		/*else {
 			baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
 			baseResponseVO.setResponseMessage("UNITNAME NOT EXISTED. PLEASE ADD");
+		}*/
+		return isInserted;
+	}
+
+	@Override
+	public Units findExistenceUnitName(String entityName, String zoneName, String unitName) {
+		Units units = unitsRepository.getUnitDtlsByEntityName(entityName, zoneName, unitName);
+		return units;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UnitSummaryVO> findUnitSummaryData(String entity, String zone) {
+		List<Units> unitSummary = new ArrayList<>();
+		Map<String, Object> parameterMap = new HashMap<>();
+		List<String> whereClause = new ArrayList<>();
+		StringBuilder reportQuery = new StringBuilder();
+
+		reportQuery.append(
+				"select u from Units as u inner join EntitySummary as e on e.entityId = u.entitySummary.entityId inner join Zone as r on r.zoneId = u.regions.zoneId inner join UnitHeads as h on h.units.unitId = u.unitId inner join User as t on t.id = h.user.id");
+
+		if (!entity.equals("ALL")) {
+			System.out.println(entity);
+			whereClause.add(" e.entityName=:entity ");
+			parameterMap.put("entity", entity);
 		}
-		return baseResponseVO;
+		if (!zone.equals("ALL")) {
+			whereClause.add(" r.zoneName=:zone ");
+			parameterMap.put("zone", zone);
+		}
+		if (!entity.equals("ALL") || !zone.equals("ALL")) {
+			reportQuery.append(" where " + StringUtils.join(whereClause, " and "));
+		}
+
+		Query jpaQuery = entityManager.createQuery(reportQuery.toString());
+		LOGGER.info("Created Query::  " + reportQuery.toString());
+		for (String key : parameterMap.keySet()) {
+			jpaQuery.setParameter(key, parameterMap.get(key));
+		}
+		unitSummary = jpaQuery.getResultList();
+		LOGGER.info("userSummary Size:: " + unitSummary.size());
+		return convertToDTO(unitSummary);
+//		return unitSummary.stream().map(allUserSummaryDtls ->convertToDto(allUserSummaryDtls)).collect(Collectors.toList());
+
+	}
+
+	@Override
+	public UnitSummaryVO getUnitLocationDtls(int id) {
+		List<Units> unitSummary = unitsRepository.getUnitLocationBy(id);
+//		System.out.println("unitSummary size:: " +unitSummary.size());
+		if (unitSummary == null) {
+			return null;
+		}
+		System.out.println(unitSummary.size());
+		return convertToVO(unitSummary);
+	}
+
+	private UnitSummaryVO convertToVO(List<Units> units) {
+		Map<Integer, List<Units>> groupedData = units.stream()
+				.collect(Collectors.groupingBy(Units::getUnitId, Collectors.toList()));
+		UnitSummaryVO unitSummaryDto = new UnitSummaryVO();
+		for (Entry<Integer, List<Units>> unitList : groupedData.entrySet()) {
+			unitSummaryDto.setUnitId(unitList.getValue().get(0).getUnitId());
+			unitSummaryDto.setEntityName(unitList.getValue().get(0).getEntitySummary().getEntityName());
+			unitSummaryDto.setZoneName(unitList.getValue().get(0).getRegions().getZoneName());
+			unitSummaryDto.setUnitName(unitList.getValue().get(0).getUnitName());
+			for (UnitHeads unitheads : unitList.getValue().get(0).getUnitHeads()) {
+				unitSummaryDto.getUnitHead()
+						.add(unitheads.getUser().getFirstName() + " " + unitheads.getUser().getLastName());
+			}
+		}
+		return unitSummaryDto;
+	}
+
+	@Override
+	public List<UserVO> getUnitHeadNames() {
+		List<User> unitHeadNamesList = userRepository.getUnitHeadNames();
+		System.out.println("unitHeadNamesList size:: " + unitHeadNamesList.size());
+		List<UserVO> userVOList = new ArrayList<>();
+		for (User unitHeadNames : unitHeadNamesList) {
+			UserVO userVO = new UserVO();
+			userVO.setFullName(unitHeadNames.getFirstName() + " " + unitHeadNames.getLastName());
+			userVOList.add(userVO);
+		}
+		return userVOList;
+
 	}
 
 }

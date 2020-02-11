@@ -1,13 +1,15 @@
-package com.fg.ss.abhiyog.app.config;
-/*package com.fg.ss.abhiyogapp.config;
+/*package com.fg.ss.abhiyog.app.config;
 
-import org.springframework.context.annotation.Bean;
+
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+@SuppressWarnings("deprecation")
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer {
+//@EnableWebMvc
+@ComponentScan(basePackages="com.fg.ss.abhiyog.app.config")
+public class WebMvcConfig extends  WebMvcConfigurerAdapter{
 	
 	 @Bean
 	    public BCryptPasswordEncoder passwordEncoder() {

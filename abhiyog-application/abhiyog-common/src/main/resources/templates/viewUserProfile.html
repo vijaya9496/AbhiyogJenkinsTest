@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="header :: headerFragment">
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" media="screen"
+	href="../static/css/bootstrap.min.css" type="text/css"
+	th:href="@{css/bootstrap.min.css}" />
+<link rel="stylesheet" media="screen" href="../static/css/common.css"
+	type="text/css" th:href="@{css/common.css}" />
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&display=swap"
+	rel="stylesheet" type="text/css" />
+<link rel="stylesheet" media="screen" href="../static/css/jquery-ui.css"
+	type="text/css" th:href="@{css/jquery-ui.css}" />
+<link rel="stylesheet" media="screen" href="../static/css/ui.jqgrid.css"
+	type="text/css" th:href="@{css/ui.jqgrid.css}" />
+<link rel="stylesheet" media="screen"
+	href="../static/css/jquery.multiselect.css" type="text/css"
+	th:href="@{css/jquery.multiselect.css}" />
+<!-- Left Nev Css & Js -->
+<link rel="stylesheet" href="../static/css/style2.css"
+	th:href="@{css/style2.css}" type="text/css" />
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"
+	type="text/javascript"></script>
+<script src="../static/js/bootstrap.min.js"
+	th:src="@{js/bootstrap.min.js}" type="text/javascript"></script>
+<script src="../static/js/jquery.min.js" type="text/javascript"
+	th:src="@{js/jquery.min.js}"></script>
+<script src="../static/js/jquery-ui.min.js" type="text/javascript"
+	th:src="@{js/jquery-ui.min.js}"></script>
+<script src="../static/js/jquery.multiselect.js" type="text/javascript"
+	th:src="@{js/jquery.multiselect.js}"></script>
+<script src="../static/js/grid.locale-en.js" type="text/javascript"
+	th:src="@{js/grid.locale-en.js}"></script>
+<script src="../static/js/jquery.jqGrid.src-multiple1.js"
+	type="text/javascript" th:src="@{js/jquery.jqGrid.src-multiple1.js}"></script>
+<div th:include="header :: header"></div>
+<body>
+	<div class="container">
+		<span class="welcome-head">VIEW USER</span>
+		<form id="viewUserProfileForm" th:object="${userVO}"
+			class="form-horizontal" th:each="userData: ${allUserDtls}">
+			<div class="filter-form">
+				<ul>
+					<li class="last"><span class="welcome-head">General
+							Information</span></li>
+				</ul>
+				<div class="filter-form">
+					<ul>
+						<li>
+							<div class="filter-form">
+								<label>Login ID:</label> <input type="text" name="loginId"
+									th:value="${userData.loginId}" readonly />
+							</div>
+						</li>
+						<li>
+							<div class="filter-form">
+								<label>Role:</label> <input type="text" name="role"
+									th:value="${userData.roleDesc}" readonly />
+							</div>
+						</li>
+						<li class="last">
+							<div class="filter-form">
+								<label>Status:</label> <input type="text" name="status"
+									th:value="${userData.status}" readonly />
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<ul>
+					<li class="last"><span class="welcome-head">Detail
+							Information</span></li>
+				</ul>
+				<div class="filter-form">
+					<ul>
+						<li>
+							<div class="filter-form">
+								<label>FirstName:</label> <input type="text" name="firstName"
+									th:value="${userData.firstName}" readonly />
+							</div>
+						</li>
+						<li>
+							<div class="filter-form">
+								<label>MiddleName:</label> <input type="text" name="middleName"
+									th:value="${userData.middleName}" readonly />
+							</div>
+						</li>
+						<li class="last">
+							<div class="filter-form">
+								<label>LastName:</label> <input type="text" name="lastName"
+									th:value="${userData.lastName}" readonly />
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="filter-form">
+					<ul>
+						<li>
+							<div class="filter-form">
+								<label>Address:</label> <input type="text" name="address"
+									th:value="${userData.address}" readonly />
+							</div>
+						</li>
+						<li>
+							<div class="filter-form">
+								<label>City:</label> <input type="text" name="city"
+									th:value="${userData.city}" readonly />
+							</div>
+						</li>
+						<li class="last">
+							<div class="filter-form">
+								<label>Phone:</label> <input type="text" name="phone"
+									th:value="${userData.phone}" readonly />
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="filter-form">
+					<ul>
+						<li>
+							<div class="filter-form">
+								<label>Mobile:</label> <input type="text" name="mobile"
+									th:value="${userData.mobile}" readonly />
+							</div>
+						</li>
+						<li>
+							<div class="filter-form">
+								<label>Company Email ID:</label> <input type="text" name="email"
+									th:value="${userData.emailId}" readonly />
+							</div>
+						</li>
+						<li class="last">
+							<div class="filter-form">
+								<label>Personal Email ID:</label> <input type="text"
+									name="personalEmailId" th:value="${userData.personalEmailId}"
+									readonly />
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:include="footer :: footer"></div>
+</body>
+</html>

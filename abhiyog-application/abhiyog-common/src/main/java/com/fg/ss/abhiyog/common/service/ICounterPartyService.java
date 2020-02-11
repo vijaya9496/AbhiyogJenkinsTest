@@ -15,4 +15,6 @@ public interface ICounterPartyService {
 
 	List<CounterPartyVO> findAll();
 
+	CounterPartyVO getCounterPartyProfile(int id);
+
 }

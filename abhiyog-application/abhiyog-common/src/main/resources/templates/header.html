@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headerFragment">
+<meta charset="ISO-8859-1">
+<title>Abhiyog</title>
+</head>
+<body>
+
+<div th:fragment="header">
+<header>
+<!-- 	<div class="wrapper"> -->
+		<div class="top-part login-bg">
+			<div class="logo-part">
+				<a href="#"><img src="../static/images/logo-inner.jpg"
+					th:src="@{images/logo-inner.jpg}" alt="Abhiyog Logo"
+					title="abhiyog logo"> </a>
+			</div>
+			<div id="welcomedetails"
+				th:if="${session.SESSION_USER_VO.roleId != null}">
+				<div class="right-outer ">
+					<div class="welcome">
+						Welcome <span th:text="${session.SESSION_USER_VO.fullName}"></span>
+					</div>
+					<div class="right-link">
+						<a href="#">User Manual</a> <span class="dash">|</span> <a
+							href="#">Support</a> <span class="dash">|</span>
+							 <a href="/changePassword" id="changePassword" th:href="@{/changePassword}">Change
+							Password</a> <span class="dash">|</span> <a href="/logout"
+							th:href="@{/logout}">Logout</a>
+					</div>
+				</div>
+			</div>
+			<nav class="navbar navbar-light navbar-expand-lg mainmenu">
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+						<li><a href="/dashboard" th:href="@{/dashboard}">Dashboard</a></li>
+						<li class="dropdown"><a class="dropdown-toggle" href="/litigation" th:href="@{/litigation}"
+							id="navbarDropdown" role="button" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">Litigation</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a href="/showLitigationSummary" th:href="@{/showLitigationSummary}">Litigation Summary	</a></li>
+								<li><a href="/addLitigation" th:href="@{/addLitigation}">Add Litigation</a></li>
+								<li><a href="/restoreLitigation" th:href="@{/restoreLitigation}">Restore Litigation</a></li>
+								<li><a href="/litigationCalender" th:href="@{litigationCalender}">Litigation Calender</a></li>
+							</ul>
+						</li>
+						<li><a href="/notice" th:href="@{/notice}">Notice</a></li>
+						<li class="dropdown"><a class="dropdown-toggle" href="/counterParty" th:href="@{/counterParty}"
+							id="navbarDropdown" role="button" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">CounterParty</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a href="/showCustomerSummary" th:href="@{/showCustomerSummary}">CounterParty Summary</a></li>
+								<li><a href="/addCounterParty" th:href="@{/addCounterParty}">Add Counterparty</a></li>
+							</ul>
+						</li>
+						<li class="dropdown"><a class="dropdown-toggle" href="/outsideCounsel" th:href="@{/outsideCounsel}"
+							id="navbarDropdown" role="button" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">Outside Counsel</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a href="/outsideCounselSummary" th:href="@{/outsideCounselSummary}">Outside Counsel Summary</a></li>
+								<li><a href="/addOutsideCounsel" th:href="@{/addOutsideCounsel}">Add Outside Counsel</a></li>
+							</ul>
+						</li>
+						<li class="dropdown"><a class="dropdown-toggle" href="/utility" th:href="@{/utility}"
+							id="navbarDropdown" role="button" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">Utility</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a href="/commonEmail" th:href="@{/commonEmail}">Common Email</a></li>
+								<li><a href="/emailAlertLog" th:href="@{/emailAlertLog}">Email Alert Log</a></li>
+							</ul>
+						</li>
+						<li class="dropdown"><a class="dropdown-toggle" href="/Administration" th:href="@{/administration}"
+							id="navbarDropdown" role="button" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">Administration</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a href="/users" th:href="@{/users}">Users</a>
+									<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+			                        <li><a href="/showUserSummary" th:href="@{/showUserSummary}">User Summary</a></li>
+			                        <li><a href="/newUser" th:href="@{/newUser}">New User</a></li>
+			                        <li><a href="/resetPassword" th:href="@{/resetPassword}">Reset Password</a></li>
+									</ul>		                       
+								</li>
+								<li><a href="/functionSummary" th:href="@{/functionSummary}">Function Summary</a></li>
+								<li><a href="/showFormatSummary" th:href="@{/showFormatSummary}">Format</a></li>
+								<li><a href="/showRegionSummary" th:href="@{/showRegionSummary}">Zone</a></li>
+								<li><a href="/showUnitLocationSummary" th:href="@{/showUnitLocationSummary}">Unit/Location</a></li>
+								<li><a href="/showEntitySummary" th:href="@{/showEntitySummary}">Entity</a></li>
+								<li><a href="/holidays" th:href="@{/holidays}">Holidays</a></li>
+							</ul>
+						</li>
+						<li><a href="/reports" th:href="@{/reports}">Reports</a></li>
+					</ul>
+				</div>
+			</nav>
+
+		</div>
+
+<!-- 	</div> -->
+	</header>
+</div>
+</body>
+</html>

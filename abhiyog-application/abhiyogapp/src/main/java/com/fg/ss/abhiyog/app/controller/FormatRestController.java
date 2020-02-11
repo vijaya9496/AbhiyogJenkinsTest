@@ -36,7 +36,7 @@ public class FormatRestController {
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
 	
-	@PostMapping("/addNewFormat")
+	/*@PostMapping("/addNewFormat")
 	public ResponseEntity<BaseResponseVO> addFormat(@RequestBody FormatVO formatVO){
 		Format format = formatService.getFormatByName(formatVO.getFormat());
 		if(format != null) {
@@ -48,5 +48,5 @@ public class FormatRestController {
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
 		
-	}
+	}*/
 }

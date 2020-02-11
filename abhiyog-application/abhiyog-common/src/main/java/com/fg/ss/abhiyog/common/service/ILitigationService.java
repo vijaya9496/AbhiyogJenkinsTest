@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fg.ss.abhiyog.common.model.City;
 import com.fg.ss.abhiyog.common.model.CourtCity;
 import com.fg.ss.abhiyog.common.model.CourtType;
+import com.fg.ss.abhiyog.common.model.Dept;
 import com.fg.ss.abhiyog.common.model.Litigation;
 import com.fg.ss.abhiyog.common.model.LtgnCaseType;
 import com.fg.ss.abhiyog.common.model.LtgnRepresentativeMaster;
@@ -116,6 +117,13 @@ public interface ILitigationService {
 	List<UnitSummaryVO> showEntityRegionUnits(String litigationId);
 
 	List<Litigation> getHearingStatusReportDtls(LocalDate fromDate, LocalDate toDate);
+
+	List<Dept> getdept();
+
+	List<LitigationSummaryVO> findLitigationSummaryFieldSelection(String zone, String format, String entity, String function,
+			String counterParty, String category, String possibleClaim, String state, String lawfirmIndividual,
+			String courtType, String underActs, String risk, String status, String matterByAgainst,
+			String litigationByAgainst);
 
 	
 

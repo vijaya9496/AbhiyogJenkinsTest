@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="header :: headerFragment">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Update User</title>
+</head>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" media="screen"
+	href="../static/css/bootstrap.min.css" type="text/css"
+	th:href="@{css/bootstrap.min.css}" />
+<link rel="stylesheet" media="screen" href="../static/css/common.css"
+	type="text/css" th:href="@{css/common.css}" />
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&display=swap"
+	rel="stylesheet" type="text/css" />
+<link rel="stylesheet" media="screen" href="../static/css/jquery-ui.css"
+	type="text/css" th:href="@{css/jquery-ui.css}" />
+<link rel="stylesheet" media="screen" href="../static/css/ui.jqgrid.css"
+	type="text/css" th:href="@{css/ui.jqgrid.css}" />
+<link rel="stylesheet" media="screen"
+	href="../static/css/jquery.multiselect.css" type="text/css"
+	th:href="@{css/jquery.multiselect.css}" />
+<!-- Left Nev Css & Js -->
+<link rel="stylesheet" href="../static/css/style2.css"
+	th:href="@{css/style2.css}" type="text/css" />
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"
+	type="text/javascript"></script>
+<script src="../static/js/bootstrap.min.js"
+	th:src="@{js/bootstrap.min.js}" type="text/javascript"></script>
+<script src="../static/js/jquery.min.js" type="text/javascript"
+	th:src="@{js/jquery.min.js}"></script>
+<script src="../static/js/jquery-ui.min.js" type="text/javascript"
+	th:src="@{js/jquery-ui.min.js}"></script>
+<script src="../static/js/jquery.multiselect.js" type="text/javascript"
+	th:src="@{js/jquery.multiselect.js}"></script>
+<script src="../static/js/grid.locale-en.js" type="text/javascript"
+	th:src="@{js/grid.locale-en.js}"></script>
+<script src="../static/js/jquery.jqGrid.src-multiple1.js"
+	type="text/javascript" th:src="@{js/jquery.jqGrid.src-multiple1.js}"></script>
+<script src="../static/js/updateUser.js" type="text/javascript"
+	th:src="@{js/updateUser.js}"></script>
+<div th:include="header :: header"></div>
+<body>
+	<div class="wrapper">
+		<p th:text="${message}" th:unless="${message == null}"
+			class="alert alert-success">Test</p>
+		<div class="middle-part midiile-bg">
+			<div class="middle-right">
+				<span class="welcome-head">UPDATE USER</span>
+				<div class="hidden_form">
+					<form id="updateUserForm" action="#" th:action="@{/updateUserDtls}"
+						th:object="${userDtls}" class="form-horizontal" method="post">
+						<div class="filter-form">
+							<ul>
+								<li class="last"><span class="welcome-head">General
+										Information</span></li>
+							</ul>
+							<div class="filter-form">
+								<ul>
+									<li>
+										<div class="filter-form">
+											<label>Login ID:</label> <input type="text" name="loginId"
+												id="loginId" required="required"
+												th:value="${userDtls.loginId}" readonly="readonly" />
+										</div>
+									</li>
+									<li>
+										<div class="filter-form">
+											<label for="usr">Role</label> <select id="role"
+												th:field="*{roleDesc}" th:value="${userDtls.roleDesc}"
+												class="custom-select">
+												<option value="ALL">ALL</option>
+												<option th:each="role: ${allRoles}"
+													th:value="${role.roleDesc}" th:text="${role.roleDesc}">test</option>
+											</select>
+										</div>
+									</li>
+									<li class="last">
+										<div class="filter-form">
+											<label for="usr">Status</label> <select id="status"
+												th:field="*{status}" th:value="${userDtls.status}"
+												class="custom-select">
+												<option value="ALL">ALL</option>
+												<option value="active">active</option>
+												<option value="Lock">Lock</option>
+												<option value="Out of Office">Out of Office</option>
+											</select>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<ul>
+								<li class="last"><span class="welcome-head">Detail
+										Information</span></li>
+							</ul>
+							<div class="filter-form">
+								<ul>
+									<li>
+										<div class="filter-form">
+											<label>FirstName:</label> <input type="text" name="firstName"
+												id="firstName" required="required"
+												th:value="${userDtls.firstName}" />
+										</div>
+									</li>
+									<li>
+										<div class="filter-form">
+											<label>MiddleName:</label> <input type="text"
+												name="middleName" id="middleName" required="required"
+												th:value="${userDtls.middleName}" />
+										</div>
+									</li>
+									<li class="last">
+										<div class="filter-form">
+											<label>LastName:</label> <input type="text" name="lastName"
+												id="lastName" required="required"
+												th:value="${userDtls.lastName}" />
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div class="filter-form">
+								<ul>
+									<li>
+										<div class="filter-form">
+											<label>Address:</label> <input type="text" name="address"
+												id="address" required="required"
+												th:value="${userDtls.address}" />
+										</div>
+									</li>
+									<li>
+										<div class="filter-form">
+											<label>City:</label> <input type="text" name="city" id="city"
+												th:value="${userDtls.city}" />
+										</div>
+									</li>
+									<li class="last">
+										<div class="filter-form">
+											<label>Phone:</label> <input type="text" name="phone"
+												id="phone" th:value="${userDtls.phone}" />
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div class="filter-form">
+								<ul>
+									<li>
+										<div class="filter-form">
+											<label>Mobile:</label> <input type="text" name="mobile"
+												id="mobile" onkeypress="return isNumberKey(event)"
+												required="required" th:value="${userDtls.mobile}" />
+										</div>
+									</li>
+									<li>
+										<div class="filter-form">
+											<label>Company Email ID:</label> <input type="email"
+												name="emailId" id="emailId" required="required"
+												pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+												th:value="${userDtls.emailId}" />
+										</div>
+									</li>
+									<li class="last">
+										<div class="filter-form">
+											<label>Personal Email ID:</label> <input type="email"
+												name="personalEmailId" id="personalEmailId"
+												pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+												th:value="${userDtls.personalEmailId}" />
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div class="bottom-buttons">
+								<button type="submit" id="updateBtn" value="UPDATE"
+									class="btn btn-primary">UPDATE</button>
+								<button type="button" id="cancelBtn" value="CANCEL"
+									class="btn btn-secondary">CANCEL</button>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:include="footer :: footer"></div>
+</body>
+</html>

@@ -41,7 +41,7 @@ public class UserRestController {
 		return "Hello";
 	}
 
-	@PostMapping("/addNewUser")
+/*	@PostMapping("/addNewUser")
 	public ResponseEntity<BaseResponseVO> save(@RequestBody UserVO userVO) {
 
 		User user = userService.findUserByLoginId(userVO.getLoginId());
@@ -55,7 +55,7 @@ public class UserRestController {
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
 
-	}
+	}*/
 
 	@GetMapping("/getAllUsers")
 	public ResponseEntity<BaseResponseVO> getUsers() {
@@ -76,7 +76,7 @@ public class UserRestController {
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
 
-	@PutMapping("/updateUser")
+/*	@PutMapping("/updateUser")
 	public ResponseEntity<BaseResponseVO> updateUserById(@RequestBody UpdateDTO updateDto) {
 		User user = userService.findUserByLoginId(updateDto.getLoginId());
 		if (user != null) {
@@ -102,20 +102,20 @@ public class UserRestController {
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
 
-	}
+	}*/
 
-	@PostMapping("/changePassword")
-	public ResponseEntity<BaseResponseVO> changePassword(@RequestBody ChangePasswordVO changePasswordVO) {
-		baseResponseVO = userService.changePassword(changePasswordVO);
+	/*@PostMapping("/changePassword")
+	public ResponseEntity<BaseResponseVO> changePassword(@RequestBody UserVO userVO) {
+		baseResponseVO = userService.changePassword(userVO);
 		return ResponseEntity.ok().body(baseResponseVO);
 
-	}
+	}*/
 
-	@PostMapping("/resetPassword")
+/*	@PostMapping("/resetPassword")
 	public ResponseEntity<BaseResponseVO> resetPassword(@RequestBody ResetPasswordVO resetPasswordVO) {
 		User user = userService.findUserByLoginId(resetPasswordVO.getLoginId());
 		baseResponseVO = emailService.sendMail(user.getEmailId(), resetPasswordVO.getLoginId());
 		return ResponseEntity.ok().body(baseResponseVO);
 
-	}
+	}*/
 }

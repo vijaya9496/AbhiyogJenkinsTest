@@ -2,6 +2,7 @@ package com.fg.ss.abhiyog.common.service;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -55,13 +56,10 @@ public class EntityService implements IEntityService {
 	}
 
 	@Override
-	public BaseResponseVO saveEntityData(String entityName) {
+	public void saveEntityData(String entityName) {
 		EntitySummary entity = new EntitySummary();
 		entity.setEntityName(entityName);
 		entityRepository.save(entity);
-		baseResponseVO.setResponseCode(HttpStatus.OK.value());
-		baseResponseVO.setResponseMessage("ENTITY ADDED SUCCESSFULLY");
-		return baseResponseVO;
 	}
 
 	@Override
@@ -73,6 +71,13 @@ public class EntityService implements IEntityService {
 			return isUpdated;
 		}
 		return 0;
+	}
+
+	@Override
+	public String findById(int id) {
+		Optional<EntitySummary> entity = entityRepository.findById(id);
+		String entityName = entity.get().getEntityName();
+		return entityName;
 	}
 
 }

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="header :: headerFragment">
+<meta charset="ISO-8859-1">
+<title>View Counter Party</title>
+</head>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" media="screen"
+	href="../static/css/bootstrap.min.css" type="text/css"
+	th:href="@{css/bootstrap.min.css}" />
+<link rel="stylesheet" media="screen" href="../static/css/common.css"
+	type="text/css" th:href="@{css/common.css}" />
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&display=swap"
+	rel="stylesheet" type="text/css" />
+<link rel="stylesheet" media="screen" href="../static/css/jquery-ui.css"
+	type="text/css" th:href="@{css/jquery-ui.css}" />
+<link rel="stylesheet" media="screen" href="../static/css/ui.jqgrid.css"
+	type="text/css" th:href="@{css/ui.jqgrid.css}" />
+<link rel="stylesheet" media="screen"
+	href="../static/css/jquery.multiselect.css" type="text/css"
+	th:href="@{css/jquery.multiselect.css}" />
+<!-- Left Nev Css & Js -->
+<link rel="stylesheet" href="../static/css/style2.css"
+	th:href="@{css/style2.css}" type="text/css" />
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"
+	type="text/javascript"></script>
+<script src="../static/js/bootstrap.min.js"
+	th:src="@{js/bootstrap.min.js}" type="text/javascript"></script>
+<script src="../static/js/jquery.min.js" type="text/javascript"
+	th:src="@{js/jquery.min.js}"></script>
+<script src="../static/js/jquery-ui.min.js" type="text/javascript"
+	th:src="@{js/jquery-ui.min.js}"></script>
+<script src="../static/js/jquery.multiselect.js" type="text/javascript"
+	th:src="@{js/jquery.multiselect.js}"></script>
+<script src="../static/js/grid.locale-en.js" type="text/javascript"
+	th:src="@{js/grid.locale-en.js}"></script>
+<script src="../static/js/jquery.jqGrid.src-multiple1.js"
+	type="text/javascript" th:src="@{js/jquery.jqGrid.src-multiple1.js}"></script>
+<script>
+jQuery(document).ready(function() {
+	$("#cancelBtn").click(function(){
+		var urlStr = "/showCustomerSummary";
+		$("#viewCounterPartyForm").attr("action",urlStr);
+		$("#viewCounterPartyForm").attr("method","GET");
+		$("#viewCounterPartyForm").submit();
+	});
+});
+</script>
+<div th:include="header :: header"></div>
+<body>
+<div class="wrapper">
+		<div class="middle-part midiile-bg">
+			<div class="middle-right">
+				<span class="welcome-head">VIEW COUNTER PARTY DETAILS</span>
+				<div class="hidden_form">
+					<form id="viewCounterPartyForm" th:each="counterPartyData: ${allCounterPartyDtls}"
+						th:object="${counterPartyVO}">
+						<div class="filter-form">
+							<ul>
+								<li class="last"><span class="welcome-head">General
+										Information</span></li>
+							</ul>
+							<div class="filter-form">
+								<ul>
+									<li class="last">
+										<div class="filter-form">
+											<label>Counter Party Name:</label> <input type="text"
+												name="counterPartyName" id="counterPartyName" readonly="readonly"
+												  th:value="${counterPartyData.counterPartyName}"/>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<ul>
+								<li class="last"><span class="welcome-head">Contact
+										Person1: </span></li>
+							</ul>
+							<div class="filter-form">
+								<ul>
+									<li>
+										<div class="filter-form">
+											<label>Name:</label> <input type="text"
+												name="contactPerson1" id="contactPerson1" readonly="readonly"
+												 th:value="${counterPartyData.contactPerson1}"/>
+										</div>
+									</li>
+									<li>
+										<div class="filter-form">
+											<label>Designation:</label> <input type="text" readonly="readonly"
+												name="designation1" id="designation1"
+												  th:value="${counterPartyData.designation1}"/>
+										</div>
+									</li>
+									<li class="last">
+										<div class="filter-form">
+											<label>Mobile:</label> <input type="text" readonly="readonly"
+												name="mobile1" id="mobile1" onkeypress="return isNumberKey(event)"
+												 th:value="${counterPartyData.mobile1}"/>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div class="filter-form">
+								<ul>
+									
+									<li>
+										<div class="filter-form"> 
+											<label>Email Id:</label> <input type="email" readonly="readonly"
+												name="emailId1" id="emailId1"
+												 th:value="${counterPartyData.emailId1}"/>
+										</div>
+									</li>
+									<li>
+										<div class="filter-form">
+											<label>Telephone No:</label> <input type="text" readonly="readonly"
+												name="telephone1" id="telephone1" th:value="${counterPartyData.telephone1}"
+												 />
+										</div>
+									</li>
+									<li class="last">
+										<div class="filter-form">
+											<label>Fax No:</label> <input type="text" readonly="readonly"
+												name="faxNo1" id="faxNo1" th:value="${counterPartyData.faxNo1}"
+												 />
+										</div>
+									</li>
+								</ul>
+							</div>
+							<ul>
+								<li class="last"><span class="welcome-head">Contact
+										Person2: </span></li>
+							</ul>
+							<div class="filter-form">
+								<ul>
+									<li>
+										<div class="filter-form">
+											<label>Name:</label> <input type="text" readonly="readonly"
+												name="contactPerson2" id="contactPerson2"
+												 th:value="${counterPartyData.contactPerson2}"/>
+										</div>
+									</li>
+									<li>
+										<div class="filter-form">
+											<label>Designation:</label> <input type="text" readonly="readonly"
+												name="designation2" id="designation2"
+												 th:value="${counterPartyData.designation2}"/>
+										</div>
+									</li>
+									<li  class="last">
+										<div class="filter-form">
+											<label>Mobile:</label> <input type="text" readonly="readonly"
+												name="mobile2" id="mobile2" onkeypress="return isNumberKey(event)"
+												 th:value="${counterPartyData.mobile2}"/>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div class="filter-form">
+								<ul>
+									<li>
+										<div class="filter-form">
+											<label>Email Id:</label> <input type="email" readonly="readonly"
+												name="emailId2" id="emailId2"
+												 th:value="${counterPartyData.emailId2}"/>
+										</div>
+									</li>
+									<li>
+										<div class="filter-form">
+											<label>Telephone No:</label> <input type="text" readonly="readonly"
+												name="telephone2" id="telephone2" th:value="${counterPartyData.telephone2}"
+												 />
+										</div>
+									</li>
+									<li class="last">
+										<div class="filter-form">
+											<label>Fax No:</label> <input type="text" readonly="readonly"
+												name="faxNo2" id="faxNo2" th:value="${counterPartyData.faxNo2}"
+												 />
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div class="filter-form">
+								<ul>
+									<li>
+										<div class="filter-form">
+											<label>Address:</label> <input type="text" readonly="readonly"
+												name="address" id="address"
+												  th:value="${counterPartyData.address}"/>
+										</div>
+									</li>
+									<li class="last">
+										<div class="filter-form">
+											<label>Website:</label> <input type="text" readonly="readonly"
+												name="website" id="website"  th:value="${counterPartyData.website}"/>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div class="bottom-buttons">
+								<button type="button" id="cancelBtn" value="CANCEL"
+									class="btn btn-secondary">CANCEL</button>
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+<div th:include="footer :: footer"></div>
+</body>
+</html>

@@ -37,7 +37,7 @@ public class EntityRestController {
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
 	
-	@GetMapping("/addNewEntity")
+/*	@GetMapping("/addNewEntity")
 	public ResponseEntity<BaseResponseVO> addNewEntity(@RequestParam("entityName") String entityName){
 		EntitySummary entity = entityService.getEntityByName(entityName);
 		if(entity != null) {
@@ -48,7 +48,7 @@ public class EntityRestController {
 		}
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
-	}
+	}*/
 	
 	@PutMapping("/updateEntity")
 	public ResponseEntity<BaseResponseVO> updateEntity(@RequestBody EntityVO entityVO){

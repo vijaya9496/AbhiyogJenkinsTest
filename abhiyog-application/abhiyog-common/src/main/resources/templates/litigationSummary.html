@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="header :: headerFragment">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Abhiyog</title>
+</head>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" media="screen"
+	href="../static/css/bootstrap.min.css" type="text/css"
+	th:href="@{css/bootstrap.min.css}" />
+<link rel="stylesheet" media="screen" href="../static/css/common.css"
+	type="text/css" th:href="@{css/common.css}" />
+<link
+	href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&display=swap"
+	rel="stylesheet" type="text/css" />
+<link rel="stylesheet" media="screen" href="../static/css/jquery-ui.css"
+	type="text/css" th:href="@{css/jquery-ui.css}" />
+<link rel="stylesheet" media="screen" href="../static/css/ui.jqgrid.css"
+	type="text/css" th:href="@{css/ui.jqgrid.css}" />
+<link rel="stylesheet" media="screen"
+	href="../static/css/jquery.multiselect.css" type="text/css"
+	th:href="@{css/jquery.multiselect.css}" />
+<!-- Left Nev Css & Js -->
+<link rel="stylesheet" href="../static/css/style2.css"
+	th:href="@{css/style2.css}" type="text/css" />
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"
+	type="text/javascript"></script>
+<script src="../static/js/bootstrap.min.js"
+	th:src="@{js/bootstrap.min.js}" type="text/javascript"></script>
+<script src="../static/js/jquery.min.js" type="text/javascript"
+	th:src="@{js/jquery.min.js}"></script>
+<script src="../static/js/jquery-ui.min.js" type="text/javascript"
+	th:src="@{js/jquery-ui.min.js}"></script>
+<script src="../static/js/jquery.multiselect.js" type="text/javascript"
+	th:src="@{js/jquery.multiselect.js}"></script>
+<script src="../static/js/grid.locale-en.js" type="text/javascript"
+	th:src="@{js/grid.locale-en.js}"></script>
+<script src="../static/js/jquery.jqGrid.src-multiple1.js"
+	type="text/javascript" th:src="@{js/jquery.jqGrid.src-multiple1.js}"></script>
+
+<script src="../static/js/litigationSummary.js"
+	th:src="@{js/litigationSummary.js}" type="text/javascript"></script>
+<div th:include="header :: header"></div>
+<body>
+	<div class="wrapper">
+		<div class="middle-part midiile-bg">
+			<div class="middle-right">
+				<span class="welcome-head">LITIGATION SUMMARY</span>
+				<div class="hidden_form">
+					<form id="litigationSummaryForm" th:object="${userVO}"
+						class="form-horizontal">
+
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<label for="usr">Zone</label> <select id="zone"
+											th:field="*{zoneName}" class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="zone: ${allZones}"
+												th:value="${zone.zoneName}" th:text="${zone.zoneName}">test</option>
+										</select>
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<label for="usr">Format</label> <select id="format"
+											th:field="*{format}" class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="format: ${allFormats}"
+												th:value="${format.format}" th:text="${format.format}">test</option>
+										</select>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<label for="usr">Entity</label> <select id="entity"
+											th:field="*{entityName}" class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="entity: ${allEntities}"
+												th:value="${entity.entityName}"
+												th:text="${entity.entityName}">test</option>
+										</select>
+									</div>
+								</li>
+								<li>
+									<div class="filter-form">
+										<label for="usr">Function</label> <select id="function"
+											th:field="*{deptName}" class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="function: ${allFunction}"
+												th:value="${function.deptName}"
+												th:text="${function.deptName}">test</option>
+										</select>
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<label for="usr">CounterParty</label> <select
+											id="counterParty" th:field="*{counterPartyName}"
+											class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="counterParty: ${allCounterParty}"
+												th:value="${counterParty.counterPartyName}"
+												th:text="${counterParty.counterPartyName}">test</option>
+										</select>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<label for="usr">Category</label> <select id="category"
+											th:field="*{categoryName}" class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="category: ${allCategories}"
+												th:value="${category.categoryName}"
+												th:text="${category.categoryName}">test</option>
+										</select>
+									</div>
+								</li>
+								<li>
+									<div class="filter-form">
+										<label for="usr">Possible Claim(Range)</label> <select
+											id="possibleClaim" th:field="*{claim}" class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="claim: ${allPossibleClaim}"
+												th:value="${claim.claim}" th:text="${claim.claim}">test</option>
+										</select>
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<label for="usr">State</label> <select id="state"
+											th:field="*{stateName}" class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="state: ${allStates}"
+												th:value="${state.stateName}" th:text="${state.stateName}">test</option>
+										</select>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<label for="usr">Lawfirm/Individual</label> <select
+											id="lawfirmIndividual" th:field="*{lawfirm}"
+											class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="lawfirm: ${allLawfirmDtls}"
+												th:value="${lawfirm.lawfirm}" th:text="${lawfirm.lawfirm}">test</option>
+										</select>
+									</div>
+								</li>
+								<li>
+									<div class="filter-form">
+										<label for="usr">Court Type</label> <select id="courtType"
+											th:field="*{courtTypeName}" class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="courtType: ${allCourtTypeDtls}"
+												th:value="${courtType.courtTypeName}"
+												th:text="${courtType.courtTypeName}">test</option>
+										</select>
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<label for="usr">Under Act(s)</label> <select id="underActs"
+											th:field="*{underActName}" class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="underAct: ${allUnderActDtls}"
+												th:value="${underAct.underActName}"
+												th:text="${underAct.underActName}">test</option>
+										</select>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<label for="usr">Risk</label> <select id="risk"
+											th:field="*{risk}" class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="risk: ${allRiskDtls}"
+												th:value="${risk.risk}" th:text="${risk.risk}">test</option>
+										</select>
+									</div>
+								</li>
+								<li>
+									<div class="filter-form">
+										<label for="usr">Status</label> <select id="status"
+											th:field="*{status}" class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="status: ${allStatusDtls}"
+												th:value="${status.status}" th:text="${status.status}">test</option>
+										</select>
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<label for="usr">Matter By/Against</label> <select
+											id="matterByAgainst" th:field="*{matterBy}"
+											class="custom-select">
+											<option value="ALL">ALL</option>
+											<option th:each="matterByAgainst: ${allMatterByAgainstDtls}"
+												th:value="${matterByAgainst.matterBy}"
+												th:text="${matterByAgainst.matterBy}">test</option>
+										</select>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<label for="usr">Litigation By/Against</label> <select
+											id="litigationByAgainst" class="custom-select">
+											<option value="ALL">ALL</option>
+											<option value="by">by</option>
+											<option value="Against">Against</option>
+										</select>
+									</div>
+								</li>
+								<li>
+									<div class="filter-form">
+										<label for="usr">Unit/Location</label> <select
+											id="unitLocation" class="custom-select">
+											<option value="ALL">ALL</option>
+										</select>
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<label for="usr">City</label> <select id="city"
+											class="custom-select">
+											<option value="ALL">ALL</option>
+										</select>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<label for="usr">Police Station</label> <select
+											id="policeStation" class="custom-select">
+											<option value="ALL">ALL</option>
+										</select>
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<label for="usr">Court/Forum</label> <select id="courtForum"
+											class="custom-select">
+											<option value="ALL">ALL</option>
+										</select>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="bottom-buttons">
+							<input type="button" class="fourth login-bottom apply"
+								id="applyBtn" value="APPLY"
+								onclick="getLitigationSummaryData();">
+						</div>
+					</form>
+				</div>
+				<div class="data-tablemain">
+					<table id="litigationSummary" class="bgtable">
+						<tr>
+							<td />
+						</tr>
+					</table>
+					<div id="litigationSummarypager"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="footer :: footer"></div>
+</body>
+</html>

@@ -5,16 +5,23 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.StringUtils;
+
 
 import com.fg.ss.abhiyog.common.model.BillingType;
 import com.fg.ss.abhiyog.common.model.City;
@@ -90,7 +97,7 @@ import com.fg.ss.abhiyog.common.vo.UnitSummaryVO;
 
 @Service
 public class LitigationService implements ILitigationService {
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(LitigationService.class);
 	@Autowired
 	private LtgnRepresentativeMasterRepository ltgnRepresentativeMasterRepository;
 
@@ -183,6 +190,9 @@ public class LitigationService implements ILitigationService {
 	
 	@Autowired
 	private LitigationHistoryTLogRepository litigationHistoryTLogRepository;
+	
+	@Autowired
+	private EntityManager entityManager;
 	
 	
 	@Value("${file.upload-dir}")
@@ -1118,6 +1128,95 @@ public class LitigationService implements ILitigationService {
 	public List<Litigation> getHearingStatusReportDtls(LocalDate fromDate, LocalDate toDate) {
 		List<Litigation> hearingStatusReportDtls  = litigationRepository.findHearingStatusDtlsByFromandToDate(fromDate,toDate);
 		return hearingStatusReportDtls;
+	}
+
+	@Override
+	public List<Dept> getdept() {
+		List<Dept> allDept =deptRepository.findAll();
+		return allDept;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<LitigationSummaryVO> findLitigationSummaryFieldSelection(String zone, String format, String entity,
+			String function, String counterParty, String category, String possibleClaim, String state,
+			String lawfirmIndividual, String courtType, String underActs, String risk, String status,
+			String matterByAgainst, String litigationByAgainst) {
+		
+		List<Litigation> litigationSummary = new ArrayList<>();
+		Map<String, Object> parameterMap = new HashMap<>();
+		List<String> whereClause = new ArrayList<>();
+		StringBuilder reportQuery = new StringBuilder();
+		
+		reportQuery.append("select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId ");
+		
+		if( !zone.isEmpty() &&  !zone.equals("null")) {
+			System.out.println(zone);
+			whereClause.add(" r.zoneName=:zone ");
+			parameterMap.put("zone", zone);
+		} 
+		if(!format.equals("ALL")) {
+			whereClause.add(" lt.format.format:format ");
+			parameterMap.put("format", format);
+		} 
+		if(!entity.equals("ALL")) {
+			whereClause.add(" e.entityName=:entity ");
+			parameterMap.put("entity", entity);
+		} 
+		if( !counterParty.equals("ALL")) {
+			whereClause.add(" cpd.customerName=:counterParty ");
+			parameterMap.put("counterParty", counterParty);
+		} 
+		if( !category.endsWith("ALL")) {
+			whereClause.add(" lt.ltgnCaseType.caseType=:category ");
+			parameterMap.put("category", category);
+		} 
+		if(!possibleClaim.equals("ALL") ) {
+			whereClause.add(" c.claim=:possibleClaim ");
+			parameterMap.put("possibleClaim", possibleClaim);
+		}
+		if(!state.equals("ALL") ) {
+			whereClause.add(" lt.state.stateName=:state ");
+			parameterMap.put("state", state);
+		} 
+		if(!lawfirmIndividual.equals("ALL") ) {
+			whereClause.add(" lt.lawFirm.lawfirm=:lawfirmIndividual ");
+			parameterMap.put("lawfirmIndividual", lawfirmIndividual);
+		} 
+		if(!courtType.equals("ALL") )  {
+			whereClause.add(" lt.courtType.courtType=:courtType ");
+			parameterMap.put("courtType", courtType);
+		} 
+		if(!underActs.equals("ALL") ) {
+			whereClause.add(" lt.underAct.underAct=:underActs ");
+			parameterMap.put("underActs", underActs);
+		} 
+		if(!risk.equals("ALL")) {
+			System.out.println(risk);
+			whereClause.add(" rs.risk=:risk ");
+			parameterMap.put("risk", risk);
+		} 
+		if(!status.equals("ALL")) {
+			whereClause.add(" s.status=:status ");
+			parameterMap.put("status", status);
+		}
+		if(!matterByAgainst.equals("ALL")) {
+			whereClause.add(" lt.ltgnRepresentativeMaster.representativeName=:matterByAgainst ");
+			parameterMap.put("matterByAgainst", matterByAgainst);
+		}
+		if(!litigationByAgainst.equals("ALL")) {
+			whereClause.add(" lt.ltgnRepresentativeMaster.representativeName=:litigationByAgainst ");
+			parameterMap.put("litigationByAgainst", litigationByAgainst);
+		}
+		reportQuery.append(" where " + StringUtils.join(whereClause, " and "));
+		Query jpaQuery = entityManager.createQuery(reportQuery.toString());
+		LOGGER.info("Created Query::  " + reportQuery.toString());
+		for(String key: parameterMap.keySet()) {
+			jpaQuery.setParameter(key, parameterMap.get(key));
+		}
+		 litigationSummary = jpaQuery.getResultList();
+		 LOGGER.info("List Size:: " +litigationSummary.size());
+		return litigationSummary.stream().map(allLitigationSummary -> convertToLitigationSummary(allLitigationSummary)).collect(Collectors.toList());
 	}
 
 	

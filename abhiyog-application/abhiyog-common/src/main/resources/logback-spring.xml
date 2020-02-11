@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    
+   <!--  <springProperty scope="context" name="springAppName" source="spring.application.name"/>  -->
+    <property name="LOG_FILE_NAME" value="${LOG_PATH:-logs}/AbhiyogLogs"/>​
+    <property name="LOG_FILE" value="${LOG_FILE_NAME}.log"/>
+    
+    <appender name="ROLLING-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_FILE}</file>
+    <encoder>
+         <pattern>${FILE_LOG_PATTERN}</pattern>
+     </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+       <!-- daily rollover -->
+        <fileNamePattern>${LOG_FILE_NAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+        <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+           
+             <!-- keep 20 days' worth of history capped at 3GB total size -->
+      <maxFileSize>20MB</maxFileSize>  
+     <!--  <maxHistory>20</maxHistory> -->
+     <!--  <totalSizeCap>3GB</totalSizeCap> -->
+        </timeBasedFileNamingAndTriggeringPolicy>
+      
+    </rollingPolicy>        
+  </appender>
+  <root level="INFO">
+  	<appender-ref ref="CONSOLE"/>
+    <appender-ref ref="ROLLING-FILE" />
+  </root>
+  <logger name="org.springframework.web" level="INFO"/>
+  <logger name="com.futuregroup.AbhiyogApplication" level="DEBUG"/>
+</configuration>

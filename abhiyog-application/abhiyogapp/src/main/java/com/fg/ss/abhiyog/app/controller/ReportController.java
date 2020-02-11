@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +13,8 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +25,9 @@ import com.fg.ss.abhiyog.common.service.FileDownloadService;
 import com.fg.ss.abhiyog.common.service.IExcelGenerateService;
 import com.fg.ss.abhiyog.common.service.ILitigationService;
 import com.fg.ss.abhiyog.common.service.IWordGenerateService;
+import com.fg.ss.abhiyog.common.service.MetricsReportStatisticsService;
 import com.fg.ss.abhiyog.common.service.PDFGenerateService;
+import com.fg.ss.abhiyog.common.vo.BaseResponseVO;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 
@@ -44,6 +49,11 @@ public class ReportController {
 	
 	@Autowired
 	PDFGenerateService pdfGenerateService;
+	
+	@Autowired
+	MetricsReportStatisticsService metricsReportStatisticsService;
+	
+	private BaseResponseVO baseResponseVO = BaseResponseVO.getInstance();
 
 	//for ExportToExcel
 	@GetMapping("/HearingStatusReportCriteria")
@@ -57,6 +67,45 @@ public class ReportController {
 			pdfGenerateService.generateHearingStatusPDFReport(workbook,response,"HearingStatusReport");
 		}
 		
+		
+	}
+	
+	@GetMapping("/zoneWiseStatistics")
+	public ResponseEntity<BaseResponseVO> zoneWiseStatistics(){
+		List<Map<String,Integer>> zoneWiseStatisticsList = metricsReportStatisticsService.getZoneWiseStatistics();
+		baseResponseVO.setResponseCode(HttpStatus.OK.value());
+		baseResponseVO.setResponseMessage("Success");
+		baseResponseVO.setData(zoneWiseStatisticsList);
+		return ResponseEntity.ok().body(baseResponseVO);
+	}
+	
+	@GetMapping("/entityWiseStatistics")
+	public ResponseEntity<BaseResponseVO> entityWiseStatistics(){
+		List<Map<String,Integer>> entityWiseStatisticsList = metricsReportStatisticsService.getEntityWiseStatistics();
+		baseResponseVO.setResponseCode(HttpStatus.OK.value());
+		baseResponseVO.setResponseMessage("Success");
+		baseResponseVO.setData(entityWiseStatisticsList);
+		return ResponseEntity.ok().body(baseResponseVO);
+		
+	}
+	
+	@GetMapping("/caseTypeWiseStatistics")
+	public ResponseEntity<BaseResponseVO> caseTypeWiseStatistics(){
+		List<Map<String,Integer>> caseTypeWiseStatisticsList = metricsReportStatisticsService.getCaseTypeWiseStatistics();
+		baseResponseVO.setResponseCode(HttpStatus.OK.value());
+		baseResponseVO.setResponseMessage("Success");
+		baseResponseVO.setData(caseTypeWiseStatisticsList);
+		return ResponseEntity.ok().body(baseResponseVO);
+		
+	}
+	
+	@GetMapping("/litigationByStatistics")
+	public ResponseEntity<BaseResponseVO> getLitigationByAndAgainstStatistics(){
+		List<Map<String, Integer>> litigationStatisticCount = metricsReportStatisticsService.getLitigationByStatistics();
+		baseResponseVO.setResponseCode(HttpStatus.OK.value());
+		baseResponseVO.setResponseMessage("Success");
+		baseResponseVO.setData(litigationStatisticCount);
+		return ResponseEntity.ok().body(baseResponseVO);
 		
 	}
 	

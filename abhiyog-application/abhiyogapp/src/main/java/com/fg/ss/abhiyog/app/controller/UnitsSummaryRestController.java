@@ -1,6 +1,7 @@
 package com.fg.ss.abhiyog.app.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,15 +38,15 @@ public class UnitsSummaryRestController {
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
 	
-	@PostMapping("/addNewCompanyUnit")
+/*	@PostMapping("/addNewCompanyUnit")
 	public ResponseEntity<BaseResponseVO> addNewCompanyUnit(@RequestBody UnitSummaryVO unitSummaryVO){
 //		Units units = unitsSummaryService.findUnitByName(unitSummaryVO); 
 		baseResponseVO  = unitsSummaryService.saveFormData(unitSummaryVO);
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
-	}
+	}*/
 	
-	@PutMapping("/updateCompanyUnit")
+/*	@PutMapping("/updateCompanyUnit")
 	public ResponseEntity<BaseResponseVO> updateCompanyUnit(@RequestBody UnitSummaryVO unitSummaryVO){
 		Units unitsDtls = unitsSummaryService.findUnitByName(unitSummaryVO.getUnitName());
 		if(unitsDtls == null) {
@@ -57,5 +58,5 @@ public class UnitsSummaryRestController {
 		}
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
-	}
+	}*/
 }
