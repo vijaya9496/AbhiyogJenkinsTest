@@ -18,7 +18,7 @@ public class CustomerType {
 	@Column(name = "customer_type_oid")
 	private int customerTypeId;
 
-	@Column(name = "customer_type")
+	@Column(name = "customertype")
 	private String customerType;
 	
 	@OneToMany(cascade=CascadeType.ALL)
