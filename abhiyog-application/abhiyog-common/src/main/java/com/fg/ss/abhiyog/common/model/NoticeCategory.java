@@ -16,14 +16,14 @@ import javax.persistence.Table;
 public class NoticeCategory {
 
 	@Id
-	@Column(name="notice_category_id")
+	@Column(name="noticecategoryoid")
 	private int noticeCategoryId;
 	
-	@Column(name="notice_category")
+	@Column(name="noticecategory")
 	private String noticeCategory;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="notice_category_id")
+	@JoinColumn(name="noticecategoryoid")
 	private List<ShowCauseNotice> showCauseNotice;
 
 	public int getNoticeCategoryId() {

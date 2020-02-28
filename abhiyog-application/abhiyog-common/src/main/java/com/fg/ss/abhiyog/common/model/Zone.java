@@ -19,13 +19,13 @@ public class Zone {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="regions_id")
+	@Column(name="regionoid")
 	private int zoneId;
-	@Column(name="region_name")
+	@Column(name="regionname")
 	private String zoneName;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="regions_id")
+	@JoinColumn(name="regionoid")
 	private List<Units> units;
 
 	public int getZoneId() {

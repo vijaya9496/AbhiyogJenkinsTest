@@ -19,29 +19,29 @@ public class Dept {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="dept_id")
+	@Column(name="deptoid")
 	private int id;
 	
-	@Column(name="dept_name")
+	@Column(name="deptname")
 	private String deptName;
 	
-	@Column(name="dept_head_id")
+	@Column(name="deptheadoid")
 	private int deptHeadId;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="dept_id")
+	@JoinColumn(name="deptoid")
 	private List<CounterPartyDtls> counterPartyDtls;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="dept_id")
+	@JoinColumn(name="deptoid")
 	private List<LawFirm> lawfirm;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="dept_id")
+	@JoinColumn(name="deptoid")
 	private List<ShowCauseNotice> showCauseNotice;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="dept_id")
+	@JoinColumn(name="deptoid")
 	private List<Litigation> litigation;
 
 	public int getId() {

@@ -20,22 +20,22 @@ public class City {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "city_id")
+	@Column(name = "cityoid")
 	private int cityId;
 
-	@Column(name = "city_name")
+	@Column(name = "cityname")
 	private String cityName;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "state_id")
+	@JoinColumn(name = "stateoid")
 	private State state;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="city_id")
+	@JoinColumn(name="cityoid")
 	private List<CourtCity> courtCity;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="city_id")
+	@JoinColumn(name="cityoid")
 	private List<PoliceStation> policeStation;
 
 	public int getCityId() {

@@ -15,18 +15,18 @@ import javax.persistence.Table;
 public class State {
 
 	@Id
-	@Column(name = "state_id")
+	@Column(name = "state_oid")
 	private int stateId;
 
 	@Column(name = "state_name")
 	private String stateName;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="state_id")
+	@JoinColumn(name="state_oid")
 	private List<City> city;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="state_id")
+	@JoinColumn(name="state_oid")
 	private List<Litigation> litigation;
 
 	public int getStateId() {

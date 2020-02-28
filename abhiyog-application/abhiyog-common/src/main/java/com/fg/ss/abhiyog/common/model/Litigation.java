@@ -26,7 +26,7 @@ public class Litigation {
 	@Column(name = "litigation_oid")
 	private int litigationOId;
 
-	@Column(name = "litigation_id")
+	@Column(name = "litigationid")
 	private String litigationId;
 
 	@Column(name = "against_party_name")
@@ -80,43 +80,43 @@ public class Litigation {
 	@Column(name = "time_of_case_am_pm")
 	private String timeOfCaseAmPm;
 
-	@Column(name = "inhouse_counsel_id")
+	@Column(name = "inhouse_counsel_oid")
 	private int inHouseCounselId;
 
-	@Column(name = "inhouse_counsel_other_id")
+	@Column(name = "inhouse_counsel_other_oid")
 	private int inHouseCounselOtherId;
 
-	@Column(name = "outside_counsel_id")
+	@Column(name = "outside_counsel_oid")
 	private int outsideCounselId;
 
-	@Column(name = "outside_counsel_other_id")
+	@Column(name = "outside_counsel_other_oid")
 	private int outsideCounselOtherId;
 
 	@Column(name = "create_date")
 	private LocalDate createDate;
 
-	@Column(name = "police_station")
+	@Column(name = "policestation")
 	private String policeStation;
 
-	@Column(name = "otherFiles")
+	@Column(name = "otherfiles")
 	private String otherFiles;
 
-	@Column(name = "file_available")
+	@Column(name = "fileavailable")
 	private String fileAvailable;
 
-	@Column(name = "case_file_on_dt")
+	@Column(name = "casefileondt")
 	private Date caseFileOnDate;
 
-	@Column(name = "provision_made")
+	@Column(name = "provisionmade")
 	private String provisionMade;
 
-	@Column(name = "counsel_assesment")
+	@Column(name = "counselassesment")
 	private String counselAssesment;
 
-	@Column(name = "case_relate_from_dt")
+	@Column(name = "caserelatefrmdt")
 	private Date caseRelateFromDate;
 
-	@Column(name = "case_relate_to_dt")
+	@Column(name = "caserelatetodt")
 	private Date caseRelateToDate;
 
 	@Column(name = "comment")
@@ -128,138 +128,138 @@ public class Litigation {
 	@Column(name = "subject")
 	private String subject;
 
-	@Column(name = "other_under_act")
+	@Column(name = "otherunderact")
 	private String otherUnderAct;
 
-	@Column(name = "business_unit_id")
+	@Column(name = "businessunitid")
 	private int businessUnitId;
 
-	@Column(name = "area_office_id")
+	@Column(name = "areaofficeoid")
 	private int areaOfficeId;
 
-	@Column(name = "re_open_comments")
-	private String reOpenComments;
-
-	@Column(name = "result_id")
+	@Column(name = "resultoid")
 	private int resultId;
 
-	@Column(name = "co_entity")
+	@Column(name = "reopencomments")
+	private String reOpenComments;
+
+	@Column(name = "coentity")
 	private String coEntity;
 
-	@Column(name = "co_region")
+	@Column(name = "coregion")
 	private String coRegion;
-	
-	@Column(name="delete_status")
+
+	@Column(name = "deletestatus")
 	private int deleteStatus;
 
-	@Column(name = "exact_claim_amount")
+	@Column(name = "exactclaimamount")
 	private float exactClaimAmount;
 
 	@Column(name = "address")
 	private String address;
 
-	@Column(name = "exact_claim_remarks")
+	@Column(name = "exactclaimremarks")
 	private String exactClaimRemarks;
 
-	@Column(name = "store_office_premises")
+	@Column(name = "storeofficepremises")
 	private String storeOfficePremises;
 
-	@Column(name = "co_counter_parties")
+	@Column(name = "cocounterparties")
 	private String coCounterParties;
 
-	@Column(name = "under_section")
+	@Column(name = "undersection")
 	private String underSection;
 
-	@Column(name = "fir_no")
+	@Column(name = "firno")
 	private String firNo;
 
-	@Column(name = "action_plan")
+	@Column(name = "actionplan")
 	private String actionPlan;
 
-	@Column(name = "disposed_dt")
+	@Column(name = "disposeddt")
 	private Date disposedDate;
 
-	@Column(name = "unit_id_temp")
+	@Column(name = "unitoidtemp")
 	private int unitIdTemp;
 
-	@Column(name = "representative_id_temp")
+	@Column(name = "representativeoidtemp")
 	private int representativeIdTemp;
 
-	@Column(name = "execution_type_id")
+	@Column(name = "executiontypeoid")
 	private int executionTypeId;
 
-	@Column(name = "liability_id")
+	@Column(name = "liabilityoid")
 	private int liabilityId;
 
-	@Column(name = "argument_id")
+	@Column(name = "argumentoid")
 	private int argumentId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "dept_id")
+	@JoinColumn(name = "deptoid")
 	private Dept dept;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "unit_id")
+	@JoinColumn(name = "unitoid")
 	private Units units;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "customer_type_id")
+	@JoinColumn(name = "customer_type_oid")
 	private CustomerType customerType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "case_type_id")
+	@JoinColumn(name = "case_type_oid")
 	private LtgnCaseType ltgnCaseType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "state_id")
+	@JoinColumn(name = "state_oid")
 	private State state;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "court_city_id")
+	@JoinColumn(name = "courtcityoid")
 	private CourtCity courtCity;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "court_type_id")
+	@JoinColumn(name = "courttypeoid")
 	private CourtType courtType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "risk_id")
+	@JoinColumn(name = "riskoid")
 	private Risk risk;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "claim_id")
+	@JoinColumn(name = "claimoid")
 	private Claim claim;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "lawfirm_id")
+	@JoinColumn(name = "lawfirmoid")
 	private LawFirm lawFirm;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "status_id")
+	@JoinColumn(name = "statusoid")
 	private Status status;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "under_act_id")
+	@JoinColumn(name = "underactoid")
 	private UnderAct underAct;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "police_station_id")
+	@JoinColumn(name = "policestationoid")
 	private PoliceStation policeStationId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "senior_counsel_id")
+	@JoinColumn(name = "seniorcounselid")
 	private LawFirm lawFirmSenior;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "format_id")
+	@JoinColumn(name = "formatoid")
 	private Format format;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "representative_id")
+	@JoinColumn(name = "representativeoid")
 	private LtgnRepresentativeMaster ltgnRepresentativeMaster;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "customer_id")
+	@JoinColumn(name = "customer_oid")
 	private CounterPartyDtls counterPartyDtls;
 
 	@OneToMany(cascade = CascadeType.ALL)
@@ -267,7 +267,7 @@ public class Litigation {
 	private List<LitigationMatterByAgainst> litigationMatterByAgainst;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "litigation_added_by_id")
+	@JoinColumn(name = "litigationaddedbyoid")
 	private User user;
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -289,11 +289,11 @@ public class Litigation {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "litigation_oid")
 	private LawfirmBilling lawfirmBilling;
-	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="litigation_oid")
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "litigation_oid")
 	private List<LtgnLitigationLog> ltgnLitigationLog;
-	
+
 	public int getLitigationOId() {
 		return litigationOId;
 	}
@@ -604,6 +604,14 @@ public class Litigation {
 
 	public void setReOpenComments(String reOpenComments) {
 		this.reOpenComments = reOpenComments;
+	}
+
+	public int getDeleteStatus() {
+		return deleteStatus;
+	}
+
+	public void setDeleteStatus(int deleteStatus) {
+		this.deleteStatus = deleteStatus;
 	}
 
 	public int getResultId() {
@@ -941,7 +949,5 @@ public class Litigation {
 	public void setLtgnLitigationLog(List<LtgnLitigationLog> ltgnLitigationLog) {
 		this.ltgnLitigationLog = ltgnLitigationLog;
 	}
-	
-	
 
 }

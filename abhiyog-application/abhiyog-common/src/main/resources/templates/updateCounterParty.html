@@ -62,7 +62,7 @@
 								<ul>
 									<li class="last">
 										<div class="filter-form">
-											<label>Counter Party Name:</label> <input type="text"
+											<label><sup class="red">*</sup>Counter Party Name:</label> <input type="text"
 												name="counterPartyName" id="counterPartyName" th:value="${allCounterPartyDtls.counterPartyName}"
 												required="required" readonly="readonly"/>
 										</div>
@@ -105,14 +105,14 @@
 										<div class="filter-form">
 											<label>Email Id:</label> <input type="email"
 												name="emailId1" id="emailId1" th:value="${allCounterPartyDtls.emailId1}"
-												required="required" />
+												required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" />
 										</div>
 									</li>
 									<li>
 										<div class="filter-form">
 											<label>Telephone No:</label> <input type="text"
 												name="telephone1" id="telephone1" th:value="${allCounterPartyDtls.telephone1}"
-												 />
+												onkeypress="return isNumberKey(event)" />
 										</div>
 									</li>
 									<li class="last">
@@ -159,13 +159,13 @@
 										<div class="filter-form">
 											<label>Email Id:</label> <input type="email"
 												name="emailId2" id="emailId2" th:value="${allCounterPartyDtls.emailId2}"
-												required="required" />
+												required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" />
 										</div>
 									</li>
 									<li>
 										<div class="filter-form">
 											<label>Telephone No:</label> <input type="text" th:value="${allCounterPartyDtls.telephone2}"
-												name="telephone2" id="telephone2"
+												name="telephone2" id="telephone2" onkeypress="return isNumberKey(event)"
 												 />
 										</div>
 									</li>

@@ -57,7 +57,7 @@
 							<ul>
 								<li>
 									<div class="filter-form">
-										<label for="usr">Zone</label> <select id="zone"
+										<label for="usr">Zone</label> <select id="zoneName"
 											th:field="*{zoneName}" class="custom-select">
 											<option value="ALL">ALL</option>
 											<option th:each="zone: ${allZones}"
@@ -81,7 +81,7 @@
 							<ul>
 								<li>
 									<div class="filter-form">
-										<label for="usr">Entity</label> <select id="entity"
+										<label for="usr">Entity</label> <select id="entityName"
 											th:field="*{entityName}" class="custom-select">
 											<option value="ALL">ALL</option>
 											<option th:each="entity: ${allEntities}"
@@ -92,7 +92,7 @@
 								</li>
 								<li>
 									<div class="filter-form">
-										<label for="usr">Function</label> <select id="function"
+										<label for="usr">Function</label> <select id="deptName"
 											th:field="*{deptName}" class="custom-select">
 											<option value="ALL">ALL</option>
 											<option th:each="function: ${allFunction}"
@@ -104,7 +104,7 @@
 								<li class="last">
 									<div class="filter-form">
 										<label for="usr">CounterParty</label> <select
-											id="counterParty" th:field="*{counterPartyName}"
+											id="counterPartyName" th:field="*{counterPartyName}"
 											class="custom-select">
 											<option value="ALL">ALL</option>
 											<option th:each="counterParty: ${allCounterParty}"
@@ -119,7 +119,7 @@
 							<ul>
 								<li>
 									<div class="filter-form">
-										<label for="usr">Category</label> <select id="category"
+										<label for="usr">Category</label> <select id="categoryName"
 											th:field="*{categoryName}" class="custom-select">
 											<option value="ALL">ALL</option>
 											<option th:each="category: ${allCategories}"
@@ -131,7 +131,7 @@
 								<li>
 									<div class="filter-form">
 										<label for="usr">Possible Claim(Range)</label> <select
-											id="possibleClaim" th:field="*{claim}" class="custom-select">
+											id="claim" th:field="*{claim}" class="custom-select">
 											<option value="ALL">ALL</option>
 											<option th:each="claim: ${allPossibleClaim}"
 												th:value="${claim.claim}" th:text="${claim.claim}">test</option>
@@ -140,7 +140,7 @@
 								</li>
 								<li class="last">
 									<div class="filter-form">
-										<label for="usr">State</label> <select id="state"
+										<label for="usr">State</label> <select id="stateName"
 											th:field="*{stateName}" class="custom-select">
 											<option value="ALL">ALL</option>
 											<option th:each="state: ${allStates}"
@@ -155,7 +155,7 @@
 								<li>
 									<div class="filter-form">
 										<label for="usr">Lawfirm/Individual</label> <select
-											id="lawfirmIndividual" th:field="*{lawfirm}"
+											id="lawfirm" th:field="*{lawfirm}"
 											class="custom-select">
 											<option value="ALL">ALL</option>
 											<option th:each="lawfirm: ${allLawfirmDtls}"
@@ -165,7 +165,7 @@
 								</li>
 								<li>
 									<div class="filter-form">
-										<label for="usr">Court Type</label> <select id="courtType"
+										<label for="usr">Court Type</label> <select id="courtTypeName"
 											th:field="*{courtTypeName}" class="custom-select">
 											<option value="ALL">ALL</option>
 											<option th:each="courtType: ${allCourtTypeDtls}"
@@ -176,7 +176,7 @@
 								</li>
 								<li class="last">
 									<div class="filter-form">
-										<label for="usr">Under Act(s)</label> <select id="underActs"
+										<label for="usr">Under Act(s)</label> <select id="underActName"
 											th:field="*{underActName}" class="custom-select">
 											<option value="ALL">ALL</option>
 											<option th:each="underAct: ${allUnderActDtls}"
@@ -212,7 +212,7 @@
 								<li class="last">
 									<div class="filter-form">
 										<label for="usr">Matter By/Against</label> <select
-											id="matterByAgainst" th:field="*{matterBy}"
+											id="matterBy" th:field="*{matterBy}"
 											class="custom-select">
 											<option value="ALL">ALL</option>
 											<option th:each="matterByAgainst: ${allMatterByAgainstDtls}"

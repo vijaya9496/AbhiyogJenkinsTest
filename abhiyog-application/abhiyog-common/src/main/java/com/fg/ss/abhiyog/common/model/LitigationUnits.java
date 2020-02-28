@@ -21,11 +21,11 @@ public class LitigationUnits {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "litigation_units_id")
+	@Column(name = "litigationunitsoid")
 	private int litigationUnitsId;
 
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "unit_id")
+	@JoinColumn(name = "unitoid")
 	private Units units;
 
 	@OneToOne(cascade = CascadeType.MERGE)

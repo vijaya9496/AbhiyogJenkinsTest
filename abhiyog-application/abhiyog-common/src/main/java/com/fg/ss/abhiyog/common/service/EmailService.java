@@ -1,5 +1,9 @@
 package com.fg.ss.abhiyog.common.service;
 
+import static org.hamcrest.CoreMatchers.startsWith;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -19,11 +23,13 @@ import javax.mail.internet.MimeMultipart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fg.ss.abhiyog.common.model.Litigation;
 import com.fg.ss.abhiyog.common.model.User;
@@ -96,7 +102,8 @@ public class EmailService {
 
 	}
 
-	public BaseResponseVO sendCommonEmail(CommonEmailVO commonEmailVO) {
+	public boolean sendCommonEmail(CommonEmailVO commonEmailVO, MultipartFile multiPartFile) {
+		boolean flag = false;
 		MimeMessage message = javaMailSender.createMimeMessage();
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -110,31 +117,45 @@ public class EmailService {
 				baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
 				baseResponseVO.setResponseMessage("Provide Valid TO Email address");
 			}
-			if (commonEmailVO.getBccMails() != null) {
-				helper.setBcc(commonEmailVO.getBccMails());
+			
+			System.out.println("bccMails Size*** " +commonEmailVO.getBccMails().size());
+			
+			if (commonEmailVO.getBccMails().size() > 0) {
+				String[] bccMails = null;
+				for(String mails : commonEmailVO.getBccMails()) {
+					System.out.println("Mails:: ** " +mails);
+					 bccMails = new String[commonEmailVO.getBccMails().size()];
+					bccMails = commonEmailVO.getBccMails().toArray(bccMails);
+				}
+				System.out.println("BCCMAILS ** " +bccMails );
+				helper.setBcc(bccMails);
 			}
-			if (commonEmailVO.getCcMails() != null) {
-				helper.setCc(commonEmailVO.getCcMails());
+			
+			System.out.println("ccMails Size**** "  +commonEmailVO.getCcMails().size());
+			
+			if (commonEmailVO.getCcMails().size() > 0) {
+				String[] ccMails = null;
+				for(String mails : commonEmailVO.getCcMails()) {
+					System.out.println("Mails:: ** " +mails);
+					ccMails = new String[commonEmailVO.getCcMails().size()];
+					ccMails = commonEmailVO.getCcMails().toArray(ccMails);
+				}
+				System.out.println("CCMAILS ** " +ccMails );
+				helper.setCc(ccMails);
 			}
 
 			helper.setSubject(commonEmailVO.getSubject());
 			helper.setText(commonEmailVO.getMessage());
 
-			if (commonEmailVO.getAttachmentFile() != null) {
-				MimeBodyPart messageBodyPart = new MimeBodyPart();
-				messageBodyPart.setText("PFA");
-
-				Multipart multiPart = new MimeMultipart();
-				multiPart.addBodyPart(messageBodyPart);
-
-				messageBodyPart = new MimeBodyPart();
-				DataSource source = new FileDataSource(commonEmailVO.getAttachmentFile());
-
-				messageBodyPart.setDataHandler(new DataHandler(source));
-				messageBodyPart.setFileName(commonEmailVO.getAttachmentFile());
-
-				multiPart.addBodyPart(messageBodyPart);
-				message.setContent(multiPart);
+			if (!multiPartFile.isEmpty()) {
+				String attachName = multiPartFile.getOriginalFilename();
+				helper.addAttachment(attachName, new InputStreamSource() {
+					@Override
+					public InputStream getInputStream() throws IOException {
+						
+						return multiPartFile.getInputStream();
+					}
+				});
 			} else {
 				System.out.println("No file selected");
 			}
@@ -156,15 +177,17 @@ public class EmailService {
 			 */
 
 			javaMailSender.send(message);
-			baseResponseVO.setResponseCode(HttpStatus.OK.value());
-			baseResponseVO.setResponseMessage("Email Sent Successfully.");
+			flag = true;
+			
+//			baseResponseVO.setResponseCode(HttpStatus.OK.value());
+//			baseResponseVO.setResponseMessage("Email Sent Successfully.");
 		} catch (Exception e) {
-			baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
-			baseResponseVO.setResponseMessage("Unable to Send Email");
+//			baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
+//			baseResponseVO.setResponseMessage("Unable to Send Email");
 			e.printStackTrace();
 		}
-		baseResponseVO.setData(null);
-		return baseResponseVO;
+//		baseResponseVO.setData(null);
+		return flag;
 	}
 
 	public void sendEmailAlert(List<Litigation> hearingDateDtls, List<User> toEmailIdList) {
@@ -243,7 +266,7 @@ public class EmailService {
 					}
 					if(bgCol != null) {
 						htmlMsg += "<tr bgcolor=" +bgCol+">"
-								+ "<td>"  +hearingDtls.getLitigationId()+"</td>"
+								+ "<td>"+"<a href="+ "http:localhost:8080>" +hearingDtls.getLitigationId()+ "</a>"+ "</td>"
 								+"<td>" +hearingDtls.getNextDateOfHearing() +"</td>"
 								+ "<td>"+hearingDtls.getUnits().getEntitySummary().getEntityName()+ "(" +hearingDtls.getUnits().getUnitName()+")"+"</td>"
 								+ "<td>"+hearingDtls.getCounterPartyDtls().getCustomerName()+"Vs"+hearingDtls.getUnits().getEntitySummary().getEntityName()+"</td>"

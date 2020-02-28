@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -1150,7 +1151,7 @@ public class LitigationService implements ILitigationService {
 		
 		reportQuery.append("select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId ");
 		
-		if( !zone.isEmpty() &&  !zone.equals("null")) {
+		if(!zone.equals("ALL")) {
 			System.out.println(zone);
 			whereClause.add(" r.zoneName=:zone ");
 			parameterMap.put("zone", zone);
@@ -1208,7 +1209,14 @@ public class LitigationService implements ILitigationService {
 			whereClause.add(" lt.ltgnRepresentativeMaster.representativeName=:litigationByAgainst ");
 			parameterMap.put("litigationByAgainst", litigationByAgainst);
 		}
-		reportQuery.append(" where " + StringUtils.join(whereClause, " and "));
+		
+		if(!zone.equals("ALL") || !format.equals("ALL")|| !entity.equals("ALL") || !counterParty.equals("ALL") || !category.endsWith("ALL") 
+				|| !possibleClaim.equals("ALL") || !state.equals("ALL") || !lawfirmIndividual.equals("ALL")  || !courtType.equals("ALL") || !underActs.equals("ALL") 
+				|| !risk.equals("ALL") || !status.equals("ALL") || !matterByAgainst.equals("ALL") || !litigationByAgainst.equals("ALL")){
+			reportQuery.append(" where " + StringUtils.join(whereClause, " and "));
+		}
+		
+		
 		Query jpaQuery = entityManager.createQuery(reportQuery.toString());
 		LOGGER.info("Created Query::  " + reportQuery.toString());
 		for(String key: parameterMap.keySet()) {
@@ -1217,6 +1225,35 @@ public class LitigationService implements ILitigationService {
 		 litigationSummary = jpaQuery.getResultList();
 		 LOGGER.info("List Size:: " +litigationSummary.size());
 		return litigationSummary.stream().map(allLitigationSummary -> convertToLitigationSummary(allLitigationSummary)).collect(Collectors.toList());
+	}
+
+	@Override
+	public LitigationSummaryVO getLitigationDetails(int id) {
+		Optional<Litigation> litigationDtls = litigationRepository.findById(id);
+		LitigationSummaryVO litigationSummaryVO = new LitigationSummaryVO();
+		litigationSummaryVO.setLitigationId(litigationDtls.get().getLitigationId());
+		litigationSummaryVO.setStatus(litigationDtls.get().getStatus().getStatus());
+		litigationSummaryVO.setFileNo(litigationDtls.get().getFileNo());
+		litigationSummaryVO.setEntityName(litigationDtls.get().getUnits().getEntitySummary().getEntityName());
+		litigationSummaryVO.setUnitName(litigationDtls.get().getUnits().getUnitName());
+		litigationSummaryVO.setCounterParty(litigationDtls.get().getCounterPartyDtls().getCustomerName());
+		litigationSummaryVO.setCustomerType(litigationDtls.get().getCustomerType().getCustomerType());
+		litigationSummaryVO.setCaseNumber(litigationDtls.get().getCaseNumber());
+		litigationSummaryVO.setSubject(litigationDtls.get().getSubject());
+		litigationSummaryVO.setStage(litigationDtls.get().getStage());
+		litigationSummaryVO.setHearingDate(litigationDtls.get().getNextDateOfHearing());
+		litigationSummaryVO.setRiskLevel(litigationDtls.get().getRisk().getRisk());
+		litigationSummaryVO.setPossibleClaim(litigationDtls.get().getClaim().getClaim());
+		litigationSummaryVO.setRemark(litigationDtls.get().getRemark());
+		litigationSummaryVO.setZoneName(litigationDtls.get().getUnits().getRegions().getZoneName());
+		litigationSummaryVO.setMatterByAgainst(litigationDtls.get().getUnits().getEntitySummary().getEntityName());
+		litigationSummaryVO.setAgainstPartyClientType(litigationDtls.get().getAgainstPartyClientType());
+		litigationSummaryVO.setCoCounterParties(litigationDtls.get().getCoCounterParties());
+		litigationSummaryVO.setCoZone(litigationDtls.get().getCoRegion());
+		litigationSummaryVO.setAddress(litigationDtls.get().getAddress());
+		litigationSummaryVO.setFunction(litigationDtls.get().getDept().getDeptName());
+		litigationSummaryVO.setFormat(litigationDtls.get().getFormat().getFormat());
+		return litigationSummaryVO;
 	}
 
 	

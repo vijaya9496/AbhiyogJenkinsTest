@@ -17,7 +17,7 @@ public class LitigationMatterByAgainst {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "litigation_matter_by_against_id")
+	@Column(name = "litigationmatterbyagainstoid")
 	private int litigationMatterByAgainstId;
 
 	@ManyToOne(cascade=CascadeType.PERSIST)
@@ -26,7 +26,7 @@ public class LitigationMatterByAgainst {
 	private Litigation litigation;
 
 	@ManyToOne(cascade=CascadeType.PERSIST)
-	@JoinColumn(name = "representative_id")//matter_by_against_id
+	@JoinColumn(name = "matterbyagainstoid")//matter_by_against_id
 	private LtgnRepresentativeMaster ltgnRepresentativeMaster;
 
 	public int getLitigationMatterByAgainstId() {

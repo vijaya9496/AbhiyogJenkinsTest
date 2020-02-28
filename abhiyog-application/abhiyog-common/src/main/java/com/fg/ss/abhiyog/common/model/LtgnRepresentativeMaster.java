@@ -18,21 +18,21 @@ public class LtgnRepresentativeMaster {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "representative_id")
+	@Column(name = "representativeoid")
 	private int representativeId;
 
-	@Column(name = "representative_name")
+	@Column(name = "representativename")
 	private String representativeName;
 
 	@Column(name = "status")
 	private String status;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "representative_id")
+	@JoinColumn(name = "representativeoid")
 	private List<Litigation> litigation;
 
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="representative_id")
+	@JoinColumn(name="representativeoid")
 	private List<LitigationMatterByAgainst> litigationMatterByAgainst;
 	
 	public int getRepresentativeId() {

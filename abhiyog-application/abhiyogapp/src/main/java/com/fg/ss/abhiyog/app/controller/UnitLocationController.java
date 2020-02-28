@@ -44,7 +44,7 @@ public class UnitLocationController {
 	private IEntityService entityService;
 	
 	@RequestMapping(value = "/showUnitLocationSummary", method = RequestMethod.GET)
-	public String showFormatSummary(Model model) {
+	public String showUnitLocationSummary(Model model) {
 		model.addAttribute("unitSummaryVO", new UnitSummaryVO());
 		model.addAttribute("allEntities", entityService.getAllEntities());
 		model.addAttribute("allRegions", zoneService.getAllZones());
@@ -52,7 +52,7 @@ public class UnitLocationController {
 	}
 	
 	@RequestMapping(value = "/getUnitLocationSummary", method = RequestMethod.GET)
-	public void getFormatSummary(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public void getUnitLocationSummary(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		List<UnitSummaryVO> allUnitSummary = unitsSummaryService.getUnitSummary();
 		fillGridDetail(allUnitSummary, request, response, session);
 	}

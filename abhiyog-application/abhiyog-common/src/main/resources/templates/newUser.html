@@ -4,7 +4,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Insert title here</title>
+<title>New User</title>
 </head>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" media="screen"
@@ -62,15 +62,15 @@
 								<ul>
 									<li>
 										<div class="filter-form">
-											<label>Login ID:</label> <input type="text" name="loginId"
+											<label><sup class="red">*</sup>Login ID:</label> <input type="text" name="loginId"
 												id="loginId" required="required" />
 										</div>
 									</li>
 									<li class="last">
 										<div class="filter-form">
-											<label for="usr">Role</label> <select id="role"
+											<label for="usr"><sup class="red">*</sup>Role</label> <select id="role"
 												th:field="*{roleDesc}" class="custom-select">
-												<option value="ALL">ALL</option>
+												<option value="Select">Select</option>
 												<option th:each="role: ${allRoles}"
 													th:value="${role.roleDesc}" th:text="${role.roleDesc}">test</option>
 											</select>
@@ -82,13 +82,13 @@
 								<ul>
 									<li>
 										<div class="filter-form">
-											<label>Password:</label> <input type="password"
+											<label><sup class="red">*</sup>Password:</label> <input type="password"
 												name="password" id="password" required="required" />
 										</div>
 									</li>
 									<li class="last">
 										<div class="filter-form">
-											<label>Confirm Password:</label> <input type="password"
+											<label><sup class="red">*</sup>Confirm Password:</label> <input type="password"
 												name="confpassword" id="confpassword" required="required" />
 										</div>
 									</li>
@@ -102,20 +102,20 @@
 								<ul>
 									<li>
 										<div class="filter-form">
-											<label>FirstName:</label> <input type="text" name="firstName"
+											<label><sup class="red">*</sup>FirstName:</label> <input type="text" name="firstName"
 												id="firstName" required="required" />
 										</div>
 									</li>
 									<li>
 										<div class="filter-form">
 											<label>MiddleName:</label> <input type="text"
-												name="middleName" id="middleName" required="required" />
+												name="middleName" id="middleName"  />
 										</div>
 									</li>
 									<li class="last">
 										<div class="filter-form">
 											<label>LastName:</label> <input type="text" name="lastName"
-												id="lastName" required="required" />
+												id="lastName"  />
 										</div>
 									</li>
 								</ul>
@@ -125,7 +125,7 @@
 									<li>
 										<div class="filter-form">
 											<label>Address:</label> <input type="text" name="address"
-												id="address" required="required" />
+												id="address" />
 										</div>
 									</li>
 									<li>
@@ -147,12 +147,12 @@
 										<div class="filter-form">
 											<label>Mobile:</label> <input type="text" name="mobile"
 												id="mobile" onkeypress="return isNumberKey(event)"
-												required="required" />
+												/>
 										</div>
 									</li>
 									<li>
 										<div class="filter-form">
-											<label>Company Email ID:</label> <input type="email"
+											<label><sup class="red">*</sup>Company Email ID:</label> <input type="email"
 												name="emailId" id="emailId" required="required"
 												pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" />
 										</div>
@@ -168,7 +168,7 @@
 							</div>
 							<div class="bottom-buttons">
 								<button type="submit" id="submitBtn" value="SUBMIT"
-									class="btn btn-primary" disabled>SUBMIT</button>
+									class="btn btn-primary">SUBMIT</button>
 								<button type="button" id="resetBtn" value="RESET"
 									class="btn btn-secondary">RESET</button>
 								<button type="button" id="cancelBtn" value="CANCEL"

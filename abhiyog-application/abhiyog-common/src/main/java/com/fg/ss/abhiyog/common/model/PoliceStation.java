@@ -20,14 +20,14 @@ public class PoliceStation {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "police_station_id")
+	@Column(name = "policestationoid")
 	private int policeStationId;
 
-	@Column(name = "police_station")
+	@Column(name = "policestation")
 	private String policeStation;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "city_id")
+	@JoinColumn(name = "cityoid")
 	private City city;
 
 	@OneToMany(cascade = CascadeType.ALL)

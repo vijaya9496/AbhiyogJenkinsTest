@@ -15,4 +15,6 @@ public interface IOutsideCounselService {
 
 	List<OutsideCounselVO> findAll();
 
+	OutsideCounselVO getOutsideCounselProfile(int parseInt);
+
 }

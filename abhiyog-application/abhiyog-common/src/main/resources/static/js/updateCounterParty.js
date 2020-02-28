@@ -39,10 +39,10 @@ jQuery(document).ready(function() {
 		}
 	});
 	
-	jQuery("#cancelBtn").click(function() {
-		var urlStr = "/showCounterPartySummary";
-		$("#addNewUserForm").attr("action", urlStr);
-		$("#addNewUserForm").attr("method", "GET");
-		$("#addNewUserForm").submit();
+	$('#cancelBtn').click(function() {
+		var urlStr = "/showCustomerSummary";
+		$("#updateCounterPartyForm").attr("action", urlStr);
+		$("#updateCounterPartyForm").attr("method", "GET");
+		$("#updateCounterPartyForm").submit();
 	});
 });

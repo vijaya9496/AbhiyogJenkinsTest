@@ -21,38 +21,38 @@ public class Units {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "unit_id")
+	@Column(name = "unitoid")
 	private int unitId;
 
-	@Column(name = "unit_name")
+	@Column(name = "unitname")
 	private String unitName;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "entity_id")
+	@JoinColumn(name = "entityoid")
 	private EntitySummary entitySummary;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "regions_id")
+	@JoinColumn(name = "regionoid")
 	private Zone regions;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "country_id")
+	@JoinColumn(name = "countryoid")
 	private Country country;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "unit_id")
+	@JoinColumn(name = "unitoid")
 	private List<UnitHeads> unitHeads;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "unit_id")
+	@JoinColumn(name = "unitoid")
 	private List<ShowCauseNotice> showCauseNotice;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "unit_id")
+	@JoinColumn(name = "unitoid")
 	private List<Litigation> litigation;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "unit_id")
+	@JoinColumn(name = "unitoid")
 	private List<LitigationUnits> litigationUnits;
 
 	public int getUnitId() {

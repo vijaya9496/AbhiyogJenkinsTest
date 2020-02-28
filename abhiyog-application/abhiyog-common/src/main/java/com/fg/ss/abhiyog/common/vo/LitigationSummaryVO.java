@@ -14,12 +14,22 @@ public class LitigationSummaryVO {
 	private String customerType;
 	private String caseNumber;
 	private String subject;
-	private String stage;
+	private String stage; // currentStage
 	private LocalDate hearingDate;
 	private String riskLevel;
 	private String possibleClaim;
 	private String remark;
 	private String zoneName;
+	private String coCounterParties;
+	private String coParties;
+	private String format;
+	private String coFormat;
+	private String coZone;
+	private String matterByAgainst; // matterBy/Against
+	private String function; // deptName
+	private String address;
+	private String againstPartyClientType;
+
 	private int litigationOId;
 
 	public String getLitigationId() {
@@ -148,6 +158,78 @@ public class LitigationSummaryVO {
 
 	public void setCustomerType(String customerType) {
 		this.customerType = customerType;
+	}
+
+	public String getCoCounterParties() {
+		return coCounterParties;
+	}
+
+	public void setCoCounterParties(String coCounterParties) {
+		this.coCounterParties = coCounterParties;
+	}
+
+	public String getCoParties() {
+		return coParties;
+	}
+
+	public void setCoParties(String coParties) {
+		this.coParties = coParties;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
+	public String getCoFormat() {
+		return coFormat;
+	}
+
+	public void setCoFormat(String coFormat) {
+		this.coFormat = coFormat;
+	}
+
+	public String getCoZone() {
+		return coZone;
+	}
+
+	public void setCoZone(String coZone) {
+		this.coZone = coZone;
+	}
+
+	public String getMatterByAgainst() {
+		return matterByAgainst;
+	}
+
+	public void setMatterByAgainst(String matterByAgainst) {
+		this.matterByAgainst = matterByAgainst;
+	}
+
+	public String getFunction() {
+		return function;
+	}
+
+	public void setFunction(String function) {
+		this.function = function;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getAgainstPartyClientType() {
+		return againstPartyClientType;
+	}
+
+	public void setAgainstPartyClientType(String againstPartyClientType) {
+		this.againstPartyClientType = againstPartyClientType;
 	}
 
 }

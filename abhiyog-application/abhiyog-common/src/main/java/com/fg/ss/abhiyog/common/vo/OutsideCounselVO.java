@@ -4,13 +4,14 @@ public class OutsideCounselVO {
 
 	private String function;
 	private String lawfirm;
-	private String lawfirmHead; //partner
+	private String lawfirmHead; // partner
 	private String emailId;
 	private String address;
 	private String mobile;
 	private String telephone;
 	private String faxNo;
 	private String website;
+	private int lawfirmId; // id
 
 	public String getFunction() {
 		return function;
@@ -27,8 +28,6 @@ public class OutsideCounselVO {
 	public void setLawfirm(String lawfirm) {
 		this.lawfirm = lawfirm;
 	}
-
-	
 
 	public String getLawfirmHead() {
 		return lawfirmHead;
@@ -84,6 +83,14 @@ public class OutsideCounselVO {
 
 	public void setWebsite(String website) {
 		this.website = website;
+	}
+
+	public int getLawfirmId() {
+		return lawfirmId;
+	}
+
+	public void setLawfirmId(int lawfirmId) {
+		this.lawfirmId = lawfirmId;
 	}
 
 	@Override

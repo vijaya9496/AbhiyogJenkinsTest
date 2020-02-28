@@ -64,6 +64,8 @@ public class LoginController {
 		System.out.println("LoginId: " +userVO.getLoginId());
 		LOGGER.info("LoginId: " +userVO.getLoginId());
 		ModelAndView modelAndView = new ModelAndView();
+//		HttpSession session = request.getSession();
+//		session.setAttribute(name, value);
 		UserVO user = loginService.validateUser(userVO.getLoginId(), userVO.getPassword());
 		if(user == null) {
 			modelAndView.setViewName(USER_LOGIN);

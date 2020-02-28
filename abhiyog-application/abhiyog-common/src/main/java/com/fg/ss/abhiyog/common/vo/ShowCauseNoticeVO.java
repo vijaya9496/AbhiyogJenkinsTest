@@ -1,5 +1,6 @@
 package com.fg.ss.abhiyog.common.vo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,16 +14,17 @@ public class ShowCauseNoticeVO {
 	private String unitName;
 	private String noticeCategoryName;
 	private String receivedFrom;
-	private Date issueDate;
-	private Date receivedDate;
-	private Date noticeReplyDeadline;
+	private LocalDate issueDate;
+	private LocalDate receivedDate;
+	private LocalDate noticeReplyDeadline;
 	private String subject;
 	private String referenceNo;
 	private String comments;
 	private String actionTaken;
-//	private String uploadFile;
+	private String uploadFile;
 	private String natureOfIpInfringement;
 	private int showCauseNoticeId;
+	private int showCauseNoticeFormId;
 	private String section;
 	private String advocateName; // notice sent to
 	private String advocateAddress; // notice sent address
@@ -38,8 +40,15 @@ public class ShowCauseNoticeVO {
 	private String vehicleModelNumber;
 	private String function;
 	private String owner;
-	private List<String> document = new ArrayList<String>();
+	private List<String> document = new ArrayList<String>(); // used in showCauseNoticeSummary
+	private String docName;
 	private String status;
+	private String applicableSection;
+	private String noticeSentTo;
+	private String noticeSentAddress;
+	private List<Long> fileSize;
+	private String commentsDoc; // ShowCausenoticeForms Comments Field.
+	private int reqId; // using in updateNotice
 
 	public String getLoginId() {
 		return loginId;
@@ -97,27 +106,27 @@ public class ShowCauseNoticeVO {
 		this.receivedFrom = receivedFrom;
 	}
 
-	public Date getIssueDate() {
+	public LocalDate getIssueDate() {
 		return issueDate;
 	}
 
-	public void setIssueDate(Date issueDate) {
+	public void setIssueDate(LocalDate issueDate) {
 		this.issueDate = issueDate;
 	}
 
-	public Date getReceivedDate() {
+	public LocalDate getReceivedDate() {
 		return receivedDate;
 	}
 
-	public void setReceivedDate(Date receivedDate) {
+	public void setReceivedDate(LocalDate receivedDate) {
 		this.receivedDate = receivedDate;
 	}
 
-	public Date getNoticeReplyDeadline() {
+	public LocalDate getNoticeReplyDeadline() {
 		return noticeReplyDeadline;
 	}
 
-	public void setNoticeReplyDeadline(Date noticeReplyDeadline) {
+	public void setNoticeReplyDeadline(LocalDate noticeReplyDeadline) {
 		this.noticeReplyDeadline = noticeReplyDeadline;
 	}
 
@@ -305,77 +314,107 @@ public class ShowCauseNoticeVO {
 		this.status = status;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("ShowCauseNoticeVO [loginId=");
-		builder.append(loginId);
-		builder.append(", entityName=");
-		builder.append(entityName);
-		builder.append(", formatName=");
-		builder.append(formatName);
-		builder.append(", zoneName=");
-		builder.append(zoneName);
-		builder.append(", unitName=");
-		builder.append(unitName);
-		builder.append(", noticeCategoryName=");
-		builder.append(noticeCategoryName);
-		builder.append(", receivedFrom=");
-		builder.append(receivedFrom);
-		builder.append(", issueDate=");
-		builder.append(issueDate);
-		builder.append(", receivedDate=");
-		builder.append(receivedDate);
-		builder.append(", noticeReplyDeadline=");
-		builder.append(noticeReplyDeadline);
-		builder.append(", subject=");
-		builder.append(subject);
-		builder.append(", referenceNo=");
-		builder.append(referenceNo);
-		builder.append(", comments=");
-		builder.append(comments);
-		builder.append(", actionTaken=");
-		builder.append(actionTaken);
-		builder.append(", natureOfIpInfringement=");
-		builder.append(natureOfIpInfringement);
-		builder.append(", showCauseNoticeId=");
-		builder.append(showCauseNoticeId);
-		builder.append(", section=");
-		builder.append(section);
-		builder.append(", advocateName=");
-		builder.append(advocateName);
-		builder.append(", advocateAddress=");
-		builder.append(advocateAddress);
-		builder.append(", allegation=");
-		builder.append(allegation);
-		builder.append(", claims=");
-		builder.append(claims);
-		builder.append(", noticeClassification=");
-		builder.append(noticeClassification);
-		builder.append(", complaintName=");
-		builder.append(complaintName);
-		builder.append(", complaintAddress=");
-		builder.append(complaintAddress);
-		builder.append(", dealerName=");
-		builder.append(dealerName);
-		builder.append(", dealerAddress=");
-		builder.append(dealerAddress);
-		builder.append(", otherParties=");
-		builder.append(otherParties);
-		builder.append(", partyNo=");
-		builder.append(partyNo);
-		builder.append(", vehicleModelNumber=");
-		builder.append(vehicleModelNumber);
-		builder.append(", function=");
-		builder.append(function);
-		builder.append(", owner=");
-		builder.append(owner);
-		builder.append(", document=");
-		builder.append(document);
-		builder.append(", status=");
-		builder.append(status);
-		builder.append("]");
-		return builder.toString();
+	public String getApplicableSection() {
+		return applicableSection;
 	}
+
+	public void setApplicableSection(String applicableSection) {
+		this.applicableSection = applicableSection;
+	}
+
+	public String getNoticeSentTo() {
+		return noticeSentTo;
+	}
+
+	public void setNoticeSentTo(String noticeSentTo) {
+		this.noticeSentTo = noticeSentTo;
+	}
+
+	public String getNoticeSentAddress() {
+		return noticeSentAddress;
+	}
+
+	public void setNoticeSentAddress(String noticeSentAddress) {
+		this.noticeSentAddress = noticeSentAddress;
+	}
+
+	public String getUploadFile() {
+		return uploadFile;
+	}
+
+	public void setUploadFile(String uploadFile) {
+		this.uploadFile = uploadFile;
+	}
+
+	public List<Long> getFileSize() {
+		return fileSize;
+	}
+
+	public void setFileSize(List<Long> fileSize) {
+		this.fileSize = fileSize;
+	}
+
+	public String getCommentsDoc() {
+		return commentsDoc;
+	}
+
+	public void setCommentsDoc(String commentsDoc) {
+		this.commentsDoc = commentsDoc;
+	}
+
+	public int getShowCauseNoticeFormId() {
+		return showCauseNoticeFormId;
+	}
+
+	public void setShowCauseNoticeFormId(int showCauseNoticeFormId) {
+		this.showCauseNoticeFormId = showCauseNoticeFormId;
+	}
+
+	public String getDocName() {
+		return docName;
+	}
+
+	public void setDocName(String docName) {
+		this.docName = docName;
+	}
+
+	/*
+	 * @Override public String toString() { StringBuilder builder = new
+	 * StringBuilder(); builder.append("ShowCauseNoticeVO [loginId=");
+	 * builder.append(loginId); builder.append(", entityName=");
+	 * builder.append(entityName); builder.append(", formatName=");
+	 * builder.append(formatName); builder.append(", zoneName=");
+	 * builder.append(zoneName); builder.append(", unitName=");
+	 * builder.append(unitName); builder.append(", noticeCategoryName=");
+	 * builder.append(noticeCategoryName); builder.append(", receivedFrom=");
+	 * builder.append(receivedFrom); builder.append(", issueDate=");
+	 * builder.append(issueDate); builder.append(", receivedDate=");
+	 * builder.append(receivedDate); builder.append(", noticeReplyDeadline=");
+	 * builder.append(noticeReplyDeadline); builder.append(", subject=");
+	 * builder.append(subject); builder.append(", referenceNo=");
+	 * builder.append(referenceNo); builder.append(", comments=");
+	 * builder.append(comments); builder.append(", actionTaken=");
+	 * builder.append(actionTaken); builder.append(", natureOfIpInfringement=");
+	 * builder.append(natureOfIpInfringement);
+	 * builder.append(", showCauseNoticeId="); builder.append(showCauseNoticeId);
+	 * builder.append(", section="); builder.append(section);
+	 * builder.append(", advocateName="); builder.append(advocateName);
+	 * builder.append(", advocateAddress="); builder.append(advocateAddress);
+	 * builder.append(", allegation="); builder.append(allegation);
+	 * builder.append(", claims="); builder.append(claims);
+	 * builder.append(", noticeClassification=");
+	 * builder.append(noticeClassification); builder.append(", complaintName=");
+	 * builder.append(complaintName); builder.append(", complaintAddress=");
+	 * builder.append(complaintAddress); builder.append(", dealerName=");
+	 * builder.append(dealerName); builder.append(", dealerAddress=");
+	 * builder.append(dealerAddress); builder.append(", otherParties=");
+	 * builder.append(otherParties); builder.append(", partyNo=");
+	 * builder.append(partyNo); builder.append(", vehicleModelNumber=");
+	 * builder.append(vehicleModelNumber); builder.append(", function=");
+	 * builder.append(function); builder.append(", owner="); builder.append(owner);
+	 * builder.append(", document="); builder.append(document);
+	 * builder.append(", status="); builder.append(status); builder.append("]");
+	 * return builder.toString(); }
+	 */
 
 }

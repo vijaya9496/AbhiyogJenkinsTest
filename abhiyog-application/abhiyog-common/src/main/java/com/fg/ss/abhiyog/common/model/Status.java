@@ -15,14 +15,14 @@ import javax.persistence.Table;
 public class Status {
 
 	@Id
-	@Column(name = "status_id")
+	@Column(name = "statusoid")
 	private int statusId;
 
 	@Column(name = "status")
 	private String status;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="status_id")
+	@JoinColumn(name="statusoid")
 	private List<Litigation> litigation;
 
 	public int getStatusId() {

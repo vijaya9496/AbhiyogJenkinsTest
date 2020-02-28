@@ -20,18 +20,18 @@ public class CourtCity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "court_city_id")
+	@Column(name = "courtcityoid")
 	private int courtCityId;
 
-	@Column(name = "court_city")
+	@Column(name = "courtcity")
 	private String courtCity;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "city_id")
+	@JoinColumn(name = "cityoid")
 	private City city;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="court_city_id")
+	@JoinColumn(name="courtcityoid")
 	private List<Litigation> litigation;
 
 	public int getCourtCityId() {

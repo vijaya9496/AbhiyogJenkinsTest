@@ -19,17 +19,17 @@ public class Format {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "format_id")
+	@Column(name = "formatoid")
 	private int formatId;
 	@Column(name = "format")
 	private String format;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "format_id")
+	@JoinColumn(name = "formatoid")
 	private List<ShowCauseNotice> showCauseNotice;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="format_id")
+	@JoinColumn(name="formatoid")
 	private List<Litigation> litigation;
 
 	public int getFormatId() {

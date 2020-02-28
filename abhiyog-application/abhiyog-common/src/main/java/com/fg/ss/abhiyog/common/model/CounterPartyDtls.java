@@ -21,7 +21,7 @@ public class CounterPartyDtls {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "customer_id")
+	@Column(name = "customer_oid")
 	private int id;
 
 	@Column(name = "customer_name")
@@ -73,11 +73,11 @@ public class CounterPartyDtls {
 	private LocalDateTime createDate;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "dept_id")
+	@JoinColumn(name = "deptoid")
 	private Dept dept;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="customer_id")
+	@JoinColumn(name="customer_oid")
 	private List<Litigation> litigation;
 
 	public int getId() {

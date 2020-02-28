@@ -19,7 +19,7 @@ public class ShowCauseNoticeForms {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "showcause_notice_forms_id")
+	@Column(name = "showcausenoticeformsoid")
 	private int showCauseNoticeFormsId;
 
 	@Column(name = "input_doc_name")
@@ -34,21 +34,21 @@ public class ShowCauseNoticeForms {
 	@Column(name = "uploaded_date")
 	private LocalDateTime uploadedDate;
 
-	@Column(name = "doc_size")
+	@Column(name = "docsize")
 	private long docSize;
 
-	@Column(name = "file_data")
+	@Column(name = "filedata")
 	private byte[] fileData;
 
-	@Column(name = "file_extension")
+	@Column(name = "fileextension")
 	private String fileExtension;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "showcause_notice_id")
+	@JoinColumn(name = "showcausenoticeoid")
 	private ShowCauseNotice showCauseNotice;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "uploaded_by_id")
+	@JoinColumn(name = "uploaded_by_oid")
 	private User userDtls;
 
 	public int getShowCauseNoticeFormsId() {

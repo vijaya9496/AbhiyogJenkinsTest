@@ -23,10 +23,10 @@ public class LtgnLitigationLog {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "litigation_log_id")
+	@Column(name = "litigation_log_oid")
 	private int litigationLogId;
 
-	@Column(name = "customer_id")
+	@Column(name = "customer_oid")
 	private int customerId;
 
 	@Column(name = "customer_type")
@@ -35,7 +35,7 @@ public class LtgnLitigationLog {
 	@Column(name = "against_party_name")
 	private String againstPartyName;
 
-	@Column(name = "against_party_client")
+	@Column(name = "against_party_client_type")
 	private String againstPartyClient;
 
 	@Column(name = "against_party_advocate_name")
@@ -44,7 +44,7 @@ public class LtgnLitigationLog {
 	@Column(name = "against_party_advocate_mobile")
 	private String againstPartyAdvocateMobile;
 
-	@Column(name = "case_Type_id")
+	@Column(name = "case_Type_oid")
 	private String caseTypeId;
 
 	@Column(name = "case_number")
@@ -86,25 +86,25 @@ public class LtgnLitigationLog {
 	@Column(name = "time_of_case_am_pm")
 	private String timeOfCaseAMPM;
 
-	@Column(name = "litigation_handled_by_partner_id")
+	@Column(name = "litigation_handled_by_partner_oid")
 	private int litigationHandledByPartnerid;
 
-	@Column(name = "inhouse_counsel_id")
+	@Column(name = "inhouse_counsel_oid")
 	private int inHouseCounselId;
 
-	@Column(name = "inhouse_counsel_other_id")
+	@Column(name = "inhouse_counsel_other_oid")
 	private int inHouseCounselOtherId;
 
-	@Column(name = "outside_counsel_id")
+	@Column(name = "outside_counsel_oid")
 	private int ousideCounselId;
 
-	@Column(name = "outside_counsel_other_id")
+	@Column(name = "outside_counsel_other_oid")
 	private int outsideCounselOtherId;
 
 	@Column(name = "last_modified_date")
 	private Date lastModifiedDate;
 
-	@Column(name = "last_modified_by_counsel_id")
+	@Column(name = "last_modified_by_counsel_oid")
 	private int lastModifiedByCounselId;
 
 	@Column(name = "hearing_attended_by")
@@ -117,7 +117,7 @@ public class LtgnLitigationLog {
 	private String actionTaken;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "stage_master_id")
+	@JoinColumn(name = "stage_details_oid")
 	private StageMaster stageMaster;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -129,7 +129,7 @@ public class LtgnLitigationLog {
 	private User user;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "litigation_log_id")
+	@JoinColumn(name = "litigation_log_oid")
 	private LitigationHistoryTLog litigationHistoryTLog;
 
 	public int getLitigationLogId() {

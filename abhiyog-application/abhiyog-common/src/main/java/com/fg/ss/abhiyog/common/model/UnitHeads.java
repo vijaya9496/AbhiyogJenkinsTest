@@ -17,15 +17,15 @@ public class UnitHeads {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="unit_head_id")
+	@Column(name="oid")
 	private int unitHeadID;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="user_id")
+	@JoinColumn(name="unitheadoid")
 	private User user;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="unit_id")
+	@JoinColumn(name="unitoid")
 	private Units units;
 
 	public int getUnitHeadID() {

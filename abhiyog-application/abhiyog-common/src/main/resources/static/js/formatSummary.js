@@ -14,6 +14,7 @@ $(document).ready(function(){
 			name : 'format',
 			index : 'format',
 			width : 100,
+//			editable:true,
 			align : 'center'
 		},
 		{
@@ -28,6 +29,7 @@ $(document).ready(function(){
 		rowList : [ 5, 10, 20 ],
 		pager : '#formatSummarypager',
 		datatype : 'json',
+//		cellEdit : true,
 		loadonce : true,
 		viewrecords : true,
 		ignoreCase : true,

@@ -19,13 +19,13 @@ public class Country {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "country_id")
+	@Column(name = "country_oid")
 	private int countryId;
 	@Column(name = "country_name")
 	private String countryName;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "country_id")
+	@JoinColumn(name = "country_oid")
 	private List<Units> units;
 
 	public int getCountryId() {

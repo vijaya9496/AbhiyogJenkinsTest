@@ -19,4 +19,8 @@ public interface IEmailAlertSchedularService {
 	void saveMailLogData(String fromEmail, String emailId, String result, String message, LocalDate localDate);
 
 	List<EmailAlertLogVO> getAlertLogs();
+
+	EmailAlertLogVO getMailDesc(int parseInt);
+
+	List<EmailAlertLogVO> getAlertLogDtlsBy(LocalDate fromDate, LocalDate toDate, String mailStatus);
 }

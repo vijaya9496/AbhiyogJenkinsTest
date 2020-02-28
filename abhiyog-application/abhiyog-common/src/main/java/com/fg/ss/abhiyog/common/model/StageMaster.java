@@ -14,14 +14,14 @@ import javax.persistence.Table;
 public class StageMaster {
 
 	@Id
-	@Column(name="stage_master_id")
+	@Column(name="stagemasteroid")
 	private int stageMasterId;
 	
 	@Column(name="stage")
 	private String stage;
 	
 	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="stage_master_id")
+	@JoinColumn(name="stagemasteroid")
 	private LtgnLitigationLog  ltgnLitigationLog;
 
 	public int getStageMasterId() {

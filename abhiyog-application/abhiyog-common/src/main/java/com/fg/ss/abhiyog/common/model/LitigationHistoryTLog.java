@@ -18,24 +18,24 @@ public class LitigationHistoryTLog {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "litigation_historyt_log_id")
+	@Column(name = "litigationhistorytlogoid")
 	private int litigationHistoryTLogId;
 
-	@Column(name = "activity_type")
+	@Column(name = "activitytype")
 	private String activityType;
 
-	@Column(name = "create_date")
+	@Column(name = "createdt")
 	private LocalDateTime createDate;
 
-	@Column(name = "activity_description")
+	@Column(name = "activitydescription")
 	private String activityDescription;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "litigation_log_id")
+	@JoinColumn(name = "litigationlogoid")
 	private LtgnLitigationLog ltgnLitigationLog;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "updated_by_id")
+	@JoinColumn(name = "updatedbyoid")
 	private User user;
 
 	public int getLitigationHistoryTLogId() {

@@ -19,6 +19,11 @@ public interface ShowCauseNoticeRepository extends JpaRepository<ShowCauseNotice
 	List<ShowCauseNotice> getAllNoticeDtls();
 	
 	@Query(value="select scn from ShowCauseNotice scn where scn.showCauseNoticeId=:id")
-	ShowCauseNotice findByID(@Param("id")int id);
+	List<ShowCauseNotice> findByID(@Param("id")int id);
+
+	@Query(value="Select scn from ShowCauseNotice scn, ShowCauseNoticeForms scf where scn.showCauseNoticeId = scf.showCauseNotice.showCauseNoticeId and scn.showCauseNoticeId =:id ")
+	List<ShowCauseNotice> findNoticeDtls(@Param("id")int id);
+
+	
 
 }

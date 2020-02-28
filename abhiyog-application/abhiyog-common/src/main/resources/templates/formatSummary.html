@@ -50,27 +50,34 @@
 		<div class="middle-part midiile-bg">
 			<div class="middle-right">
 				<span class="welcome-head">ADD NEW FORMAT</span>
-				<div class="hidden_form">
-					<form id="formatSummaryForm" th:object="${formatVO}"
-						class="form-horizontal" action="#" th:action="@{/addNewFormat}" method="post">
-						<div class="filter-form">
-							<ul>
-								<li>
-									<div class="filter-form">
-										<label>Format:</label> <input type="text" name="format"
-											id="format" required="required" placeholder="Enter Format"/>
-									</div>
-								</li>
-							</ul>
-						</div>
-						<div class="bottom-buttons">
+				<!-- 				<div class="hidden_form"> -->
+				<form id="formatSummaryForm" th:object="${formatVO}"
+					class="form-horizontal" action="#" th:action="@{/addNewFormat}"
+					method="post">
+					<div class="filter-form">
+						<ul>
+							<li>
+								<div class="filter-form">
+									<label><sup class="red">*</sup>Format:</label> <input type="text" name="format"
+										id="format" required="required" placeholder="Enter Format" />
+								</div>
+								<div>
+								<button type="submit" id="addBtn" value="ADD"
+										class="btn btn-primary">ADD</button>
+									<button type="button" id="cancelBtn" value="CANCEL"
+										class="btn btn-secondary">CANCEL</button>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<!-- <div class="bottom-buttons">
 							<button type="submit" id="addBtn" value="ADD"
 								class="btn btn-primary">ADD</button>
 							<button type="button" id="cancelBtn" value="CANCEL"
 								class="btn btn-secondary">CANCEL</button>
-						</div>
-					</form>
-				</div>
+						</div> -->
+				</form>
+				<!-- 				</div> -->
 
 				<div class="data-tablemain">
 					<table id="formatSummary" class="bgtable">

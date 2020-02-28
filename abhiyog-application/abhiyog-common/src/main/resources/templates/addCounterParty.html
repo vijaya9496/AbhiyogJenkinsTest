@@ -40,9 +40,8 @@
 	th:src="@{js/grid.locale-en.js}"></script>
 <script src="../static/js/jquery.jqGrid.src-multiple1.js"
 	type="text/javascript" th:src="@{js/jquery.jqGrid.src-multiple1.js}"></script>
-<script type="text/javascript">
-
-</script>
+<script src="../static/js/addCounterParty.js" type="text/javascript"
+	th:src="@{js/addCounterParty.js}"></script>
 <div th:include="header :: header"></div>
 <body>
 	<div class="wrapper">
@@ -52,7 +51,8 @@
 			<div class="middle-right">
 				<span class="welcome-head">ADD NEW USER</span>
 				<div class="hidden_form">
-					<form id="addNewCounterPartyForm" action="#" th:action="@{/addCounterParty}" method="post"
+					<form id="addNewCounterPartyForm" action="#"
+						th:action="@{/addCounterParty}" method="post"
 						th:object="${counterPartyVO}">
 						<div class="filter-form">
 							<ul>
@@ -63,7 +63,7 @@
 								<ul>
 									<li class="last">
 										<div class="filter-form">
-											<label>Counter Party Name:</label> <input type="text"
+											<label><sup class="red">*</sup>Counter Party Name:</label> <input type="text"
 												name="counterPartyName" id="counterPartyName"
 												required="required" />
 										</div>
@@ -78,22 +78,20 @@
 								<ul>
 									<li>
 										<div class="filter-form">
-											<label>Name:</label> <input type="text"
-												name="contactPerson1" id="contactPerson1"
-												required="required" />
+											<label>Name:</label> <input type="text" name="contactPerson1"
+												id="contactPerson1" required="required" />
 										</div>
 									</li>
 									<li>
 										<div class="filter-form">
 											<label>Designation:</label> <input type="text"
-												name="designation1" id="designation1"
-												required="required" />
+												name="designation1" id="designation1" required="required" />
 										</div>
 									</li>
 									<li class="last">
 										<div class="filter-form">
-											<label>Mobile:</label> <input type="text"
-												name="mobile1" id="mobile1" onkeypress="return isNumberKey(event)"
+											<label>Mobile:</label> <input type="text" name="mobile1"
+												id="mobile1" onkeypress="return isNumberKey(event)"
 												required="required" />
 										</div>
 									</li>
@@ -101,26 +99,25 @@
 							</div>
 							<div class="filter-form">
 								<ul>
-									
+
 									<li>
 										<div class="filter-form">
-											<label>Email Id:</label> <input type="email"
-												name="emailId1" id="emailId1"
-												required="required" />
+											<label>Email Id:</label> <input type="email" name="emailId1"
+												id="emailId1" required="required"
+												pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" />
 										</div>
 									</li>
 									<li>
 										<div class="filter-form">
 											<label>Telephone No:</label> <input type="text"
 												name="telephone1" id="telephone1"
-												 />
+												onkeypress="return isNumberKey(event)" />
 										</div>
 									</li>
 									<li class="last">
 										<div class="filter-form">
-											<label>Fax No:</label> <input type="text"
-												name="faxNo1" id="faxNo1"
-												 />
+											<label>Fax No:</label> <input type="text" name="faxNo1"
+												id="faxNo1" />
 										</div>
 									</li>
 								</ul>
@@ -133,22 +130,20 @@
 								<ul>
 									<li>
 										<div class="filter-form">
-											<label>Name:</label> <input type="text"
-												name="contactPerson2" id="contactPerson2"
-												required="required" />
+											<label>Name:</label> <input type="text" name="contactPerson2"
+												id="contactPerson2" required="required" />
 										</div>
 									</li>
 									<li>
 										<div class="filter-form">
 											<label>Designation:</label> <input type="text"
-												name="designation2" id="designation2"
-												required="required" />
+												name="designation2" id="designation2" required="required" />
 										</div>
 									</li>
-									<li  class="last">
+									<li class="last">
 										<div class="filter-form">
-											<label>Mobile:</label> <input type="text"
-												name="mobile2" id="mobile2" onkeypress="return isNumberKey(event)"
+											<label>Mobile:</label> <input type="text" name="mobile2"
+												id="mobile2" onkeypress="return isNumberKey(event)"
 												required="required" />
 										</div>
 									</li>
@@ -158,23 +153,22 @@
 								<ul>
 									<li>
 										<div class="filter-form">
-											<label>Email Id:</label> <input type="email"
-												name="emailId2" id="emailId2"
-												required="required" />
+											<label>Email Id:</label> <input type="email" name="emailId2"
+												id="emailId2" required="required"
+												pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" />
 										</div>
 									</li>
 									<li>
 										<div class="filter-form">
 											<label>Telephone No:</label> <input type="text"
 												name="telephone2" id="telephone2"
-												 />
+												onkeypress="return isNumberKey(event)" />
 										</div>
 									</li>
 									<li class="last">
 										<div class="filter-form">
-											<label>Fax No:</label> <input type="text"
-												name="faxNo2" id="faxNo2"
-												 />
+											<label>Fax No:</label> <input type="text" name="faxNo2"
+												id="faxNo2" />
 										</div>
 									</li>
 								</ul>
@@ -183,15 +177,14 @@
 								<ul>
 									<li>
 										<div class="filter-form">
-											<label>Address:</label> <input type="text"
-												name="address" id="address"
-												required="required" />
+											<label>Address:</label> <input type="text" name="address"
+												id="address" required="required" />
 										</div>
 									</li>
 									<li class="last">
 										<div class="filter-form">
-											<label>Website:</label> <input type="text"
-												name="website" id="website"  />
+											<label>Website:</label> <input type="text" name="website"
+												id="website" />
 										</div>
 									</li>
 								</ul>

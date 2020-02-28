@@ -2,7 +2,7 @@ package com.fg.ss.abhiyog.common.service;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -13,7 +13,6 @@ import com.fg.ss.abhiyog.common.model.Dept;
 import com.fg.ss.abhiyog.common.model.LawFirm;
 import com.fg.ss.abhiyog.common.repository.DeptRepository;
 import com.fg.ss.abhiyog.common.repository.OutsideCounselRepository;
-import com.fg.ss.abhiyog.common.vo.CounterPartyVO;
 import com.fg.ss.abhiyog.common.vo.OutsideCounselVO;
 
 
@@ -57,7 +56,7 @@ public class OutsideCounselService implements IOutsideCounselService{
 		String website = outsideCounselVO.getWebsite() == null ? null: outsideCounselVO.getWebsite();
 		lawfirmDtls.setWebsite(website);
 		
-		Dept dept = deptRepository.findByDeptName(outsideCounselVO.getFunction());
+		Dept dept = deptRepository.findByDeptName("Legal");
 		lawfirmDtls.setDept(dept);
 		
 		outsideCounselRepository.save(lawfirmDtls);
@@ -78,6 +77,20 @@ public class OutsideCounselService implements IOutsideCounselService{
 		outsideCounselDto.setMobile(allCounselSummary.getMobile());
 		outsideCounselDto.setAddress(allCounselSummary.getAddress());
 		return outsideCounselDto;
+	}
+	@Override
+	public OutsideCounselVO getOutsideCounselProfile(int id) {
+		OutsideCounselVO outsideCounselVO = new OutsideCounselVO();
+		Optional<LawFirm> counselSummary = outsideCounselRepository.findById(id);
+		outsideCounselVO.setLawfirm(counselSummary.get().getLawfirm());
+		outsideCounselVO.setLawfirmHead(counselSummary.get().getLawfirmHead());
+		outsideCounselVO.setEmailId(counselSummary.get().getLawfirmHeadEmailId());
+		outsideCounselVO.setMobile(counselSummary.get().getMobile());
+		outsideCounselVO.setTelephone(counselSummary.get().getTelephone());
+		outsideCounselVO.setFaxNo(counselSummary.get().getFaxNo());
+		outsideCounselVO.setWebsite(counselSummary.get().getWebsite());
+		outsideCounselVO.setAddress(counselSummary.get().getAddress());
+		return outsideCounselVO;
 	}
 
 }

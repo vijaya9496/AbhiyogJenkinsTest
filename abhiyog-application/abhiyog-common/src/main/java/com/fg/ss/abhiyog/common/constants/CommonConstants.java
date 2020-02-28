@@ -9,4 +9,5 @@ public class CommonConstants {
 	public static final String PAGE_NO = "1";
 	public static final String RECORDS = "records";
 	public static final String ROWS = "rows";
+	public static final String NOTICE_ID = "NOTICE_ID";
 }

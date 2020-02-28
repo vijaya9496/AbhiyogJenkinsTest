@@ -164,58 +164,58 @@ public class LitigationController {
 			String matterByAgainst ="";
 			String litigationByAgainst = "";
 //			UserVO userVO = (UserVO) session.getAttribute(CommonConstants.SESSION_USER_VO);
-			System.out.println("ZoneName:: " +request.getParameter("zone"));
+			System.out.println("ZoneName:: " +request.getParameter("zoneName"));
 			System.out.println("Format:: " +request.getParameter("format"));
-			System.out.println("Entity::" + request.getParameter("entity"));
-			System.out.println("Function:: " +request.getParameter("function"));
-			System.out.println("counterParty:: " +request.getParameter("counterParty"));
-			System.out.println("Category:: " +request.getParameter("category"));
-			System.out.println("claim ::" +request.getParameter("possibleClaim"));
+			System.out.println("Entity::" + request.getParameter("entityName"));
+			System.out.println("Function:: " +request.getParameter("deptName"));
+			System.out.println("counterParty:: " +request.getParameter("counterPartyName"));
+			System.out.println("Category:: " +request.getParameter("categoryName"));
+			System.out.println("claim ::" +request.getParameter("claim"));
 			
-			if(request.getParameter("zone") != "0" && request.getParameter("zone") != null && request.getParameter("zone") != "") {
-				zone = request.getParameter("zone");
+			if(request.getParameter("zoneName") != "ALL") {
+				zone = request.getParameter("zoneName");
 			}
-			if(request.getParameter("format") != "0" && request.getParameter("format") != null && request.getParameter("format") != "") {
+			if(request.getParameter("format") != "ALL") {
 				format = request.getParameter("format");
 			}
-			if(request.getParameter("entity") != "0" && request.getParameter("entity") != null && request.getParameter("entity") != "") {
-				entity = request.getParameter("entity");
+			if(request.getParameter("entityName") != "ALL" && request.getParameter("entityName") != "null" && request.getParameter("entityName") != "") {
+				entity = request.getParameter("entityName");
 			}
-			if(request.getParameter("function") != "0" && request.getParameter("function") != null && request.getParameter("function") != "") {
-				function = request.getParameter("function");
+			if(request.getParameter("deptName") != "ALL" && request.getParameter("deptName") != "null" && request.getParameter("deptName") != "") {
+				function = request.getParameter("deptName");
 			}
-			if(request.getParameter("counterParty") != "0" && request.getParameter("counterParty") != null && request.getParameter("counterParty") != "") {
-				counterParty = request.getParameter("counterParty");
+			if(request.getParameter("counterPartyName") != "ALL" && request.getParameter("counterPartyName") != "null" && request.getParameter("counterPartyName") != "") {
+				counterParty = request.getParameter("counterPartyName");
 			}
-			if(request.getParameter("category") != "0" && request.getParameter("category") != null && request.getParameter("category") != "") {
-				category = request.getParameter("category");
+			if(request.getParameter("categoryName") != "ALL" && request.getParameter("categoryName") != "null" && request.getParameter("categoryName") != "") {
+				category = request.getParameter("categoryName");
 			}
-			if(request.getParameter("possibleClaim") != "0" && request.getParameter("possibleClaim") != null && request.getParameter("possibleClaim") != "") {
-				possibleClaim = request.getParameter("possibleClaim");
+			if(request.getParameter("claim") != "ALL" && request.getParameter("claim") != "null" && request.getParameter("claim") != "") {
+				possibleClaim = request.getParameter("claim");
 			}
-			if(request.getParameter("state") != "0" && request.getParameter("state") != null && request.getParameter("state") != "") {
-				state = request.getParameter("state");
+			if(request.getParameter("stateName") != "ALL" && request.getParameter("stateName") != "null" && request.getParameter("stateName") != "") {
+				state = request.getParameter("stateName");
 			}
-			if(request.getParameter("lawfirmIndividual") != "0" && request.getParameter("lawfirmIndividual") != null && request.getParameter("lawfirmIndividual") != "") {
-				lawfirmIndividual = request.getParameter("lawfirmIndividual");
+			if(request.getParameter("lawfirm") != "ALL" && request.getParameter("lawfirm") != "null" && request.getParameter("lawfirm") != "") {
+				lawfirmIndividual = request.getParameter("lawfirm");
 			}
-			if(request.getParameter("courtType") != "0" && request.getParameter("courtType") != null && request.getParameter("courtType") != "") {
-				courtType = request.getParameter("courtType");
+			if(request.getParameter("courtTypeName") != "ALL" && request.getParameter("courtTypeName") != "null" && request.getParameter("courtTypeName") != "") {
+				courtType = request.getParameter("courtTypeName");
 			}
-			if(request.getParameter("underActs") != "0" && request.getParameter("underActs") != null && request.getParameter("underActs") != "") {
-				underActs = request.getParameter("underActs");
+			if(request.getParameter("underActName") != "ALL" && request.getParameter("underActName") != "null" && request.getParameter("underActName") != "") {
+				underActs = request.getParameter("underActName");
 			}
-			if(request.getParameter("risk") != "0" && request.getParameter("risk") != null && request.getParameter("risk") != "") {
+			if(request.getParameter("risk") != "ALL" && request.getParameter("risk") != "null" && request.getParameter("risk") != "") {
 				risk = request.getParameter("risk");
 				System.out.println("Selected Risk:: " +risk);
 			}
-			if(request.getParameter("status") != "0" && request.getParameter("status") != null && request.getParameter("status") != "") {
+			if(request.getParameter("status") != "ALL" && request.getParameter("status") != "null" && request.getParameter("status") != "") {
 				status = request.getParameter("status");
 			}
-			if(request.getParameter("matterByAgainst") != "0" && request.getParameter("matterByAgainst") != null && request.getParameter("matterByAgainst") != "") {
-				matterByAgainst = request.getParameter("matterByAgainst");
+			if(request.getParameter("matterBy") != "ALL" && request.getParameter("matterBy") != "null" && request.getParameter("matterBy") != "") {
+				matterByAgainst = request.getParameter("matterBy");
 			}
-			if(request.getParameter("litigationByAgainst") != "0" && request.getParameter("litigationByAgainst") != null && request.getParameter("litigationByAgainst") != "") {
+			if(request.getParameter("litigationByAgainst") != "ALL" && request.getParameter("litigationByAgainst") != "null" && request.getParameter("litigationByAgainst") != "") {
 				litigationByAgainst = request.getParameter("litigationByAgainst");
 			}
 			
@@ -255,6 +255,15 @@ public class LitigationController {
 			LOGGER.error("Exception generated in litigationSummaryData Method:: " + e.getMessage(), e);
 			e.printStackTrace();
 		}
+		
+	}
+	
+	@RequestMapping(value="/viewLitigationDetails")
+	public String viewLitigationDetails(Model model,HttpServletRequest request) {
+		model.addAttribute("litigationSummaryVO", new LitigationSummaryVO());
+		System.out.println("ID::" +request.getParameter("id"));
+		model.addAttribute("allLitiagtionDtls", litigationService.getLitigationDetails(Integer.parseInt(request.getParameter("id"))));
+		return "litigationDetails";
 		
 	}
 }

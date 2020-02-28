@@ -19,7 +19,7 @@ public interface UnitHeadsRepository extends JpaRepository<UnitHeads, Integer>{
 
 	@Modifying
 	@Transactional
-	@Query(value="insert into unitheads (user_id,unit_id) values (?1, ?2)", nativeQuery=true)
+	@Query(value="insert into unitheads (unitheadoid,unitoid) values (?1, ?2)", nativeQuery=true)
 	int saveUnitHeadData(int user_id, int unitId);
 
 	@Query(value="select h from UnitHeads h where h.user.id=:id and h.units.unitId=:unitId")
@@ -30,7 +30,7 @@ public interface UnitHeadsRepository extends JpaRepository<UnitHeads, Integer>{
 
 	@Modifying
 	@Transactional
-	@Query(value="delete h from unitheads h inner join ltgn_user u on u.user_id=h.user_id where u.first_name=:firstName and u.last_name=:lastName",nativeQuery=true)
+	@Query(value="delete h from unitheads h inner join ltgn_user u on u.user_id=h.unitheadoid where u.first_name=:firstName and u.last_name=:lastName",nativeQuery=true)
 	int deleteUserId(@Param("firstName")String firstName, @Param("lastName") String lastName);
 
 }

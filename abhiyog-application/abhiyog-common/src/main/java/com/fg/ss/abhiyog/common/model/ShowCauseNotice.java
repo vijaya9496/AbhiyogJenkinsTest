@@ -1,5 +1,6 @@
 package com.fg.ss.abhiyog.common.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "showcausenotice")
@@ -22,22 +27,26 @@ public class ShowCauseNotice {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "showcause_notice_id")
+	@Column(name = "showcausenoticeoid")
 	private int showCauseNoticeId;
 
-	@Column(name = "notice_received_from")
+	@Column(name = "noticereceivedfrom")
 	private String noticeReceivedFrom;
 
-	@Column(name = "notice_received_date")
-	private Date noticeReceivedDate;
+	@Column(name = "noticereceiveddt")
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
+//	@Temporal(TemporalType.TIMESTAMP)
+	private LocalDate noticeReceivedDate;
 
-	@Column(name = "notice_reply_deadline")
-	private Date noticeReplyDeadline;
+	@Column(name = "noticereplydeadline")
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
+//	@Temporal(TemporalType.TIMESTAMP)
+	private LocalDate noticeReplyDeadline;
 
 	@Column(name = "comment")
 	private String comment;
 
-	@Column(name = "create_date")
+	@Column(name = "createdt")
 	private LocalDateTime createDate;
 
 	@Column(name = "status")
@@ -46,16 +55,18 @@ public class ShowCauseNotice {
 	@Column(name = "subject")
 	private String subject;
 
-	@Column(name = "issue_date")
-	private Date issueDate;
+	@Column(name = "issuedt")
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
+//	@Temporal(TemporalType.TIMESTAMP)
+	private LocalDate issueDate;
 
-	@Column(name = "reference_no")
+	@Column(name = "referenceno")
 	private String referenceNo;
 
-	@Column(name = "advocate_name")
+	@Column(name = "advocatename")
 	private String advocateName;
 
-	@Column(name = "advocate_address")
+	@Column(name = "advocateaddress")
 	private String advocateAddress;
 
 	@Column(name = "allegation")
@@ -64,61 +75,61 @@ public class ShowCauseNotice {
 	@Column(name = "claims")
 	private int claims;
 
-	@Column(name = "notice_sent_complaint_name")
+	@Column(name = "noticesent_complaint_name")
 	private String noticeSentComplaintName;
 
-	@Column(name = "notice_sent_complaint_address")
+	@Column(name = "noticesent_complaint_address")
 	private String noticeSentComplaintAddress;
 
-	@Column(name = "nature_of_ip_infringement")
+	@Column(name = "natureofipinfringement")
 	private String natureOfIpInfringement;
 
 	@Column(name = "section")
 	private String section;
 
-	@Column(name = "dealer_name")
+	@Column(name = "dealername")
 	private String dealerName;
 
-	@Column(name = "dealer_address")
+	@Column(name = "dealeraddress")
 	private String dealerAddress;
 
-	@Column(name = "other_parties")
+	@Column(name = "otherparties")
 	private String otherParties;
 
-	@Column(name = "party_no")
+	@Column(name = "partyno")
 	private String partyNo;
 
-	@Column(name = "vehicle_model_number")
+	@Column(name = "vehiclemodelnumber")
 	private String vehicleModelNumber;
 
-	@Column(name = "action_taken")
+	@Column(name = "actiontaken")
 	private String actionTaken;
 
-	@Column(name = "owner_id")
+	@Column(name = "owner_oid")
 	private int ownerId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "dept_id")
+	@JoinColumn(name = "deptoid")
 	private Dept dept;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "unit_id")
+	@JoinColumn(name = "unitoid")
 	private Units units;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "format_id")
+	@JoinColumn(name = "formatoid")
 	private Format format;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "notice_category_id")
+	@JoinColumn(name = "noticecategoryoid")
 	private NoticeCategory noticeCategory;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "notice_classification_id")
+	@JoinColumn(name = "noticeclassificationoid")
 	private NoticeClassification noticeClassification;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "uploaded_by_id")
+	@JoinColumn(name = "uploaded_by_oid")
 	private User user;
 
 	@OneToMany(mappedBy = "showCauseNotice")
@@ -140,19 +151,19 @@ public class ShowCauseNotice {
 		this.noticeReceivedFrom = noticeReceivedFrom;
 	}
 
-	public Date getNoticeReceivedDate() {
+	public LocalDate getNoticeReceivedDate() {
 		return noticeReceivedDate;
 	}
 
-	public void setNoticeReceivedDate(Date noticeReceivedDate) {
+	public void setNoticeReceivedDate(LocalDate noticeReceivedDate) {
 		this.noticeReceivedDate = noticeReceivedDate;
 	}
 
-	public Date getNoticeReplyDeadline() {
+	public LocalDate getNoticeReplyDeadline() {
 		return noticeReplyDeadline;
 	}
 
-	public void setNoticeReplyDeadline(Date noticeReplyDeadline) {
+	public void setNoticeReplyDeadline(LocalDate noticeReplyDeadline) {
 		this.noticeReplyDeadline = noticeReplyDeadline;
 	}
 
@@ -188,11 +199,11 @@ public class ShowCauseNotice {
 		this.subject = subject;
 	}
 
-	public Date getIssueDate() {
+	public LocalDate getIssueDate() {
 		return issueDate;
 	}
 
-	public void setIssueDate(Date issueDate) {
+	public void setIssueDate(LocalDate issueDate) {
 		this.issueDate = issueDate;
 	}
 

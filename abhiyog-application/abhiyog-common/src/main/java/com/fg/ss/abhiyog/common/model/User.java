@@ -78,7 +78,7 @@ public class User {
 	private Role roles;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "unitheadoid")
 	private List<UnitHeads> unitHeads;
 
 	@OneToMany(mappedBy = "user")

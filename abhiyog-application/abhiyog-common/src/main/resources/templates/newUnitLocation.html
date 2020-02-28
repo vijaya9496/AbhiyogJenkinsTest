@@ -56,20 +56,20 @@
 						th:action="@{/addNewUnitLocation}" method="post">
 						<div class="filter-form">
 							<ul>
-								<li><label for="usr">Entity</label> <select id="entityName"
+								<li><label for="usr"><sup class="red">*</sup>Entity</label> <select id="entityName"
 									th:field="*{entityName}"class="custom-select">
-<!-- 										<option value="ALL">ALL</option> -->
+										<option value="Select">Select</option>
 										<option th:each="entity: ${allEntities}"
 											th:value="${entity.entityName}"
 											th:text="${entity.entityName}">test</option>
 								</select></li>
-								<li><label for="usr">Zone</label> <select id="zoneName" th:field="*{zoneName}"
+								<li><label for="usr"><sup class="red">*</sup>Zone</label> <select id="zoneName" th:field="*{zoneName}"
 									class="custom-select">
-<!-- 										<option value="ALL">ALL</option> -->
+										<option value="Select">Select</option>
 										<option th:each="regions: ${allRegions}"
 											th:value="${regions.zoneName}" th:text="${regions.zoneName}">test</option>
 								</select></li>
-								<li class="last"><label> UnitName</label>
+								<li class="last"><label for="usr"><sup class="red">*</sup>UnitName</label>
 								<input type="text" name="unitName" id="unitName"
 									required="required" /></li>
 							</ul>

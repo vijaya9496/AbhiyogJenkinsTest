@@ -35,6 +35,7 @@ $(document).ready(function(){
 			sortable : false
 		}
 	});
+	
 	jQuery("#regionsSummary").jqGrid('filterToolbar', {
 		defaultSearch : "cn",
 		stringResult : true,

@@ -40,6 +40,8 @@ jQuery(document).ready(
 						}, {
 							name : 'casenumber',
 							index : 'casenumber',
+							formatter:'showlink',
+							formatoptions:{baseLinkUrl:'/viewLitigationDetails'},
 							width : 100,
 							align : 'center'
 						}, {
@@ -106,32 +108,32 @@ jQuery(document).ready(
 function getLitigationSummaryData() {
 //	alert("inside getLitigationSummaryData");
 	var urlStr = "/getLitigationSummaryData?";
-	var zone = jQuery.trim($('#zone').val());
+	var zone = jQuery.trim($('#zoneName').val());
 	var format = jQuery.trim($('#format').val());
-	var entity = jQuery.trim($('#entity').val());
-	var func = jQuery.trim($('#function').val());
-	var counterParty = jQuery.trim($('#counterParty').val());
-	var category = jQuery.trim($('#category').val());
-	var possibleClaim = jQuery.trim($('#possibleClaim').val());
-	var state = jQuery.trim($('#state').val());
-	var lawfirmIndividual = jQuery.trim($('#lawfirmIndividual').val());
-	var courtType = jQuery.trim($('#courtType').val());
-	var underActs = jQuery.trim($('#underActs').val());
+	var entity = jQuery.trim($('#entityName').val());
+	var func = jQuery.trim($('#deptName').val());
+	var counterParty = jQuery.trim($('#counterPartyName').val());
+	var category = jQuery.trim($('#categoryName').val());
+	var possibleClaim = jQuery.trim($('#claim').val());
+	var state = jQuery.trim($('#stateName').val());
+	var lawfirmIndividual = jQuery.trim($('#lawfirm').val());
+	var courtType = jQuery.trim($('#courtTypeName').val());
+	var underActs = jQuery.trim($('#underActName').val());
 	var risk = jQuery.trim($('#risk').val());
 	var status = jQuery.trim($('#status').val());
-	var matterByAgainst = jQuery.trim($('#matterByAgainst').val());
+	var matterByAgainst = jQuery.trim($('#matterBy').val());
 	var litigationByAgainst = jQuery.trim($('#litigationByAgainst').val());
 	var unitLocation = jQuery.trim($('#unitLocation').val());
 	var city = jQuery.trim($('#city').val());
 	var policeStation = jQuery.trim($('#policeStation').val());
 	var courtForum = jQuery.trim($('#courtForum').val());
 	var requestData = {};
-	urlStr = urlStr + "zoneName=" + zone + "&format=" + format + "&entity="
-			+ entity + "&function=" + func + "&counterParty=" + counterParty
-			+ "&category=" + category + "&possibleClaim=" + possibleClaim
-			+ "&state=" + state + "&lawfirmIndividual=" + lawfirmIndividual
-			+ "&courtType=" + courtType + "&underActs=" + underActs + "&risk="
-			+ risk + "&status=" + status + "&matterByAgainst="
+	urlStr = urlStr + "zoneName=" + zone + "&format=" + format + "&entityName="
+			+ entity + "&deptName=" + func + "&counterPartyName=" + counterParty
+			+ "&categoryName=" + category + "&claim=" + possibleClaim
+			+ "&stateName=" + state + "&lawfirm=" + lawfirmIndividual
+			+ "&courtTypeName=" + courtType + "&underActName=" + underActs + "&risk="
+			+ risk + "&status=" + status + "&matterBy="
 			+ matterByAgainst + "&litigationByAgainst=" + litigationByAgainst;
 
 	$.ajax({

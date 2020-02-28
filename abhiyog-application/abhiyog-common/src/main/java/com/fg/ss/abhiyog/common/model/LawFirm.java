@@ -21,16 +21,16 @@ public class LawFirm {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "lawfirm_id")
+	@Column(name = "lawfirmoid")
 	private int lawfirmId;
 
 	@Column(name = "lawfirm")
 	private String lawfirm;
 
-	@Column(name = "lawfirm_head")
+	@Column(name = "lawfirmhead")
 	private String lawfirmHead;
 
-	@Column(name = "lawfirm_head_email_id")
+	@Column(name = "lawfirmheademailid")
 	private String lawfirmHeadEmailId;
 
 	@Column(name = "address")
@@ -42,18 +42,18 @@ public class LawFirm {
 	@Column(name = "telephone")
 	private String telephone;
 
-	@Column(name = "fax_no")
+	@Column(name = "faxno")
 	private String faxNo;
 
 	@Column(name = "website")
 	private String website;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "dept_id")
+	@JoinColumn(name = "deptoid")
 	private Dept dept;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="lawfirm_id")
+	@JoinColumn(name="lawfirmoid")
 	private List<Litigation> litigation;
 
 	public int getLawfirmId() {

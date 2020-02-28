@@ -95,7 +95,7 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 			"join fetch lt.counterPartyDtls lc\r\n" + 
 			"join fetch lt.courtCity cc\r\n" + 
 			"join fetch lt.courtType ct\r\n" + 
-			"where lt.nextDateOfHearing between CURDATE() and adddate(now(),7)")
+			"where lt.nextDateOfHearing between CURDATE() and adddate(CURDATE(),7)")
 	List<Litigation> findNextSevenDaysHearingDateDtls();
 
 	@Query(value="select count(lt) from Litigation as lt, Zone r, Units u where u.unitId = lt.units.unitId and r.zoneId = u.regions.zoneId and r.zoneName = :zoneName")

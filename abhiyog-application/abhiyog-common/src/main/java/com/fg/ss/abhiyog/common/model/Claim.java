@@ -15,14 +15,14 @@ import javax.persistence.Table;
 public class Claim {
 
 	@Id
-	@Column(name = "claim_id")
+	@Column(name = "claimoid")
 	private int claimId;
 
 	@Column(name = "claim")
 	private String claim;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="claim_id")
+	@JoinColumn(name="claimoid")
 	private List<Litigation> litigation;
 
 	public int getClaimId() {

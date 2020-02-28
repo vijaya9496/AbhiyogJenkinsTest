@@ -18,14 +18,14 @@ public class UnderAct {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "under_act_id")
+	@Column(name = "underactoid")
 	private int underActId;
 
-	@Column(name = "under_act")
+	@Column(name = "underact")
 	private String underAct;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="under_act_id")
+	@JoinColumn(name="underactoid")
 	private List<Litigation> litigation;
 
 	public int getUnderActId() {

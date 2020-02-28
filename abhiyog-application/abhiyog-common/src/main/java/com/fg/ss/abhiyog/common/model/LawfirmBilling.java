@@ -20,10 +20,10 @@ public class LawfirmBilling {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "lawfirm_billing_id")
+	@Column(name = "lawfirm_billing_oid")
 	private int lawfirmBillingId;
 
-	@Column(name = "litigation_log_id")
+	@Column(name = "litigation_log_oid")
 	private int litigationLogId;
 
 	@Column(name = "billing_amount")
@@ -35,25 +35,25 @@ public class LawfirmBilling {
 	@Column(name = "create_date")
 	private LocalDateTime createDate;
 
-	@Column(name = "doc_name")
+	@Column(name = "docname")
 	private String docName;
 
-	@Column(name = "doc_path")
+	@Column(name = "docpath")
 	private String docPath;
 
-	@Column(name = "doc_size")
+	@Column(name = "docsize")
 	private long docSize;
 
-	@Column(name = "file_data")
+	@Column(name = "filedata")
 	private byte[] fileData;
 
-	@Column(name = "file_extension")
+	@Column(name = "fileextension")
 	private String fileExtension;
 
 	@Column(name = "remark")
 	private String remark;
 
-	@Column(name = "paid_unpaid")
+	@Column(name = "paidunpaid")
 	private String paidUnpaid;
 
 	@OneToOne(fetch = FetchType.LAZY)
@@ -61,7 +61,7 @@ public class LawfirmBilling {
 	private Litigation litigation;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "billing_type_id")
+	@JoinColumn(name = "billing_type_oid")
 	private BillingType billingType;
 
 	public int getLawfirmBillingId() {

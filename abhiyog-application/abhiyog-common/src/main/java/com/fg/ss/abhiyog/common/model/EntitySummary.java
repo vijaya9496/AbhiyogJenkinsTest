@@ -18,17 +18,20 @@ public class EntitySummary {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "entity_id")
+	@Column(name = "entityoid")
 	private int entityId;
-	@Column(name = "entity_name")
+	
+	@Column(name = "entityname")
 	private String entityName;
-	@Column(name = "entity_head_id")
+	
+	@Column(name = "entityheadoid")
 	private int entityHeadId;
-	@Column(name = "entity_desc")
+	
+	@Column(name = "entitydesc")
 	private String entityDesc;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "entity_id")
+	@JoinColumn(name = "entityoid")
 	private List<Units> units;
 
 	public int getEntityId() {

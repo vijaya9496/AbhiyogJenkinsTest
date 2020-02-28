@@ -19,36 +19,36 @@ public class LitigationDocs {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "litigation_doc_id")
+	@Column(name = "litigationdocoid")
 	private int litigationDocId;
 
-	@Column(name = "doc_title")
+	@Column(name = "doctitle")
 	private String docTitle;
 
-	@Column(name = "doc_comment")
+	@Column(name = "doccomment")
 	private String docComment;
 
-	@Column(name = "doc_name")
+	@Column(name = "docname")
 	private String docName;
 
-	@Column(name = "doc_path")
+	@Column(name = "docpath")
 	private String docPath;
 
-	@Column(name = "doc_size")
+	@Column(name = "docsize")
 	private long docSize;
 
-	@Column(name = "uploaded_date")
+	@Column(name = "uploadeddate")
 	private LocalDateTime uploadedDate;
 
 	@Column(name = "litigation_log_oid")
 	private int litigationLogOid;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "litigation_oid")
+	@JoinColumn(name = "litigationoid")
 	private Litigation litigation;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "uploaded_by_id")
+	@JoinColumn(name = "uploadedbyoid")
 	private User user;
 
 	public int getLitigationDocId() {

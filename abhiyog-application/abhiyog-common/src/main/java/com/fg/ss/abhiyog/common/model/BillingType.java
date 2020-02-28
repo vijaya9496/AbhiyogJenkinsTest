@@ -18,14 +18,14 @@ public class BillingType {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "billing_type_id")
+	@Column(name = "billing_type_oid")
 	private int billingTypeId;
 
 	@Column(name = "billing_type")
 	private String billingType;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "billing_type_id")
+	@JoinColumn(name = "billing_type_oid")
 	private List<LawfirmBilling> lawfirmBilling;
 
 	public int getBillingTypeId() {

@@ -18,7 +18,7 @@ public class LtgnCaseType {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "case_type_id")
+	@Column(name = "case_type_oid")
 	private int caseTypeId;
 
 	@Column(name = "case_type")
@@ -28,7 +28,7 @@ public class LtgnCaseType {
 	private String status;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="case_type_id")
+	@JoinColumn(name="case_type_oid")
 	private List<Litigation> litigation;
 
 	public int getCaseTypeId() {

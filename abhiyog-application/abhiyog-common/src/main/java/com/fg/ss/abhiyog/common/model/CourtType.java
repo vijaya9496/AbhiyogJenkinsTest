@@ -18,14 +18,14 @@ public class CourtType {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "court_type_id")
+	@Column(name = "courttypeoid")
 	private int courtTypeId;
 
-	@Column(name = "court_type")
+	@Column(name = "courttype")
 	private String courtType;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="court_type_id")
+	@JoinColumn(name="courttypeoid")
 	private List<Litigation> litigation;
 
 	public int getCourtTypeId() {

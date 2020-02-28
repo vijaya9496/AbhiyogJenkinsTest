@@ -125,6 +125,8 @@ public interface ILitigationService {
 			String courtType, String underActs, String risk, String status, String matterByAgainst,
 			String litigationByAgainst);
 
+	LitigationSummaryVO getLitigationDetails(int id);
+
 	
 
 	

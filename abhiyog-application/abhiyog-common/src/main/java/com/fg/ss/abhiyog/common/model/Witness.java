@@ -16,14 +16,14 @@ public class Witness {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "witness_id")
+	@Column(name = "witnessoid")
 	private int witnessId;
 
 	@Column(name = "witness")
 	private String witness;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "litigation_oid")
+	@JoinColumn(name = "litigationoid")
 	private Litigation litigation;
 
 	public int getWitnessId() {
