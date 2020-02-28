@@ -16,7 +16,7 @@ public class Role {
 
 	@Id
 //	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "role_id")
+	@Column(name = "oid")
 	private int id;
 
 	@Column(name = "roledesc")
@@ -26,7 +26,7 @@ public class Role {
 	private String roleDetails;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "role_id")
+	@JoinColumn(name = "oid")
 	private List<User> user;
 
 	public int getId() {
