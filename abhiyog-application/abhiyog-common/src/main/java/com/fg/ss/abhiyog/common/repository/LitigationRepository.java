@@ -19,7 +19,7 @@ import com.fg.ss.abhiyog.common.model.Litigation;
 @Repository
 public interface LitigationRepository extends JpaRepository<Litigation, Integer>{
 
-	@Query(value="select * from ltgn_litigation l order by l.litigation_id desc limit 1", nativeQuery=true)
+	@Query(value="select * from ltgn_litigation l order by l.litigationid desc limit 1", nativeQuery=true)
 	Litigation getLitigationId();
 
 	@Query(value="select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId order by lt.litigationId desc")

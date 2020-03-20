@@ -32,11 +32,11 @@ public class RestoreLitigationService implements IRestoreLitigationService{
 		AddLitigationVO addRestoreLitigationData = new AddLitigationVO();
 		addRestoreLitigationData.setLitigationId(restoreLitigationDtl.getLitigationId());
 		addRestoreLitigationData.setEntityName(restoreLitigationDtl.getUnits().getEntitySummary().getEntityName());
-		addRestoreLitigationData.setCounterParty(restoreLitigationDtl.getCounterPartyDtls().getCustomerName());
+		addRestoreLitigationData.setCounterPartyName(restoreLitigationDtl.getCounterPartyDtls().getCustomerName());
 		addRestoreLitigationData.setCaseNumber(restoreLitigationDtl.getCaseNumber());
 		addRestoreLitigationData.setSubject(restoreLitigationDtl.getSubject());
-		addRestoreLitigationData.setUnderActs(restoreLitigationDtl.getUnderAct().getUnderAct());
-		addRestoreLitigationData.setRiskAssesment(restoreLitigationDtl.getRisk().getRisk());
+		addRestoreLitigationData.setUnderActName(restoreLitigationDtl.getUnderAct().getUnderAct());
+		addRestoreLitigationData.setRisk(restoreLitigationDtl.getRisk().getRisk());
 		return addRestoreLitigationData;
 	}
 

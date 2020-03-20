@@ -425,6 +425,15 @@ li.half-width{width: 46% !important;}
   text-decoration: none;
   cursor: pointer;
 }
+
+.widthauto{width: auto !important;}
+.center{text-align: center !important;}
+.blue-big{background-color: #0c3b81; text-align: center; color: #ffffff;}
+.button-width{width: 298px !important; margin: 20px 0px 10px 0px !important; float: left;}
+.apply{width: 130px !important;}
+span.small-head {color:  #15598d; font-size: 1.0em; float: left; width: 100%; padding: 0px 0px 10px 0px; font-weight: bold; display: block;}
+input.cancel {background: #ffffff !important; color: #326d9b !important; border:3px solid #6793b5 !important; padding: 8px !important;}
+.cancel-btn{width: 48% !important; margin-right: 2% !important; float: right !important; margin-right: 0px !important;}
   
   /* alert dismissible */
 .alert-dismissible{padding-right:4rem}

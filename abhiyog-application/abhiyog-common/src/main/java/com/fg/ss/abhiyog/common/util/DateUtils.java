@@ -34,7 +34,7 @@ public class DateUtils {
 	
 	public static LocalDate getDBFormatedDte(String date) throws ParseException {
 
-		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
 		Date covertDate = null;
 

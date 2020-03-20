@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
-
 import com.fg.ss.abhiyog.common.model.BillingType;
 import com.fg.ss.abhiyog.common.model.City;
 import com.fg.ss.abhiyog.common.model.Claim;
@@ -161,41 +160,40 @@ public class LitigationService implements ILitigationService {
 
 	@Autowired
 	private LitigationUnitsRepository litigationUnitsRepository;
-	
+
 	@Autowired
 	private ConnectedLitigationRepository connectedLitigationRepository;
-	
+
 	@Autowired
 	private WitnessRepository witnessRepository;
-	
+
 	@Autowired
 	private LitigationResultMasterRepository litigationResultMasterRepository;
-	
+
 	@Autowired
 	private FileStorageService fileStorageService;
-	
+
 	@Autowired
 	private LitigationDocsRepository litigationDocsRepository;
-	
+
 	@Autowired
 	private BillingTypeRepository billingTypeRepository;
-	
+
 	@Autowired
 	private LawfirmBillingRepository lawfirmBillingRepository;
-	
+
 	@Autowired
 	private StageMasterRepository stageMasterRepository;
-	
+
 	@Autowired
 	private LtgnLitigationLogRepository ltgnLitigationLogRepository;
-	
+
 	@Autowired
 	private LitigationHistoryTLogRepository litigationHistoryTLogRepository;
-	
+
 	@Autowired
 	private EntityManager entityManager;
-	
-	
+
 	@Value("${file.upload-dir}")
 	private String path;
 
@@ -209,9 +207,9 @@ public class LitigationService implements ILitigationService {
 	}
 
 	@Override
-	public void saveLtgnRepresentativeMaster(LtgnMatterByVO ltgnMastersByVo) {
+	public void saveLtgnRepresentativeMaster(String matterBy) {
 		LtgnRepresentativeMaster ltgnRepresentativeMasterData = new LtgnRepresentativeMaster();
-		ltgnRepresentativeMasterData.setRepresentativeName(ltgnMastersByVo.getMatterBy());
+		ltgnRepresentativeMasterData.setRepresentativeName(matterBy);
 		ltgnRepresentativeMasterData.setStatus("Active");
 		ltgnRepresentativeMasterRepository.save(ltgnRepresentativeMasterData);
 	}
@@ -237,9 +235,9 @@ public class LitigationService implements ILitigationService {
 	}
 
 	@Override
-	public void saveLtgnCaseType(LtgnCategoryVO ltgnCategoryVO) {
+	public void saveLtgnCaseType(String categoryName) {
 		LtgnCaseType ltgnCaseType = new LtgnCaseType();
-		ltgnCaseType.setCaseType(ltgnCategoryVO.getCategoryName());
+		ltgnCaseType.setCaseType(categoryName);
 		ltgnCaseType.setStatus("Active");
 		ltgnCaseTypeRepository.save(ltgnCaseType);
 	}
@@ -266,9 +264,9 @@ public class LitigationService implements ILitigationService {
 	}
 
 	@Override
-	public void saveUnderActData(UnderActVO underActVO) {
+	public void saveUnderActData(String underActName) {
 		UnderAct underAct = new UnderAct();
-		underAct.setUnderAct(underActVO.getUnderActName());
+		underAct.setUnderAct(underActName);
 		underActRepository.save(underAct);
 	}
 
@@ -293,9 +291,9 @@ public class LitigationService implements ILitigationService {
 	}
 
 	@Override
-	public void saveCourtType(CourtTypeVO courtTypeVO) {
+	public void saveCourtType(String courtTypeName) {
 		CourtType courtType = new CourtType();
-		courtType.setCourtType(courtTypeVO.getCourtTypeName());
+		courtType.setCourtType(courtTypeName);
 		courtTypeRepository.save(courtType);
 	}
 
@@ -424,10 +422,10 @@ public class LitigationService implements ILitigationService {
 		courtCityRepository.save(courtCity);
 	}
 
-
 	@SuppressWarnings("unlikely-arg-type")
 	@Override
-	public void saveLitigationData(AddLitigationVO addLitigationVO) {
+	public boolean saveLitigationData(AddLitigationVO addLitigationVO) {
+		boolean isInserted = false;
 		final String prefixLtgnId = "L";
 		Litigation litigation = new Litigation();
 //		Litigation checkLtgnExistence = new Litigation();
@@ -435,22 +433,27 @@ public class LitigationService implements ILitigationService {
 		LitigationUnits litigationUnits = new LitigationUnits();
 		HashMap<String, String> allCustomerTypes = new HashMap<String, String>();
 		System.out.println(allCustomerTypes);
-		allCustomerTypes.put("plaintiff", "defendant");
-		allCustomerTypes.put("defendant", "plaintiff");
-		allCustomerTypes.put("complainant", "Accused");
-		allCustomerTypes.put("Accused", "complainant");
+		allCustomerTypes.put("Plaintiff", "Defendant");
+		allCustomerTypes.put("Defendant", "Plaintiff");
+		allCustomerTypes.put("Complainant", "Accused");
+		allCustomerTypes.put("Accused", "Complainant");
 		allCustomerTypes.put("Applicant", "Opponent");
 		allCustomerTypes.put("Opponent", "Applicant");
 		allCustomerTypes.put("Petitioner", "Respondant");
 		allCustomerTypes.put("Respondant", "Petitioner");
 		allCustomerTypes.put("Appelant", "Respondant");
 		allCustomerTypes.put("Appeal By Company", "Petitioner");
-		allCustomerTypes.put("Appean Against Company", "Petitioner");
-		
+		allCustomerTypes.put("Appeal Against Company", "Petitioner");
+
+		System.out.println(addLitigationVO.getEntityName() + addLitigationVO.getZoneName() + addLitigationVO.getUnitName());
 		Units unitsDtls = unitsRepository.getUnitDtlsByEntityName(addLitigationVO.getEntityName(),
 				addLitigationVO.getZoneName(), addLitigationVO.getUnitName());
-		litigation.setUnits(unitsDtls);
-		litigationUnits.setUnits(unitsDtls);
+		if(unitsDtls.equals(null)) {
+			return false;
+		}else {
+			litigation.setUnits(unitsDtls);
+			litigationUnits.setUnits(unitsDtls);
+		}
 
 		Format formatDtls = formatRepository.getFormatByName(addLitigationVO.getFormat());
 		litigation.setFormat(formatDtls);
@@ -461,47 +464,47 @@ public class LitigationService implements ILitigationService {
 
 		CustomerType customerType = customerTypeRepository.findByCustomerType(addLitigationVO.getCustomerType());
 		litigation.setCustomerType(customerType);
-		
-		
-		for(Entry<String, String> entry: allCustomerTypes.entrySet()) {
-			if(entry.getKey().equals(litigation.getCustomerType().getCustomerType())) {
+
+		for (Entry<String, String> entry : allCustomerTypes.entrySet()) {
+			if (entry.getKey().equals(litigation.getCustomerType().getCustomerType())) {
 //				System.out.println("AgainstPArtyType:: "+entry.getValue());
 				litigation.setAgainstPartyClientType(entry.getValue());
 			}
 		}
 
-		CounterPartyDtls counterPartyDtls = counterPartyRepository.findByCustomerName(addLitigationVO.getCounterParty());
+		CounterPartyDtls counterPartyDtls = counterPartyRepository
+				.findByCustomerName(addLitigationVO.getCounterPartyName());
 		litigation.setCounterPartyDtls(counterPartyDtls);
 		litigation.setCoCounterParties(addLitigationVO.getCoCounterParties());
 		litigation.setSubject(addLitigationVO.getSubject());
 
-		LtgnCaseType ltgnCaseType = ltgnCaseTypeRepository.findByCaseType(addLitigationVO.getCategory());
+		LtgnCaseType ltgnCaseType = ltgnCaseTypeRepository.findByCaseType(addLitigationVO.getCategoryName());
 		litigation.setLtgnCaseType(ltgnCaseType);
 		litigation.setCaseNumber(addLitigationVO.getCaseNumber());
 
-		Risk riskAsses = riskRepository.findByRisk(addLitigationVO.getRiskAssesment());
+		Risk riskAsses = riskRepository.findByRisk(addLitigationVO.getRisk());
 		litigation.setRisk(riskAsses);
 
-		Claim claimRange = claimRepository.findByClaim(addLitigationVO.getPossibleClaimRange());
+		Claim claimRange = claimRepository.findByClaim(addLitigationVO.getClaim());
 		litigation.setClaim(claimRange);
 		litigation.setExactClaimAmount(addLitigationVO.getPossibleClaim());
 		litigation.setFileNo(addLitigationVO.getPantaloonFileNo());
 
-		UnderAct underActs = underActRepository.findByUnderAct(addLitigationVO.getUnderActs());
+		UnderAct underActs = underActRepository.findByUnderAct(addLitigationVO.getUnderActName());
 		litigation.setUnderAct(underActs);
 		litigation.setUnderSection(addLitigationVO.getUnderSection());
 		litigation.setOtherUnderAct(addLitigationVO.getOtherUnderacts());
 
-		CourtType courtType = courtTypeRepository.findByCourtType(addLitigationVO.getCourtType());
+		CourtType courtType = courtTypeRepository.findByCourtType(addLitigationVO.getCourtTypeName());
 		litigation.setCourtType(courtType);
 
-		State state = stateRepository.findByStateName(addLitigationVO.getState());
+		State state = stateRepository.findByStateName(addLitigationVO.getStateName());
 		litigation.setState(state);
 
-		litigation.setCity(addLitigationVO.getCity());
+		litigation.setCity(addLitigationVO.getCityName());
 		litigation.setFirNo(addLitigationVO.getFirNo());
 
-		PoliceStation policeStation = policeStationRepository.getPoliceDtlsByCityName(addLitigationVO.getCity());
+		PoliceStation policeStation = policeStationRepository.getPoliceDtlsByCityName(addLitigationVO.getCityName());
 		litigation.setPoliceStationId(policeStation);
 
 		CourtCity courtCity = courtCityRepository.findByCourtCity(addLitigationVO.getCourtForum());
@@ -525,24 +528,10 @@ public class LitigationService implements ILitigationService {
 		User user = userRepository.findByLoginId(addLitigationVO.getLoginId());
 		litigation.setUser(user);
 
-		
-
 		Dept dept = deptRepository.findByDeptName(addLitigationVO.getFunction());
 		litigation.setDept(dept);
 
-		System.out.println("MatterByAgainst:: "+addLitigationVO.getMatterByAgainst().length);
-		for (String matterByAgainst : addLitigationVO.getMatterByAgainst()) {
-			System.out.println("RepresentativeNAme:: " +matterByAgainst);
-			System.out.println("LitigationOID:: " +litigation.getLitigationOId());
-			LtgnRepresentativeMaster ltgnRepresentativeMaster = ltgnRepresentativeMasterRepository.findByRepresentativeName(matterByAgainst);
-				litigationMatterByAgainst.setLtgnRepresentativeMaster(ltgnRepresentativeMaster);
-				litigation.setLtgnRepresentativeMaster(ltgnRepresentativeMaster);
-				litigationMatterByAgainst.setLitigation(litigation);
-				litigationMatterByAgainstRepository.save(litigationMatterByAgainst);
-			
-		}
-		
-		//Setting LitigationId 
+		// Setting LitigationId
 		Litigation litgationId = litigationRepository.getLitigationId();
 		if (litgationId == null) {
 			litigation.setLitigationId(prefixLtgnId + String.format("%04d", i));
@@ -551,13 +540,26 @@ public class LitigationService implements ILitigationService {
 			int lastIdValue = Integer.parseInt(ltgnId.substring(ltgnId.length() - 4));
 			litigation.setLitigationId(prefixLtgnId + String.format("%04d", ++lastIdValue));
 		}
-		
+
+		System.out.println("MatterByAgainst:: " + addLitigationVO.getMatterByAgainst().length);
+		for (String matterByAgainst : addLitigationVO.getMatterByAgainst()) {
+			System.out.println("RepresentativeNAme:: " + matterByAgainst);
+			System.out.println("LitigationOID:: " + litigation.getLitigationOId());
+			LtgnRepresentativeMaster ltgnRepresentativeMaster = ltgnRepresentativeMasterRepository
+					.findByRepresentativeName(matterByAgainst);
+			litigationMatterByAgainst.setLtgnRepresentativeMaster(ltgnRepresentativeMaster);
+			litigation.setLtgnRepresentativeMaster(ltgnRepresentativeMaster);
+			litigationMatterByAgainst.setLitigation(litigation);
+			litigationMatterByAgainstRepository.save(litigationMatterByAgainst);
+
+		}
+
 		litigationUnits.setLitigation(litigation);
 		LocalDate dateTime = LocalDate.now();
 		litigation.setCreateDate(dateTime);
 		litigationUnitsRepository.save(litigationUnits);
 		litigationRepository.save(litigation);
-		
+		return true;
 
 	}
 
@@ -574,7 +576,8 @@ public class LitigationService implements ILitigationService {
 	@Override
 	public List<LitigationSummaryVO> getLitigationSummary() {
 		List<Litigation> allLitigationSummary = litigationRepository.findAllLitigationSummary();
-		return allLitigationSummary.stream().map(litigationSummary ->convertToLitigationSummary(litigationSummary)).collect(Collectors.toList());
+		return allLitigationSummary.stream().map(litigationSummary -> convertToLitigationSummary(litigationSummary))
+				.collect(Collectors.toList());
 	}
 
 	private LitigationSummaryVO convertToLitigationSummary(Litigation litigationSummary) {
@@ -604,7 +607,8 @@ public class LitigationService implements ILitigationService {
 		connectedLitigation.setComment(connectedLitigationVO.getComments());
 		Litigation litigationId = litigationRepository.findByLitigationId(connectedLitigationVO.getLitigationId());
 		connectedLitigation.setLitigation(litigationId);
-		Litigation connectedLitigationId = litigationRepository.findByLitigationId(connectedLitigationVO.getConnectedLitigationId());
+		Litigation connectedLitigationId = litigationRepository
+				.findByLitigationId(connectedLitigationVO.getConnectedLitigationId());
 		connectedLitigation.setConnectedLitigation(connectedLitigationId);
 		LocalDateTime dateTime = LocalDateTime.now();
 		connectedLitigation.setCreateDate(dateTime);
@@ -623,7 +627,8 @@ public class LitigationService implements ILitigationService {
 	@Override
 	public List<ConnectedLitigationVO> getWitnessDtls(String litigationId) {
 		List<Witness> allWitnessDtls = witnessRepository.findAllByLitigationId(litigationId);
-		return allWitnessDtls.stream().map(witnessDtls->convertToWitnessDtls(witnessDtls)).collect(Collectors.toList());
+		return allWitnessDtls.stream().map(witnessDtls -> convertToWitnessDtls(witnessDtls))
+				.collect(Collectors.toList());
 	}
 
 	private ConnectedLitigationVO convertToWitnessDtls(Witness witnessDtls) {
@@ -635,7 +640,8 @@ public class LitigationService implements ILitigationService {
 	@Override
 	public List<ConnectedLitigationVO> getLitigationResultMaster() {
 		List<LitigationResultMaster> allResultMaster = litigationResultMasterRepository.findAll();
-		return allResultMaster.stream().map(ResultMaster ->convertToResultDto(ResultMaster)).collect(Collectors.toList());
+		return allResultMaster.stream().map(ResultMaster -> convertToResultDto(ResultMaster))
+				.collect(Collectors.toList());
 	}
 
 	private ConnectedLitigationVO convertToResultDto(LitigationResultMaster resultMaster) {
@@ -646,9 +652,12 @@ public class LitigationService implements ILitigationService {
 
 	@Override
 	public int addLitigationDisposal(ConnectedLitigationVO connectedLitigationVO) {
-		LitigationResultMaster resultMaster = litigationResultMasterRepository.findByResultName(connectedLitigationVO.getResultName());
-		System.out.println("ResultID::: "+resultMaster.getResultId());
-		int updateLitigationDisposal = litigationRepository.updateLitigation(resultMaster.getResultId(), connectedLitigationVO.getComments(), connectedLitigationVO.getDisposedDate(), connectedLitigationVO.getLitigationId());
+		LitigationResultMaster resultMaster = litigationResultMasterRepository
+				.findByResultName(connectedLitigationVO.getResultName());
+		System.out.println("ResultID::: " + resultMaster.getResultId());
+		int updateLitigationDisposal = litigationRepository.updateLitigation(resultMaster.getResultId(),
+				connectedLitigationVO.getComments(), connectedLitigationVO.getDisposedDate(),
+				connectedLitigationVO.getLitigationId());
 		return updateLitigationDisposal;
 	}
 
@@ -670,17 +679,18 @@ public class LitigationService implements ILitigationService {
 		LocalDateTime dateTime = LocalDateTime.now();
 		litigationDocs.setUploadedDate(dateTime);
 		litigationDocs.setDocComment(connectedLitigationVO.getComments());
-		System.out.println("Comments:: "+connectedLitigationVO.getComments());
+		System.out.println("Comments:: " + connectedLitigationVO.getComments());
 		litigationDocs.setDocTitle(connectedLitigationVO.getDocumentTitle());
-		System.out.println("Doc Title:: "+connectedLitigationVO.getDocumentTitle());
-		System.out.println("Doc Title:: "+litigationDocs.getDocTitle());
+		System.out.println("Doc Title:: " + connectedLitigationVO.getDocumentTitle());
+		System.out.println("Doc Title:: " + litigationDocs.getDocTitle());
 		Litigation litigation = litigationRepository.findByLitigationId(connectedLitigationVO.getLitigationId());
 		litigationDocs.setLitigation(litigation);
 		User user = userRepository.findByLoginId(connectedLitigationVO.getLoginId());
 		litigationDocs.setUser(user);
 		litigationDocsRepository.save(litigationDocs);
 		String fileAvailable = "Yes";
-		int fileUpdatedStatus = litigationRepository.updateFileStatusByLitigationId(connectedLitigationVO.getLitigationId(), fileAvailable);
+		int fileUpdatedStatus = litigationRepository
+				.updateFileStatusByLitigationId(connectedLitigationVO.getLitigationId(), fileAvailable);
 	}
 
 	@Override
@@ -699,7 +709,7 @@ public class LitigationService implements ILitigationService {
 		lawfirmBilling.setDocName(fileName);
 		lawfirmBilling.setDocSize(file.getSize());
 		lawfirmBilling.setFileExtension(file.getContentType());
-		lawfirmBilling.setDocPath(path+"/"+fileName);
+		lawfirmBilling.setDocPath(path + "/" + fileName);
 		try {
 			lawfirmBilling.setFileData(file.getBytes());
 		} catch (IOException e) {
@@ -712,7 +722,8 @@ public class LitigationService implements ILitigationService {
 	@Override
 	public List<ConnectedLitigationVO> getLawfirmBilling(String litigationId) {
 		List<LawfirmBilling> allLawfirmBilling = lawfirmBillingRepository.findByLitigationId(litigationId);
-		return allLawfirmBilling.stream().map(lawfirmBilling -> convertToLawfirmBillingDto(lawfirmBilling)).collect(Collectors.toList());
+		return allLawfirmBilling.stream().map(lawfirmBilling -> convertToLawfirmBillingDto(lawfirmBilling))
+				.collect(Collectors.toList());
 	}
 
 	private ConnectedLitigationVO convertToLawfirmBillingDto(LawfirmBilling lawfirmBilling) {
@@ -729,22 +740,22 @@ public class LitigationService implements ILitigationService {
 	@Override
 	public List<AddLitigationVO> getCaseDtls(String litigationId) {
 		List<Litigation> allCaseDtls = litigationRepository.getCaseDtls(litigationId);
-		return allCaseDtls.stream().map(CaseDtls ->convertToCasedtlsDto(CaseDtls)).collect(Collectors.toList());
+		return allCaseDtls.stream().map(CaseDtls -> convertToCasedtlsDto(CaseDtls)).collect(Collectors.toList());
 	}
 
 	private AddLitigationVO convertToCasedtlsDto(Litigation caseDtls) {
 		AddLitigationVO addCaseDtls = new AddLitigationVO();
-		addCaseDtls.setRiskAssesment(caseDtls.getRisk().getRisk());
-		addCaseDtls.setUnderActs(caseDtls.getUnderAct().getUnderAct());
-		addCaseDtls.setPossibleClaimRange(caseDtls.getClaim().getClaim());
+		addCaseDtls.setRisk(caseDtls.getRisk().getRisk());
+		addCaseDtls.setUnderActName(caseDtls.getUnderAct().getUnderAct());
+		addCaseDtls.setClaim(caseDtls.getClaim().getClaim());
 		addCaseDtls.setUnderSection(caseDtls.getUnderSection());
 		addCaseDtls.setOtherUnderacts(caseDtls.getOtherUnderAct());
 		addCaseDtls.setPossibleClaim(caseDtls.getExactClaimAmount());
 		addCaseDtls.setPantaloonFileNo(caseDtls.getFileNo());
 		addCaseDtls.setDateOfReceiptOfMatter(caseDtls.getCaseFileOnDate());
-		addCaseDtls.setState(caseDtls.getState().getStateName());
-		addCaseDtls.setCity(caseDtls.getCity());
-		addCaseDtls.setCourtType(caseDtls.getCourtType().getCourtType());
+		addCaseDtls.setStateName(caseDtls.getState().getStateName());
+		addCaseDtls.setCityName(caseDtls.getCity());
+		addCaseDtls.setCourtTypeName(caseDtls.getCourtType().getCourtType());
 		addCaseDtls.setFirNo(caseDtls.getFirNo());
 		addCaseDtls.setCourtForum(caseDtls.getCourtCity().getCourtCity());
 		addCaseDtls.setStoreOfficePremises(caseDtls.getStoreOfficePremises());
@@ -754,24 +765,26 @@ public class LitigationService implements ILitigationService {
 		addCaseDtls.setSeniorCounsel(caseDtls.getLawFirm().getLawfirm());
 		addCaseDtls.setCaseRelateFromDate(caseDtls.getCaseRelateFromDate());
 		addCaseDtls.setCaseRelateToDate(caseDtls.getCaseRelateToDate());
-		addCaseDtls.setCategory(caseDtls.getLtgnCaseType().getCaseType());
+		addCaseDtls.setCategoryName(caseDtls.getLtgnCaseType().getCaseType());
 		return addCaseDtls;
 	}
 
 	@Override
 	public List<AddLitigationVO> getAllDetails(String litigationId) {
 		List<Litigation> allCaseDetails = litigationRepository.getAllDetails(litigationId);
-		return allCaseDetails.stream().map(caseDetails -> convertToAllCaseDetailsDto(caseDetails)).collect(Collectors.toList());
+		return allCaseDetails.stream().map(caseDetails -> convertToAllCaseDetailsDto(caseDetails))
+				.collect(Collectors.toList());
 	}
 
 	private AddLitigationVO convertToAllCaseDetailsDto(Litigation caseDetails) {
 		AddLitigationVO addCaseDetails = new AddLitigationVO();
 		addCaseDetails.setEntityName(caseDetails.getUnits().getEntitySummary().getEntityName());
-		addCaseDetails.setCounterParty(caseDetails.getCounterPartyDtls().getCustomerName());
+		addCaseDetails.setCounterPartyName(caseDetails.getCounterPartyDtls().getCustomerName());
 		addCaseDetails.setFormat(caseDetails.getFormat().getFormat());
 		addCaseDetails.setZoneName(caseDetails.getUnits().getRegions().getZoneName());
-		for(LitigationMatterByAgainst ltgnMatterByAgainst: caseDetails.getLitigationMatterByAgainst()) {
-			addCaseDetails.getMatterByAgainstList().add(ltgnMatterByAgainst.getLtgnRepresentativeMaster().getRepresentativeName());
+		for (LitigationMatterByAgainst ltgnMatterByAgainst : caseDetails.getLitigationMatterByAgainst()) {
+			addCaseDetails.getMatterByAgainstList()
+					.add(ltgnMatterByAgainst.getLtgnRepresentativeMaster().getRepresentativeName());
 		}
 		addCaseDetails.setUnitName(caseDetails.getUnits().getUnitName());
 		addCaseDetails.setFunction(caseDetails.getDept().getDeptName());
@@ -790,7 +803,8 @@ public class LitigationService implements ILitigationService {
 	@Override
 	public List<AddLitigationVO> showLitigationDetails(String litigationId) {
 		List<Litigation> allLitigationDetails = litigationRepository.showLitigationDetails(litigationId);
-		return allLitigationDetails.stream().map(litigationDetails -> convertToLitigationDetailsDto(litigationDetails)).collect(Collectors.toList());
+		return allLitigationDetails.stream().map(litigationDetails -> convertToLitigationDetailsDto(litigationDetails))
+				.collect(Collectors.toList());
 	}
 
 	private AddLitigationVO convertToLitigationDetailsDto(Litigation litigationDetails) {
@@ -801,28 +815,29 @@ public class LitigationService implements ILitigationService {
 		showLitigationDetails.setFormat(litigationDetails.getFormat().getFormat());
 		showLitigationDetails.setAddress(litigationDetails.getAddress());
 		showLitigationDetails.setStoreOfficePremises(litigationDetails.getStoreOfficePremises());
-		for(LitigationMatterByAgainst ltgnMatterByAgainst: litigationDetails.getLitigationMatterByAgainst()) {
-			showLitigationDetails.getMatterByAgainstList().add(ltgnMatterByAgainst.getLtgnRepresentativeMaster().getRepresentativeName());
+		for (LitigationMatterByAgainst ltgnMatterByAgainst : litigationDetails.getLitigationMatterByAgainst()) {
+			showLitigationDetails.getMatterByAgainstList()
+					.add(ltgnMatterByAgainst.getLtgnRepresentativeMaster().getRepresentativeName());
 		}
 		showLitigationDetails.setCoZone(litigationDetails.getCoRegion());
 		showLitigationDetails.setFunction(litigationDetails.getDept().getDeptName());
 		showLitigationDetails.setCustomerType(litigationDetails.getCustomerType().getCustomerType());
-		showLitigationDetails.setCounterParty(litigationDetails.getCounterPartyDtls().getCustomerName());
+		showLitigationDetails.setCounterPartyName(litigationDetails.getCounterPartyDtls().getCustomerName());
 		showLitigationDetails.setAgainstPartyClientCustomerType(litigationDetails.getAgainstPartyClientType());
 		showLitigationDetails.setCoCounterParties(litigationDetails.getCoCounterParties());
 		showLitigationDetails.setSubject(litigationDetails.getSubject());
-		showLitigationDetails.setCategory(litigationDetails.getLtgnCaseType().getCaseType());
+		showLitigationDetails.setCategoryName(litigationDetails.getLtgnCaseType().getCaseType());
 		showLitigationDetails.setCaseNumber(litigationDetails.getCaseNumber());
-		showLitigationDetails.setRiskAssesment(litigationDetails.getRisk().getRisk());
-		showLitigationDetails.setPossibleClaimRange(litigationDetails.getClaim().getClaim());
+		showLitigationDetails.setRisk(litigationDetails.getRisk().getRisk());
+		showLitigationDetails.setClaim(litigationDetails.getClaim().getClaim());
 		showLitigationDetails.setPossibleClaim(litigationDetails.getExactClaimAmount());
 		showLitigationDetails.setPantaloonFileNo(litigationDetails.getFileNo());
-		showLitigationDetails.setUnderActs(litigationDetails.getUnderAct().getUnderAct());
+		showLitigationDetails.setUnderActName(litigationDetails.getUnderAct().getUnderAct());
 		showLitigationDetails.setUnderSection(litigationDetails.getUnderSection());
 		showLitigationDetails.setOtherUnderacts(litigationDetails.getOtherUnderAct());
-		showLitigationDetails.setCourtType(litigationDetails.getCourtType().getCourtType());
-		showLitigationDetails.setState(litigationDetails.getState().getStateName());
-		showLitigationDetails.setCity(litigationDetails.getCity());
+		showLitigationDetails.setCourtTypeName(litigationDetails.getCourtType().getCourtType());
+		showLitigationDetails.setStateName(litigationDetails.getState().getStateName());
+		showLitigationDetails.setCityName(litigationDetails.getCity());
 		showLitigationDetails.setFirNo(litigationDetails.getFirNo());
 		showLitigationDetails.setCourtForum(litigationDetails.getCourtCity().getCourtCity());
 		showLitigationDetails.setDateOfReceiptOfMatter(litigationDetails.getCaseFileOnDate());
@@ -836,8 +851,7 @@ public class LitigationService implements ILitigationService {
 
 	@Override
 	public void updateLitigationDetails(AddLitigationVO addLitigationVO) {
-		
-		
+
 	}
 
 	@Override
@@ -852,13 +866,14 @@ public class LitigationService implements ILitigationService {
 		User userDtls = userRepository.findByLoginId(connectedLitigationVO.getLoginId());
 		ltgnLitigationLog.setUser(userDtls);
 		ltgnLitigationLogRepository.save(ltgnLitigationLog);
-		
+
 	}
 
 	@Override
 	public List<ConnectedLitigationVO> getHistoryDtls(String litigationId) {
 		List<LtgnLitigationLog> allHistoryDtls = ltgnLitigationLogRepository.getHistoryDtls(litigationId);
-		return allHistoryDtls.stream().map(historyDtls -> convertToHistoryDtlsDto(historyDtls)).collect(Collectors.toList());
+		return allHistoryDtls.stream().map(historyDtls -> convertToHistoryDtlsDto(historyDtls))
+				.collect(Collectors.toList());
 	}
 
 	private ConnectedLitigationVO convertToHistoryDtlsDto(LtgnLitigationLog historyDtls) {
@@ -878,11 +893,11 @@ public class LitigationService implements ILitigationService {
 		LtgnLitigationLog updateLtgnLitigationLog = new LtgnLitigationLog();
 		LitigationHistoryTLog litigationHistoryTLog = new LitigationHistoryTLog();
 		LtgnLitigationLog ltgnLitigationLog = ltgnLitigationLogRepository.findByLitigationId(litigationId);
-		if(ltgnLitigationLog != null) {
+		if (ltgnLitigationLog != null) {
 			updateLtgnLitigationLog.setLitigationLogId(ltgnLitigationLog.getLitigationLogId());
 			updateLtgnLitigationLog.setLitigation(ltgnLitigationLog.getLitigation());
 			updateLtgnLitigationLog.setStageMaster(ltgnLitigationLog.getStageMaster());
-			System.out.println("UserID:: " +ltgnLitigationLog.getUser());
+			System.out.println("UserID:: " + ltgnLitigationLog.getUser());
 			updateLtgnLitigationLog.setUser(ltgnLitigationLog.getUser());
 			litigationHistoryTLog.setUser(ltgnLitigationLog.getUser());
 			litigationHistoryTLog.setLtgnLitigationLog(ltgnLitigationLog);
@@ -891,22 +906,25 @@ public class LitigationService implements ILitigationService {
 		updateLtgnLitigationLog.setStage(connectedLitigationVO.getStageDetails());
 		updateLtgnLitigationLog.setHearingEvent(connectedLitigationVO.getEvent());
 		updateLtgnLitigationLog.setHearingAttendedBy(connectedLitigationVO.getAttendedBy());
-		
+
 		litigationHistoryTLog.setActivityType("History Added");
 		LocalDateTime dateTime = LocalDateTime.now();
 		litigationHistoryTLog.setCreateDate(dateTime);
-		litigationHistoryTLog.setActivityDescription("Hearing Dt:" + connectedLitigationVO.getHearingDt()+"  Stage: "+ connectedLitigationVO.getStageDetails() + "  Event: "+ connectedLitigationVO.getEvent() + "  Attended By: "+ connectedLitigationVO.getAttendedBy());
-		
-		
+		litigationHistoryTLog.setActivityDescription("Hearing Dt:" + connectedLitigationVO.getHearingDt() + "  Stage: "
+				+ connectedLitigationVO.getStageDetails() + "  Event: " + connectedLitigationVO.getEvent()
+				+ "  Attended By: " + connectedLitigationVO.getAttendedBy());
+
 		ltgnLitigationLogRepository.save(updateLtgnLitigationLog);
 		litigationHistoryTLogRepository.save(litigationHistoryTLog);
-		
+
 	}
 
 	@Override
 	public List<ConnectedLitigationVO> getActivityLog(String litigationId) {
-		List<LitigationHistoryTLog> allActivityLog = litigationHistoryTLogRepository.findActivityLogByLitigationId(litigationId);
-		return allActivityLog.stream().map(activityLog -> convertToActivityLogDto(activityLog)).collect(Collectors.toList());
+		List<LitigationHistoryTLog> allActivityLog = litigationHistoryTLogRepository
+				.findActivityLogByLitigationId(litigationId);
+		return allActivityLog.stream().map(activityLog -> convertToActivityLogDto(activityLog))
+				.collect(Collectors.toList());
 	}
 
 	private ConnectedLitigationVO convertToActivityLogDto(LitigationHistoryTLog activityLog) {
@@ -914,12 +932,13 @@ public class LitigationService implements ILitigationService {
 		ConnectedLitigationVO allActivityLog = new ConnectedLitigationVO();
 		allActivityLog.setUpdatedBy(activityLog.getUser().getLoginId());
 		allActivityLog.setLogId(activityLog.getLitigationHistoryTLogId()); // litigationhistory log id
-		allActivityLog.setlHistoryId(activityLog.getLtgnLitigationLog().getLitigationLogId()); // ltgnLitigationOgid as hearing id
+		allActivityLog.setlHistoryId(activityLog.getLtgnLitigationLog().getLitigationLogId()); // ltgnLitigationOgid as
+																								// hearing id
 		allActivityLog.setActivityType(activityLog.getActivityType());
 		activityDescription.append("Hearing Dt: " + activityLog.getLtgnLitigationLog().getNextDateOfHearing());
-		activityDescription.append("Stage: "+ activityLog.getLtgnLitigationLog().getStage());
-		activityDescription.append("Event: "+ activityLog.getLtgnLitigationLog().getHearingEvent());
-		activityDescription.append("Attended By: "+ activityLog.getLtgnLitigationLog().getHearingAttendedBy());
+		activityDescription.append("Stage: " + activityLog.getLtgnLitigationLog().getStage());
+		activityDescription.append("Event: " + activityLog.getLtgnLitigationLog().getHearingEvent());
+		activityDescription.append("Attended By: " + activityLog.getLtgnLitigationLog().getHearingAttendedBy());
 		allActivityLog.setActivityDescription(activityDescription);
 		allActivityLog.setModifiedDate(activityLog.getCreateDate());
 		return allActivityLog;
@@ -944,7 +963,7 @@ public class LitigationService implements ILitigationService {
 		allCustomerTypes.put("Appelant", "Respondant");
 		allCustomerTypes.put("Appeal By Company", "Petitioner");
 		allCustomerTypes.put("Appean Against Company", "Petitioner");
-		
+
 		Format formatDtls = formatRepository.getFormatByName(addLitigationVO.getFormat());
 		litigation.setFormat(formatDtls);
 
@@ -954,46 +973,47 @@ public class LitigationService implements ILitigationService {
 
 		CustomerType customerType = customerTypeRepository.findByCustomerType(addLitigationVO.getCustomerType());
 		litigation.setCustomerType(customerType);
-		
-		for(Entry<String, String> entry: allCustomerTypes.entrySet()) {
-			if(entry.getKey().equals(litigation.getCustomerType().getCustomerType())) {
+
+		for (Entry<String, String> entry : allCustomerTypes.entrySet()) {
+			if (entry.getKey().equals(litigation.getCustomerType().getCustomerType())) {
 				System.out.println(entry.getValue());
 				litigation.setAgainstPartyClientType(entry.getValue());
 			}
 		}
 
-		CounterPartyDtls counterPartyDtls = counterPartyRepository.findByCustomerName(addLitigationVO.getCounterParty());
+		CounterPartyDtls counterPartyDtls = counterPartyRepository
+				.findByCustomerName(addLitigationVO.getCounterPartyName());
 		litigation.setCounterPartyDtls(counterPartyDtls);
 		litigation.setCoCounterParties(addLitigationVO.getCoCounterParties());
 		litigation.setSubject(addLitigationVO.getSubject());
 
-		LtgnCaseType ltgnCaseType = ltgnCaseTypeRepository.findByCaseType(addLitigationVO.getCategory());
+		LtgnCaseType ltgnCaseType = ltgnCaseTypeRepository.findByCaseType(addLitigationVO.getCategoryName());
 		litigation.setLtgnCaseType(ltgnCaseType);
 		litigation.setCaseNumber(addLitigationVO.getCaseNumber());
 
-		Risk riskAsses = riskRepository.findByRisk(addLitigationVO.getRiskAssesment());
+		Risk riskAsses = riskRepository.findByRisk(addLitigationVO.getRisk());
 		litigation.setRisk(riskAsses);
 
-		Claim claimRange = claimRepository.findByClaim(addLitigationVO.getPossibleClaimRange());
+		Claim claimRange = claimRepository.findByClaim(addLitigationVO.getClaim());
 		litigation.setClaim(claimRange);
 		litigation.setExactClaimAmount(addLitigationVO.getPossibleClaim());
 		litigation.setFileNo(addLitigationVO.getPantaloonFileNo());
 
-		UnderAct underActs = underActRepository.findByUnderAct(addLitigationVO.getUnderActs());
+		UnderAct underActs = underActRepository.findByUnderAct(addLitigationVO.getUnderActName());
 		litigation.setUnderAct(underActs);
 		litigation.setUnderSection(addLitigationVO.getUnderSection());
 		litigation.setOtherUnderAct(addLitigationVO.getOtherUnderacts());
 
-		CourtType courtType = courtTypeRepository.findByCourtType(addLitigationVO.getCourtType());
+		CourtType courtType = courtTypeRepository.findByCourtType(addLitigationVO.getCourtTypeName());
 		litigation.setCourtType(courtType);
 
-		State state = stateRepository.findByStateName(addLitigationVO.getState());
+		State state = stateRepository.findByStateName(addLitigationVO.getStateName());
 		litigation.setState(state);
 
-		litigation.setCity(addLitigationVO.getCity());
+		litigation.setCity(addLitigationVO.getCityName());
 		litigation.setFirNo(addLitigationVO.getFirNo());
 
-		PoliceStation policeStation = policeStationRepository.getPoliceDtlsByCityName(addLitigationVO.getCity());
+		PoliceStation policeStation = policeStationRepository.getPoliceDtlsByCityName(addLitigationVO.getCityName());
 		litigation.setPoliceStationId(policeStation);
 
 		CourtCity courtCity = courtCityRepository.findByCourtCity(addLitigationVO.getCourtForum());
@@ -1019,102 +1039,113 @@ public class LitigationService implements ILitigationService {
 
 		Dept dept = deptRepository.findByDeptName(addLitigationVO.getFunction());
 		litigation.setDept(dept);
-		
-		// process for matterByAgainst 
+
+		// process for matterByAgainst
 		List<String> representativeNameList = new ArrayList<String>();
-		System.out.println("Size:: " +addLitigationVO.getMatterByAgainst().length);
-		if(addLitigationVO.getMatterByAgainst() != null){
-			//fetch litigationMatterByAgainst values based on litigationId
-			List<LitigationMatterByAgainst> checkAllMatterByAgainst = litigationMatterByAgainstRepository.findMatterByAgainstByLitigationId(litigationId);
-			for(LitigationMatterByAgainst matterByAgainst: checkAllMatterByAgainst) {
-				if(!Arrays.asList(addLitigationVO.getMatterByAgainst()).contains(matterByAgainst.getLtgnRepresentativeMaster().getRepresentativeName())) {
+		System.out.println("Size:: " + addLitigationVO.getMatterByAgainst().length);
+		if (addLitigationVO.getMatterByAgainst() != null) {
+			// fetch litigationMatterByAgainst values based on litigationId
+			List<LitigationMatterByAgainst> checkAllMatterByAgainst = litigationMatterByAgainstRepository
+					.findMatterByAgainstByLitigationId(litigationId);
+			for (LitigationMatterByAgainst matterByAgainst : checkAllMatterByAgainst) {
+				if (!Arrays.asList(addLitigationVO.getMatterByAgainst())
+						.contains(matterByAgainst.getLtgnRepresentativeMaster().getRepresentativeName())) {
 					representativeNameList.add(matterByAgainst.getLtgnRepresentativeMaster().getRepresentativeName());
 				}
 			}
-			
-			for(String representName : representativeNameList) {
+
+			for (String representName : representativeNameList) {
 				int isDeleted = litigationMatterByAgainstRepository.deleteMappedRepresentativeName(representName);
-				if(isDeleted > 0) {
+				if (isDeleted > 0) {
 					System.out.println("Mapped Representative Name Deleted Successfully");
 				}
 			}
-			
-			
+
 			for (String matterByAgainst : addLitigationVO.getMatterByAgainst()) {
-				System.out.println("representativeName:: " +matterByAgainst);
-				LitigationMatterByAgainst checkMatterByExists = litigationMatterByAgainstRepository.findMatterByAgainst(matterByAgainst, litigationId);
-				if(checkMatterByExists == null) {
-					//insert new records
-					
-					Litigation saveMatterByAgainstData= litigationRepository.getDtlsByLitigationRepresentativeName(matterByAgainst, litigationId);
-					
+				System.out.println("representativeName:: " + matterByAgainst);
+				LitigationMatterByAgainst checkMatterByExists = litigationMatterByAgainstRepository
+						.findMatterByAgainst(matterByAgainst, litigationId);
+				if (checkMatterByExists == null) {
+					// insert new records
+
+					Litigation saveMatterByAgainstData = litigationRepository
+							.getDtlsByLitigationRepresentativeName(matterByAgainst, litigationId);
+
 					LitigationMatterByAgainst litigationMatterByAgainst = new LitigationMatterByAgainst();
-					
+
 					litigationMatterByAgainst.setLitigation(saveMatterByAgainstData);
-					litigationMatterByAgainst.getLitigation().setLitigationOId(saveMatterByAgainstData.getLitigationOId());
-					System.out.println("LitigationOID:: " +litigationMatterByAgainst.getLitigation().getLitigationOId());
-					
-					litigationMatterByAgainst.setLtgnRepresentativeMaster(saveMatterByAgainstData.getLtgnRepresentativeMaster());
-					System.out.println("Representative Matter:: " +litigationMatterByAgainst.getLtgnRepresentativeMaster().getRepresentativeId());
-					
+					litigationMatterByAgainst.getLitigation()
+							.setLitigationOId(saveMatterByAgainstData.getLitigationOId());
+					System.out
+							.println("LitigationOID:: " + litigationMatterByAgainst.getLitigation().getLitigationOId());
+
+					litigationMatterByAgainst
+							.setLtgnRepresentativeMaster(saveMatterByAgainstData.getLtgnRepresentativeMaster());
+					System.out.println("Representative Matter:: "
+							+ litigationMatterByAgainst.getLtgnRepresentativeMaster().getRepresentativeId());
+
 					litigationMatterByAgainstRepository.save(litigationMatterByAgainst);
-				}else {
-					//fetch record and update
+				} else {
+					// fetch record and update
 					System.out.println("Representative Name Already Mapped");
-					Litigation updateMatterByAgainstData= litigationRepository.getDtlsByLitigationRepresentativeName(matterByAgainst, litigationId);
+					Litigation updateMatterByAgainstData = litigationRepository
+							.getDtlsByLitigationRepresentativeName(matterByAgainst, litigationId);
 					litigation.setLtgnRepresentativeMaster(updateMatterByAgainstData.getLtgnRepresentativeMaster());
 					litigation.setLitigationMatterByAgainst(updateMatterByAgainstData.getLitigationMatterByAgainst());
 //					litigation.setLtgnLitigationLog(updateMatterByAgainstData.getLtgnLitigationLog());
 				}
-				
+
 			}
 		}
-		
-		//Process for adding unitDetails
-		Units unitsDtls  =new Units();
-		System.out.println("EntityName:: " +addLitigationVO.getEntityName());
-		if(addLitigationVO.getEntityName() != null || addLitigationVO.getZoneName() != null || addLitigationVO.getUnitName() != null) {
-			if(addLitigationVO.getEntityName().isEmpty() || addLitigationVO.getZoneName().isEmpty() || addLitigationVO.getUnitName().isEmpty()) {
+
+		// Process for adding unitDetails
+		Units unitsDtls = new Units();
+		System.out.println("EntityName:: " + addLitigationVO.getEntityName());
+		if (addLitigationVO.getEntityName() != null || addLitigationVO.getZoneName() != null
+				|| addLitigationVO.getUnitName() != null) {
+			if (addLitigationVO.getEntityName().isEmpty() || addLitigationVO.getZoneName().isEmpty()
+					|| addLitigationVO.getUnitName().isEmpty()) {
 				System.out.println("Update is not required for litigationUnitDetails");
 				LitigationUnits litigationUnitsDtls = litigationUnitsRepository.findUnitDetails(litigationId);
 				litigation.setUnits(litigationUnitsDtls.getUnits());
 				System.out.println("UnitDtls:: " + litigationUnitsDtls.getUnits().getUnitId());
-			}else {
+			} else {
 				unitsDtls = unitsRepository.getUnitDtlsByEntityName(addLitigationVO.getEntityName(),
 						addLitigationVO.getZoneName(), addLitigationVO.getUnitName());
-				if(unitsDtls == null) {
+				if (unitsDtls == null) {
 					litigationUnits.setUnits(unitsDtls);
 					litigationUnits.setLitigation(litigation);
 					litigationUnitsRepository.save(litigationUnits);
-				}else {
+				} else {
 					System.out.println("UnitDetails Already Mapped with litigationUnits");
 				}
 			}
 		}
-		
+
 		// update details by litigationOID
 		Litigation updateById = litigationRepository.findByLitigationId(litigationId);
 		System.out.println("Update By OID " + updateById.getLitigationOId());
 		litigation.setLitigationOId(updateById.getLitigationOId());
 		litigation.setLitigationId(litigationId);
-		
+
 		litigation.setCaseRelateFromDate(addLitigationVO.getCaseRelateFromDate());
 		litigation.setCaseRelateToDate(addLitigationVO.getCaseRelateToDate());
-		
-		
+
 //		litigation.setUnits(unitsDtls);
 		LocalDate dateTime = LocalDate.now();
 		litigation.setCreateDate(dateTime);
 //		litigationUnitsRepository.save(litigationUnits);
-		
+
 		litigationRepository.save(litigation);
-		
+
 	}
 
 	@Override
 	public List<UnitSummaryVO> showEntityRegionUnits(String litigationId) {
 		List<Units> entityRegionUnitsDtls = unitsRepository.findDtlsByLitigationId(litigationId);
-		return entityRegionUnitsDtls.stream().map(allEntityRegionUnitsDtls -> convertToEntityRegionUnitsDto(allEntityRegionUnitsDtls)).collect(Collectors.toList());
+		return entityRegionUnitsDtls.stream()
+				.map(allEntityRegionUnitsDtls -> convertToEntityRegionUnitsDto(allEntityRegionUnitsDtls))
+				.collect(Collectors.toList());
 	}
 
 	private UnitSummaryVO convertToEntityRegionUnitsDto(Units allEntityRegionUnitsDtls) {
@@ -1127,13 +1158,14 @@ public class LitigationService implements ILitigationService {
 
 	@Override
 	public List<Litigation> getHearingStatusReportDtls(LocalDate fromDate, LocalDate toDate) {
-		List<Litigation> hearingStatusReportDtls  = litigationRepository.findHearingStatusDtlsByFromandToDate(fromDate,toDate);
+		List<Litigation> hearingStatusReportDtls = litigationRepository.findHearingStatusDtlsByFromandToDate(fromDate,
+				toDate);
 		return hearingStatusReportDtls;
 	}
 
 	@Override
 	public List<Dept> getdept() {
-		List<Dept> allDept =deptRepository.findAll();
+		List<Dept> allDept = deptRepository.findAll();
 		return allDept;
 	}
 
@@ -1143,88 +1175,91 @@ public class LitigationService implements ILitigationService {
 			String function, String counterParty, String category, String possibleClaim, String state,
 			String lawfirmIndividual, String courtType, String underActs, String risk, String status,
 			String matterByAgainst, String litigationByAgainst) {
-		
+
 		List<Litigation> litigationSummary = new ArrayList<>();
 		Map<String, Object> parameterMap = new HashMap<>();
 		List<String> whereClause = new ArrayList<>();
 		StringBuilder reportQuery = new StringBuilder();
-		
-		reportQuery.append("select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId ");
-		
-		if(!zone.equals("ALL")) {
+
+		reportQuery.append(
+				"select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId ");
+
+		if (!zone.equals("ALL")) {
 			System.out.println(zone);
 			whereClause.add(" r.zoneName=:zone ");
 			parameterMap.put("zone", zone);
-		} 
-		if(!format.equals("ALL")) {
+		}
+		if (!format.equals("ALL")) {
 			whereClause.add(" lt.format.format:format ");
 			parameterMap.put("format", format);
-		} 
-		if(!entity.equals("ALL")) {
+		}
+		if (!entity.equals("ALL")) {
 			whereClause.add(" e.entityName=:entity ");
 			parameterMap.put("entity", entity);
-		} 
-		if( !counterParty.equals("ALL")) {
+		}
+		if (!counterParty.equals("ALL")) {
 			whereClause.add(" cpd.customerName=:counterParty ");
 			parameterMap.put("counterParty", counterParty);
-		} 
-		if( !category.endsWith("ALL")) {
+		}
+		if (!category.endsWith("ALL")) {
 			whereClause.add(" lt.ltgnCaseType.caseType=:category ");
 			parameterMap.put("category", category);
-		} 
-		if(!possibleClaim.equals("ALL") ) {
+		}
+		if (!possibleClaim.equals("ALL")) {
 			whereClause.add(" c.claim=:possibleClaim ");
 			parameterMap.put("possibleClaim", possibleClaim);
 		}
-		if(!state.equals("ALL") ) {
+		if (!state.equals("ALL")) {
 			whereClause.add(" lt.state.stateName=:state ");
 			parameterMap.put("state", state);
-		} 
-		if(!lawfirmIndividual.equals("ALL") ) {
+		}
+		if (!lawfirmIndividual.equals("ALL")) {
 			whereClause.add(" lt.lawFirm.lawfirm=:lawfirmIndividual ");
 			parameterMap.put("lawfirmIndividual", lawfirmIndividual);
-		} 
-		if(!courtType.equals("ALL") )  {
+		}
+		if (!courtType.equals("ALL")) {
 			whereClause.add(" lt.courtType.courtType=:courtType ");
 			parameterMap.put("courtType", courtType);
-		} 
-		if(!underActs.equals("ALL") ) {
+		}
+		if (!underActs.equals("ALL")) {
 			whereClause.add(" lt.underAct.underAct=:underActs ");
 			parameterMap.put("underActs", underActs);
-		} 
-		if(!risk.equals("ALL")) {
+		}
+		if (!risk.equals("ALL")) {
 			System.out.println(risk);
 			whereClause.add(" rs.risk=:risk ");
 			parameterMap.put("risk", risk);
-		} 
-		if(!status.equals("ALL")) {
+		}
+		if (!status.equals("ALL")) {
 			whereClause.add(" s.status=:status ");
 			parameterMap.put("status", status);
 		}
-		if(!matterByAgainst.equals("ALL")) {
+		if (!matterByAgainst.equals("ALL")) {
 			whereClause.add(" lt.ltgnRepresentativeMaster.representativeName=:matterByAgainst ");
 			parameterMap.put("matterByAgainst", matterByAgainst);
 		}
-		if(!litigationByAgainst.equals("ALL")) {
+		if (!litigationByAgainst.equals("ALL")) {
 			whereClause.add(" lt.ltgnRepresentativeMaster.representativeName=:litigationByAgainst ");
 			parameterMap.put("litigationByAgainst", litigationByAgainst);
 		}
-		
-		if(!zone.equals("ALL") || !format.equals("ALL")|| !entity.equals("ALL") || !counterParty.equals("ALL") || !category.endsWith("ALL") 
-				|| !possibleClaim.equals("ALL") || !state.equals("ALL") || !lawfirmIndividual.equals("ALL")  || !courtType.equals("ALL") || !underActs.equals("ALL") 
-				|| !risk.equals("ALL") || !status.equals("ALL") || !matterByAgainst.equals("ALL") || !litigationByAgainst.equals("ALL")){
+
+		if (!zone.equals("ALL") || !format.equals("ALL") || !entity.equals("ALL") || !counterParty.equals("ALL")
+				|| !category.endsWith("ALL") || !possibleClaim.equals("ALL") || !state.equals("ALL")
+				|| !lawfirmIndividual.equals("ALL") || !courtType.equals("ALL") || !underActs.equals("ALL")
+				|| !risk.equals("ALL") || !status.equals("ALL") || !matterByAgainst.equals("ALL")
+				|| !litigationByAgainst.equals("ALL")) {
 			reportQuery.append(" where " + StringUtils.join(whereClause, " and "));
 		}
-		
-		
+
 		Query jpaQuery = entityManager.createQuery(reportQuery.toString());
 		LOGGER.info("Created Query::  " + reportQuery.toString());
-		for(String key: parameterMap.keySet()) {
+		for (String key : parameterMap.keySet()) {
 			jpaQuery.setParameter(key, parameterMap.get(key));
 		}
-		 litigationSummary = jpaQuery.getResultList();
-		 LOGGER.info("List Size:: " +litigationSummary.size());
-		return litigationSummary.stream().map(allLitigationSummary -> convertToLitigationSummary(allLitigationSummary)).collect(Collectors.toList());
+		litigationSummary = jpaQuery.getResultList();
+		LOGGER.info("List Size:: " + litigationSummary.size());
+		return litigationSummary.stream().map(allLitigationSummary -> convertToLitigationSummary(allLitigationSummary))
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -1256,5 +1291,17 @@ public class LitigationService implements ILitigationService {
 		return litigationSummaryVO;
 	}
 
-	
+	@Override
+	public List<CityStateVO> getAllCourtForum() {
+		List<CourtCity> allCourtForum = courtCityRepository.findAll();
+		return allCourtForum.stream().map(allCourtForumDtls -> convertToCourtForumVO(allCourtForumDtls))
+				.collect(Collectors.toList());
+	}
+
+	private CityStateVO convertToCourtForumVO(CourtCity allCourtForumDtls) {
+		CityStateVO courtForum = new CityStateVO();
+		courtForum.setCourtForum(allCourtForumDtls.getCourtCity());
+		return courtForum;
+	}
+
 }

@@ -47,7 +47,7 @@ public class LitigationRestController {
 
 	private BaseResponseVO baseResponseVO = BaseResponseVO.getInstance();
 
-	@PostMapping("/addMatterBy")
+	/*@PostMapping("/addMatterBy")
 	public ResponseEntity<BaseResponseVO> addMatterBy(@RequestBody LtgnMatterByVO ltgnMastersByVo) {
 		LtgnRepresentativeMaster ltgnRepresentativeMaster = litigationService
 				.checkExistenceRepresentativeName(ltgnMastersByVo.getMatterBy());
@@ -61,7 +61,7 @@ public class LitigationRestController {
 		}
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
-	}
+	}*/
 
 	@GetMapping("/getAllMatterByAgainst")
 	public ResponseEntity<BaseResponseVO> getAllMatterByData() {
@@ -77,7 +77,7 @@ public class LitigationRestController {
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
 
-	@PostMapping("/addCategory")
+	/*@PostMapping("/addCategory")
 	public BaseResponseVO addCategory(@RequestBody LtgnCategoryVO ltgnCategoryVO) {
 		LtgnCaseType ltgnCaseType = litigationService.checkExistenceCaseType(ltgnCategoryVO.getCategoryName());
 		if (ltgnCaseType == null) {
@@ -90,7 +90,7 @@ public class LitigationRestController {
 		}
 		baseResponseVO.setData(null);
 		return baseResponseVO;
-	}
+	}*/
 
 	@GetMapping("/getAllCategory")
 	public ResponseEntity<BaseResponseVO> getAllCategoryData() {
@@ -106,7 +106,7 @@ public class LitigationRestController {
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
 
-	@PostMapping("/addUnderAct")
+	/*@PostMapping("/addUnderAct")
 	public BaseResponseVO addUnderAct(@RequestBody UnderActVO underActVO) {
 		UnderAct underAct = litigationService.findByUnderAct(underActVO.getUnderActName());
 		if (underAct == null) {
@@ -119,7 +119,7 @@ public class LitigationRestController {
 		}
 		baseResponseVO.setData(null);
 		return baseResponseVO;
-	}
+	}*/
 
 	@GetMapping("/getAllUnderAct")
 	public ResponseEntity<BaseResponseVO> getAllUnderAct() {
@@ -135,7 +135,7 @@ public class LitigationRestController {
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
 
-	@PostMapping("/addCourtType")
+	/*@PostMapping("/addCourtType")
 	public BaseResponseVO addCourtType(@RequestBody CourtTypeVO courtTypeVO) {
 		CourtType courtType = litigationService.checkExistenceCourtType(courtTypeVO.getCourtTypeName());
 		if (courtType == null) {
@@ -148,7 +148,7 @@ public class LitigationRestController {
 		}
 		baseResponseVO.setData(null);
 		return baseResponseVO;
-	}
+	}*/
 
 	@GetMapping("/getAllCourtType")
 	public ResponseEntity<BaseResponseVO> getAllCourtType() {
@@ -296,27 +296,26 @@ public class LitigationRestController {
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
-	
+
 	@GetMapping("/getLitigationSummary")
-	public ResponseEntity<BaseResponseVO> getLitigationSummary(){
-		List<LitigationSummaryVO> allLitigationSummary =litigationService.getLitigationSummary();
+	public ResponseEntity<BaseResponseVO> getLitigationSummary() {
+		List<LitigationSummaryVO> allLitigationSummary = litigationService.getLitigationSummary();
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(allLitigationSummary);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
-	//Connected Litigation tab. add Data.
+
+	// Connected Litigation tab. add Data.
 	@PostMapping("/addConnectedLitigation")
-	public BaseResponseVO addConncectedLitigation(@RequestBody ConnectedLitigationVO connectedLitigationVO){
+	public BaseResponseVO addConncectedLitigation(@RequestBody ConnectedLitigationVO connectedLitigationVO) {
 		litigationService.addConnectedLitigation(connectedLitigationVO);
 		baseResponseVO.setResponseCode(HttpStatus.CREATED.value());
 		baseResponseVO.setResponseMessage("Connected Litigation Added Successfully");
 		baseResponseVO.setData(null);
 		return baseResponseVO;
 	}
-	
+
 	// witness tab add dtls.
 	@PostMapping("/addWitnessDtls")
 	public BaseResponseVO addWitnessDtls(@RequestBody ConnectedLitigationVO connectedLitigationVO) {
@@ -326,150 +325,153 @@ public class LitigationRestController {
 		baseResponseVO.setData(null);
 		return baseResponseVO;
 	}
-	
-	//Witness tab. get all info by id
+
+	// Witness tab. get all info by id
 	@GetMapping("/getWitnessDtls/{litigationId}")
-	public ResponseEntity<BaseResponseVO> getWitnessDtls(@PathVariable("litigationId")String litigationId){
+	public ResponseEntity<BaseResponseVO> getWitnessDtls(@PathVariable("litigationId") String litigationId) {
 		List<ConnectedLitigationVO> allWitnessDtls = litigationService.getWitnessDtls(litigationId);
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(allWitnessDtls);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
-	//get all Result master info
+
+	// get all Result master info
 	@GetMapping("/getLitigationResultMaster")
-	public ResponseEntity<BaseResponseVO> getLitigationResultMaster(){
+	public ResponseEntity<BaseResponseVO> getLitigationResultMaster() {
 		List<ConnectedLitigationVO> allResultMaster = litigationService.getLitigationResultMaster();
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(allResultMaster);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
-	//Completion Tab Dispose data
+
+	// Completion Tab Dispose data
 	@PostMapping("/litigationDisposal")
 	public BaseResponseVO litigationDisposal(@RequestBody ConnectedLitigationVO connectedLitigationVO) {
-		int updateLitigationdisposal=litigationService.addLitigationDisposal(connectedLitigationVO);
-		if(updateLitigationdisposal > 0) {
+		int updateLitigationdisposal = litigationService.addLitigationDisposal(connectedLitigationVO);
+		if (updateLitigationdisposal > 0) {
 			baseResponseVO.setResponseCode(HttpStatus.OK.value());
 			baseResponseVO.setResponseMessage("LitigationDisposal Updated Successfully");
-		}else {
+		} else {
 			baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
 			baseResponseVO.setResponseMessage("Unable to Update Litigation Disposal");
 		}
 		return baseResponseVO;
 	}
-	
-	//based on litigation id get Status info
+
+	// based on litigation id get Status info
 	@GetMapping("/getStatus/{litigationId}")
-	public ResponseEntity<BaseResponseVO> getStatus(@PathVariable("litigationId") String litigationId){
-		ConnectedLitigationVO statusById=litigationService.getStatusByLitigationId(litigationId);
+	public ResponseEntity<BaseResponseVO> getStatus(@PathVariable("litigationId") String litigationId) {
+		ConnectedLitigationVO statusById = litigationService.getStatusByLitigationId(litigationId);
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(statusById);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
-	//Document Tab. inside Upload Document Functionality
-	@RequestMapping(value = "/uploadDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"})
-	public ResponseEntity<BaseResponseVO> uploadDocuments(@RequestPart("file") MultipartFile file, @RequestPart("connectedLitigationVO") ConnectedLitigationVO connectedLitigationVO){
+
+	// Document Tab. inside Upload Document Functionality
+	@RequestMapping(value = "/uploadDocument", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+	public ResponseEntity<BaseResponseVO> uploadDocuments(@RequestPart("file") MultipartFile file,
+			@RequestPart("connectedLitigationVO") ConnectedLitigationVO connectedLitigationVO) {
 		litigationService.saveLitigationDocsData(file, connectedLitigationVO);
 		baseResponseVO.setResponseCode(HttpStatus.CREATED.value());
 		baseResponseVO.setResponseMessage("DocumentUploadeded Successfully");
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
-	
-	//Billing Tab for add Data
-	@RequestMapping(value = "/addLawfirmBilling", method = RequestMethod.POST, consumes = {"multipart/form-data"})
-	public BaseResponseVO addLawfirmBilling(@RequestPart("file") MultipartFile file, @RequestPart("connectedLitigationVO") ConnectedLitigationVO connectedLitigationVO ) {
+
+	// Billing Tab for add Data
+	@RequestMapping(value = "/addLawfirmBilling", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+	public BaseResponseVO addLawfirmBilling(@RequestPart("file") MultipartFile file,
+			@RequestPart("connectedLitigationVO") ConnectedLitigationVO connectedLitigationVO) {
 		litigationService.saveLawfirmBillingData(file, connectedLitigationVO);
 		baseResponseVO.setResponseCode(HttpStatus.CREATED.value());
 		baseResponseVO.setResponseMessage("Lawfirm Billing Details Added Successfully");
 		baseResponseVO.setData(null);
 		return baseResponseVO;
 	}
-	
-	//Billing Tab get Data functionality
+
+	// Billing Tab get Data functionality
 	@GetMapping("/getLawfirmBilling/{litigationId}")
-	public ResponseEntity<BaseResponseVO> getLawfirmBilling(@PathVariable("litigationId") String litigationId){
+	public ResponseEntity<BaseResponseVO> getLawfirmBilling(@PathVariable("litigationId") String litigationId) {
 		List<ConnectedLitigationVO> allLawfirmBilling = litigationService.getLawfirmBilling(litigationId);
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(allLawfirmBilling);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
-	//Details Tab 
+
+	// Details Tab
 	@GetMapping("/getCaseCounselDtls/{litigationId}")
-	public ResponseEntity<BaseResponseVO> getCaseCounselDetails(@PathVariable("litigationId") String litigationId){
+	public ResponseEntity<BaseResponseVO> getCaseCounselDetails(@PathVariable("litigationId") String litigationId) {
 		List<AddLitigationVO> allCaseCounselDtls = litigationService.getCaseDtls(litigationId);
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(allCaseCounselDtls);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
+
 	@GetMapping("/getLitigationDetails/{litigationId}")
-	public ResponseEntity<BaseResponseVO> getAllDetails(@PathVariable("litigationId") String litigationId){
+	public ResponseEntity<BaseResponseVO> getAllDetails(@PathVariable("litigationId") String litigationId) {
 		List<AddLitigationVO> allCaseDetails = litigationService.getAllDetails(litigationId);
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(allCaseDetails);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
+
 	@GetMapping("/showLitigationDtls/{litigationId}")
-	public ResponseEntity<BaseResponseVO> showLitigationDetails(@PathVariable("litigationId") String litigationId){
+	public ResponseEntity<BaseResponseVO> showLitigationDetails(@PathVariable("litigationId") String litigationId) {
 		List<AddLitigationVO> allLitigationDtls = litigationService.showLitigationDetails(litigationId);
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(allLitigationDtls);
 		return ResponseEntity.ok().body(baseResponseVO);
-		
+
 	}
-	
+
 	@PutMapping("/updateLitigation/{litigationId}")
-	public ResponseEntity<BaseResponseVO> updateLitigation(@RequestBody AddLitigationVO addLitigationVO, @PathVariable String litigationId){
+	public ResponseEntity<BaseResponseVO> updateLitigation(@RequestBody AddLitigationVO addLitigationVO,
+			@PathVariable String litigationId) {
 		litigationService.updateLitigationData(addLitigationVO, litigationId);
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("Litigation Details Updated Successfully");
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
-	//History tab next hearing date.
+
+	// History tab next hearing date.
 	@PostMapping("/addNextHearingDate")
-	public ResponseEntity<BaseResponseVO> addNextHearingDate(@RequestBody ConnectedLitigationVO connectedLitigationVO){
+	public ResponseEntity<BaseResponseVO> addNextHearingDate(@RequestBody ConnectedLitigationVO connectedLitigationVO) {
 		litigationService.saveNextHearingDate(connectedLitigationVO);
 		baseResponseVO.setResponseCode(HttpStatus.CREATED.value());
 		baseResponseVO.setResponseMessage("Hearing Date Created Successfully");
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
+
 	@GetMapping("/showHistoryDtls/{litigationId}")
-	public ResponseEntity<BaseResponseVO> showHistoryDtls(@PathVariable String litigationId){
+	public ResponseEntity<BaseResponseVO> showHistoryDtls(@PathVariable String litigationId) {
 		List<ConnectedLitigationVO> allHistoryDtls = litigationService.getHistoryDtls(litigationId);
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(allHistoryDtls);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
+
 	@PutMapping("/updateHearingDetails/{litigationId}")
-	public ResponseEntity<BaseResponseVO> updateHearingDetails(@RequestBody ConnectedLitigationVO connectedLitigationVO, @PathVariable String litigationId){
+	public ResponseEntity<BaseResponseVO> updateHearingDetails(@RequestBody ConnectedLitigationVO connectedLitigationVO,
+			@PathVariable String litigationId) {
 		litigationService.updateHearingDetails(connectedLitigationVO, litigationId);
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("HearingDetails Updated Successfully");
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
-	
+
 	@GetMapping("/activitiLog/{litigationId}")
-	public ResponseEntity<BaseResponseVO> getActivityLog(@PathVariable String litigationId){
+	public ResponseEntity<BaseResponseVO> getActivityLog(@PathVariable String litigationId) {
 		List<ConnectedLitigationVO> allActivityLog = litigationService.getActivityLog(litigationId);
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
@@ -478,12 +480,12 @@ public class LitigationRestController {
 	}
 
 	@GetMapping("/showEntityRegionUnits/{litigationId}")
-	public ResponseEntity<BaseResponseVO> showEntityRegionUnits(@PathVariable String litigationId){
+	public ResponseEntity<BaseResponseVO> showEntityRegionUnits(@PathVariable String litigationId) {
 		List<UnitSummaryVO> entityRegionUnits = litigationService.showEntityRegionUnits(litigationId);
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(entityRegionUnits);
 		return ResponseEntity.ok().body(baseResponseVO);
-		
+
 	}
 }

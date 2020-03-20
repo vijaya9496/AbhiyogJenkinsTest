@@ -105,7 +105,7 @@ public class Litigation {
 	private String fileAvailable;
 
 	@Column(name = "casefileondt")
-	private Date caseFileOnDate;
+	private LocalDate caseFileOnDate;
 
 	@Column(name = "provisionmade")
 	private String provisionMade;
@@ -510,11 +510,11 @@ public class Litigation {
 		this.fileAvailable = fileAvailable;
 	}
 
-	public Date getCaseFileOnDate() {
+	public LocalDate getCaseFileOnDate() {
 		return caseFileOnDate;
 	}
 
-	public void setCaseFileOnDate(Date caseFileOnDate) {
+	public void setCaseFileOnDate(LocalDate caseFileOnDate) {
 		this.caseFileOnDate = caseFileOnDate;
 	}
 

@@ -15,31 +15,32 @@ public class AddLitigationVO {
 	private String address;
 	private String storeOfficePremises; // operational or non-operational
 	private String coFormat;
-	private String[] matterByAgainst;	//using for sending request
+	private String[] matterByAgainst; // using for sending request
 	private List<String> matterByAgainstList = new ArrayList<String>();
+	private String matterBy; // used in modal to add
 	private String coZone;
 	private String customerType;
 	private String againstPartyClientCustomerType;
-	private String counterParty; // this might be changed based on selection of type on ui side.
+	private String counterPartyName; // this might be changed based on selection of type on ui side.
 	private String coCounterParties;
 	private String subject;
-	private String category;
+	private String categoryName;
 	private String caseNumber;
-	private String riskAssesment;
-	private String possibleClaimRange;
-	private float possibleClaim;
+	private String risk;
+	private String claim;
+	private float possibleClaim; // PossibleClaim
 	private String pantaloonFileNo;
-	private String underActs;
+	private String underActName;
 	private String underSection;
 	private String otherUnderacts;
-	private String courtType;
-	private String state;
-	private String city;
+	private String courtTypeName;
+	private String stateName;
+	private String cityName;
 	private String firNo;
 	private String courtForum;
 	private String judgeName;
 	private String status;
-	private Date dateOfReceiptOfMatter; // dateOfReceiptOfMatter/Case
+	private LocalDate dateOfReceiptOfMatter; // dateOfReceiptOfMatter/Case
 	private String factsOfLitigation;
 	private String stage;
 	private String counselAssesment;
@@ -50,8 +51,7 @@ public class AddLitigationVO {
 	private String function;
 	private Date caseRelateFromDate;
 	private Date caseRelateToDate;
-	private String litigationId; //to display in RestoreLitigation
- 
+	private String litigationId; // to display in RestoreLitigation
 
 	public String getLoginId() {
 		return loginId;
@@ -141,14 +141,12 @@ public class AddLitigationVO {
 		this.customerType = customerType;
 	}
 
-	
-
-	public String getCounterParty() {
-		return counterParty;
+	public String getCounterPartyName() {
+		return counterPartyName;
 	}
 
-	public void setCounterParty(String counterParty) {
-		this.counterParty = counterParty;
+	public void setCounterPartyName(String counterPartyName) {
+		this.counterPartyName = counterPartyName;
 	}
 
 	public String getCoCounterParties() {
@@ -167,12 +165,12 @@ public class AddLitigationVO {
 		this.subject = subject;
 	}
 
-	public String getCategory() {
-		return category;
+	public String getCategoryName() {
+		return categoryName;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 	public String getCaseNumber() {
@@ -183,20 +181,20 @@ public class AddLitigationVO {
 		this.caseNumber = caseNumber;
 	}
 
-	public String getRiskAssesment() {
-		return riskAssesment;
+	public String getRisk() {
+		return risk;
 	}
 
-	public void setRiskAssesment(String riskAssesment) {
-		this.riskAssesment = riskAssesment;
+	public void setRisk(String risk) {
+		this.risk = risk;
 	}
 
-	public String getPossibleClaimRange() {
-		return possibleClaimRange;
+	public String getClaim() {
+		return claim;
 	}
 
-	public void setPossibleClaimRange(String possibleClaimRange) {
-		this.possibleClaimRange = possibleClaimRange;
+	public void setClaim(String claim) {
+		this.claim = claim;
 	}
 
 	public float getPossibleClaim() {
@@ -215,12 +213,12 @@ public class AddLitigationVO {
 		this.pantaloonFileNo = pantaloonFileNo;
 	}
 
-	public String getUnderActs() {
-		return underActs;
+	public String getUnderActName() {
+		return underActName;
 	}
 
-	public void setUnderActs(String underActs) {
-		this.underActs = underActs;
+	public void setUnderActName(String underActName) {
+		this.underActName = underActName;
 	}
 
 	public String getUnderSection() {
@@ -239,28 +237,28 @@ public class AddLitigationVO {
 		this.otherUnderacts = otherUnderacts;
 	}
 
-	public String getCourtType() {
-		return courtType;
+	public String getCourtTypeName() {
+		return courtTypeName;
 	}
 
-	public void setCourtType(String courtType) {
-		this.courtType = courtType;
+	public void setCourtTypeName(String courtTypeName) {
+		this.courtTypeName = courtTypeName;
 	}
 
-	public String getState() {
-		return state;
+	public String getStateName() {
+		return stateName;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
 	}
 
-	public String getCity() {
-		return city;
+	public String getCityName() {
+		return cityName;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
 	}
 
 	public String getFirNo() {
@@ -295,11 +293,11 @@ public class AddLitigationVO {
 		this.status = status;
 	}
 
-	public Date getDateOfReceiptOfMatter() {
+	public LocalDate getDateOfReceiptOfMatter() {
 		return dateOfReceiptOfMatter;
 	}
 
-	public void setDateOfReceiptOfMatter(Date dateOfReceiptOfMatter) {
+	public void setDateOfReceiptOfMatter(LocalDate dateOfReceiptOfMatter) {
 		this.dateOfReceiptOfMatter = dateOfReceiptOfMatter;
 	}
 
@@ -406,5 +404,13 @@ public class AddLitigationVO {
 	public void setLitigationId(String litigationId) {
 		this.litigationId = litigationId;
 	}
-	
+
+	public String getMatterBy() {
+		return matterBy;
+	}
+
+	public void setMatterBy(String matterBy) {
+		this.matterBy = matterBy;
+	}
+
 }

@@ -30,25 +30,25 @@ public interface ILitigationService {
 
 	LtgnRepresentativeMaster checkExistenceRepresentativeName(String matterBy);
 
-	void saveLtgnRepresentativeMaster(LtgnMatterByVO ltgnMastersByVo);
+	void saveLtgnRepresentativeMaster(String matterBy);
 
 	List<LtgnMatterByVO> findAll();
 
 	LtgnCaseType checkExistenceCaseType(String categoryName);
 
-	void saveLtgnCaseType(LtgnCategoryVO ltgnCategoryVO);
+	void saveLtgnCaseType(String categoryName);
 
 	List<LtgnCategoryVO> findAllCategoryData();
 
 	UnderAct findByUnderAct(String underActName);
 
-	void saveUnderActData(UnderActVO underActVO);
+	void saveUnderActData(String underActName);
 
 	List<UnderActVO> findAllUnderActData();
 
 	CourtType checkExistenceCourtType(String courtTypeName);
 
-	void saveCourtType(CourtTypeVO courtTypeVO);
+	void saveCourtType(String courtTypeName);
 
 	List<CourtTypeVO> findCourtType();
 
@@ -72,7 +72,7 @@ public interface ILitigationService {
 
 	void saveCourtCityData(CityStateVO cityStateCourtForumVO);
 
-	void saveLitigationData(AddLitigationVO addLitigationVO);
+	boolean saveLitigationData(AddLitigationVO addLitigationVO);
 
 	void savePoliceStationData(CityStateVO cityStateVO);
 
@@ -126,6 +126,8 @@ public interface ILitigationService {
 			String litigationByAgainst);
 
 	LitigationSummaryVO getLitigationDetails(int id);
+	
+	List<CityStateVO> getAllCourtForum();
 
 	
 
