@@ -17,37 +17,91 @@ jQuery(document).ready(function() {
 	
 	$("#matterByAgainst").multiselect();
 	
-	/*if($("#entityNameId").val()	=== "Select"){
-		alert("Please Select EntityName");
-	}
-	if($("#zoneNameId").val() === "Select"){
-		alert("Please Select ZoneName");
-	}
-	if($("#unitNameId").val() === "Select"){
-		alert("Please Select UnitName")
-	}
-	if($("#format").val() === "Select"){
-		alert("Please Select Format");
-	}
-	if($("#storeOfficePremises").val() === "Select"){
-		alert("Please Select StoreOfficePremises");
-	}
-	if($("#matterByAgainst").val() === " "){
-		alert("Please Select Matter By Against);
-	}
-	if($("#customerType").val() === "Select"){
-		alert("Please Select CustomerType");
-	}
-	if($("#counterPartyNameId").val() === "Select"){
-		alert("Please Select CounterParty");
-	}
-	if($("#categoryNameId").val() === "Select"){
-		alert("please Select Category");
-	}*/
-	/*if($("#caseNumber").val() === ""){
-		alert("Please Enter CaseNumber");
-	}*/
+	$("#addLitigationBtn").click(function(){
+		if($("#entityNameId").val()	=== "Select"){
+			alert("Please Select EntityName");
+			return false;
+		}
+		if($("#zoneNameId").val() === "Select"){
+			alert("Please Select ZoneName");
+			return false;
+		}
+		if($("#unitNameId").val() === "Select"){
+			alert("Please Select UnitName");
+			return false;
+		}
+		if($("#format").val() === "Select"){
+			alert("Please Select Format");
+			return false;
+		}
+		
+		if($("#storeOfficePremises").val() === "Select"){
+			alert("Please Select StoreOfficePremises");
+			return false;
+		}
+		/*if($("#matterByAgainst").val() === " "){
+			alert("Please Select Matter By Against);
+		}*/
+		if($("#customerType").val() === "Select"){
+			alert("Please Select CustomerType");
+			return false;
+		}
+		if($("#counterPartyName").val() === "Select"){
+			alert("Please Select CounterParty");
+			return false;
+		}
+		if($("#categoryNameId").val() === "Select"){
+			alert("please Select Category");
+			return false;
+		}
+		if($("#caseNumber").val() == ""){
+			alert("Please Enter CaseNumber");
+			return false;
+		}
+		if($("#risk").val() ==="Select"){
+			alert("Please Select Risk");
+			return false;
+		}
+		
+		if($("#claim").val() === "Select"){
+			alert("Please Select Claim");
+			return false;
+		}
+		
+		if($("#underActName").val === "Select"){
+			alert("Please Select UnderActs");
+			return false;
+		}
+		
+		if($("#courtTypeName").val() === "Select"){
+			alert("Please Select CourtType");
+			return false;
+		}
+		
+		if($("#state").val() === "Select"){
+			alert("Please Select StateName");
+			return false;
+		}
+		if($("#cityName").val() === "Select"){
+			alert("Please Select CityName");
+			return false;
+		}
+		if($("#status").val() === "Select"){
+			alert("Please Select Status");
+			return false;
+		}
+		if($("#courtForum").val() === "Select"){
+			alert("Please Select CourtForum");
+			return false;
+		}
+		if($("#lawfirm").val() === "Select"){
+			alert("Please Select Lawfirm/Individual");
+			return false;
+		}
+	});
 	
+	
+	//Button value Add
 		$("#addLocationBtn").click(function(){
 			alert("Inside addUnitLocation Btn");
 			if($("#entityNameId").val()	!= "Select" && $("#zoneNameId").val() != "Select" && $("#unitNameId").val() !="Select"){
@@ -57,18 +111,20 @@ jQuery(document).ready(function() {
 			}
 			
 		});
-		
+	
 		$("#resetLocationBtn").click(function(){
 			$("#entityNameId").val("");
 			$("#zoneNameId").val("");
 			$("#unitNameId").val("");
 		});
 	
+	// To remove a row in table
 		$('table').on('click','tr a',function(e){
 	         e.preventDefault();
 	        $(this).parents('tr').remove();
 	      });
 	
+	// to change label value after selection in dropdown list
 		$("#customerType").change(function(){
 			alert("inside CustomerType Change Function");
 			var map = new Map();
@@ -281,12 +337,14 @@ jQuery(document).ready(function() {
 	$("#modalAddUnitLocationcancelBtn").click(function() {
 		modal.style.display = "none";
 	});
+	
+	//End Add UnitLocation
 
 	// ADD COUNTERPARTY
 
 	// When the user clicks the button, open the modal
 	var counterPartymodal = document.getElementById("addCounterPartyModal");
-// var counterPartyCloseSpan = document.getElementsByClassName("close")[0];
+
 	$("#addCounterParty").click(function() {
 		counterPartymodal.style.display = "block";
 	});
@@ -313,7 +371,10 @@ jQuery(document).ready(function() {
 		counterPartymodal.style.display = "none";
 		$("#modalcounterPartyName").val("");
 	});
-	// ADD UNDERACTS
+	//End Add Counter Party
+	
+	
+	// Strat ADD UNDERACTS
 	var underActmodal = document.getElementById("addUnderActsModal");
 	$("#addUnderActs").click(function() {
 		underActmodal.style.display = "block";
@@ -341,7 +402,9 @@ jQuery(document).ready(function() {
 		$("#modalUnderActs").val("");
 	});
 	
-	// ADD Category
+	//End Add UnderActs
+	
+	// Start ADD Category
 	var categoryModal = document.getElementById("addCategoryModal");
 	$("#addCategory").click(function() {
 		categoryModal.style.display = "block";
@@ -369,7 +432,9 @@ jQuery(document).ready(function() {
 		$("#modalCategory").val("");
 	});
 	
-	// ADD COURT TYPE
+	//End Add Category
+	
+	// Start ADD COURT TYPE
 	var courtTypeModal = document.getElementById("addCourtTypeModal");
 	$("#addCourtType").click(function() {
 		courtTypeModal.style.display = "block";
@@ -397,7 +462,9 @@ jQuery(document).ready(function() {
 		$("#modalcourtTypeName").val("");
 	});
 	
-	// ADD LAWFIRM
+	//End Court Type
+	
+	// Start ADD LAWFIRM
 	var lawfirmModal = document.getElementById("addLawfirmModal");
 	$("#addLawfirm").click(function() {
 		lawfirmModal.style.display = "block";
@@ -425,7 +492,9 @@ jQuery(document).ready(function() {
 		$("#modallawfirm").val("");
 	});
 	
-	// ADD MATTER BY AGAINST
+	//End Add Lawfirm
+	
+	// start ADD MATTER BY AGAINST
 	var matterByAgainstModal = document.getElementById("addMatterByAgainstModal");
 	$("#addMatterByAgainst").click(function() {
 		matterByAgainstModal.style.display = "block";
@@ -453,6 +522,7 @@ jQuery(document).ready(function() {
 		$("#modalmatterBy").val("");
 	});
 	
+	//End Add Matter By Against
 	$("#resetLitigationBtn").click(function(){
 		$("#format").val("");
 		$("#address").val("");
@@ -496,10 +566,8 @@ jQuery(document).ready(function() {
 		$("#addNewLitigationForm").attr("method", "GET");
 		$("#addNewLitigationForm").submit();
 	});
-
 	
 	
-
 	$("#entityRegionUnits").jqGrid({
 		url : "",
 		width : 1100,
@@ -547,6 +615,9 @@ jQuery(document).ready(function() {
 			sortable : false
 		},
 	})
+
+
+	
 });
 
 

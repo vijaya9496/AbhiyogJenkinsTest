@@ -56,7 +56,7 @@
 		<div class="middle-right">
 			<span class="welcome-head">ADD LITIGATION</span> <span
 				class="small-head">Entity-Region-Units</span>
-			<form id="addNewLitigationForm" action="#"
+			<form id="addNewLitigationForm" action="#" th:action="@{/saveLitigation}"
 				th:object="${addLitigationVO}" method="post">
 				<div class="hidden_form">
 					<span class="small-head">Entity-Region-Units</span>
@@ -65,7 +65,7 @@
 							<li>
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> Entity</label> <select
-										id="entityName" th:field="*{entityName}" class="custom-select">
+										id="entityNameId" th:field="*{entityName}" class="custom-select">
 										<option value="Select">Select</option>
 										<option th:each="entity: ${allEntities}"
 											th:value="${entity.entityName}"
@@ -77,7 +77,7 @@
 							<li>
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> Zone</label> <select
-										id="zoneName" th:field="*{zoneName}" class="custom-select">
+										id="zoneNameId" th:field="*{zoneName}" class="custom-select">
 										<option value="Select">Select</option>
 										<option th:each="regions: ${allRegions}"
 											th:value="${regions.zoneName}" th:text="${regions.zoneName}">test</option>
@@ -86,7 +86,7 @@
 							<li class="last">
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> Unit/Location</label>
-									<select id="unitName" th:field="*{unitName}"
+									<select id="unitNameId" th:field="*{unitName}"
 										class="custom-select">
 										<option value="Select">Select</option>
 										<option th:each="units: ${allUnitLocationDtls}"
@@ -99,21 +99,23 @@
 					</div>
 
 					<div class="bottom-buttons">
-						<input type="button" class="fourth login-bottom apply" value="ADD">
-						<input type="button" class="fourth login-bottom apply cancel"
-							value="RESET"> <input
+						<input type="button" id="addLocationBtn"
+							class="fourth login-bottom apply" value="ADD"> <input
+							type="button" id="resetLocationBtn"
+							class="fourth login-bottom apply cancel" value="RESET"> <input
 							class="fourth login-bottom widthauto cancel center" type="button"
 							id="addUnitLocation" value="ADD UNIT/LOCATION">
 					</div>
 
 					<div class="data-tablemain">
-						<table id="entityRegionUnits" class="jqgrid">
+						<table id="entityRegionUnits">
 							<tr>
-								<td />
+								<th>EntityName</th>
+								<th>Region</th>
+								<th>UnitName</th>
+								<th>Remove</th>
 							</tr>
 						</table>
-						<div id="entityRegionUnitsPager"></div>
-
 					</div>
 
 				</div>
@@ -163,9 +165,10 @@
 								</div>
 
 							</li>
-							<li><label for="usr">Matter By/Against:</label> <select
-								id="matterByAgainst" class="custom-select"
+							<li><label for="usr"><sup class="red">*</sup>Matter By/Against:</label> <select
+								id="matterByAgainst" multiple="multiple"
 								th:field="*{matterByAgainst}">
+									<option value="Select">Select</option>
 									<option th:each="matterByAgainstDtl: ${allMatterByAgainstDtls}"
 										th:value="${matterByAgainstDtl.matterBy}"
 										th:text="${matterByAgainstDtl.matterBy}">test</option>
@@ -173,7 +176,8 @@
 
 							<li class="last">
 								<div class="bottom-buttons">
-									<input class="fourth login-bottom widthauto blue-big button-width"
+									<input
+										class="fourth login-bottom widthauto blue-big button-width"
 										type="button" id="addMatterByAgainst"
 										value="CLICK TO ADD MATTER BY/AGAINST">
 								</div>
@@ -199,7 +203,7 @@
 
 							<li class="last">
 								<div class="form-group">
-									<label for="usr"><sup class="red">*</sup> Co-Zone</label> <input
+									<label for="usr">Co-Zone</label> <input
 										type="text" class="form-control" id="coZone"
 										th:field="*{coZone}"> <span><sup class="red">*</sup>
 										<label>Function Head(s):Shrikant Gupta prashant rane,
@@ -218,7 +222,7 @@
 						<ul>
 							<li>
 								<div class="form-group">
-									<label for="usr"><sup class="red">*</sup> Paintiff</label> <select
+									<label for="usr" id="counterPartyId"><sup class="red">*</sup>Defendant</label> <select
 										class="custom-select" id="counterPartyName"
 										th:field="*{counterPartyName}">
 										<option value="Select">Select</option>
@@ -231,7 +235,7 @@
 							</li>
 							<li>
 								<div class="form-group">
-									<label for="usr"><sup class="red">*</sup> Co-Counter
+									<label for="usr">Co-Counter
 										Parties</label> <input type="text" class="form-control"
 										id="coCounterParties" th:field="*{coCounterParties}">
 								</div>
@@ -322,7 +326,7 @@
 
 					<div class="filter-form">
 						<ul>
-							<li><label for="usr"><sup class="red">*</sup>
+							<li><label for="usr">
 									Possible Claim</label>
 								<div class="form-group">
 									<input type="text" class="form-control" id="possibleClaim"
@@ -330,13 +334,13 @@
 								</div></li>
 							<li>
 								<div class="form-group">
-									<label for="usr"><sup class="red">*</sup> Pantaloon
+									<label for="usr">Pantaloon
 										File No</label> <input type="text" class="form-control"
 										id="pantaloonFileNo" th:field="*{pantaloonFileNo}">
 								</div>
 
 							</li>
-							<li class="last"><label for="usr"><sup class="red">*</sup>
+							<li class="last"><label for="usr">
 									Under Section(U/S)</label>
 								<div class="form-group">
 
@@ -350,7 +354,7 @@
 						<ul>
 							<li>
 								<div class="form-group">
-									<label for="usr"><sup class="red">*</sup> Other Under
+									<label for="usr">Other Under
 										Act(s)</label> <input type="text" class="form-control"
 										id="otherUnderacts" th:field="*{otherUnderacts}">
 								</div>
@@ -409,25 +413,6 @@
 							</li>
 						</ul>
 					</div>
-					<!-- <div class="filter-form">
-						<ul>
-							<li>
-								<div class="form-group">
-									<label for="usr">Add Court Type</label> <input type="text"
-										class="form-control" id="">
-								</div>
-
-							</li>
-							<li class="last">
-								<div class="form-group top-gap">
-
-									<input type="submit" class="fourth login-bottom apply addgap"
-										value="ADD"> <input type="submit"
-										class="fourth login-bottom apply cancel" value="CANCEL">
-								</div>
-							</li>
-						</ul>
-					</div> -->
 					<div class="filter-form">
 						<ul>
 							<li>
@@ -470,7 +455,7 @@
 						<ul>
 							<li>
 								<div class="form-group">
-									<label for="usr"><sup class="red">*</sup> FIR No</label> <input
+									<label for="usr">FIR No</label> <input
 										type="text" id="firNo" th:field="*{firNo}">
 								</div>
 							</li>
@@ -525,11 +510,6 @@
 
 					<div class="filter-form">
 						<ul>
-							<!-- <li><label for="usr">Counsel Assessments</label>
-								<div class="form-group">
-
-									<textarea id="counselAssesment" th:field="*{counselAssesment}"> </textarea>
-								</div></li> -->
 							<li>
 								<div class="form-group">
 									<label for="usr"> Remark</label>
@@ -591,83 +571,81 @@
 					<!-- 				</form> -->
 				</div>
 				<div class="bottom-buttons">
-					<input type="submit" class="fourth login-bottom apply" id="addBtn"
-						value="ADD"> <input type="button"
-						class="fourth login-bottom apply" id="resetBtn" value="RESET">
-					<input type="button" class="fourth login-bottom apply"
-						id="cancelBtn" value="CANCEL">
+					<input type="submit" class="fourth login-bottom apply"
+						id="addLitigationBtn" value="ADD"> <input type="button"
+						class="fourth login-bottom apply" id="resetLitigationBtn"
+						value="RESET"> <input type="button"
+						class="fourth login-bottom apply" id="cancelLitigationBtn" value="CANCEL">
 				</div>
-			</form>
-		</div>
-	</div>
-	<div th:include="footer :: footer"></div>
-	<div id="addUnitLocationModal" class="modal">
+				
+				
+				<div id="addUnitLocationModal" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
 			<span class="close">&times;</span> <span class="welcome-head">ADD
 				UNIT/LOCATION</span>
-			<form id="addUnitLocationForm" th:object="${unitSummaryVO}"
-				class="form-horizontal" action="#"
-				th:action="@{/addUnitLocation}" method="post">
-				<div class="filter-form">
-					<ul>
-						<li><label for="usr"><sup class="red">*</sup>Entity</label> <select
-							id="modalentityName" th:field="*{entityName}"
-							class="custom-select">
-								<option value="Select">Select</option>
-								<option th:each="entity: ${allEntities}"
-									th:value="${entity.entityName}" th:text="${entity.entityName}">test</option>
-						</select></li>
-						<li><label for="usr"><sup class="red">*</sup>Zone</label> <select
-							id="modalzoneName" th:field="*{zoneName}" class="custom-select">
-								<option value="Select">Select</option>
-								<option th:each="regions: ${allRegions}"
-									th:value="${regions.zoneName}" th:text="${regions.zoneName}">test</option>
-						</select></li>
-						<li class="last"><label for="usr"><sup class="red">*</sup>UnitName</label>
-							<input type="text" name="unitName" id="modalunitName"
-							required="required" /></li>
-					</ul>
-				</div>
-				<div class="bottom-buttons">
-					<button type="submit" id="addBtn" value="ADD"
-						class="btn btn-primary">ADD</button>
-					<button type="button" id="modalAddUnitLocationResetBtn"
-						value="Reset" class="btn btn-secondary">RESET</button>
-					<button type="button" id="modalAddUnitLocationcancelBtn"
-						value="CANCEL" class="btn btn-secondary">CANCEL</button>
-				</div>
+			<div class="filter-form">
+				<ul>
+					<li><label for="usr"><sup class="red">*</sup>Entity</label> <select
+						id="modalentityName" th:field="*{entityName}"
+						class="custom-select">
+							<option value="Select">Select</option>
+							<option th:each="entity: ${allEntities}"
+								th:value="${entity.entityName}" th:text="${entity.entityName}">test</option>
+					</select></li>
+					<li><label for="usr"><sup class="red">*</sup>Zone</label> <select
+						id="modalzoneName" th:field="*{zoneName}" class="custom-select">
+							<option value="Select">Select</option>
+							<option th:each="regions: ${allRegions}"
+								th:value="${regions.zoneName}" th:text="${regions.zoneName}">test</option>
+					</select></li>
+					<li class="last"><label for="usr"><sup class="red">*</sup>UnitName</label>
+						<input type="text" th:field="*{unitName}" id="modalunitName"/></li>
+				</ul>
+			</div>
+			<div class="bottom-buttons">
+				<button type="submit" id="addUnitLocationBtn" value="ADD"
+					class="btn btn-primary">ADD</button>
+				<button type="button" id="modalAddUnitLocationResetBtn"
+					value="Reset" class="btn btn-secondary">RESET</button>
+				<button type="button" id="modalAddUnitLocationcancelBtn"
+					value="CANCEL" class="btn btn-secondary">CANCEL</button>
+			</div>
+
+		</div>
+	</div>
+				
 			</form>
 		</div>
 	</div>
+	<div th:include="footer :: footer"></div>
+	
 	<div id="addCounterPartyModal" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
 			<span class="close">&times;</span> <span class="welcome-head">ADD
 				COUNTER PARTY</span>
-			<form id="addCounterPartyForm" 
-				class="form-horizontal" action="#"
-				th:action="@{/addCounterPartyDtls}" method="post">
-				<div class="filter-form">
-					<ul>
-						<li class="last">
-							<div class="filter-form">
-								<label><sup class="red">*</sup>Counter Party Name:</label> <input
-									type="text" name="counterPartyName" id="modalcounterPartyName"
-									required="required" />
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="bottom-buttons">
-					<button type="submit" id="addBtn" value="ADD"
-						class="btn btn-primary">ADD</button>
-					<button type="button" id="modalAddCounterPartyResetBtn"
-						value="Reset" class="btn btn-secondary">RESET</button>
-					<button type="button" id="modalAddCounterPartycancelBtn"
-						value="CANCEL" class="btn btn-secondary">CANCEL</button>
-				</div>
-			</form>
+
+			<div class="filter-form">
+				<ul>
+					<li class="last">
+						<div class="filter-form">
+							<label><sup class="red">*</sup>Counter Party Name:</label> <input
+								type="text" name="counterPartyName" id="modalcounterPartyName"
+								required="required" />
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="bottom-buttons">
+				<button type="submit" id="addCounterPartyBtn" value="ADD"
+					class="btn btn-primary">ADD</button>
+				<button type="button" id="modalAddCounterPartyResetBtn"
+					value="Reset" class="btn btn-secondary">RESET</button>
+				<button type="button" id="modalAddCounterPartycancelBtn"
+					value="CANCEL" class="btn btn-secondary">CANCEL</button>
+			</div>
+
 		</div>
 	</div>
 	<div id="addUnderActsModal" class="modal">
@@ -675,29 +653,27 @@
 		<div class="modal-content">
 			<span class="close">&times;</span> <span class="welcome-head">ADD
 				UNDER ACTS</span>
-			<form id="addUnderActsForm" 
-				class="form-horizontal" action="#"
-				th:action="@{/addUnderAct}" method="post">
-				<div class="filter-form">
-					<ul>
-						<li class="last">
-							<div class="filter-form">
-								<label><sup class="red">*</sup>UnderAct(s):</label> <input
-									type="text" name="underActName" id="modalUnderActs"
-									required="required" />
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="bottom-buttons">
-					<button type="submit" id="addBtn" value="ADD"
-						class="btn btn-primary">ADD</button>
-					<button type="button" id="modalAddUnderActsResetBtn" value="Reset"
-						class="btn btn-secondary">RESET</button>
-					<button type="button" id="modalAddUnderActscancelBtn"
-						value="CANCEL" class="btn btn-secondary">CANCEL</button>
-				</div>
-			</form>
+
+			<div class="filter-form">
+				<ul>
+					<li class="last">
+						<div class="filter-form">
+							<label><sup class="red">*</sup>UnderAct(s):</label> <input
+								type="text" name="underActName" id="modalUnderActs"
+								required="required" />
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="bottom-buttons">
+				<button type="submit" id="addUnderActBtn" value="ADD"
+					class="btn btn-primary">ADD</button>
+				<button type="button" id="modalAddUnderActsResetBtn" value="Reset"
+					class="btn btn-secondary">RESET</button>
+				<button type="button" id="modalAddUnderActscancelBtn" value="CANCEL"
+					class="btn btn-secondary">CANCEL</button>
+			</div>
+
 		</div>
 	</div>
 
@@ -705,32 +681,30 @@
 		<!-- Modal content -->
 		<div class="modal-content">
 			<p th:text="${message}" th:unless="${message == null}"
-			class="alert alert-success">Test</p>
+				class="alert alert-success">Test</p>
 			<span class="close">&times;</span> <span class="welcome-head">ADD
 				CATEGORY</span>
-			<form id="addCategoryForm" 
-				class="form-horizontal" action="#" th:object="${addLitigationVO}"
-				th:action="@{/addCategory}" method="post">
-				<div class="filter-form">
-					<ul>
-						<li class="last">
-							<div class="filter-form">
-								<label><sup class="red">*</sup>Category:</label> <input
-									type="text" name="categoryName" id="modalCategory"
-									required="required" />
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="bottom-buttons">
-					<button type="submit" id="addBtn" value="ADD"
-						class="btn btn-primary">ADD</button>
-					<button type="button" id="modalAddCategoryResetBtn" value="Reset"
-						class="btn btn-secondary">RESET</button>
-					<button type="button" id="modalAddCategoryCancelBtn" value="CANCEL"
-						class="btn btn-secondary">CANCEL</button>
-				</div>
-			</form>
+
+			<div class="filter-form">
+				<ul>
+					<li class="last">
+						<div class="filter-form">
+							<label><sup class="red">*</sup>Category:</label> <input
+								type="text" name="categoryName" id="modalCategory"
+								required="required" />
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="bottom-buttons">
+				<button type="submit" id="addCategoryBtn" value="ADD"
+					class="btn btn-primary">ADD</button>
+				<button type="button" id="modalAddCategoryResetBtn" value="Reset"
+					class="btn btn-secondary">RESET</button>
+				<button type="button" id="modalAddCategoryCancelBtn" value="CANCEL"
+					class="btn btn-secondary">CANCEL</button>
+			</div>
+
 		</div>
 	</div>
 
@@ -740,96 +714,89 @@
 			<span class="close">&times;</span> <span class="welcome-head">ADD
 				COURT TYPE</span>
 			<p th:text="${message}" th:unless="${message == null}"
-			class="alert alert-success">Test</p>
-			<form id="addCourtTypeForm" 
-				class="form-horizontal" action="#"
-				th:action="@{/addCourtType}" method="post">
-				<div class="filter-form">
-					<ul>
-						<li class="last">
-							<div class="filter-form">
-								<label><sup class="red">*</sup>CourtType:</label> <input
-									type="text" name="courtTypeName" id="modalcourtTypeName"
-									required="required" />
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="bottom-buttons">
-					<button type="submit" id="addBtn" value="ADD"
-						class="btn btn-primary">ADD</button>
-					<button type="button" id="modalAddCourtTypeResetBtn" value="Reset"
-						class="btn btn-secondary">RESET</button>
-					<button type="button" id="modalAddCourtTypeCancelBtn"
-						value="CANCEL" class="btn btn-secondary">CANCEL</button>
-				</div>
-			</form>
+				class="alert alert-success">Test</p>
+
+			<div class="filter-form">
+				<ul>
+					<li class="last">
+						<div class="filter-form">
+							<label><sup class="red">*</sup>CourtType:</label> <input
+								type="text" name="courtTypeName" id="modalcourtTypeName"
+								required="required" />
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="bottom-buttons">
+				<button type="submit" id="addCourtTypeBtn" value="ADD"
+					class="btn btn-primary">ADD</button>
+				<button type="button" id="modalAddCourtTypeResetBtn" value="Reset"
+					class="btn btn-secondary">RESET</button>
+				<button type="button" id="modalAddCourtTypeCancelBtn" value="CANCEL"
+					class="btn btn-secondary">CANCEL</button>
+			</div>
+
 		</div>
 	</div>
 
 	<div id="addLawfirmModal" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
-		<p th:text="${message}" th:unless="${message == null}"
-			class="alert alert-success">Test</p>
+			<p th:text="${message}" th:unless="${message == null}"
+				class="alert alert-success">Test</p>
 			<span class="close">&times;</span> <span class="welcome-head">ADD
 				LAWFIRM</span>
-			<form id="addLawfirmForm" 
-				class="form-horizontal" action="#" th:object="${outsideCounselVO}"
-				th:action="@{/addLawfirm}" method="post">
-				<div class="filter-form">
-					<ul>
-						<li class="last">
-							<div class="filter-form">
-								<label><sup class="red">*</sup>Lawfirm/Individual:</label> <input
-									type="text" name="lawfirm" id="modallawfirm"
-									required="required" />
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="bottom-buttons">
-					<button type="submit" id="addBtn" value="ADD"
-						class="btn btn-primary">ADD</button>
-					<button type="button" id="modalAddLawfirmResetBtn" value="Reset"
-						class="btn btn-secondary">RESET</button>
-					<button type="button" id="modalAddLawfirmCancelBtn" value="CANCEL"
-						class="btn btn-secondary">CANCEL</button>
-				</div>
-			</form>
+
+			<div class="filter-form">
+				<ul>
+					<li class="last">
+						<div class="filter-form">
+							<label><sup class="red">*</sup>Lawfirm/Individual:</label> <input
+								type="text" name="lawfirm" id="modallawfirm" required="required" />
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="bottom-buttons">
+				<button type="submit" id="addLawfirmBtn" value="ADD"
+					class="btn btn-primary">ADD</button>
+				<button type="button" id="modalAddLawfirmResetBtn" value="Reset"
+					class="btn btn-secondary">RESET</button>
+				<button type="button" id="modalAddLawfirmCancelBtn" value="CANCEL"
+					class="btn btn-secondary">CANCEL</button>
+			</div>
+
 		</div>
 	</div>
-	
+
 	<div id="addMatterByAgainstModal" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
-		<p th:text="${message}" th:unless="${message == null}"
-			class="alert alert-success">Test</p>
+			<p th:text="${message}" th:unless="${message == null}"
+				class="alert alert-success">Test</p>
 			<span class="close">&times;</span> <span class="welcome-head">ADD
 				MATTER BY/AGAINST</span>
-			<form id="addMatterByAgainstForm" 
-				class="form-horizontal" action="#"
-				th:action="@{/addMatterBy}" method="post">
-				<div class="filter-form">
-					<ul>
-						<li class="last">
-							<div class="filter-form">
-								<label><sup class="red">*</sup>Matter By/Against:</label> <input
-									type="text" name="matterBy" id="modalmatterBy"
-									required="required" />
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="bottom-buttons">
-					<button type="submit" id="addBtn" value="ADD"
-						class="btn btn-primary">ADD</button>
-					<button type="button" id="modalAddMatterByAgainstResetBtn" value="Reset"
-						class="btn btn-secondary">RESET</button>
-					<button type="button" id="modalAddMatterByAgainstCancelBtn" value="CANCEL"
-						class="btn btn-secondary">CANCEL</button>
-				</div>
-			</form>
+
+			<div class="filter-form">
+				<ul>
+					<li class="last">
+						<div class="filter-form">
+							<label><sup class="red">*</sup>Matter By/Against:</label> <input
+								type="text" name="matterBy" id="modalmatterBy"
+								required="required" />
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="bottom-buttons">
+				<button type="submit" id="addMatterByBtn" value="ADD"
+					class="btn btn-primary">ADD</button>
+				<button type="button" id="modalAddMatterByAgainstResetBtn"
+					value="Reset" class="btn btn-secondary">RESET</button>
+				<button type="button" id="modalAddMatterByAgainstCancelBtn"
+					value="CANCEL" class="btn btn-secondary">CANCEL</button>
+			</div>
+
 		</div>
 	</div>
 </body>
