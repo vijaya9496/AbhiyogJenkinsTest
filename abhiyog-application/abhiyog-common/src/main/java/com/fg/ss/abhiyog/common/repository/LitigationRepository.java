@@ -22,7 +22,7 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 	@Query(value="select * from ltgn_litigation l order by l.litigationid desc limit 1", nativeQuery=true)
 	Litigation getLitigationId();
 
-	@Query(value="select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId order by lt.litigationId desc")
+	@Query(value="select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId where deleteStatus != 1 order by lt.litigationId desc")
 	List<Litigation> findAllLitigationSummary();
 
 	@Query(value="select lt from Litigation as lt where lt.litigationId=:litigationId")
@@ -65,8 +65,8 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 
 	@Modifying
 	@Transactional
-	@Query(value="update Litigation lt set lt.deleteStatus = 1 where lt.litigationId = :litigationId")
-	int updateDeleteStatus(@Param("litigationId")String litigationId);
+	@Query(value="update Litigation lt set lt.deleteStatus = 1 where lt.litigationOId = :litigationOId")
+	int updateDeleteStatus(@Param("litigationOId")int litigationOId);
 	
 	@Query(value="select lt from Litigation as lt where lt.deleteStatus = 1")
 	List<Litigation> getAllRestoreLitigationDtls();
@@ -109,6 +109,16 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 
 	@Query(value="select count(lt) from Litigation as lt, LitigationMatterByAgainst as lma, LtgnRepresentativeMaster as lrm where lrm.representativeId = lma.ltgnRepresentativeMaster.representativeId and lt.litigationOId = lma.litigation.litigationOId and lrm.representativeName=:litigationStatistic")
 	int findLitigationByStatistics(@Param("litigationStatistic")String litigationStatistic);
+
+	@Query(value="select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId where deleteStatus = 1 order by lt.litigationId desc")
+	List<Litigation> findRestoreLitigationSummary();
+
+	@Modifying
+	@Transactional
+	@Query(value="update Litigation lt set lt.deleteStatus = 0 where lt.litigationOId = :loId")
+	int updateRestoreLitigationData(@Param("loId")int loId);
+
+	
 
 	/*@Query(value="select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId join Format as f on f.formatId = lt.format.formatId "
 			+ "where r.zoneName=:zone OR :zone IS NULL and f.format=:format OR :format IS NULL and e.entityName=:entity OR :entity IS NULL and cpd.customerName=:counterParty OR :counterParty IS NULL and lt.ltgnCaseType.caseType=:category OR :category IS NULL and "

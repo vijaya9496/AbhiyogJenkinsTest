@@ -3,6 +3,7 @@ package com.fg.ss.abhiyog.app.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,6 +43,7 @@ import com.fg.ss.abhiyog.common.service.IEntityService;
 import com.fg.ss.abhiyog.common.service.IFormatService;
 import com.fg.ss.abhiyog.common.service.ILitigationService;
 import com.fg.ss.abhiyog.common.service.IOutsideCounselService;
+import com.fg.ss.abhiyog.common.service.IRestoreLitigationService;
 import com.fg.ss.abhiyog.common.service.IUnitsSummaryService;
 import com.fg.ss.abhiyog.common.service.IZoneService;
 import com.fg.ss.abhiyog.common.util.DateUtils;
@@ -58,6 +61,9 @@ public class LitigationController {
 
 	@Autowired
 	private ILitigationService litigationService;
+	
+	@Autowired
+	private IRestoreLitigationService restoreLitigationService;
 
 	@Autowired
 	private IZoneService zoneService;
@@ -138,6 +144,7 @@ public class LitigationController {
 					cell.add(litigationSummary.getPossibleClaim());
 					cell.add(litigationSummary.getRemark());
 					cell.add(litigationSummary.getZoneName());
+					cell.add("Delete");
 //					cellObj.put(CommonConstants.CELL, cell);
 					cellObj.set(CommonConstants.CELL, cell);
 					cellArray.add(cellObj);
@@ -276,6 +283,7 @@ public class LitigationController {
 					cell.add(litigationData.getPossibleClaim());
 					cell.add(litigationData.getRemark());
 					cell.add(litigationData.getZoneName());
+					cell.add("Delete");
 //					cellObj.put(CommonConstants.CELL, cell);
 					cellObj.set(CommonConstants.CELL, cell);
 					cellArray.add(cellObj);
@@ -301,6 +309,35 @@ public class LitigationController {
 		model.addAttribute("allLitiagtionDtls",
 				litigationService.getLitigationDetails(Integer.parseInt(request.getParameter("id"))));
 		return "litigationDetails";
+	}
+	
+	@RequestMapping(value="/updateDeleteStatus")
+	public String updateDeleteStatus(Model model, HttpServletRequest request) {
+		int isUpdatedDeleteStatus = restoreLitigationService.updateDeleteStatus(Integer.parseInt(request.getParameter("id")));
+		if(isUpdatedDeleteStatus > 0) {
+			model.addAttribute("message", "Litigation Deleted Successfully");
+		}else {
+			model.addAttribute("message", "Unable to Delete Litigation");
+		}
+		model.addAttribute("userVO", new UserVO());
+
+		model.addAttribute("allZones", zoneService.getAllZones());
+//		model.addAttribute("formatVO", new FormatVO());
+		model.addAttribute("allFormats", formatService.getAllFormats());
+//		model.addAttribute("entityVO", new EntityVO());
+		model.addAttribute("allEntities", entityService.getAllEntities());
+		model.addAttribute("allFunction", litigationService.getdept());
+		model.addAttribute("allCounterParty", counterPartyService.findAll());
+		model.addAttribute("allCategories", litigationService.findAllCategoryData());
+		model.addAttribute("allPossibleClaim", litigationService.findAllClaimPossible());
+		model.addAttribute("allStates", litigationService.findAllStates());
+		model.addAttribute("allLawfirmDtls", outsideCounselService.findAll());
+		model.addAttribute("allCourtTypeDtls", litigationService.findCourtType());
+		model.addAttribute("allUnderActDtls", litigationService.findAllUnderActData());
+		model.addAttribute("allRiskDtls", litigationService.findAllRiskLevel());
+		model.addAttribute("allStatusDtls", litigationService.findAllStatus());
+		model.addAttribute("allMatterByAgainstDtls", litigationService.findAll());
+		return "litigationSummary";
 	}
 
 	@RequestMapping(value = "/addMatterBy", method = RequestMethod.POST)
@@ -541,5 +578,175 @@ public class LitigationController {
 		model.addAttribute("allMatterByAgainstDtls", litigationService.findAll());
 		
 		return "addLitigation";	
+	}
+	
+	@RequestMapping(value="/showRestoreLitigationSummary", method=RequestMethod.GET)
+	public String showRestoreLitigationSummary(Model model) {
+		model.addAttribute("addLitigationVO", new AddLitigationVO());
+		model.addAttribute("allEntities", entityService.getAllEntities());
+		model.addAttribute("allCounterParty", counterPartyService.findAll());
+		model.addAttribute("allCourtTypeDtls", litigationService.findCourtType());
+		model.addAttribute("allUnderActDtls", litigationService.findAllUnderActData());
+		model.addAttribute("allRiskDtls", litigationService.findAllRiskLevel());
+		model.addAttribute("allCategories", litigationService.findAllCategoryData());
+		return "restoreLitigation";
+	}
+	
+	@RequestMapping(value="/getRestoreLitigationSummary", method=RequestMethod.GET)
+	public void getRestoreLitigationSummary(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		List<LitigationSummaryVO> allRestoreLitigationSummary = litigationService.getRestoreLitigationSummary();
+		fillRestoreGridDetail(allRestoreLitigationSummary, response, session);
+	}
+
+	private void fillRestoreGridDetail(List<LitigationSummaryVO> allRestoreLitigationSummary, HttpServletResponse response, HttpSession session) {
+		LOGGER.info("inside fillRestoreGridDetail method");
+		int totalRecord = 0;
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode responseData = mapper.createObjectNode();
+		ArrayNode cellArray = null;
+		ArrayNode cell = null;
+		ObjectNode cellObj = null;
+		try {
+			PrintWriter out = response.getWriter();
+			cellArray = mapper.createArrayNode();
+			if (allRestoreLitigationSummary.size() > 0) {
+				totalRecord = allRestoreLitigationSummary.size();
+				for (LitigationSummaryVO restoreLitigationSummary : allRestoreLitigationSummary) {
+					cellObj = mapper.createObjectNode();
+					cellObj.put(CommonConstants.ID, restoreLitigationSummary.getLitigationOId());
+					cell = mapper.createArrayNode();
+					cell.add(restoreLitigationSummary.getLitigationOId());
+					cell.add(restoreLitigationSummary.getLitigationId());
+					cell.add(restoreLitigationSummary.getEntityName());
+					cell.add(restoreLitigationSummary.getCounterParty());
+					cell.add(restoreLitigationSummary.getCaseNumber());
+					cell.add(restoreLitigationSummary.getSubject());
+					cell.add(restoreLitigationSummary.getUnderActName());
+					cell.add(restoreLitigationSummary.getRiskLevel());
+					
+//					cellObj.put(CommonConstants.CELL, cell);
+					cellObj.set(CommonConstants.CELL, cell);
+					cellArray.add(cellObj);
+
+				}
+			}
+			responseData.put(CommonConstants.PAGE, CommonConstants.PAGE_NO);
+			responseData.put(CommonConstants.RECORDS, totalRecord);
+//			responseData.put(CommonConstants.ROWS, cellArray);
+			responseData.set(CommonConstants.ROWS, cellArray);
+			out.println(responseData);
+
+		} catch (IOException e) {
+			LOGGER.error("Exception generated in fillRestoreGridDetail Method:: " + e.getMessage(), e);
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@RequestMapping(value = "/getRestoreLitigationSummaryData")
+	public void restoreLitigationSummaryData(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		LOGGER.info("inside restoreLitigationSummaryData");
+		int totalRecord = 0;
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode responseData = mapper.createObjectNode();
+		ArrayNode cellArray = null;
+		ArrayNode cell = null;
+		ObjectNode cellObj = null;
+		try {
+			PrintWriter out = response.getWriter();
+			cellArray = mapper.createArrayNode();
+			String entity = "";
+			String counterParty = "";
+			String category = "";
+			String courtType = "";
+			String underActs = "";
+			String risk = "";
+			
+//			UserVO userVO = (UserVO) session.getAttribute(CommonConstants.SESSION_USER_VO);
+			System.out.println("Entity::" + request.getParameter("entityName"));
+			System.out.println("counterParty:: " + request.getParameter("counterPartyName"));
+			System.out.println("Category:: " + request.getParameter("categoryName"));
+						
+			if (request.getParameter("entityName") != "ALL" && request.getParameter("entityName") != "null"
+					&& request.getParameter("entityName") != "") {
+				entity = request.getParameter("entityName");
+			}
+			
+			if (request.getParameter("counterPartyName") != "ALL" && request.getParameter("counterPartyName") != "null"
+					&& request.getParameter("counterPartyName") != "") {
+				counterParty = request.getParameter("counterPartyName");
+			}
+			if (request.getParameter("categoryName") != "ALL" && request.getParameter("categoryName") != "null"
+					&& request.getParameter("categoryName") != "") {
+				category = request.getParameter("categoryName");
+			}
+			
+			if (request.getParameter("courtTypeName") != "ALL" && request.getParameter("courtTypeName") != "null"
+					&& request.getParameter("courtTypeName") != "") {
+				courtType = request.getParameter("courtTypeName");
+			}
+			if (request.getParameter("underActName") != "ALL" && request.getParameter("underActName") != "null"
+					&& request.getParameter("underActName") != "") {
+				underActs = request.getParameter("underActName");
+			}
+			if (request.getParameter("risk") != "ALL" && request.getParameter("risk") != "null"
+					&& request.getParameter("risk") != "") {
+				risk = request.getParameter("risk");
+				System.out.println("Selected Risk:: " + risk);
+			}
+			
+
+			List<LitigationSummaryVO> restoreLitigationSummaryData = litigationService.findRestoreLitigationSummaryFieldSelection(entity,  counterParty, category, courtType, underActs, risk);
+			LOGGER.info("litigationSummaryData size:: " + restoreLitigationSummaryData.size());
+			if (restoreLitigationSummaryData.size() > 0) {
+				totalRecord = restoreLitigationSummaryData.size();
+				for (LitigationSummaryVO restoreLitigationData : restoreLitigationSummaryData) {
+					cellObj = mapper.createObjectNode();
+					cellObj.put(CommonConstants.ID, restoreLitigationData.getLitigationOId());
+					cell = mapper.createArrayNode();
+					cell.add(restoreLitigationData.getLitigationOId());
+					cell.add(restoreLitigationData.getLitigationId());
+					cell.add(restoreLitigationData.getEntityName());
+					cell.add(restoreLitigationData.getCounterParty());
+					cell.add(restoreLitigationData.getCaseNumber());
+					cell.add(restoreLitigationData.getSubject());
+					cell.add(restoreLitigationData.getUnderActName());
+					cell.add(restoreLitigationData.getRiskLevel());
+//					cellObj.put(CommonConstants.CELL, cell);
+					cellObj.set(CommonConstants.CELL, cell);
+					cellArray.add(cellObj);
+				}
+			}
+			responseData.put(CommonConstants.PAGE, CommonConstants.PAGE_NO);
+			responseData.put(CommonConstants.RECORDS, totalRecord);
+//			responseData.put(CommonConstants.ROWS, cellArray);
+			responseData.set(CommonConstants.ROWS, cellArray);
+			out.println(responseData);
+			
+		} catch (IOException e) {
+			LOGGER.error("Exception generated in restoreLitigationSummaryData Method:: " + e.getMessage(), e);
+			e.printStackTrace();
+		}
+
+	}
+	
+	@RequestMapping(value="/updateRestoreLitigationData", method=RequestMethod.POST)
+	@ResponseBody
+	public void updateRestoreLitigationData(@RequestBody String selectedGridRows, Model model) {
+		LOGGER.info("Selected Grid Row Id" +selectedGridRows);
+		selectedGridRows = selectedGridRows.substring(selectedGridRows.indexOf(":") + 2);
+		selectedGridRows = selectedGridRows.substring(0, selectedGridRows.length() - 2);
+		LOGGER.info("After Remove" +selectedGridRows);
+		List<String> separatedString = Arrays.asList(selectedGridRows.split(","));
+		for(int i=0; i< separatedString.size(); i++) {
+			System.out.println(separatedString.get(i));
+			int isRestoreLitigationUpdated = litigationService.updateRestoreLitigationData(Integer.parseInt(separatedString.get(i)));
+			System.out.println(isRestoreLitigationUpdated);
+			if(isRestoreLitigationUpdated > 0) {
+				LOGGER.info("Litigation Restored Successfully");
+			}else {
+				LOGGER.info("Unable to Restored Litigation");
+			}
+		}
 	}
 }

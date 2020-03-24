@@ -129,6 +129,15 @@ public interface ILitigationService {
 	
 	List<CityStateVO> getAllCourtForum();
 
+	List<LitigationSummaryVO> getRestoreLitigationSummary();
+
+	List<LitigationSummaryVO> findRestoreLitigationSummaryFieldSelection(String entity, String counterParty,
+			String category, String courtType, String underActs, String risk);
+
+	int updateRestoreLitigationData(int parseInt);
+
+	
+
 	
 
 	

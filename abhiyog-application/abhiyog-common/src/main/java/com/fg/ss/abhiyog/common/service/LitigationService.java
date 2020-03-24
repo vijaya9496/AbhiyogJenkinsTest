@@ -598,6 +598,7 @@ public class LitigationService implements ILitigationService {
 		litigationSummaryVO.setPossibleClaim(litigationSummary.getClaim().getClaim());
 		litigationSummaryVO.setRemark(litigationSummary.getRemark());
 		litigationSummaryVO.setZoneName(litigationSummary.getUnits().getRegions().getZoneName());
+		litigationSummaryVO.setUnderActName(litigationSummary.getUnderAct().getUnderAct());
 		return litigationSummaryVO;
 	}
 
@@ -1243,12 +1244,14 @@ public class LitigationService implements ILitigationService {
 			parameterMap.put("litigationByAgainst", litigationByAgainst);
 		}
 
+		reportQuery.append(" where deleteStatus != 1 ");
+		
 		if (!zone.equals("ALL") || !format.equals("ALL") || !entity.equals("ALL") || !counterParty.equals("ALL")
 				|| !category.endsWith("ALL") || !possibleClaim.equals("ALL") || !state.equals("ALL")
 				|| !lawfirmIndividual.equals("ALL") || !courtType.equals("ALL") || !underActs.equals("ALL")
 				|| !risk.equals("ALL") || !status.equals("ALL") || !matterByAgainst.equals("ALL")
 				|| !litigationByAgainst.equals("ALL")) {
-			reportQuery.append(" where " + StringUtils.join(whereClause, " and "));
+			reportQuery.append(" and " + StringUtils.join(whereClause, " and "));
 		}
 
 		Query jpaQuery = entityManager.createQuery(reportQuery.toString());
@@ -1303,5 +1306,79 @@ public class LitigationService implements ILitigationService {
 		courtForum.setCourtForum(allCourtForumDtls.getCourtCity());
 		return courtForum;
 	}
+
+	@Override
+	public List<LitigationSummaryVO> getRestoreLitigationSummary() {
+		List<Litigation> allRestoreLitigationSummary = litigationRepository.findRestoreLitigationSummary();
+		return allRestoreLitigationSummary.stream().map(restoreLitigationSummary -> convertToLitigationSummary(restoreLitigationSummary))
+				.collect(Collectors.toList());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<LitigationSummaryVO> findRestoreLitigationSummaryFieldSelection(String entity, String counterParty,
+			String category, String courtType, String underActs, String risk) {
+		
+		List<Litigation> litigationSummary = new ArrayList<>();
+		Map<String, Object> parameterMap = new HashMap<>();
+		List<String> whereClause = new ArrayList<>();
+		StringBuilder reportQuery = new StringBuilder();
+
+		reportQuery.append(
+				"select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId");
+		
+		if (!entity.equals("ALL")) {
+			whereClause.add(" e.entityName=:entity ");
+			parameterMap.put("entity", entity);
+		}
+		if (!counterParty.equals("ALL")) {
+			whereClause.add(" cpd.customerName=:counterParty ");
+			parameterMap.put("counterParty", counterParty);
+		}
+		if (!category.equals("ALL")) {
+			whereClause.add(" lt.ltgnCaseType.caseType=:category ");
+			parameterMap.put("category", category);
+		}
+		
+		if (!courtType.equals("ALL")) {
+			whereClause.add(" lt.courtType.courtType=:courtType ");
+			parameterMap.put("courtType", courtType);
+		}
+		if (!underActs.equals("ALL")) {
+			whereClause.add(" lt.underAct.underAct=:underActs ");
+			parameterMap.put("underActs", underActs);
+		}
+		if (!risk.equals("ALL")) {
+			System.out.println(risk);
+			whereClause.add(" rs.risk=:risk ");
+			parameterMap.put("risk", risk);
+		}
+		
+		reportQuery.append(" where deleteStatus = 1 ");
+
+		if (!entity.equals("ALL") || !counterParty.equals("ALL") || !category.endsWith("ALL") || 
+				!courtType.equals("ALL") || !underActs.equals("ALL") || !risk.equals("ALL") ) {
+			reportQuery.append(" and " +StringUtils.join(whereClause, " and "));
+		}
+
+		LOGGER.info("Created Query::  " + reportQuery.toString());
+		Query jpaQuery = entityManager.createQuery(reportQuery.toString());
+		
+		for (String key : parameterMap.keySet()) {
+			jpaQuery.setParameter(key, parameterMap.get(key));
+		}
+		litigationSummary = jpaQuery.getResultList();
+		LOGGER.info("List Size:: " + litigationSummary.size());
+		return litigationSummary.stream().map(allLitigationSummary -> convertToLitigationSummary(allLitigationSummary))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public int updateRestoreLitigationData(int loId) {
+		int isRestoreLitigationUpdated = litigationRepository.updateRestoreLitigationData(loId);
+		return isRestoreLitigationUpdated;
+	}
+
+	
 
 }

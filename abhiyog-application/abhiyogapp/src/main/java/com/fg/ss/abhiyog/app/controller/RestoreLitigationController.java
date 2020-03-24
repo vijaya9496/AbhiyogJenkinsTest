@@ -26,7 +26,7 @@ public class RestoreLitigationController {
 	private IRestoreLitigationService restoreLitigationService;
 
 	// deleteLitigation means setting delete status to 1
-	@PutMapping("/deleteLitigation/{litigationId}")
+	/*@PutMapping("/deleteLitigation/{litigationId}")
 	public ResponseEntity<BaseResponseVO> deleteLitigation(@PathVariable("litigationId") String litigationId){
 		int updatedDeleteStatus = restoreLitigationService.updateDeleteStatus(litigationId);
 		if(updatedDeleteStatus > 0) {
@@ -35,7 +35,7 @@ public class RestoreLitigationController {
 			baseResponseVO.setData(null);
 		}
 		return ResponseEntity.ok().body(baseResponseVO);
-	}
+	}*/
 
 	@GetMapping("/restoreLitigation")
 	public ResponseEntity<BaseResponseVO> getAllRestoreLitigationDtls(){

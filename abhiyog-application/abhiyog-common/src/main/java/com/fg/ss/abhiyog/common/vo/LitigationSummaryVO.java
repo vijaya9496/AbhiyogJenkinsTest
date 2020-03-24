@@ -29,6 +29,7 @@ public class LitigationSummaryVO {
 	private String function; // deptName
 	private String address;
 	private String againstPartyClientType;
+	private String underActName;
 
 	private int litigationOId;
 
@@ -231,5 +232,15 @@ public class LitigationSummaryVO {
 	public void setAgainstPartyClientType(String againstPartyClientType) {
 		this.againstPartyClientType = againstPartyClientType;
 	}
+
+	public String getUnderActName() {
+		return underActName;
+	}
+
+	public void setUnderActName(String underActName) {
+		this.underActName = underActName;
+	}
+	
+	
 
 }

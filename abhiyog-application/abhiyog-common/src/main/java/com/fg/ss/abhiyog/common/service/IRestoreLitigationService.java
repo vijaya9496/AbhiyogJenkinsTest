@@ -6,7 +6,7 @@ import com.fg.ss.abhiyog.common.vo.AddLitigationVO;
 
 public interface IRestoreLitigationService {
 
-	int updateDeleteStatus(String litigationId);
+	int updateDeleteStatus(int litigationId);
 
 	List<AddLitigationVO> getAllRestoreLitigationDtls();
 

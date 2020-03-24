@@ -17,7 +17,7 @@ public class RestoreLitigationService implements IRestoreLitigationService{
 	private LitigationRepository litigationRepository;
 	
 	@Override
-	public int updateDeleteStatus(String litigationId) {
+	public int updateDeleteStatus(int litigationId) {
 		int updatedDeleteStatus = litigationRepository.updateDeleteStatus(litigationId);
 		return updatedDeleteStatus;
 	}
