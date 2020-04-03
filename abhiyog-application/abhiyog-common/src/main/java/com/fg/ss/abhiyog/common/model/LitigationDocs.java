@@ -40,8 +40,8 @@ public class LitigationDocs {
 	@Column(name = "uploadeddate")
 	private LocalDateTime uploadedDate;
 
-	@Column(name = "litigation_log_oid")
-	private int litigationLogOid;
+	/*@Column(name = "litigation_log_oid")
+	private int litigationLogOid;*/
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "litigationoid")
@@ -107,13 +107,13 @@ public class LitigationDocs {
 		this.uploadedDate = uploadedDate;
 	}
 
-	public int getLitigationLogOid() {
+	/*public int getLitigationLogOid() {
 		return litigationLogOid;
 	}
 
 	public void setLitigationLogOid(int litigationLogOid) {
 		this.litigationLogOid = litigationLogOid;
-	}
+	}*/
 
 	public Litigation getLitigation() {
 		return litigation;

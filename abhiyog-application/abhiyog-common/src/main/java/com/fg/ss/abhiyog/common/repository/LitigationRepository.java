@@ -15,6 +15,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.fg.ss.abhiyog.common.model.Litigation;
+import com.fg.ss.abhiyog.common.vo.DashboardVO;
 
 @Repository
 public interface LitigationRepository extends JpaRepository<Litigation, Integer>{
@@ -22,7 +23,7 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 	@Query(value="select * from ltgn_litigation l order by l.litigationid desc limit 1", nativeQuery=true)
 	Litigation getLitigationId();
 
-	@Query(value="select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId where deleteStatus != 1 order by lt.litigationId desc")
+	@Query(value="select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId where lt.deleteStatus != 1 and lt.resultId = 0 order by lt.litigationId desc")
 	List<Litigation> findAllLitigationSummary();
 
 	@Query(value="select lt from Litigation as lt where lt.litigationId=:litigationId")
@@ -30,8 +31,8 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 
 	@Modifying
 	@Transactional
-	@Query(value="update Litigation lt set lt.resultId=:resultId, lt.reOpenComments=:comments, lt.disposedDate=:disposedDate where lt.litigationId=:litigationId")
-	int updateLitigation(@Param("resultId")int resultId, @Param("comments")String comments, @Param("disposedDate")Date disposedDate, @Param("litigationId")String litigationId);
+	@Query(value="update Litigation lt set lt.resultId=:resultId, lt.reOpenComments=:comments, lt.disposedDate=:disposedDate where lt.litigationOid=:litigationOId")
+	int updateLitigation(@Param("resultId")int resultId, @Param("comments")String comments, @Param("disposedDate")LocalDate disposedDate, @Param("litigationOId")int litigationOId);
 
 	@Query(value = "select lt from Litigation as lt join Status as s on s.statusId = lt.status.statusId where lt.litigationId = :litigationId")
 	Litigation getStatusById(@Param("litigationId")String litigationId);
@@ -44,7 +45,7 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 	@Query(value="select lt from Litigation as lt join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join LawFirm as lf on lf.lawfirmId = lt.lawFirm.lawfirmId join State as s on s.stateId = lt.state.stateId join CourtType as ct on ct.courtTypeId = lt.courtType.courtTypeId join CourtCity as cct on cct.courtCityId = lt.courtCity.courtCityId join UnderAct as ua on ua.underActId = ua.underAct.underActId join LtgnCaseType as lct on lct.caseTypeId = lt.ltgnCaseType.caseTypeId where lf.lawfirmId = lt.lawFirmSenior.lawfirmId and lt.litigationId=:litigationId")
 	List<Litigation> getCaseDtls(@Param("litigationId")String litigationId);
 
-	@Query(value= "select lt from Litigation as lt join Units as u on lt.units.unitId=u.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Format as f on f.formatId = lt.format.formatId join Status as s on s.statusId = lt.status.statusId join LitigationMatterByAgainst as lma  on lma.litigation.litigationOId = lt.litigationOId join LtgnRepresentativeMaster as lrm on lrm.representativeId = lma.ltgnRepresentativeMaster.representativeId where lt.litigationId=:litigationId")
+	@Query(value= "select lt from Litigation as lt join Units as u on lt.units.unitId=u.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Format as f on f.formatId = lt.format.formatId join Status as s on s.statusId = lt.status.statusId join LitigationMatterByAgainst as lma  on lma.litigation.litigationOid = lt.litigationOid join LtgnRepresentativeMaster as lrm on lrm.representativeId = lma.ltgnRepresentativeMaster.representativeId where lt.litigationId=:litigationId")
 	List<Litigation> getAllDetails(@Param("litigationId")String litigationId);
 
 	@Query(value="select lt from Litigation as lt join Units as u on lt.units.unitId=u.unitId "
@@ -55,17 +56,17 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 			+ "join State as st on st.stateId = lt.state.stateId join CourtType as ct on ct.courtTypeId = lt.courtType.courtTypeId "
 			+ "join CourtCity as cct on cct.courtCityId = lt.courtCity.courtCityId join UnderAct as ua on ua.underActId = ua.underAct.underActId "
 			+ "join LtgnCaseType as lct on lct.caseTypeId = lt.ltgnCaseType.caseTypeId join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId "
-			+ "join LitigationMatterByAgainst as lma on lma.litigation.litigationOId = lt.litigationOId "
+			+ "join LitigationMatterByAgainst as lma on lma.litigation.litigationOid = lt.litigationOid "
 			+ "join LtgnRepresentativeMaster as lrm on lrm.representativeId = lma.ltgnRepresentativeMaster.representativeId where lt.litigationId=:litigationId")
 	List<Litigation> showLitigationDetails(@Param("litigationId")String litigationId);
 
 	
-	@Query(value="select lt from Litigation lt, LtgnRepresentativeMaster as lrm where lt.litigationId=:litigationId and lrm.representativeName=:matterByAgainst")
-	Litigation getDtlsByLitigationRepresentativeName(@Param("matterByAgainst")String matterByAgainst, @Param("litigationId")String litigationId);
+	@Query(value="select lt from Litigation lt, LtgnRepresentativeMaster as lrm where lt.litigationOid=:litigationId and lrm.representativeName=:matterByAgainst")
+	Litigation getDtlsByLitigationRepresentativeName(@Param("matterByAgainst")String matterByAgainst, @Param("litigationId")int litigationId);
 
 	@Modifying
 	@Transactional
-	@Query(value="update Litigation lt set lt.deleteStatus = 1 where lt.litigationOId = :litigationOId")
+	@Query(value="update Litigation lt set lt.deleteStatus = 1 where lt.litigationOid = :litigationOId")
 	int updateDeleteStatus(@Param("litigationOId")int litigationOId);
 	
 	@Query(value="select lt from Litigation as lt where lt.deleteStatus = 1")
@@ -107,7 +108,7 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 	@Query(value="select count(lt) from Litigation as lt, LtgnCaseType as lct where lct.caseTypeId = lt.ltgnCaseType.caseTypeId and lct.caseType=:caseType")
 	int findCountofCasesByCaseType(@Param("caseType")String caseType);
 
-	@Query(value="select count(lt) from Litigation as lt, LitigationMatterByAgainst as lma, LtgnRepresentativeMaster as lrm where lrm.representativeId = lma.ltgnRepresentativeMaster.representativeId and lt.litigationOId = lma.litigation.litigationOId and lrm.representativeName=:litigationStatistic")
+	@Query(value="select count(lt) from Litigation as lt, LitigationMatterByAgainst as lma, LtgnRepresentativeMaster as lrm where lrm.representativeId = lma.ltgnRepresentativeMaster.representativeId and lt.litigationOid = lma.litigation.litigationOid and lrm.representativeName=:litigationStatistic")
 	int findLitigationByStatistics(@Param("litigationStatistic")String litigationStatistic);
 
 	@Query(value="select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId where deleteStatus = 1 order by lt.litigationId desc")
@@ -115,8 +116,28 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 
 	@Modifying
 	@Transactional
-	@Query(value="update Litigation lt set lt.deleteStatus = 0 where lt.litigationOId = :loId")
+	@Query(value="update Litigation lt set lt.deleteStatus = 0 where lt.litigationOid = :loId")
 	int updateRestoreLitigationData(@Param("loId")int loId);
+
+	@Query(value="select lt from Litigation as lt join Witness as wt on lt.litigationOid = wt.litigation.litigationOid where lt.litigationOid =:id")
+	List<Litigation> getWitnessDtls(@Param("id")int id);
+
+	@Query(value="select lt from Litigation as lt join LtgnLitigationLog ltlog on lt.litigationOid = ltlog.litigation.litigationOid where lt.litigationOid = :id")
+	List<Litigation> getHistorySummary(@Param("id")int id);
+
+	
+	@Query(value="select unitname, regionname, sum(upcoming) as upcoming, sum(notupdated) as notupdated, count(*) as total from\r\n" + 
+			"(select lt.litigationid, u.unitname, r.regionname, u.entityoid, e.entityname, max(ltlog.date_of_hearing), \r\n" + 
+			"(case when (max(ltlog.date_of_hearing) > curdate()) then 0  else 1 end) as upcoming,\r\n" + 
+			"(case when (max(ltlog.date_of_hearing) < curdate()) then 0 else 1 end) as notupdated\r\n" + 
+			"from regions  as r inner join units as u on r.regionoid = u.regionoid inner join ltgn_litigation as lt \r\n" + 
+			"on u.unitoid = lt.unitoid inner join litigationunits as lu on lt.litigation_oid = lu.litigation_oid inner join ltgn_litigation_log \r\n" + 
+			"as ltlog on ltlog.litigation_oid = lt.litigation_oid inner join entity as e on u.entityoid = e.entityoid\r\n" + 
+			"where  lt.deletestatus = 0 and lt.disposeddt is null group by lt.litigationid,  u.unitname, r.regionname, u.entityoid, e.entityname) as derivedtbl_1\r\n" + 
+			"group by unitname, regionname, entityname", nativeQuery=true)
+	List<DashboardVO> getDashboardSummary();
+
+	
 
 	
 

@@ -4,6 +4,7 @@ public class OutsideCounselVO {
 
 	private String function;
 	private String lawfirm;
+	private String seniorCounsel;// same as lawfirm
 	private String lawfirmHead; // partner
 	private String emailId;
 	private String address;
@@ -91,6 +92,16 @@ public class OutsideCounselVO {
 
 	public void setLawfirmId(int lawfirmId) {
 		this.lawfirmId = lawfirmId;
+	}
+	
+	
+
+	public String getSeniorCounsel() {
+		return seniorCounsel;
+	}
+
+	public void setSeniorCounsel(String seniorCounsel) {
+		this.seniorCounsel = seniorCounsel;
 	}
 
 	@Override

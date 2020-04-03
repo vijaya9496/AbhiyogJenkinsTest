@@ -12,7 +12,7 @@ import com.fg.ss.abhiyog.common.model.LitigationHistoryTLog;
 @Repository
 public interface LitigationHistoryTLogRepository extends JpaRepository<LitigationHistoryTLog, Integer>{
 
-	@Query(value="select ltHLog from LitigationHistoryTLog ltHLog join LtgnLitigationLog ltLog on ltLog.litigationLogId =ltHLog.ltgnLitigationLog.litigationLogId join Litigation lt on lt.litigationOId =  ltLog.litigation.litigationOId where lt.litigationId=:litigationId")
+	@Query(value="select ltHLog from LitigationHistoryTLog ltHLog join LtgnLitigationLog ltLog on ltLog.litigationLogId =ltHLog.ltgnLitigationLog.litigationLogId join Litigation lt on lt.litigationOid =  ltLog.litigation.litigationOid where lt.litigationId=:litigationId")
 	List<LitigationHistoryTLog> findActivityLogByLitigationId(@Param("litigationId")String litigationId);
 
 }

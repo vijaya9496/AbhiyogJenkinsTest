@@ -46,6 +46,8 @@
     <script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}" type="text/javascript"></script>
       <!-- Left Nev Css & Js -->
     <link rel="stylesheet" href="../static/css/style2.css" th:href="@{css/style2.css}" type="text/css"/>
+<script type="text/javascript"
+	src="../static/js/dashboard.js" th:src="@{js/dashboard.js}"></script>
 <div th:include="header :: header"> </div>
 <body>
 	<div class="wrapper">
@@ -53,8 +55,8 @@
 			<div class="middle-right">
 				<span class="welcome-head">Welcome to Abhiyog Dashboard</span>
 				<div class="top-plugins">
-					<span>Till Today</span> <span class="blue">150 Appointments</span>
-					<div class="search">
+<!-- 					<span>Till Today</span> <span class="blue">150 Appointments</span> -->
+					<!-- <div class="search">
 						<input type="text" name="fname" placeholder="Search">
 					</div>
 					<div class="date">
@@ -84,15 +86,15 @@
 						</select>
 
 					</div>
-				</div>
+				</div> -->
 
 				<div class="data-tablemain">
-					<table id="list" class="jqgrid">
+					<table id="dashboardSummary" class="jqgrid">
 						<tr>
 							<td />
 						</tr>
 					</table>
-					<div id="pager"></div>
+					<div id="dashboardSummaryPager"></div>
 
 				</div>
 

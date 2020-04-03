@@ -144,14 +144,14 @@ table, th, td {
 									<li>
 										<div class="filter-form" id="issueDateDiv">
 											<label><sup class="red">*</sup>Issue Date:</label> <input type="text" id="issueDate"
-												th:field="*{issueDate}" placeholder="Todays" 
+												th:field="*{issueDt}" placeholder="Todays" 
 												th:value="${showCauseNoticeVO.issueDate}">
 										</div>
 									</li>
 									<li>
 										<div class="filter-form" id="receivedDateDiv">
 											<label><sup class="red">*</sup>Received Date:</label> <input type="text"
-												id="receivedDate" th:field="*{receivedDate}"
+												id="receivedDate" th:field="*{receivedDt}"
 												min="1000-01-01" placeholder="Todays" max="3000-12-31"
 												class="form-control calander" data-date-format="yyyy-MM-dd"
 												th:value="${showCauseNoticeVO.receivedDate}">
@@ -160,7 +160,7 @@ table, th, td {
 									<li class="last">
 										<div class="filter-form" id="noticeReplyDeadLineDiv">
 											<label><sup class="red">*</sup>Notice Reply DeadLine:</label><input type="text"
-												id="noticeReplyDeadline" th:field="*{noticeReplyDeadline}"
+												id="noticeReplyDeadline" th:field="*{noticeRplyDeadline}"
 												min="1000-01-01" placeholder="Todays" max="3000-12-31"
 												class="form-control calander" data-date-format="yyyy-MM-dd"
 												th:value="${showCauseNoticeVO.noticeReplyDeadline}" />

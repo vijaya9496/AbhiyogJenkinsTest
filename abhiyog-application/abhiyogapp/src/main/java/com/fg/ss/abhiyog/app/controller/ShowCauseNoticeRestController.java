@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -270,9 +272,9 @@ public class ShowCauseNoticeRestController {
 		System.out.println("inside addShowCauseNoticeData");
 		System.out.println("Issue Date::  " + request.getParameter("issueDate"));
 
-		System.out.println(DateUtils.getDBFormatedDate(request.getParameter("issueDate")));
-		System.out.println(request.getParameter("issueDate"));
-
+		
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		
 		showCauseNoticeVO.setLoginId(userVO.getLoginId());
 		showCauseNoticeVO.setEntityName(request.getParameter("entityName"));
 		showCauseNoticeVO.setFormatName(request.getParameter("formatName"));
@@ -281,10 +283,11 @@ public class ShowCauseNoticeRestController {
 		showCauseNoticeVO.setNoticeCategoryName(request.getParameter("noticeCategoryName"));
 		System.out.println(showCauseNoticeVO.getNoticeCategoryName());
 		showCauseNoticeVO.setNoticeClassification(request.getParameter("noticeClassification"));
-		showCauseNoticeVO.setIssueDate(DateUtils.getDBFormatedDte(request.getParameter("issueDate")));
-		showCauseNoticeVO.setReceivedDate(DateUtils.getDBFormatedDte(request.getParameter("receivedDate")));
+		showCauseNoticeVO.setIssueDate(LocalDate.parse(request.getParameter("issueDate"), dateTimeFormatter));
+
+		showCauseNoticeVO.setReceivedDate(LocalDate.parse(request.getParameter("receivedDate"),dateTimeFormatter));
 		showCauseNoticeVO
-				.setNoticeReplyDeadline(DateUtils.getDBFormatedDte(request.getParameter("noticeReplyDeadline")));
+				.setNoticeReplyDeadline(LocalDate.parse(request.getParameter("noticeReplyDeadline"), dateTimeFormatter));
 		showCauseNoticeVO.setSubject(request.getParameter("subject"));
 		showCauseNoticeVO.setReferenceNo(request.getParameter("referenceNo"));
 		showCauseNoticeVO.setComments(request.getParameter("comments"));
@@ -306,6 +309,8 @@ public class ShowCauseNoticeRestController {
 		showCauseNoticeVO.setApplicableSection(request.getParameter("applicableSection"));
 		showCauseNoticeVO.setActionTaken(request.getParameter("actionTaken"));
 
+		System.out.println(showCauseNoticeVO.getIssueDate());
+		System.out.println(showCauseNoticeVO.getNoticeReplyDeadline());
 		showCauseNoticeService.saveNoticeData(showCauseNoticeVO, multiPartFile);
 		model.addAttribute("showCauseNoticeVO", new ShowCauseNoticeVO());
 		model.addAttribute("allEntities", entityService.getAllEntities());
@@ -410,10 +415,15 @@ public class ShowCauseNoticeRestController {
 		showCauseNoticeVO.setUnitName(request.getParameter("unitName"));
 		showCauseNoticeVO.setReceivedFrom(request.getParameter("receivedFrom"));
 		showCauseNoticeVO.setSubject(request.getParameter("subject"));
-		showCauseNoticeVO.setIssueDate(DateUtils.getDBFormatedDte(request.getParameter("issueDate")));
-		System.out.println("issue date from request:: " +request.getParameter("issueDate"));
-		showCauseNoticeVO.setReceivedDate(DateUtils.getDBFormatedDte(request.getParameter("receivedDate")));
-		showCauseNoticeVO.setNoticeReplyDeadline(DateUtils.getDBFormatedDte(request.getParameter("noticeReplyDeadline")));
+		System.out.println("IssueDate"+request.getParameter("issueDate"));
+//		showCauseNoticeVO.setIssueDate(DateUtils.getDBFormatDate(request.getParameter("issueDate")));
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		showCauseNoticeVO.setIssueDate(LocalDate.parse(request.getParameter("issueDt"), dateTimeFormatter));
+		System.out.println("issue date from request:: " +showCauseNoticeVO.getIssueDate());
+//		showCauseNoticeVO.setReceivedDate(DateUtils.getDBFormatDate(request.getParameter("receivedDate")));
+		showCauseNoticeVO.setReceivedDate(LocalDate.parse(request.getParameter("receivedDt"), dateTimeFormatter));
+//		showCauseNoticeVO.setNoticeReplyDeadline(DateUtils.getDBFormatDate(request.getParameter("noticeReplyDeadline")));
+		showCauseNoticeVO.setNoticeReplyDeadline(LocalDate.parse(request.getParameter("noticeRplyDeadline"), dateTimeFormatter));
 		LOGGER.info("IssueDate:: " +showCauseNoticeVO.getIssueDate());
 		LOGGER.info("ReceivedDate:: " +showCauseNoticeVO.getReceivedDate());
 		LOGGER.info("NoticeReplyDeadline::: "  +showCauseNoticeVO.getNoticeReplyDeadline());

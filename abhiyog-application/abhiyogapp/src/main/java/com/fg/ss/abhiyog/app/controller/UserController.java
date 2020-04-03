@@ -201,7 +201,7 @@ public class UserController {
 		return "updateUser";
 	}
 	
-	@RequestMapping(value="updateUserDtls", method=RequestMethod.POST)
+	@RequestMapping(value="/updateUserDtls", method=RequestMethod.POST)
 	public String updateUserDtls(@ModelAttribute UserVO userVO, Model model) {
 		boolean isUpdated = userService.saveUserData(userVO);
 		if (isUpdated) {

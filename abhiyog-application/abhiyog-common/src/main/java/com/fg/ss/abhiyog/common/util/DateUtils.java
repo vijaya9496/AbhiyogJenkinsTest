@@ -60,4 +60,33 @@ public class DateUtils {
 		return localDate;
 
 	}
+	
+	public static LocalDate getDBFormatDate(String date) throws ParseException {
+
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yy");
+
+		Date covertDate = null;
+
+		try {
+
+			covertDate = formatter.parse(date);
+			System.out.println(date);
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+		String strDate = formatter.format(covertDate);
+
+		System.out.println("Converted Date=" + strDate);
+		
+		LocalDate localDate = LocalDate.parse(strDate);
+		
+		System.out.println("LocalDate** " +localDate);
+
+		return localDate;
+
+	}
 }

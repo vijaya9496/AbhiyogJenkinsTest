@@ -92,8 +92,8 @@ public class User {
 	@JoinColumn(name = "user_id")
 	private Litigation litigation;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
+	@OneToMany(mappedBy = "user")
+//	@JoinColumn(name = "user_id")
 	private List<LitigationDocs> litigationDocs;
 
 	@OneToOne(cascade = CascadeType.ALL)

@@ -49,8 +49,8 @@ public class AddLitigationVO {
 	private String seniorCounsel;
 	private String lawfirm; // Lawfirm/Individual
 	private String function;
-	private Date caseRelateFromDate;
-	private Date caseRelateToDate;
+	private LocalDate caseRelateFromDate;
+	private LocalDate caseRelateToDate;
 	private String litigationId; // to display in RestoreLitigation
 
 	public String getLoginId() {
@@ -365,19 +365,19 @@ public class AddLitigationVO {
 		this.function = function;
 	}
 
-	public Date getCaseRelateFromDate() {
+	public LocalDate getCaseRelateFromDate() {
 		return caseRelateFromDate;
 	}
 
-	public void setCaseRelateFromDate(Date caseRelateFromDate) {
+	public void setCaseRelateFromDate(LocalDate caseRelateFromDate) {
 		this.caseRelateFromDate = caseRelateFromDate;
 	}
 
-	public Date getCaseRelateToDate() {
+	public LocalDate getCaseRelateToDate() {
 		return caseRelateToDate;
 	}
 
-	public void setCaseRelateToDate(Date caseRelateToDate) {
+	public void setCaseRelateToDate(LocalDate caseRelateToDate) {
 		this.caseRelateToDate = caseRelateToDate;
 	}
 

@@ -12,7 +12,7 @@ import com.fg.ss.abhiyog.common.model.Witness;
 @Repository
 public interface WitnessRepository extends JpaRepository<Witness, Integer>{
 
-	@Query(value="select w from Witness as w join Litigation as lt on w.litigation.litigationOId = lt.litigationOId where lt.litigationId=:litigationId")
+	@Query(value="select w from Witness as w join Litigation as lt on w.litigation.litigationOid = lt.litigationOid where lt.litigationId=:litigationId")
 	List<Witness> findAllByLitigationId(@Param("litigationId")String litigationId);
 
 }

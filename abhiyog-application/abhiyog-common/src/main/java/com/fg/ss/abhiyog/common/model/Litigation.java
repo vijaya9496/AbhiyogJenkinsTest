@@ -24,7 +24,7 @@ public class Litigation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "litigation_oid")
-	private int litigationOId;
+	private int litigationOid;
 
 	@Column(name = "litigationid")
 	private String litigationId;
@@ -114,10 +114,10 @@ public class Litigation {
 	private String counselAssesment;
 
 	@Column(name = "caserelatefrmdt")
-	private Date caseRelateFromDate;
+	private LocalDate caseRelateFromDate;
 
 	@Column(name = "caserelatetodt")
-	private Date caseRelateToDate;
+	private LocalDate caseRelateToDate;
 
 	@Column(name = "comment")
 	private String comment;
@@ -177,7 +177,7 @@ public class Litigation {
 	private String actionPlan;
 
 	@Column(name = "disposeddt")
-	private Date disposedDate;
+	private LocalDate disposedDate;
 
 	@Column(name = "unitoidtemp")
 	private int unitIdTemp;
@@ -274,12 +274,12 @@ public class Litigation {
 	@JoinColumn(name = "litigation_oid")
 	private LitigationUnits litigationUnits;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "litigation_oid")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="litigation")
+//	@JoinColumn(name = "litigation_oid")
 	private List<ConnectedLitigation> connectedLitigation;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "litigation_oid")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="litigation")
+//	@JoinColumn(name = "litigation_oid")
 	private List<Witness> witness;
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -294,12 +294,14 @@ public class Litigation {
 	@JoinColumn(name = "litigation_oid")
 	private List<LtgnLitigationLog> ltgnLitigationLog;
 
-	public int getLitigationOId() {
-		return litigationOId;
+	
+
+	public int getLitigationOid() {
+		return litigationOid;
 	}
 
-	public void setLitigationOId(int litigationOId) {
-		this.litigationOId = litigationOId;
+	public void setLitigationOid(int litigationOid) {
+		this.litigationOid = litigationOid;
 	}
 
 	public String getLitigationId() {
@@ -534,19 +536,19 @@ public class Litigation {
 		this.counselAssesment = counselAssesment;
 	}
 
-	public Date getCaseRelateFromDate() {
+	public LocalDate getCaseRelateFromDate() {
 		return caseRelateFromDate;
 	}
 
-	public void setCaseRelateFromDate(Date caseRelateFromDate) {
+	public void setCaseRelateFromDate(LocalDate caseRelateFromDate) {
 		this.caseRelateFromDate = caseRelateFromDate;
 	}
 
-	public Date getCaseRelateToDate() {
+	public LocalDate getCaseRelateToDate() {
 		return caseRelateToDate;
 	}
 
-	public void setCaseRelateToDate(Date caseRelateToDate) {
+	public void setCaseRelateToDate(LocalDate caseRelateToDate) {
 		this.caseRelateToDate = caseRelateToDate;
 	}
 
@@ -702,11 +704,11 @@ public class Litigation {
 		this.actionPlan = actionPlan;
 	}
 
-	public Date getDisposedDate() {
+	public LocalDate getDisposedDate() {
 		return disposedDate;
 	}
 
-	public void setDisposedDate(Date disposedDate) {
+	public void setDisposedDate(LocalDate disposedDate) {
 		this.disposedDate = disposedDate;
 	}
 

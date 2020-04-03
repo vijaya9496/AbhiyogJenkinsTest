@@ -15,8 +15,11 @@ public class ShowCauseNoticeVO {
 	private String noticeCategoryName;
 	private String receivedFrom;
 	private LocalDate issueDate;
+	private String issueDt;
 	private LocalDate receivedDate;
+	private String receivedDt;
 	private LocalDate noticeReplyDeadline;
+	private String noticeRplyDeadline;
 	private String subject;
 	private String referenceNo;
 	private String comments;
@@ -377,6 +380,34 @@ public class ShowCauseNoticeVO {
 	public void setDocName(String docName) {
 		this.docName = docName;
 	}
+
+	public String getIssueDt() {
+		return issueDt;
+	}
+
+	public void setIssueDt(String issueDt) {
+		this.issueDt = issueDt;
+	}
+
+	public String getReceivedDt() {
+		return receivedDt;
+	}
+
+	public void setReceivedDt(String receivedDt) {
+		this.receivedDt = receivedDt;
+	}
+
+	public String getNoticeRplyDeadline() {
+		return noticeRplyDeadline;
+	}
+
+	public void setNoticeRplyDeadline(String noticeRplyDeadline) {
+		this.noticeRplyDeadline = noticeRplyDeadline;
+	}
+	
+	
+	
+	
 
 	/*
 	 * @Override public String toString() { StringBuilder builder = new

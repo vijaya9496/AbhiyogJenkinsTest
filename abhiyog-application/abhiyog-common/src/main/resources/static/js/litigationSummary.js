@@ -10,7 +10,7 @@ jQuery(document).ready(
 								'Entity (Unit/Location)', 'Country Party',
 								'Case Number', 'Subject', 'Stage',
 								'Hearing Date', 'Risk', 'Possible Claim',
-								'Remark', 'Zone' ],
+								'Remark', 'Zone', 'Delete' ],
 						colModel : [ {
 							name : 'loid',
 							index : 'loid',
@@ -77,6 +77,13 @@ jQuery(document).ready(
 						}, {
 							name : 'Zone',
 							index : 'Zone',
+							width : 100,
+							align : 'center'
+						},{
+							name : 'casenumber',
+							index : 'casenumber',
+							formatter:'showlink',
+							formatoptions:{baseLinkUrl:'/updateDeleteStatus'},
 							width : 100,
 							align : 'center'
 						} ],

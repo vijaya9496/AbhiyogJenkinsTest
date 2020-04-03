@@ -1,25 +1,32 @@
 package com.fg.ss.abhiyog.common.vo;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class ConnectedLitigationVO {
 
 	private String loginId;
 	private String litigationId;
+	private int litigationOId;
 	private String comments;
 	private String connectedLitigationId;
 	private String witnessName;
+	private int witnessId;
 	private String resultName;
-	private Date disposedDate;
+	private LocalDate disposedDate;
 	private String statusName;
 	private String hearingDate;
 	private String documentTitle;
 	private String billingType;
 	private float billingAmount;
-	private Date billingDate;
+	private LocalDate billingDate;
 	private String remark;
+	private MultipartFile uploadFile;
+	private String uploadComments;
 	private LocalDate hearingDt;
 	private String stage;
 	private String stageDetails;
@@ -74,11 +81,11 @@ public class ConnectedLitigationVO {
 		this.resultName = resultName;
 	}
 
-	public Date getDisposedDate() {
+	public LocalDate getDisposedDate() {
 		return disposedDate;
 	}
 
-	public void setDisposedDate(Date disposedDate) {
+	public void setDisposedDate(LocalDate disposedDate) {
 		this.disposedDate = disposedDate;
 	}
 
@@ -130,11 +137,11 @@ public class ConnectedLitigationVO {
 		this.billingAmount = billingAmount;
 	}
 
-	public Date getBillingDate() {
+	public LocalDate getBillingDate() {
 		return billingDate;
 	}
 
-	public void setBillingDate(Date billingDate) {
+	public void setBillingDate(LocalDate billingDate) {
 		this.billingDate = billingDate;
 	}
 
@@ -249,6 +256,40 @@ public class ConnectedLitigationVO {
 	public void setModifiedDate(LocalDateTime modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
+
+	public int getLitigationOId() {
+		return litigationOId;
+	}
+
+	public void setLitigationOId(int litigationOId) {
+		this.litigationOId = litigationOId;
+	}
+
+	public int getWitnessId() {
+		return witnessId;
+	}
+
+	public void setWitnessId(int witnessId) {
+		this.witnessId = witnessId;
+	}
+
+	public MultipartFile getUploadFile() {
+		return uploadFile;
+	}
+
+	public void setUploadFile(MultipartFile uploadFile) {
+		this.uploadFile = uploadFile;
+	}
+
+	public String getUploadComments() {
+		return uploadComments;
+	}
+
+	public void setUploadComments(String uploadComments) {
+		this.uploadComments = uploadComments;
+	}
+	
+	
 	
 	
 

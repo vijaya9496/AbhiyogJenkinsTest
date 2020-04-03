@@ -440,4 +440,32 @@ input.cancel {background: #ffffff !important; color: #326d9b !important; border:
 .close{position:absolute;top:0;right:0;padding:.75rem 1.25rem;color:inherit}
 .alert-success{color:#155724;background-color:#d4edda;border-color:#c3e6cb}
 .alert-success hr{border-top-color:#b1dfbb} 
+
+
+/* Newly Added CSS 24-03-2020 */
+.bottom-marginremove{ margin-bottom: 15px !important;}
+.check_form{width: 100%;  clear: both; background: #ffffff; border-radius: 10px; padding: 20px; float: left;  margin-bottom: 58px;}
+.detail-view{width:100%; display:block; clear:both;}
+.boldtxt_gap{width: 100%; clear: both; font-weight: 500; padding-bottom: 10px; float: left;}
+.tab-nav{width: 100% !important; dispay:block; clear: both;}
+#nav-tabs a:hover{background: #ffaa00 !important; color:#fff !important; }
+
+.select-outside{width: 100% !important; padding-bottom: 20px; float: left; clear: both; display: block;}
+.navbar-outer{width: 100% !important; display: block;  padding-bottom: 30px; float: left;}
+.navbar-outer a{width: 12.5% !important; display: block; float: left; color: #555555; border: 1px solid #d3d3d3 !important; text-align: center; padding:10px 0px 10px 0px; text-decoration: none;}
+.navbar-outer a.active{background: #ffaa00; color: #ffffff;}
+li.full-list{width: 100% !important;}
+.tab-nav{width: 100% !important; dispay:block; clear: both;}
+nav > .nav.nav-tabs{ border: none; color:#fff; border-radius:0;}
+  nav > div a.nav-item.nav-link,
+  nav > div a.nav-item.nav-link.active{border-radius: 0px !important; width: 12.5% !important; display: block; float: left; color: #555555; border: 1px solid #d3d3d3 !important; text-align: center; padding:10px 0px 10px 0px; text-decoration: none;
+  }
+   nav > div a.nav-item.nav-link.active:after{position: relative; bottom: -60px;left: -10%;border: 15px solid transparent;}
+  .tab-content{ border: 1px solid #ddd;padding:30px 25px !important;}
+  nav > div a.nav-item.nav-link:hover, nav > div a.nav-item.nav-link:focus
+  {border: none;background: #ffaa00 !important; color:#fff; border-radius:0; transition:background 0.20s linear;}
+.bottom-marginremove{ margin-bottom: 15px !important;}
+.nav-tabs a.active{background: #ffaa00 !important; color:#fff !important; }
+#nav-tabs a:hover{background: #ffaa00 !important; color:#fff !important; }
+li.full-list{width: 100% !important;}
   

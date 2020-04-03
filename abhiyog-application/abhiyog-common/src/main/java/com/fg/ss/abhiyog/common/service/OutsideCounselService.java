@@ -3,6 +3,7 @@ package com.fg.ss.abhiyog.common.service;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -69,9 +70,20 @@ public class OutsideCounselService implements IOutsideCounselService{
         return counterPartyVoList;
 //		return counselSummary.stream().map(allCounselSummary -> convertToDTO(allCounselSummary)).collect(Collectors.toList());
 	}
+	
+	
+	@Override
+	public List<OutsideCounselVO> findAllSeniorCounselDtls() {
+		List<LawFirm> counselSummary = outsideCounselRepository.findAll();
+//		Type listType = new TypeToken<List<OutsideCounselVO>>(){}.getType();
+//        List<OutsideCounselVO> counterPartyVoList = modelMapper.map(counselSummary, listType);
+//        return counterPartyVoList;
+		return counselSummary.stream().map(allCounselSummary -> convertToDTO(allCounselSummary)).collect(Collectors.toList());
+	}
+	
 	private OutsideCounselVO convertToDTO(LawFirm allCounselSummary) {
 		OutsideCounselVO outsideCounselDto = new OutsideCounselVO();
-		outsideCounselDto.setLawfirm(allCounselSummary.getLawfirm());
+		outsideCounselDto.setSeniorCounsel(allCounselSummary.getLawfirm());
 		outsideCounselDto.setLawfirmHead(allCounselSummary.getLawfirmHead());
 		outsideCounselDto.setEmailId(allCounselSummary.getLawfirmHeadEmailId());
 		outsideCounselDto.setMobile(allCounselSummary.getMobile());

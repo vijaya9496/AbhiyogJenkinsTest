@@ -242,8 +242,12 @@ public class ShowCauseNoticeService implements IShowCauseNoticeService {
 		boolean flag = false;
 		Optional<ShowCauseNotice> noticeIdExistence = showCauseNoticeRepository
 				.findById(showCauseNoticeVO.getShowCauseNoticeId());
+		
 		ShowCauseNotice showCauseNoticeDtls = convertToEntity(showCauseNoticeVO);
+		
 		if (noticeIdExistence.isPresent()) {
+			showCauseNoticeDtls.setNoticeCategory(noticeIdExistence.get().getNoticeCategory());
+			showCauseNoticeDtls.setNoticeClassification(noticeIdExistence.get().getNoticeClassification());
 			showCauseNoticeRepository.save(showCauseNoticeDtls);
 			flag = true;
 		} 
@@ -391,7 +395,9 @@ public class ShowCauseNoticeService implements IShowCauseNoticeService {
 			showCauseNoticeVO.setOwner("NA");
 			showCauseNoticeVO.setReceivedFrom(showCauseNoticeList.getValue().get(0).getNoticeReceivedFrom());
 			showCauseNoticeVO.setReceivedDate(showCauseNoticeList.getValue().get(0).getNoticeReceivedDate());
+			showCauseNoticeVO.setReceivedDt(showCauseNoticeList.getValue().get(0).getNoticeReceivedDate().toString());
 			showCauseNoticeVO.setNoticeReplyDeadline(showCauseNoticeList.getValue().get(0).getNoticeReplyDeadline());
+			showCauseNoticeVO.setNoticeRplyDeadline(showCauseNoticeList.getValue().get(0).getNoticeReplyDeadline().toString());
 			System.out.println(showCauseNoticeVO.getNoticeReplyDeadline());
 			
 			/*
@@ -403,6 +409,7 @@ public class ShowCauseNoticeService implements IShowCauseNoticeService {
 			 */
 	         
 			showCauseNoticeVO.setIssueDate(showCauseNoticeList.getValue().get(0).getIssueDate());
+			showCauseNoticeVO.setIssueDt(showCauseNoticeList.getValue().get(0).getIssueDate().toString());
 			System.out.println(showCauseNoticeVO.getIssueDate());
 			showCauseNoticeVO.setComments(showCauseNoticeList.getValue().get(0).getComment());
 			showCauseNoticeVO.setSubject(showCauseNoticeList.getValue().get(0).getSubject());

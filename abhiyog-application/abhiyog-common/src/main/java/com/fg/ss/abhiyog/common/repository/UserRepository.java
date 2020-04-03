@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fg.ss.abhiyog.common.model.User;
+import com.fg.ss.abhiyog.common.vo.UserVO;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -22,7 +23,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query(value = "select u from User u, Role r where r.id = u.roles.id and u.loginId=:loginId")
 	User findUserDtlsByLoginId(@Param("loginId")String loginId);
 
-/*	@Modifying
+	/*@Modifying
 	@Transactional
 	@Query(value = "update User u set u.firstName=:userVO.firstName, u.lastName=:userVO.lastName, u.middleName=:userVO.middleName, u.phone=:userVO.phone, u.mobile=:userVO.mobile, "
 			+ "u.emailId=:userVO.emailId, u.personalEmailId=:userVO.personalEmailId, u.address=:userVO.address, u.city=:userVO.city, u.loginId=:userVO.loginId, u.")

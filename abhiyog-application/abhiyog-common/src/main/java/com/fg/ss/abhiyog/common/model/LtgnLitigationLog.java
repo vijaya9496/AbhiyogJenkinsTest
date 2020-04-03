@@ -78,7 +78,7 @@ public class LtgnLitigationLog {
 	private String fileNo;
 
 	@Column(name = "date_of_hearing")
-	private Date dateOfHearing;
+	private LocalDate dateOfHearing;
 
 	@Column(name = "next_date_of_hearing")
 	private LocalDate nextDateOfHearing;
@@ -276,11 +276,11 @@ public class LtgnLitigationLog {
 		this.fileNo = fileNo;
 	}
 
-	public Date getDateOfHearing() {
+	public LocalDate getDateOfHearing() {
 		return dateOfHearing;
 	}
 
-	public void setDateOfHearing(Date dateOfHearing) {
+	public void setDateOfHearing(LocalDate dateOfHearing) {
 		this.dateOfHearing = dateOfHearing;
 	}
 

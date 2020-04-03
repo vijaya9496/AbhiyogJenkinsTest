@@ -1,0 +1,111 @@
+js 
+
+    $('#btnUploadStoreCode').click(
+            function() {
+                if ($("#inputStoreUpload").val() === '') {
+                    alert("Please upload file.");
+                    return false;
+                }
+
+                if (document.getElementById('upload_store_frame') !== null) {
+                    $('#upload_store_frame').remove();
+                }
+
+                $('#storecodeuploadresponsemsg').html(
+                    'File is uploading.Please wait...').fadeIn();
+                uploadStoreIFrameFile('/campaign-web/uploadCMSStoreAsynch',
+                    '#storecodeuploadresponsemsg');
+            });
+			
+			
+			
+			  uploadStoreIFrameFile = function(action, message) {
+         $('body').append('<iframe id="upload_store_frame" name="upload_store_frame"></iframe>');
+         $('#upload_store_frame')
+             .on('load',function() {
+             	console.log($('#upload_store_frame'));
+             	var jsonOb = jQuery.parseJSON(jQuery.parseHTML($('#upload_store_frame').contents().find('html').html())[0].innerText);
+                     if ($('#upload_store_frame').contents()[0].location.href
+                         .indexOf($('#cmsStoreForm').attr('action')) > -1) {
+                         // display server response [optional line]
+                         
+                         $(message)
+                             .css(
+                                 'backgroundColor',
+                                 function() {
+                                     if (jsonOb.apiResponse === 'File is uploaded successfully') {
+                                         return '#4CA64C';
+                                     } else {
+                                         return '#FF4C4C';
+                                     }
+                                 });
+                         $(message).html(jsonOb.apiResponse);
+                     }
+                 });
+         $('#cmsStoreForm').attr('action', action);
+         $('#cmsStoreForm').attr('method', 'post');
+         $('#cmsStoreForm').attr('enctype', 'multipart/form-data');
+         $('#cmsStoreForm').attr('target', 'upload_store_frame').submit();
+     	setTimeout(function() {$('#storemodalForCouponTill').modal('hide');}, 8000);
+     }
+	 
+	 
+	 
+	 
+html
+
+     	<form action="" id="cmsStoreForm" name="cmsStoreForm">
+		<input id="hiddenCampaignId" name="campaignId" hidden="hidden"
+			value="${couponCampaignDetail.campaignId}">
+	
+      
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title model-header">Upload More Stores</h4>
+        </div>
+        <div class="modal-body">		 	
+	 <div class="custom-file mb-3">		 	 
+		 	 <div><span><a id="downloadCMSStoreList" href="downloadCMSStoreCode/${couponCampaignDetail.campaignId}" class="download-file download-blue">Download Uploaded Stores</a></span></div>
+		 </div>
+		 	 <div class="custom-file mb-3">		 	 
+		 	 <div><span><input type="file" class="custom-file-input" id="inputStoreUpload" name="inputStoreUpload"></span></div>
+		 			<div id="storecodeuploadresponsemsg" style="padding: 8px"></div>
+		 		<label class="custom-file-label" for="customFile" id="lblStoreCodeCampaign">Upload Store Codes</label>
+		 		</div>
+		 	</div>
+         	<div class="button-outer">
+		 		<button class="btn btn-indigo" type="button" disabled="disabled" style="margin-bottom:100px;" id="btnUploadStoreCode">UPLOAD</button>
+		 	</div>
+		 	</form>
+			
+			
+			
+controller
+
+	@PostMapping(value = "/uploadCMSStoreAsynch")
+	public @ResponseBody CMSFileUploadResponseDTO uploadCMSStoreDetailAsynch(CMSFileUploadRequestDTO cmsFileUploadRequestDTO,MultipartHttpServletRequest multiPartRequest) {
+		log.info("Enter in uploadCMSStoreAsynch : request : {}", cmsFileUploadRequestDTO);
+		log.info("multiPartRequest :: {}",multiPartRequest);
+		String responseMessage = "";
+		CMSFileUploadResponseDTO storeFileUploadResponseDTO = new CMSFileUploadResponseDTO();
+		try {
+			Iterator<String> itr = multiPartRequest.getFileNames();
+			while (itr.hasNext()) {
+				MultipartFile multipartFile = multiPartRequest.getFile(itr.next());
+				if(StringUtils.isNotBlank(multipartFile.getOriginalFilename())) {					
+					storeFileUploadResponseDTO = storeFileUploadService.saveCMSStoreUplodedFile(cmsFileUploadRequestDTO, multipartFile);
+					responseMessage = "For your changes to reflect please save the campaign.";
+					storeFileUploadResponseDTO.setApiResponse(responseMessage);
+					storeFileUploadResponseDTO.setResponse(WebAppResponseEnum.CAMPIGN_DETAIL_UPDATED);			
+					break;
+				}
+			}
+			log.info("Exit in uploadCMSStoreAsynch : response : {}", storeFileUploadResponseDTO);
+		} catch (CampaignRuntimeException e) {
+			responseMessage = "Error while saving. Please try later";
+			storeFileUploadResponseDTO.setApiResponse(responseMessage);
+			storeFileUploadResponseDTO.setResponse(WebAppResponseEnum.INTERNAL_SERVER_ERROR);
+			log.error("Exception in uploadCMSStoreAsynch : request : {}", e, cmsFileUploadRequestDTO);
+		}
+		return storeFileUploadResponseDTO;
+	}

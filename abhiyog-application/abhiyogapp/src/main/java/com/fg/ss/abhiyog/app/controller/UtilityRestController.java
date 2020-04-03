@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -207,10 +208,15 @@ public class UtilityRestController {
 
 			if (request.getParameter("mailStatus") != "ALL") {
 				mailStatus = request.getParameter("mailStatus");
+				System.out.println("mailStatus"+mailStatus);
 			}
 			
-			fromDate =DateUtils.getDBFormatedDte(request.getParameter("fromDate"));
-			toDate  = DateUtils.getDBFormatedDte(request.getParameter("toDate"));
+			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+			 fromDate = LocalDate.parse(request.getParameter("fromDate"), dateTimeFormatter);
+			 toDate = LocalDate.parse(request.getParameter("toDate"), dateTimeFormatter);
+			
+//			fromDate =DateUtils.getDBFormatedDte(request.getParameter("fromDate"));
+//			toDate  = DateUtils.getDBFormatedDte(request.getParameter("toDate"));
 			
 			System.out.println(fromDate);
 			System.out.println(toDate);

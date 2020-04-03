@@ -63,7 +63,7 @@ jQuery(document).ready(function(){
 
 
 function validatePwd(){
-	alert("validating passwords");
+//	alert("validating passwords");
 	var password = jQuery.trim($('#password').val());
 	var confPassword = jQuery.trim($('#confpassword').val());
 	if(password.length < 6){

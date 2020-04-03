@@ -178,7 +178,7 @@ public class LitigationRestController {
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
 
-	@PostMapping("/addCityDtls")
+	/*@PostMapping("/addCityDtls")
 	public BaseResponseVO addCityDtls(@RequestBody CityStateVO cityStateVO) {
 		City cityDtls = litigationService.checkExistenceCity(cityStateVO.getCityName());
 		if (cityDtls == null) {
@@ -191,7 +191,7 @@ public class LitigationRestController {
 		}
 		return baseResponseVO;
 
-	}
+	}*/
 
 	@GetMapping("/getCityDtls")
 	public ResponseEntity<BaseResponseVO> getCityDtls() {
@@ -263,7 +263,7 @@ public class LitigationRestController {
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
 
-	@PostMapping("/addCourtForum")
+	/*@PostMapping("/addCourtForum")
 	public ResponseEntity<BaseResponseVO> addCourtForum(@RequestBody CityStateVO cityStateCourtForumVO) {
 		CourtCity courtCity = litigationService.findByCourtCity(cityStateCourtForumVO.getCourtForum());
 		if (courtCity == null) {
@@ -276,7 +276,7 @@ public class LitigationRestController {
 		}
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
-	}
+	}*/
 
 	@PostMapping("/addPoliceStation")
 	public BaseResponseVO addPoliceStationDtls(@RequestBody CityStateVO cityStateVO) {
@@ -382,7 +382,7 @@ public class LitigationRestController {
 	}
 
 	// Billing Tab for add Data
-	@RequestMapping(value = "/addLawfirmBilling", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+	/*@RequestMapping(value = "/addLawfirmBilling", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public BaseResponseVO addLawfirmBilling(@RequestPart("file") MultipartFile file,
 			@RequestPart("connectedLitigationVO") ConnectedLitigationVO connectedLitigationVO) {
 		litigationService.saveLawfirmBillingData(file, connectedLitigationVO);
@@ -390,7 +390,7 @@ public class LitigationRestController {
 		baseResponseVO.setResponseMessage("Lawfirm Billing Details Added Successfully");
 		baseResponseVO.setData(null);
 		return baseResponseVO;
-	}
+	}*/
 
 	// Billing Tab get Data functionality
 	@GetMapping("/getLawfirmBilling/{litigationId}")
@@ -431,7 +431,7 @@ public class LitigationRestController {
 
 	}
 
-	@PutMapping("/updateLitigation/{litigationId}")
+	/*@PutMapping("/updateLitigation/{litigationId}")
 	public ResponseEntity<BaseResponseVO> updateLitigation(@RequestBody AddLitigationVO addLitigationVO,
 			@PathVariable String litigationId) {
 		litigationService.updateLitigationData(addLitigationVO, litigationId);
@@ -439,7 +439,7 @@ public class LitigationRestController {
 		baseResponseVO.setResponseMessage("Litigation Details Updated Successfully");
 		baseResponseVO.setData(null);
 		return ResponseEntity.ok().body(baseResponseVO);
-	}
+	}*/
 
 	// History tab next hearing date.
 	@PostMapping("/addNextHearingDate")

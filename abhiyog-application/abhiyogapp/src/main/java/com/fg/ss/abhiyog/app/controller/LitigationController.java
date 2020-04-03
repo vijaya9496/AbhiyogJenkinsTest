@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,24 +14,32 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fg.ss.abhiyog.common.constants.CommonConstants;
+import com.fg.ss.abhiyog.common.model.City;
 import com.fg.ss.abhiyog.common.model.CounterPartyDtls;
+import com.fg.ss.abhiyog.common.model.CourtCity;
 import com.fg.ss.abhiyog.common.model.CourtType;
 import com.fg.ss.abhiyog.common.model.LawFirm;
 import com.fg.ss.abhiyog.common.model.Litigation;
@@ -48,7 +57,9 @@ import com.fg.ss.abhiyog.common.service.IUnitsSummaryService;
 import com.fg.ss.abhiyog.common.service.IZoneService;
 import com.fg.ss.abhiyog.common.util.DateUtils;
 import com.fg.ss.abhiyog.common.vo.AddLitigationVO;
+import com.fg.ss.abhiyog.common.vo.ConnectedLitigationVO;
 import com.fg.ss.abhiyog.common.vo.CounterPartyVO;
+import com.fg.ss.abhiyog.common.vo.DashboardVO;
 import com.fg.ss.abhiyog.common.vo.LitigationSummaryVO;
 import com.fg.ss.abhiyog.common.vo.OutsideCounselVO;
 import com.fg.ss.abhiyog.common.vo.UnitSummaryVO;
@@ -135,13 +146,13 @@ public class LitigationController {
 					cell.add(litigationSummary.getLitigationId() + ' ' + litigationSummary.getStatus());
 					cell.add(litigationSummary.getFileNo());
 					cell.add(litigationSummary.getEntityName() + "(" + litigationSummary.getUnitName() + ")");
-					cell.add(litigationSummary.getCounterParty() + "(" + litigationSummary.getCustomerType() + ")");
+					cell.add(litigationSummary.getCounterPartyName() + "(" + litigationSummary.getCustomerType() + ")");
 					cell.add(litigationSummary.getCaseNumber());
 					cell.add(litigationSummary.getSubject());
 					cell.add(litigationSummary.getStage());
 					cell.add(litigationSummary.getHearingDate().toString());
-					cell.add(litigationSummary.getRiskLevel());
-					cell.add(litigationSummary.getPossibleClaim());
+					cell.add(litigationSummary.getRisk());
+					cell.add(litigationSummary.getClaim());
 					cell.add(litigationSummary.getRemark());
 					cell.add(litigationSummary.getZoneName());
 					cell.add("Delete");
@@ -274,13 +285,13 @@ public class LitigationController {
 					cell.add(litigationData.getLitigationId() + ' ' + litigationData.getStatus());
 					cell.add(litigationData.getFileNo());
 					cell.add(litigationData.getEntityName() + "(" + litigationData.getUnitName() + ")");
-					cell.add(litigationData.getCounterParty() + "(" + litigationData.getCustomerType() + ")");
+					cell.add(litigationData.getCounterPartyName() + "(" + litigationData.getCustomerType() + ")");
 					cell.add(litigationData.getCaseNumber());
 					cell.add(litigationData.getSubject());
 					cell.add(litigationData.getStage());
 					cell.add(litigationData.getHearingDate().toString());
-					cell.add(litigationData.getRiskLevel());
-					cell.add(litigationData.getPossibleClaim());
+					cell.add(litigationData.getRisk());
+					cell.add(litigationData.getClaim());
 					cell.add(litigationData.getRemark());
 					cell.add(litigationData.getZoneName());
 					cell.add("Delete");
@@ -305,9 +316,19 @@ public class LitigationController {
 	@RequestMapping(value = "/viewLitigationDetails")
 	public String viewLitigationDetails(Model model, HttpServletRequest request) {
 		model.addAttribute("litigationSummaryVO", new LitigationSummaryVO());
+		model.addAttribute("connectedLitigationVO", new ConnectedLitigationVO());
 		System.out.println("ID::" + request.getParameter("id"));
+		HttpSession session = request.getSession();
+		session.setAttribute("litigationSessionId", Integer.parseInt(request.getParameter("id")));
+		session.setAttribute("ltgnId", request.getParameter("litigationId"));
+		System.out.println("LtgnID**"+session.getAttribute("ltgnId"));
 		model.addAttribute("allLitiagtionDtls",
 				litigationService.getLitigationDetails(Integer.parseInt(request.getParameter("id"))));
+		model.addAttribute("allLitigationIDs", litigationService.getLitigationIds());
+		model.addAttribute("allResults", litigationService.getLitigationResultMaster());
+		model.addAttribute("allBillingTypes", litigationService.getAllBillingTypes());
+		model.addAttribute("allStageDetails", litigationService.getAllStageDetails());
+		
 		return "litigationDetails";
 	}
 	
@@ -377,23 +398,49 @@ public class LitigationController {
 		return lawfirmVal;
 	}
 
+	@RequestMapping(value = "/addCityDtls", method = RequestMethod.POST)
+	@ResponseBody
+	public String addCourtType(@RequestParam String cityNameVal, @RequestParam String stateVal) {
+		System.out.println("CityName*** " + cityNameVal);
+		City cityDtls = litigationService.checkExistenceCity(cityNameVal);
+		if (cityDtls == null) {
+			litigationService.saveCityData(cityNameVal, stateVal);
+		} else {
+			System.out.println("City Name Already Existed");
+		}
+		return cityNameVal;
+	}
+	
 	@RequestMapping(value = "/addCourtType", method = RequestMethod.POST)
 	@ResponseBody
-	public String addCourtType(@RequestParam String courtTypeVal) {
+	public String addCityDtls(@RequestParam String courtTypeVal) {
 		System.out.println("CourtTypeName*** " + courtTypeVal);
 		CourtType courtType = litigationService.checkExistenceCourtType(courtTypeVal);
 		if (courtType == null) {
 			litigationService.saveCourtType(courtTypeVal);
-//			model.addAttribute("message", "CourtTypeName Added Successfully");
-//			model.addAttribute("addLitigationVO", new AddLitigationVO());
+
 		} else {
 			System.out.println("Court Type Name Already Existed");
-//			model.addAttribute("message", "CourtTypeName Already Existed");
-//			model.addAttribute("addLitigationVO", new AddLitigationVO());
 		}
 	
 		return courtTypeVal;
 	}
+	
+	
+	@RequestMapping(value = "/addCourtForumDtls", method = RequestMethod.POST)
+	@ResponseBody
+	public String addCityDtls(@RequestParam String courtForumVal, @RequestParam String cityNameVal) {
+		System.out.println("CourtForumVal*** " + courtForumVal);
+		CourtCity courtCity = litigationService.findByCourtCity(courtForumVal);
+		if (courtCity == null) {
+			litigationService.saveCourtCityData(courtForumVal, cityNameVal);
+		} else {
+			System.out.println("CourtForum Already Existed");
+		}
+		return courtForumVal;
+	}
+	
+	
 
 	@RequestMapping(value = "/addCategory", method = RequestMethod.POST)
 	@ResponseBody
@@ -432,6 +479,7 @@ public class LitigationController {
 	@RequestMapping(value = "/addCounterPartyDtls")
 	@ResponseBody
 	public String addCounterParty(@RequestParam String counterPartyNameVal) {
+		System.out.println("CounterPartyVal**"+counterPartyNameVal);
 		CounterPartyDtls counterPartyDtls = counterPartyService
 				.findCustomerByName(counterPartyNameVal);
 		CounterPartyVO counterPartyVO = new CounterPartyVO();
@@ -492,7 +540,7 @@ public class LitigationController {
 		model.addAttribute("allUnderActDtls", litigationService.findAllUnderActData());
 		model.addAttribute("allCourtTypeDtls", litigationService.findCourtType());
 		model.addAttribute("allStatusDtls", litigationService.findAllStatus());
-		model.addAttribute("allseniorCounselDtls", outsideCounselService.findAll());
+		model.addAttribute("allseniorCounselDtls", outsideCounselService.findAllSeniorCounselDtls());
 		model.addAttribute("allLawfirmDtls", outsideCounselService.findAll());
 		model.addAttribute("allStateDtls", litigationService.findAllStates());
 		model.addAttribute("allCityDtls", litigationService.findAllCities());
@@ -545,7 +593,7 @@ public class LitigationController {
 		addLitigationVO.setCounselAssesment(request.getParameter("counselAssesment"));
 		addLitigationVO.setRemark(request.getParameter("remark"));
 		addLitigationVO.setNextHearingDate(DateUtils.getDBFormatedDte(request.getParameter("nextHearingDate")));
-		addLitigationVO.setSeniorCounsel(request.getParameter("lawfirm"));
+		addLitigationVO.setSeniorCounsel(request.getParameter("seniorCounsel"));
 		addLitigationVO.setLawfirm(request.getParameter("lawfirm"));
 		addLitigationVO.setFunction("Legal");
 		addLitigationVO.setLoginId(userVO.getLoginId());
@@ -570,7 +618,7 @@ public class LitigationController {
 		model.addAttribute("allUnderActDtls", litigationService.findAllUnderActData());
 		model.addAttribute("allCourtTypeDtls", litigationService.findCourtType());
 		model.addAttribute("allStatusDtls", litigationService.findAllStatus());
-		model.addAttribute("allseniorCounselDtls", outsideCounselService.findAll());
+		model.addAttribute("allseniorCounselDtls", outsideCounselService.findAllSeniorCounselDtls());
 		model.addAttribute("allLawfirmDtls", outsideCounselService.findAll());
 		model.addAttribute("allStateDtls", litigationService.findAllStates());
 		model.addAttribute("allCityDtls", litigationService.findAllCities());
@@ -618,11 +666,11 @@ public class LitigationController {
 					cell.add(restoreLitigationSummary.getLitigationOId());
 					cell.add(restoreLitigationSummary.getLitigationId());
 					cell.add(restoreLitigationSummary.getEntityName());
-					cell.add(restoreLitigationSummary.getCounterParty());
+					cell.add(restoreLitigationSummary.getCounterPartyName());
 					cell.add(restoreLitigationSummary.getCaseNumber());
 					cell.add(restoreLitigationSummary.getSubject());
 					cell.add(restoreLitigationSummary.getUnderActName());
-					cell.add(restoreLitigationSummary.getRiskLevel());
+					cell.add(restoreLitigationSummary.getRisk());
 					
 //					cellObj.put(CommonConstants.CELL, cell);
 					cellObj.set(CommonConstants.CELL, cell);
@@ -707,11 +755,11 @@ public class LitigationController {
 					cell.add(restoreLitigationData.getLitigationOId());
 					cell.add(restoreLitigationData.getLitigationId());
 					cell.add(restoreLitigationData.getEntityName());
-					cell.add(restoreLitigationData.getCounterParty());
+					cell.add(restoreLitigationData.getCounterPartyName());
 					cell.add(restoreLitigationData.getCaseNumber());
 					cell.add(restoreLitigationData.getSubject());
 					cell.add(restoreLitigationData.getUnderActName());
-					cell.add(restoreLitigationData.getRiskLevel());
+					cell.add(restoreLitigationData.getRisk());
 //					cellObj.put(CommonConstants.CELL, cell);
 					cellObj.set(CommonConstants.CELL, cell);
 					cellArray.add(cellObj);
@@ -748,5 +796,296 @@ public class LitigationController {
 				LOGGER.info("Unable to Restored Litigation");
 			}
 		}
+	}
+	
+	@RequestMapping(value="/getWitnessDetails", method = RequestMethod.GET)
+//	@ResponseBody
+	public void getWitnessDetails(HttpServletRequest request, HttpServletResponse response, Model model, HttpSession session) {
+		int id = (int) session.getAttribute("litigationSessionId");
+		System.out.println("LitigationID** " +id);
+		List<ConnectedLitigationVO> allWitnessDtls=litigationService.getWitnessDetails(id);
+		LOGGER.info("inside fillGridDetail method");
+		int totalRecord = 0;
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode responseData = mapper.createObjectNode();
+		ArrayNode cellArray = null;
+		ArrayNode cell = null;
+		ObjectNode cellObj = null;
+		try {
+			PrintWriter out = response.getWriter();
+			cellArray = mapper.createArrayNode();
+			if (allWitnessDtls.size() > 0) {
+				totalRecord = allWitnessDtls.size();
+				for (ConnectedLitigationVO witnessDtls : allWitnessDtls) {
+					cellObj = mapper.createObjectNode();
+					cellObj.put(CommonConstants.ID, witnessDtls.getWitnessId());
+					cell = mapper.createArrayNode();
+					cell.add(witnessDtls.getLitigationId());
+					cell.add(witnessDtls.getWitnessName());
+					
+//					cellObj.put(CommonConstants.CELL, cell);
+					cellObj.set(CommonConstants.CELL, cell);
+					cellArray.add(cellObj);
+
+				}
+			}
+			responseData.put(CommonConstants.PAGE, CommonConstants.PAGE_NO);
+			responseData.put(CommonConstants.RECORDS, totalRecord);
+//			responseData.put(CommonConstants.ROWS, cellArray);
+			responseData.set(CommonConstants.ROWS, cellArray);
+			out.println(responseData);
+
+		} catch (IOException e) {
+			LOGGER.error("Exception generated in FillingGrid Method:: " + e.getMessage(), e);
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	@RequestMapping(value="/addWitnessDetails", method=RequestMethod.POST)
+	@ResponseBody
+	public String addWitnessDetails(@RequestParam String witnessVal, HttpServletRequest request, HttpSession session,Model model) {
+		System.out.println("Witness Name*** " +witnessVal);
+		System.out.println("LitigationID** " +request.getParameter("id"));
+		ConnectedLitigationVO connectedLitigationVO = new ConnectedLitigationVO();
+		connectedLitigationVO.setWitnessName(witnessVal);
+		int id = (int) session.getAttribute("litigationSessionId");
+		System.out.println("ID:: " +id);
+		connectedLitigationVO.setLitigationOId(id);
+		litigationService.addWitnessDtls(connectedLitigationVO);
+//		model.addAttribute("message", "Witness Details Added Successfully");
+		return "Success";
+		
+	}
+	
+	@RequestMapping(value="/addConnectedLitigationDetails", method=RequestMethod.POST)
+	@ResponseBody
+	public String addConnectedLitigation(@RequestParam String commentsVal, @RequestParam String litigationIdVal, HttpServletRequest request, HttpSession session) {
+		ConnectedLitigationVO connectedLitigationVO = new ConnectedLitigationVO();
+		int id = (int) session.getAttribute("litigationSessionId");
+		System.out.println("ID:: " +id);
+		connectedLitigationVO.setConnectedLitigationId(litigationIdVal);
+		connectedLitigationVO.setComments(commentsVal);
+		connectedLitigationVO.setLitigationOId(id);
+		litigationService.addConnectedLitigation(connectedLitigationVO);
+		
+		return "Success";
+		
+	}
+	
+	@RequestMapping(value="/historyDetails", method=RequestMethod.POST)
+	@ResponseBody
+	public String historyDetails(@RequestParam String hearingDateVal, @RequestParam String stageVal,  @RequestParam String stageDetailsVal, HttpServletRequest request, HttpSession session) throws ParseException {
+		ConnectedLitigationVO connectedLitigationVO = new ConnectedLitigationVO();
+		int id = (int) session.getAttribute("litigationSessionId");
+		System.out.println("ID:: " +id);
+		connectedLitigationVO.setHearingDt(DateUtils.getDBFormatedDte(hearingDateVal));
+		connectedLitigationVO.setStage(stageVal);
+		connectedLitigationVO.setStageDetails(stageDetailsVal);
+		connectedLitigationVO.setLitigationOId(id);
+		UserVO uservo=  (UserVO) session.getAttribute(CommonConstants.SESSION_USER_VO);
+		connectedLitigationVO.setLoginId(uservo.getLoginId());
+		litigationService.saveNextHearingDate(connectedLitigationVO);
+		
+		return "Success";
+		
+	}
+	
+	@RequestMapping(value="/getHistoryDetails", method=RequestMethod.GET)
+	@ResponseBody
+	public List<ConnectedLitigationVO> getHistoryDetails(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		LOGGER.info("inside getHistoryDetails method");
+		int id = (int) session.getAttribute("litigationSessionId");
+		System.out.println("ID:: " +id);
+		List<ConnectedLitigationVO> allHistoryDetails = litigationService.getHistorySummary(id);
+		
+		return allHistoryDetails;
+		
+	}
+	
+	@RequestMapping(value="/updateHistoryDetails/{hearingId}", method=RequestMethod.GET)
+	public String updateHistoryDetails(@PathVariable("hearingId") int hearingId, Model model) {
+		System.out.println("hearingID"+hearingId);
+		model.addAttribute("updateHistoryDetails", litigationService.findHistoryDetails(hearingId));
+		return "updateHistoryDetails";
+	}
+	
+	@RequestMapping(value="/addDisposedDate", method=RequestMethod.POST)
+	@ResponseBody
+	public String addDisposedDate(@RequestParam String resultVal, @RequestParam String disposedDateVal, @RequestParam String commentsVal, HttpServletRequest request, HttpSession session) throws ParseException {
+		System.out.println(resultVal);
+		System.out.println(disposedDateVal);
+		System.out.println(commentsVal);
+		int id = (int) session.getAttribute("litigationSessionId");
+		System.out.println("ID:: " +id);
+		ConnectedLitigationVO connectedLitigationVO = new ConnectedLitigationVO();
+		connectedLitigationVO.setResultName(resultVal);
+		connectedLitigationVO.setDisposedDate(DateUtils.getDBFormatedDte(disposedDateVal));
+		connectedLitigationVO.setComments(commentsVal);
+		connectedLitigationVO.setLitigationOId(id);
+		
+		litigationService.addLitigationDisposal(connectedLitigationVO);
+		
+		return "Success";
+		
+	}
+	
+	@RequestMapping(value="/addLawfirmBilling", method=RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = { "application/json"})
+	@ResponseBody
+	public String addLawfirmBilling(  HttpServletRequest request, HttpSession session, MultipartHttpServletRequest multiPartRequest) throws ParseException {
+		int id = (int) session.getAttribute("litigationSessionId");
+		System.out.println("ID:: " +id);
+		System.out.println("billing Type:: " +request.getParameter("billingType"));
+		System.out.println("billing Amount:: "+request.getParameter("billingAmount")) ;
+		System.out.println("billingDate::"+request.getParameter("billingDate"));
+		System.out.println("remark:: " +request.getParameter("remark"));
+		
+		ConnectedLitigationVO connectedLitigationVO = new ConnectedLitigationVO();
+		connectedLitigationVO.setBillingType(request.getParameter("billingType"));
+		connectedLitigationVO.setBillingAmount(Float.valueOf(request.getParameter("billingAmount")));
+		connectedLitigationVO.setBillingDate(DateUtils.getDBFormatedDte(request.getParameter("billingDate")));
+		connectedLitigationVO.setRemark(request.getParameter("remark"));
+		
+		MultipartFile multiPartFile = multiPartRequest.getFile("uploadFile");
+		
+		connectedLitigationVO.setLitigationOId(id);
+		
+		litigationService.saveLawfirmBillingData(multiPartFile,connectedLitigationVO);
+				return "Successfully Uploaded";
+		
+	}
+	
+	@RequestMapping(value="/uploadDocument", method=RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@ResponseBody
+	public String uploadDocument( HttpServletRequest request, HttpSession session, MultipartHttpServletRequest multiPartrequest) 
+	{
+		
+		ConnectedLitigationVO connectedLitigationVO = new ConnectedLitigationVO();
+		int id = (int) session.getAttribute("litigationSessionId");
+		System.out.println("ID:: " +id);
+		System.out.println("Comments::"+request.getParameter("uploadComments"));
+		System.out.println("DocumentTitle:: "+request.getParameter("documentTitle"));
+		UserVO userVO = (UserVO) session.getAttribute(CommonConstants.SESSION_USER_VO);
+		connectedLitigationVO.setLitigationOId(id);
+		connectedLitigationVO.setLoginId(userVO.getLoginId());
+		connectedLitigationVO.setUploadComments(request.getParameter("uploadComments"));
+		connectedLitigationVO.setDocumentTitle(request.getParameter("documentTitle"));
+		MultipartFile multiPartFile = multiPartrequest.getFile("uploadFile");
+		
+		litigationService.saveLitigationDocsData(multiPartFile, connectedLitigationVO);
+		
+		return "SUCCESSFULLY UPLOADED";
+	}
+	
+	@RequestMapping(value="/getDashboardSummary", method=RequestMethod.GET)
+	public String getDashboardSummary() {
+		return "dashboard";
+	}
+	
+	
+	@RequestMapping(value="/dashboardSummary", method=RequestMethod.GET)
+	public void dashboardSummary(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		List<LitigationSummaryVO> dashboardSummary = litigationService.getDashboardSummary();
+		LOGGER.info("inside dashboardSummary method");
+		int totalRecord = 0;
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode responseData = mapper.createObjectNode();
+		ArrayNode cellArray = null;
+		ArrayNode cell = null;
+		ObjectNode cellObj = null;
+		try {
+			PrintWriter out = response.getWriter();
+			cellArray = mapper.createArrayNode();
+			if (dashboardSummary.size() > 0) {
+				totalRecord = dashboardSummary.size();
+				for (LitigationSummaryVO litigationSummary : dashboardSummary) {
+					cellObj = mapper.createObjectNode();
+//					cellObj.put(CommonConstants.ID, litigationSummary.getLitigationOId());
+					cell = mapper.createArrayNode();
+					cell.add(litigationSummary.getZoneName());
+					cell.add(litigationSummary.getUnitName());
+					cell.add(litigationSummary.getUpdated());
+					cell.add(litigationSummary.getNotUpdated());
+					cell.add(litigationSummary.getTotal());
+					
+//					cellObj.put(CommonConstants.CELL, cell);
+					cellObj.set(CommonConstants.CELL, cell);
+					cellArray.add(cellObj);
+
+				}
+			}
+			responseData.put(CommonConstants.PAGE, CommonConstants.PAGE_NO);
+			responseData.put(CommonConstants.RECORDS, totalRecord);
+//			responseData.put(CommonConstants.ROWS, cellArray);
+			responseData.set(CommonConstants.ROWS, cellArray);
+			out.println(responseData);
+
+		} catch (IOException e) {
+			LOGGER.error("Exception generated in FillingGrid Method:: " + e.getMessage(), e);
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value="/updateLtgn", method= RequestMethod.GET)
+	public String updateLtgn(Model model, HttpServletRequest request, HttpSession session) {
+//		model.addAttribute("updateLitigatinVO", new LitigationSummaryVO());
+		System.out.println("LitigationId" +request.getParameter("litigationId"));
+		model.addAttribute("allEntities", entityService.getAllEntities());
+		model.addAttribute("allRegions", zoneService.getAllZones());
+		model.addAttribute("allUnitLocationDtls", unitsSummaryService.getUnitSummary());
+		model.addAttribute("allFormats", formatService.getAllFormats());
+		model.addAttribute("allCustomerType", litigationService.findAllCustomerType());
+		model.addAttribute("allCounterPartyDtls", counterPartyService.findAll());
+		model.addAttribute("allCategory", litigationService.findAllCategoryData());
+		model.addAttribute("allRiskDtls", litigationService.findAllRiskLevel());
+		model.addAttribute("allPossibleClaim", litigationService.findAllClaimPossible());
+		model.addAttribute("allUnderActDtls", litigationService.findAllUnderActData());
+		model.addAttribute("allCourtTypeDtls", litigationService.findCourtType());
+		model.addAttribute("allStatusDtls", litigationService.findAllStatus());
+		model.addAttribute("allseniorCounselDtls", outsideCounselService.findAllSeniorCounselDtls());
+		model.addAttribute("allLawfirmDtls", outsideCounselService.findAll());
+		model.addAttribute("allStateDtls", litigationService.findAllStates());
+		model.addAttribute("allCityDtls", litigationService.findAllCities());
+		model.addAttribute("allCourtForumDtls", litigationService.getAllCourtForum());
+		model.addAttribute("allMatterByAgainstDtls", litigationService.findAll());
+		int id = (int) session.getAttribute("litigationSessionId");
+		model.addAttribute("ltgnDtls", litigationService.getLitigationDetails(id));
+		return "updateLitigation";
+	}
+	
+	@RequestMapping(value="/updateLitigationDtls", method = RequestMethod.POST)
+	public String updateLitigationDtls(Model model, @ModelAttribute LitigationSummaryVO litigationSummaryVO, HttpServletRequest request, HttpSession session) throws ParseException {
+		int id = (int) session.getAttribute("litigationSessionId");
+		UserVO userVO = (UserVO) session.getAttribute(CommonConstants.SESSION_USER_VO);
+		litigationSummaryVO.setLitigationOId(id);
+		litigationSummaryVO.setLoginId(userVO.getLoginId());
+		System.out.println(request.getParameter("caseRelateFromDate"));
+		System.out.println(request.getParameter("caseRelateToDate"));
+		
+		litigationService.updateLitigationData(litigationSummaryVO);
+		model.addAttribute("allEntities", entityService.getAllEntities());
+		model.addAttribute("allRegions", zoneService.getAllZones());
+		model.addAttribute("allUnitLocationDtls", unitsSummaryService.getUnitSummary());
+		model.addAttribute("allFormats", formatService.getAllFormats());
+		model.addAttribute("allCustomerType", litigationService.findAllCustomerType());
+		model.addAttribute("allCounterPartyDtls", counterPartyService.findAll());
+		model.addAttribute("allCategory", litigationService.findAllCategoryData());
+		model.addAttribute("allRiskDtls", litigationService.findAllRiskLevel());
+		model.addAttribute("allPossibleClaim", litigationService.findAllClaimPossible());
+		model.addAttribute("allUnderActDtls", litigationService.findAllUnderActData());
+		model.addAttribute("allCourtTypeDtls", litigationService.findCourtType());
+		model.addAttribute("allStatusDtls", litigationService.findAllStatus());
+		model.addAttribute("allseniorCounselDtls", outsideCounselService.findAllSeniorCounselDtls());
+		model.addAttribute("allLawfirmDtls", outsideCounselService.findAll());
+		model.addAttribute("allStateDtls", litigationService.findAllStates());
+		model.addAttribute("allCityDtls", litigationService.findAllCities());
+		model.addAttribute("allCourtForumDtls", litigationService.getAllCourtForum());
+		model.addAttribute("allMatterByAgainstDtls", litigationService.findAll());
+		model.addAttribute("message", "Litigation Details Updated Successfully");
+		model.addAttribute("ltgnDtls", litigationService.getLitigationDetails(id));
+		return "updateLitigation";
+		
 	}
 }

@@ -1,5 +1,6 @@
 package com.fg.ss.abhiyog.common.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -30,7 +31,7 @@ public class LawfirmBilling {
 	private float billingAmount;
 
 	@Column(name = "billing_date")
-	private Date billingDate;
+	private LocalDate billingDate;
 
 	@Column(name = "create_date")
 	private LocalDateTime createDate;
@@ -88,11 +89,11 @@ public class LawfirmBilling {
 		this.billingAmount = billingAmount;
 	}
 
-	public Date getBillingDate() {
+	public LocalDate getBillingDate() {
 		return billingDate;
 	}
 
-	public void setBillingDate(Date billingDate) {
+	public void setBillingDate(LocalDate billingDate) {
 		this.billingDate = billingDate;
 	}
 

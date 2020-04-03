@@ -6,7 +6,7 @@ jQuery(document).ready(function(){
 				width : 1150,
 				height : 250,
 				colNames : [ 'Loid', 'Litigation ID', 'Entity',
-						'Country Party', 'Case Number', 'Subject', 
+						'Counter Party', 'Case Number', 'Subject', 
 						'UnderAct', 'Risk'],
 				colModel : [ {
 					name : 'loid',

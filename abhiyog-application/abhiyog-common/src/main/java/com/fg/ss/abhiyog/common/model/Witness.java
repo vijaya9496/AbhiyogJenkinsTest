@@ -1,5 +1,6 @@
 package com.fg.ss.abhiyog.common.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,8 +23,8 @@ public class Witness {
 	@Column(name = "witness")
 	private String witness;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "litigationoid")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "litigation_oid")
 	private Litigation litigation;
 
 	public int getWitnessId() {

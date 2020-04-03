@@ -19,6 +19,7 @@ import com.fg.ss.abhiyog.common.vo.CityStateVO;
 import com.fg.ss.abhiyog.common.vo.ConnectedLitigationVO;
 import com.fg.ss.abhiyog.common.vo.CourtTypeVO;
 import com.fg.ss.abhiyog.common.vo.CustomerTypeStatusVO;
+import com.fg.ss.abhiyog.common.vo.DashboardVO;
 import com.fg.ss.abhiyog.common.vo.LitigationSummaryVO;
 import com.fg.ss.abhiyog.common.vo.LtgnCategoryVO;
 import com.fg.ss.abhiyog.common.vo.LtgnMatterByVO;
@@ -56,7 +57,7 @@ public interface ILitigationService {
 
 	City checkExistenceCity(String cityName);
 
-	void saveCityData(CityStateVO cityStateVO);
+	void saveCityData(String cityName, String stateName);
 
 	List<CityStateVO> findAllCities();
 
@@ -70,7 +71,7 @@ public interface ILitigationService {
 
 	CourtCity findByCourtCity(String courtForum);
 
-	void saveCourtCityData(CityStateVO cityStateCourtForumVO);
+	void saveCourtCityData(String courtForumVal, String cityNameVal);
 
 	boolean saveLitigationData(AddLitigationVO addLitigationVO);
 
@@ -92,7 +93,7 @@ public interface ILitigationService {
 
 	void saveLitigationDocsData(MultipartFile file, ConnectedLitigationVO connectedLitigationVO);
 
-	void saveLawfirmBillingData(MultipartFile file, ConnectedLitigationVO connectedLitigationVO);
+	void saveLawfirmBillingData(MultipartFile multiPartFile,ConnectedLitigationVO connectedLitigationVO);
 
 	List<ConnectedLitigationVO> getLawfirmBilling(String litigationId);
 
@@ -102,7 +103,7 @@ public interface ILitigationService {
 
 	List<AddLitigationVO> showLitigationDetails(String litigationId);
 
-	void updateLitigationDetails(AddLitigationVO addLitigationVO);
+	
 
 	void saveNextHearingDate(ConnectedLitigationVO connectedLitigationVO);
 
@@ -112,7 +113,7 @@ public interface ILitigationService {
 
 	List<ConnectedLitigationVO> getActivityLog(String litigationId);
 
-	void updateLitigationData(AddLitigationVO addLitigationVO, String litigationId);
+	void updateLitigationData(LitigationSummaryVO addLitigationVO);
 
 	List<UnitSummaryVO> showEntityRegionUnits(String litigationId);
 
@@ -135,6 +136,20 @@ public interface ILitigationService {
 			String category, String courtType, String underActs, String risk);
 
 	int updateRestoreLitigationData(int parseInt);
+
+	List<ConnectedLitigationVO> getWitnessDetails(int id);
+
+	List<ConnectedLitigationVO> getLitigationIds();
+
+	List<ConnectedLitigationVO> getAllBillingTypes();
+
+	List<ConnectedLitigationVO> getAllStageDetails();
+
+	List<ConnectedLitigationVO> getHistorySummary(int id);
+
+	ConnectedLitigationVO findHistoryDetails(int hearingId);
+
+	List<LitigationSummaryVO> getDashboardSummary();
 
 	
 

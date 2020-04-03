@@ -4,60 +4,52 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Add Litigation</title>
+<title>UpdateLitigation</title>
 </head>
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/common.css">
-
-<!--font css-->
+<link rel="stylesheet" media="screen"
+	href="../static/css/bootstrap.min.css" type="text/css"
+	th:href="@{css/bootstrap.min.css}" />
+<link rel="stylesheet" media="screen" href="../static/css/common.css"
+	type="text/css" th:href="@{css/common.css}" />
 <link
 	href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&display=swap"
-	rel="stylesheet">
-
-<!--Date Picker css-->
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"
-	rel="stylesheet" />
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
-
-
-<!-- JQ Grid Css & Js -->
-<link rel="stylesheet" type="text/css"
-	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/redmond/jquery-ui.css" />
-<link rel="stylesheet" type="text/css"
-	href="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-4.3.1/css/ui.jqgrid.css" />
-<link rel="stylesheet" type="text/css"
-	href="http://www.ok-soft-gmbh.com/jqGrid/jquery-ui-multiselect/1.12/jquery.multiselect.css" />
-<script type="text/javascript"
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script type="text/javascript"
-	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-<script type="text/javascript"
-	src="http://www.ok-soft-gmbh.com/jqGrid/jquery-ui-multiselect/1.12/jquery.multiselect.js"></script>
-<script type="text/javascript"
-	src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-4.3.1/js/i18n/grid.locale-en.js"></script>
-<script type="text/javascript"
-	src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-4.3.1/js/jquery.jqGrid.src-multiple1.js"></script>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-
+	rel="stylesheet" type="text/css" />
+<link rel="stylesheet" media="screen" href="../static/css/jquery-ui.css"
+	type="text/css" th:href="@{css/jquery-ui.css}" />
+<link rel="stylesheet" media="screen" href="../static/css/ui.jqgrid.css"
+	type="text/css" th:href="@{css/ui.jqgrid.css}" />
+<link rel="stylesheet" media="screen"
+	href="../static/css/jquery.multiselect.css" type="text/css"
+	th:href="@{css/jquery.multiselect.css}" />
 <!-- Left Nev Css & Js -->
-<link rel="stylesheet" href="css/style2.css">
-<script src="../static/js/addLitigation.js" type="text/javascript"
-	th:src="@{js/addLitigation.js}"></script>
+<link rel="stylesheet" href="../static/css/style2.css"
+	th:href="@{css/style2.css}" type="text/css" />
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"
+	type="text/javascript"></script>
+<script src="../static/js/bootstrap.min.js"
+	th:src="@{js/bootstrap.min.js}" type="text/javascript"></script>
+<script src="../static/js/jquery.min.js" type="text/javascript"
+	th:src="@{js/jquery.min.js}"></script>
+<script src="../static/js/jquery-ui.min.js" type="text/javascript"
+	th:src="@{js/jquery-ui.min.js}"></script>
+<script src="../static/js/jquery.multiselect.js" type="text/javascript"
+	th:src="@{js/jquery.multiselect.js}"></script>
+<script src="../static/js/grid.locale-en.js" type="text/javascript"
+	th:src="@{js/grid.locale-en.js}"></script>
+<script src="../static/js/jquery.jqGrid.src-multiple1.js"
+	type="text/javascript" th:src="@{js/jquery.jqGrid.src-multiple1.js}"></script>
+<script src="../static/js/updateLitigation.js" type="text/javascript"
+	th:src="@{js/updateLitigation.js}"></script>
 <div th:include="header :: header"></div>
 <body>
 	<div class="middle-part midiile-bg">
-
 		<div class="middle-right">
-			<span class="welcome-head">ADD LITIGATION</span> <span
+			<span class="welcome-head">UPDATE LITIGATION</span> <span
 				class="small-head">Entity-Region-Units</span>
-			<form id="addNewLitigationForm" action="#"
-				th:action="@{/saveLitigation}" th:object="${addLitigationVO}"
+			<form id="updateLitigationForm" action="#"
+				th:action="@{/updateLitigationDtls}" th:object="${ltgnDtls}"
 				method="post">
 				<div class="hidden_form">
 					<span class="small-head">Entity-Region-Units</span>
@@ -99,7 +91,6 @@
 							</li>
 						</ul>
 					</div>
-
 					<div class="bottom-buttons">
 						<input type="button" id="addLocationBtn"
 							class="fourth login-bottom apply" value="ADD"> <input
@@ -108,8 +99,7 @@
 							class="fourth login-bottom widthauto cancel center" type="button"
 							id="addUnitLocation" value="ADD UNIT/LOCATION">
 					</div>
-
-					<div class="data-tablemain">
+					<!-- <div class="data-tablemain">
 						<table id="entityRegionUnits" class="jqGrid">
 							<tr>
 								<th>EntityName</th>
@@ -118,18 +108,17 @@
 								<th>Remove</th>
 							</tr>
 						</table>
-					</div>
-
+					</div> -->
 				</div>
 				<div class="hidden_form">
-					<!-- 				<form th:object="${addLitigationVO}"> -->
 					<span class="small-head">Matter By/Against</span>
 					<div class="filter-form">
 						<ul>
 							<li>
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> Format</label> <select
-										id="format" th:field="*{format}" class="custom-select">
+										id="format" th:field="*{format}" class="custom-select"
+										th:value="${ltgnDtls.format}">
 										<option value="Select">Select</option>
 										<option th:each="format: ${allFormats}"
 											th:value="${format.format}" th:text="${format.format}">test</option>
@@ -140,14 +129,16 @@
 							<li>
 								<div class="form-group">
 									<label for="usr"> Address</label>
-									<textarea rows="2" cols="35" id="address" th:field="*{address}"></textarea>
+									<textarea rows="2" cols="35" id="address" th:field="*{address}"
+										th:text="${ltgnDtls.address}"></textarea>
 								</div>
 							<li class="last">
 								<div class="form-group">
 
 									<label for="usr"><sup class="red">*</sup>
 										Store/Office/Premises</label> <select class="custom-select"
-										id="storeOfficePremises" th:field="*{storeOfficePremises}">
+										id="storeOfficePremises" th:field="*{storeOfficePremises}"
+										th:value="${ltgnDtls.storeOfficePremises}">
 										<option value="Select">Select</option>
 										<option value="Operational">Operational</option>
 										<option value="Non-Operational">Non-Operational</option>
@@ -156,19 +147,19 @@
 							</li>
 						</ul>
 					</div>
-
 					<div class="filter-form">
 
 						<ul>
 							<li>
 								<div class="form-group">
 									<label for="usr"> Co-Format</label> <input type="text"
-										class="form-control" id="coFormat" th:field="*{coFormat}" />
+										class="form-control" id="coFormat" th:field="*{coFormat}"
+										th:value="${ltgnDtls.coFormat}" />
 								</div>
 
 							</li>
 							<li><label for="usr"><sup class="red">*</sup>Matter
-									By/Against:</label> <select id="matterByAgainst" multiple="multiple"
+									By/Against:</label> <select id="matterByAgainstId" multiple="multiple"
 								th:field="*{matterByAgainst}">
 									<option value="Select">Select</option>
 									<option th:each="matterByAgainstDtl: ${allMatterByAgainstDtls}"
@@ -187,14 +178,13 @@
 
 						</ul>
 					</div>
-
 					<div class="filter-form">
 						<ul>
 							<li>
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> Type</label> <select
 										class="custom-select" id="customerType"
-										th:field="*{customerType}">
+										th:field="*{customerType}" th:value="${ltgnDtls.customerType}">
 										<option value="Select">Select</option>
 										<option th:each="customerTypeDtl: ${allCustomerType}"
 											th:value="${customerTypeDtl.customerType}"
@@ -203,29 +193,30 @@
 								</div>
 							</li>
 
-							<li class="last">
+							<li>
 								<div class="form-group">
 									<label for="usr">Co-Zone</label> <input type="text"
-										class="form-control" id="coZone" th:field="*{coZone}">
-									<span><sup class="red">*</sup> <label>Function
-											Head(s):Shrikant Gupta prashant rane, pankaj patel</label></span>
+										class="form-control" id="coZone" th:field="*{coZone}"
+										th:value="${ltgnDtls.coZone}"> <span><sup
+										class="red">*</sup> <label>Function Head(s):Shrikant
+											Gupta prashant rane, pankaj patel</label></span>
 								</div>
 
 							</li>
+
 						</ul>
 					</div>
-					<!-- 				</form> -->
 				</div>
 				<div class="hidden_form">
-					<!-- 				<form th:object="${addLitigationVO}"> -->
 					<span class="small-head">Counter Party</span>
 					<div class="filter-form">
 						<ul>
 							<li>
 								<div class="form-group">
 									<label for="usr" id="counterPartyId"><sup class="red">*</sup>Defendant</label>
-									<select class="custom-select" id="counterPartyName"
-										th:field="*{counterPartyName}">
+									<select class="custom-select" id="counterParty"
+										th:field="*{counterPartyName}"
+										th:value="${ltgnDtls.counterPartyName}">
 										<option value="Select">Select</option>
 										<option th:each="counterPartyDtl: ${allCounterPartyDtls}"
 											th:value="${counterPartyDtl.counterPartyName}"
@@ -238,7 +229,8 @@
 								<div class="form-group">
 									<label for="usr">Co-Counter Parties</label> <input type="text"
 										class="form-control" id="coCounterParties"
-										th:field="*{coCounterParties}">
+										th:field="*{coCounterParties}"
+										th:value="${ltgnDtls.coCounterParties}">
 								</div>
 							</li>
 							<li class="last">
@@ -250,9 +242,7 @@
 							</li>
 						</ul>
 					</div>
-					<!-- 				</form> -->
 				</div>
-
 				<div class="hidden_form">
 					<!-- 				<form th:object="${addLitigationVO}"> -->
 					<span class="small-head">Case Details</span>
@@ -261,7 +251,8 @@
 							<li>
 								<div class="form-group">
 									<label for="usr">Subject</label> <input type="text"
-										class="form-control" id="subject" th:field="*{subject}">
+										class="form-control" id="subject" th:field="*{subject}"
+										th:value="${ltgnDtls.subject}">
 								</div>
 
 							</li>
@@ -269,7 +260,7 @@
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> Category</label> <select
 										class="custom-select" id="categoryName"
-										th:field="*{categoryName}">
+										th:field="*{categoryName}" th:value="${ltgnDtls.categoryName}">
 										<option value="Select">Select</option>
 										<option th:each="category: ${allCategory}"
 											th:value="${category.categoryName}"
@@ -295,13 +286,13 @@
 									Number</label>
 								<div class="form-group">
 									<input type="text" class="form-control" id="caseNumber"
-										th:field="*{caseNumber}">
+										th:field="*{caseNumber}" th:value="${ltgnDtls.caseNumber}">
 								</div></li>
 							<li>
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> Risk
 										Assessment</label> <select class="custom-select" id="risk"
-										th:field="*{risk}">
+										th:field="*{risk}" th:value="${ltgnDtls.risk}">
 										<option value="Select">Select</option>
 										<option th:each="riskDtl: ${allRiskDtls}"
 											th:value="${riskDtl.risk}" th:text="${riskDtl.risk}">test</option>
@@ -314,7 +305,7 @@
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> Possible
 										Claim(Range)</label> <select class="custom-select" id="claim"
-										th:field="*{claim}">
+										th:field="*{claim}" th:value="${ltgnDtls.claim}">
 										<option value="Select">Select</option>
 										<option th:each="possibleClaim: ${allPossibleClaim}"
 											th:value="${possibleClaim.claim}"
@@ -330,13 +321,14 @@
 							<li><label for="usr"> Possible Claim</label>
 								<div class="form-group">
 									<input type="text" class="form-control" id="possibleClaim"
-										th:field="*{possibleClaim}">
+										th:field="*{possibleClaim}"
+										th:value="${ltgnDtls.possibleClaim}">
 								</div></li>
 							<li>
 								<div class="form-group">
 									<label for="usr">Pantaloon File No</label> <input type="text"
-										class="form-control" id="pantaloonFileNo"
-										th:field="*{pantaloonFileNo}">
+										class="form-control" id="pantaloonFileNo" th:field="*{fileNo}"
+										th:value="${ltgnDtls.fileNo}">
 								</div>
 
 							</li>
@@ -345,7 +337,7 @@
 								<div class="form-group">
 
 									<input type="text" class="form-control" id="underSection"
-										th:field="*{underSection}">
+										th:field="*{underSection}" th:value="${ltgnDtls.underSection}">
 								</div></li>
 						</ul>
 					</div>
@@ -356,14 +348,15 @@
 								<div class="form-group">
 									<label for="usr">Other Under Act(s)</label> <input type="text"
 										class="form-control" id="otherUnderacts"
-										th:field="*{otherUnderacts}">
+										th:field="*{otherUnderAct}"
+										th:value="${ltgnDtls.otherUnderAct}">
 								</div>
 							</li>
 							<li>
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> Under Act(s)</label>
 									<select class="custom-select" id="underActName"
-										th:field="*{underActName}">
+										th:field="*{underActName}" th:value="${ltgnDtls.underActName}">
 										<option value="Select">Select</option>
 										<option th:each="underActDtl: ${allUnderActDtls}"
 											th:value="${underActDtl.underActName}"
@@ -389,12 +382,14 @@
 
 									<input type="text" class="form-control" id="judgeName"
 										th:field="*{judgeName}">
+
 								</div></li>
 							<li>
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> Court Type</label> <select
 										class="custom-select" id="courtTypeName"
-										th:field="*{courtTypeName}">
+										th:field="*{courtTypeName}"
+										th:value="${ltgnDtls.courtTypeName}">
 										<option value="Select">Select</option>
 										<option th:each="courtTypeDtl: ${allCourtTypeDtls}"
 											th:value="${courtTypeDtl.courtTypeName}"
@@ -418,7 +413,8 @@
 							<li>
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> State</label> <select
-										class="custom-select" id="state" th:field="*{stateName}">
+										class="custom-select" id="state" th:field="*{stateName}"
+										th:value="${ltgnDtls.stateName}">
 										<option value="Select">Select</option>
 										<option th:each="stateDtl: ${allStateDtls}"
 											th:value="${stateDtl.stateName}"
@@ -430,7 +426,8 @@
 							<li>
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> City</label> <select
-										class="custom-select" id="cityName" th:field="*{cityName}">
+										class="custom-select" id="cityName" th:field="*{cityName}"
+										th:value="${ltgnDtls.cityName}">
 										<option value="Select">Select</option>
 										<option th:each="cityDtl: ${allCityDtls}"
 											th:value="${cityDtl.cityName}" th:text="${cityDtl.cityName}">test</option>
@@ -444,8 +441,7 @@
 										value="CLICK TO ADD CITY" id="addCityName">
 								</div>
 							</li>
-
-
+							
 						</ul>
 					</div>
 					<div class="filter-form">
@@ -453,13 +449,14 @@
 							<li>
 								<div class="form-group">
 									<label for="usr">FIR No</label> <input type="text" id="firNo"
-										th:field="*{firNo}">
+										th:field="*{firNo}" th:value="${ltgnDtls.firNo}">
 								</div>
 							</li>
 							<li>
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup>Court/Forum</label> <select
-										class="custom-select" id="courtForum" th:field="*{courtForum}">
+										class="custom-select" id="courtForum" th:field="*{courtForum}"
+										th:value="${ltgnDtls.courtForum}">
 										<option value="Select">Select</option>
 										<option th:each="courtForumDtl: ${allCourtForumDtls}"
 											th:value="${courtForumDtl.courtForum}"
@@ -474,7 +471,6 @@
 										value="CLICK TO ADD COURTFORUM" id="addCourtForum">
 								</div>
 							</li>
-
 						</ul>
 					</div>
 
@@ -485,12 +481,14 @@
 								<div class="form-group">
 
 									<textarea rows="2" cols="35" id="factsOfLitigation"
-										th:field="*{factsOfLitigation}"> </textarea>
+										th:field="*{factsOfLitigation}"
+										th:value="${ltgnDtls.factsOfLitigation}"> </textarea>
 								</div></li>
 							<li>
 								<div class="form-group">
 									<label for="usr"> Stage</label>
-									<textarea rows="2" cols="35" id="stage" th:field="*{stage}"> </textarea>
+									<textarea rows="2" cols="35" id="stage" th:field="*{stage}"
+										th:value="${ltgnDtls.stage}"> </textarea>
 								</div>
 
 							</li>
@@ -499,7 +497,8 @@
 								<div class="form-group">
 									<label for="usr"> Counsel Assessment</label>
 									<textarea rows="2" cols="35" id="counselAssesment"
-										th:field="*{counselAssesment}"> </textarea>
+										th:field="*{counselAssesment}"
+										th:value="${ltgnDtls.counselAssesment}"> </textarea>
 								</div>
 							</li>
 						</ul>
@@ -507,12 +506,14 @@
 
 					<div class="filter-form">
 						<ul>
+							
 							<li>
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> Date of
 										Receipt of Matter Case</label> <input type="text"
-										id="dateOfReceiptOfMatter" th:field="*{dateOfReceiptOfMatter}"
-										placeholder="Todays">
+										id="dateOfReceiptOfMatter"
+										th:field="*{dateOfReceiptOfMatterCase}" placeholder="Todays"
+										th:value="${ltgnDtls.dateOfReceiptOfMatterCase}">
 								</div>
 							</li>
 
@@ -520,14 +521,15 @@
 								<div class="form-group">
 									<label for="usr"> Next Hearing Date</label> <input type="text"
 										id="nextHearingDate" th:field="*{nextHearingDate}"
-										placeholder="Todays">
+										placeholder="Todays" th:value="${ltgnDtls.nextHearingDate}">
 								</div>
 							</li>
-
+							
 							<li class="last">
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> Status</label> <select
-										class="custom-select" id="status" th:field="*{status}">
+										class="custom-select" id="status" th:field="*{status}"
+										th:value="${ltgnDtls.status}">
 										<option value="Select">Select</option>
 										<option th:each="statusDtl: ${allStatusDtls}"
 											th:value="${statusDtl.status}" th:text="${statusDtl.status}">test</option>
@@ -537,18 +539,37 @@
 							</li>
 						</ul>
 					</div>
-					<div class="form-group">
+					<!-- 				</form> -->
+				</div>
+				<div class="hidden_form">
+					<span class="small-head">Case Relate To Period</span>
+					<div class="filter-form">
 						<ul>
-							<li class="last">
+							<li>
 								<div class="form-group">
 									<label for="usr"> Remark</label>
-									<textarea rows="2" cols="35" id="remark" th:field="*{remark}"> </textarea>
+									<textarea rows="2" cols="35" id="remark" th:field="*{remark}"
+										th:value="${ltgnDtls.remark}"> </textarea>
 								</div>
 
 							</li>
+							<li>
+								<div class="form-group">
+									<label for="usr"> From Date</label> <input type="text"
+										id="caseRelateFromDate" th:field="*{caseRelateFrmDte}"
+										placeholder="Todays">
+								</div>
+							</li>
+							<li class="last">
+								<div class="form-group">
+									<label for="usr"> To Date</label> <input type="text"
+										id="caseRelateToDate" th:field="*{caseRelateToDte}"
+										placeholder="Todays">
+								</div>
+							</li>
+
 						</ul>
 					</div>
-					<!-- 				</form> -->
 				</div>
 				<div class="hidden_form">
 					<!-- 				<form th:object="${addLitigationVO}"> -->
@@ -558,7 +579,8 @@
 							<li>
 								<div class="form-group">
 									<label for="usr">Senior Counsel</label> <select
-										class="custom-select" id="seniorCounsel" th:field="*{seniorCounsel}">
+										class="custom-select" id="seniorCounsel" th:field="*{seniorCounsel}"
+										th:value="${ltgnDtls.seniorCounsel}">
 										<option value="Select">Select</option>
 										<option th:each="seniorCounselDtl: ${allseniorCounselDtls}"
 											th:value="${seniorCounselDtl.seniorCounsel}"
@@ -571,7 +593,7 @@
 								<div class="form-group">
 									<label for="usr"><sup class="red">*</sup> Law
 										Firm/Individual</label> <select class="custom-select" id="lawfirm"
-										th:field="*{lawfirm}">
+										th:field="*{lawfirm}" th:value="${ltgnDtls.lawfirm}">
 										<option value="Select">Select</option>
 										<option th:each="lawfirmDtl: ${allLawfirmDtls}"
 											th:value="${lawfirmDtl.lawfirm}"
@@ -593,56 +615,53 @@
 				</div>
 				<div class="bottom-buttons">
 					<input type="submit" class="fourth login-bottom apply"
-						id="addLitigationBtn" value="ADD"> <input type="button"
-						class="fourth login-bottom apply" id="resetLitigationBtn"
-						value="RESET"> <input type="button"
-						class="fourth login-bottom apply" id="cancelLitigationBtn"
-						value="CANCEL">
+						id="updateLitigationBtn" value="UPDATE"> <input
+						type="button" class="fourth login-bottom apply"
+						id="cancelLitigationBtn" value="CANCEL">
 				</div>
-
-
 				<div id="addUnitLocationModal" class="modal">
-					<!-- Modal content -->
-					<div class="modal-content">
-						<span class="close">&times;</span> <span class="welcome-head">ADD
-							UNIT/LOCATION</span>
-						<div class="filter-form">
-							<ul>
-								<li><label for="usr"><sup class="red">*</sup>Entity</label>
-									<select id="modalentityName" th:field="*{entityName}"
-									class="custom-select">
-										<option value="Select">Select</option>
-										<option th:each="entity: ${allEntities}"
-											th:value="${entity.entityName}"
-											th:text="${entity.entityName}">test</option>
-								</select></li>
-								<li><label for="usr"><sup class="red">*</sup>Zone</label> <select
-									id="modalzoneName" th:field="*{zoneName}" class="custom-select">
-										<option value="Select">Select</option>
-										<option th:each="regions: ${allRegions}"
-											th:value="${regions.zoneName}" th:text="${regions.zoneName}">test</option>
-								</select></li>
-								<li class="last"><label for="usr"><sup class="red">*</sup>UnitName</label>
-									<input type="text" th:field="*{unitName}" id="modalunitName" /></li>
-							</ul>
-						</div>
-						<div class="bottom-buttons">
-							<button type="submit" id="addUnitLocationBtn" value="ADD"
-								class="btn btn-primary">ADD</button>
-							<button type="button" id="modalAddUnitLocationResetBtn"
-								value="Reset" class="btn btn-secondary">RESET</button>
-							<button type="button" id="modalAddUnitLocationcancelBtn"
-								value="CANCEL" class="btn btn-secondary">CANCEL</button>
-						</div>
-
-					</div>
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span class="close">&times;</span> <span class="welcome-head">ADD
+				UNIT/LOCATION</span>
+<!-- 			<form id="unitLitigationForm" th:object="${ltgnDtls}"> -->
+				<div class="filter-form">
+					<ul>
+						<li><label for="usr"><sup class="red">*</sup>Entity</label> <select
+							id="modalentityName" th:field="*{entityName}"
+							class="custom-select">
+								<option value="Select">Select</option>
+								<option th:each="entity: ${allEntities}"
+									th:value="${entity.entityName}" th:text="${entity.entityName}">test</option>
+						</select></li>
+						<li><label for="usr"><sup class="red">*</sup>Zone</label> <select
+							id="modalzoneName" th:field="*{zoneName}" class="custom-select">
+								<option value="Select">Select</option>
+								<option th:each="regions: ${allRegions}"
+									th:value="${regions.zoneName}" th:text="${regions.zoneName}">test</option>
+						</select></li>
+						<li class="last"><label for="usr"><sup class="red">*</sup>UnitName</label>
+							<input type="text" th:field="*{unitName}" id="modalunitName" /></li>
+					</ul>
 				</div>
+				<div class="bottom-buttons">
+					<button type="submit" id="addUnitLocationBtn" value="ADD"
+						class="btn btn-primary">ADD</button>
+					<button type="button" id="modalAddUnitLocationResetBtn"
+						value="Reset" class="btn btn-secondary">RESET</button>
+					<button type="button" id="modalAddUnitLocationcancelBtn"
+						value="CANCEL" class="btn btn-secondary">CANCEL</button>
+				</div>
+<!-- 			</form> -->
 
+		</div>
+	</div>
 			</form>
 		</div>
 	</div>
-	<div th:include="footer :: footer"></div>
 
+	<div th:include="footer :: footer"></div>
+	
 	<div id="addCounterPartyModal" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
@@ -654,7 +673,7 @@
 					<li class="last">
 						<div class="filter-form">
 							<label><sup class="red">*</sup>Counter Party Name:</label> <input
-								type="text" name="counterPartyName" id="modalcounterPartyName"
+								type="text" name="counterPartyName" id="modalcounterPartyNameId"
 								required="required" />
 						</div>
 					</li>
@@ -682,7 +701,7 @@
 					<li class="last">
 						<div class="filter-form">
 							<label><sup class="red">*</sup>UnderAct(s):</label> <input
-								type="text" name="underActName" id="modalUnderActs"
+								type="text" name="underActName" id="modalUnderActId"
 								required="required" />
 						</div>
 					</li>
@@ -699,7 +718,6 @@
 
 		</div>
 	</div>
-
 	<div id="addCategoryModal" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
@@ -713,7 +731,7 @@
 					<li class="last">
 						<div class="filter-form">
 							<label><sup class="red">*</sup>Category:</label> <input
-								type="text" name="categoryName" id="modalCategory"
+								type="text" name="categoryName" id="modalCategoryId"
 								required="required" />
 						</div>
 					</li>
@@ -721,7 +739,7 @@
 			</div>
 			<div class="bottom-buttons">
 				<button type="submit" id="addCategoryBtn" value="ADD"
-					class="btn btn-primary">ADD</button>
+					class="btn btn-primary" onclick = "addCategoryData(modalCategoryId.value);">ADD</button>
 				<button type="button" id="modalAddCategoryResetBtn" value="Reset"
 					class="btn btn-secondary">RESET</button>
 				<button type="button" id="modalAddCategoryCancelBtn" value="CANCEL"
@@ -730,7 +748,6 @@
 
 		</div>
 	</div>
-
 	<div id="addCourtTypeModal" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
@@ -744,7 +761,7 @@
 					<li class="last">
 						<div class="filter-form">
 							<label><sup class="red">*</sup>CourtType:</label> <input
-								type="text" name="courtTypeName" id="modalcourtTypeName"
+								type="text" name="courtTypeName" id="modalCourtTypeId"
 								required="required" />
 						</div>
 					</li>
@@ -752,7 +769,7 @@
 			</div>
 			<div class="bottom-buttons">
 				<button type="submit" id="addCourtTypeBtn" value="ADD"
-					class="btn btn-primary">ADD</button>
+					class="btn btn-primary" onclick="addCourtTypeData(modalCourtTypeId.value);">ADD</button>
 				<button type="button" id="modalAddCourtTypeResetBtn" value="Reset"
 					class="btn btn-secondary">RESET</button>
 				<button type="button" id="modalAddCourtTypeCancelBtn" value="CANCEL"
@@ -761,12 +778,11 @@
 
 		</div>
 	</div>
-
 	<div id="addLawfirmModal" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
-			<p th:text="${message}" th:unless="${message == null}"
-				class="alert alert-success">Test</p>
+			<!-- <p th:text="${message}" th:unless="${message == null}"
+				class="alert alert-success">Test</p> -->
 			<span class="close">&times;</span> <span class="welcome-head">ADD
 				LAWFIRM</span>
 
@@ -775,14 +791,15 @@
 					<li class="last">
 						<div class="filter-form">
 							<label><sup class="red">*</sup>Lawfirm/Individual:</label> <input
-								type="text" name="lawfirm" id="modallawfirm" required="required" />
+								type="text" name="lawfirm" id="modalLawfirmId"
+								required="required" />
 						</div>
 					</li>
 				</ul>
 			</div>
 			<div class="bottom-buttons">
 				<button type="submit" id="addLawfirmBtn" value="ADD"
-					class="btn btn-primary">ADD</button>
+					class="btn btn-primary" onclick="addLawfirmData(modalLawfirmId.value);">ADD</button>
 				<button type="button" id="modalAddLawfirmResetBtn" value="Reset"
 					class="btn btn-secondary">RESET</button>
 				<button type="button" id="modalAddLawfirmCancelBtn" value="CANCEL"
@@ -791,7 +808,6 @@
 
 		</div>
 	</div>
-
 	<div id="addMatterByAgainstModal" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
@@ -805,7 +821,7 @@
 					<li class="last">
 						<div class="filter-form">
 							<label><sup class="red">*</sup>Matter By/Against:</label> <input
-								type="text" name="matterBy" id="modalmatterBy"
+								type="text" name="matterBy" id="modalmatterById"
 								required="required" />
 						</div>
 					</li>
@@ -822,7 +838,6 @@
 
 		</div>
 	</div>
-
 	<div id="addCityNameModal" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
@@ -850,7 +865,6 @@
 
 		</div>
 	</div>
-
 	<div id="addCourtForumModal" class="modal">
 		<!-- Modal content -->
 		<div class="modal-content">
