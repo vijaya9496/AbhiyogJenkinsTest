@@ -151,6 +151,8 @@ public interface ILitigationService {
 
 	List<LitigationSummaryVO> getDashboardSummary();
 
+	List<LitigationSummaryVO> getDashboardDetails(int unitoId);
+
 	
 
 	

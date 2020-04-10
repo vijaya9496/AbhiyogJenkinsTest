@@ -3,8 +3,15 @@ $(document).ready(function(){
 		url : "/dashboardSummary",
 		width : 1150,
 		height : 250,
-		colNames : [ 'Region', 'Unit', 'Upcoming Hearing', 'Not Updated Hearing', 'Total' ],
-		colModel : [ {
+		colNames : ['UnitOId','Region', 'Unit', 'Upcoming Hearing', 'Not Updated Hearing', 'Total' ],
+		colModel : [{
+			name : 'unitOId',
+			index : 'unitOId',
+			width : 100,
+			align : 'center',
+			key:true,
+			hidden: true
+		}, {
 			name : 'region',
 			index : 'region',
 			width : 100,
@@ -17,22 +24,26 @@ $(document).ready(function(){
 		}, {
 			name : 'upcomingHearing',
 			index : 'upcomingHearing',
-			formatter:'showlink',
+			/*formatter:'showlink',
 			formatoptions:{baseLinkUrl:'/upcomingHearing'},
-			width : 100,
+		*/	width : 100,
 			align : 'center'
 		}, {
 			name : 'notUpdatedHearing',
 			index : 'notUpdatedHearing',
-			formatter:'showlink',
+		/*	formatter:'showlink',
 			formatoptions:{baseLinkUrl:'/notUpdatedHearing'},
-			width : 100,
+		*/	width : 100,
 			align : 'center'
 		},{
 			name : 'total',
 			index : 'total',
 			formatter:'showlink',
-			formatoptions:{baseLinkUrl:'/totalHearings'},
+			formatoptions:{
+				baseLinkUrl:'/getDashboardDetails',
+				idName: "unitoid"
+			},
+			
 			width : 100,
 			align : 'center'
 		} ],

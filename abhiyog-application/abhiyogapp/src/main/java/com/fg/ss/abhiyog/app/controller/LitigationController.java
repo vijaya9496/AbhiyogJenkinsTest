@@ -315,9 +315,11 @@ public class LitigationController {
 
 	@RequestMapping(value = "/viewLitigationDetails")
 	public String viewLitigationDetails(Model model, HttpServletRequest request) {
+		
 		model.addAttribute("litigationSummaryVO", new LitigationSummaryVO());
 		model.addAttribute("connectedLitigationVO", new ConnectedLitigationVO());
 		System.out.println("ID::" + request.getParameter("id"));
+		System.out.println("LtgnID::" + request.getParameter("litigationId"));
 		HttpSession session = request.getSession();
 		session.setAttribute("litigationSessionId", Integer.parseInt(request.getParameter("id")));
 		session.setAttribute("ltgnId", request.getParameter("litigationId"));
@@ -1004,12 +1006,12 @@ public class LitigationController {
 					cellObj = mapper.createObjectNode();
 //					cellObj.put(CommonConstants.ID, litigationSummary.getLitigationOId());
 					cell = mapper.createArrayNode();
+					cell.add(litigationSummary.getUnitOId());
 					cell.add(litigationSummary.getZoneName());
 					cell.add(litigationSummary.getUnitName());
 					cell.add(litigationSummary.getUpdated());
 					cell.add(litigationSummary.getNotUpdated());
 					cell.add(litigationSummary.getTotal());
-					
 //					cellObj.put(CommonConstants.CELL, cell);
 					cellObj.set(CommonConstants.CELL, cell);
 					cellArray.add(cellObj);
@@ -1027,6 +1029,64 @@ public class LitigationController {
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping(value="/getDashboardDetails", method=RequestMethod.GET)
+	public String getDashboardDetails() {
+		return "dashboardDetails";
+	}
+	
+	@RequestMapping(value="/getDashboardDtlByUnitoId", method=RequestMethod.GET)
+	public void getDashboardDtlByUnitoId(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		
+		int unitoId=Integer.parseInt(request.getParameter("unitoid"));
+		LOGGER.info("unitoId: "+unitoId);
+		List<LitigationSummaryVO> dashboardDetails = litigationService.getDashboardDetails(unitoId);
+		LOGGER.info("inside getDashboardDtlByUnitoId method");
+		int totalRecord = 0;
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode responseData = mapper.createObjectNode();
+		ArrayNode cellArray = null;
+		ArrayNode cell = null;
+		ObjectNode cellObj = null;
+		try {
+			PrintWriter out = response.getWriter();
+			cellArray = mapper.createArrayNode();
+			if (dashboardDetails.size() > 0) {
+				totalRecord = dashboardDetails.size();
+				for (LitigationSummaryVO litigationSummary : dashboardDetails) {
+					cellObj = mapper.createObjectNode();
+//					cellObj.put(CommonConstants.ID, litigationSummary.getLitigationOId());
+					cell = mapper.createArrayNode();
+					cell.add(litigationSummary.getLitigationOId());
+					cell.add(litigationSummary.getLitigationId()+"\r\n"+litigationSummary.getStatus());
+					cell.add("");
+					cell.add(litigationSummary.getEntityName()+"\r\n"+litigationSummary.getUnitName());
+					cell.add(litigationSummary.getCounterPartyName()+"\r\n"+litigationSummary.getAgainstPartyClientType());
+					cell.add(litigationSummary.getCaseNumber());
+					cell.add(litigationSummary.getStage());
+					cell.add(litigationSummary.getCourtCity()+"\r\n"+litigationSummary.getHearingDate());
+					cell.add(litigationSummary.getRisk());
+					cell.add(litigationSummary.getClaim());
+					cell.add(litigationSummary.getRemark());
+								
+//					cellObj.put(CommonConstants.CELL, cell);
+					cellObj.set(CommonConstants.CELL, cell);
+					cellArray.add(cellObj);
+
+				}
+			}
+			responseData.put(CommonConstants.PAGE, CommonConstants.PAGE_NO);
+			responseData.put(CommonConstants.RECORDS, totalRecord);
+//			responseData.put(CommonConstants.ROWS, cellArray);
+			responseData.set(CommonConstants.ROWS, cellArray);
+			out.println(responseData);
+
+		} catch (IOException e) {
+			LOGGER.error("Exception generated in FillingGrid Method:: " + e.getMessage(), e);
+			e.printStackTrace();
+		}
+	}
+
 	
 	@RequestMapping(value="/updateLtgn", method= RequestMethod.GET)
 	public String updateLtgn(Model model, HttpServletRequest request, HttpSession session) {

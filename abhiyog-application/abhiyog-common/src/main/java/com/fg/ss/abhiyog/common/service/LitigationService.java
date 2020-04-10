@@ -91,6 +91,7 @@ import com.fg.ss.abhiyog.common.vo.CityStateVO;
 import com.fg.ss.abhiyog.common.vo.ConnectedLitigationVO;
 import com.fg.ss.abhiyog.common.vo.CourtTypeVO;
 import com.fg.ss.abhiyog.common.vo.CustomerTypeStatusVO;
+import com.fg.ss.abhiyog.common.vo.DashboardDtlVO;
 import com.fg.ss.abhiyog.common.vo.DashboardVO;
 import com.fg.ss.abhiyog.common.vo.LitigationSummaryVO;
 import com.fg.ss.abhiyog.common.vo.LtgnCategoryVO;
@@ -1578,17 +1579,58 @@ public class LitigationService implements ILitigationService {
 		System.out.println("Size**" +dashboardSummary.size());
 		for(DashboardVO summaryDtls : dashboardSummary) {
 			LitigationSummaryVO litigationSummaryVO = new LitigationSummaryVO();
+			System.out.println("UnitOID::" +summaryDtls.getUnitOId());
 			System.out.println("UnitName::" +summaryDtls.getunitName());
 			System.out.println("regionName::" +summaryDtls.getregionName());
 			System.out.println("upcoming::" +summaryDtls.getupcoming());
 			System.out.println("notUpdated::" +summaryDtls.getnotUpdated());
 			System.out.println("total::" +summaryDtls.gettotal());
+			litigationSummaryVO.setUnitOId(summaryDtls.getUnitOId());
 			litigationSummaryVO.setUnitName(summaryDtls.getunitName());
 			litigationSummaryVO.setZoneName(summaryDtls.getregionName());
 			litigationSummaryVO.setUpdated(summaryDtls.getupcoming());
 			litigationSummaryVO.setNotUpdated(summaryDtls.getnotUpdated());
 			litigationSummaryVO.setTotal(summaryDtls.gettotal());
 			
+			listDashboardSummary.add(litigationSummaryVO);
+		}
+		return listDashboardSummary;
+	}
+
+	@Override
+	public List<LitigationSummaryVO> getDashboardDetails(int unitoId) {
+		List<DashboardDtlVO> dashboardDtl= litigationRepository.getDashboardDetails(unitoId);
+		List<LitigationSummaryVO> listDashboardSummary = new ArrayList<>();
+		
+		System.out.println("Size**" +dashboardDtl.size());
+		for(DashboardDtlVO dashboardDtls : dashboardDtl) {
+			LitigationSummaryVO litigationSummaryVO = new LitigationSummaryVO();
+			System.out.println("Litigation OID::" +dashboardDtls.getLitigationoId());
+			System.out.println("L.ID/Status::" +dashboardDtls.getLitigationId()+"\r\n"+dashboardDtls.getStatus());
+			System.out.println("FileNo::");
+			System.out.println("Entity::" +dashboardDtls.getEntityName()+"\r\n"+dashboardDtls.getunitName());
+			System.out.println("CounterParty::" +dashboardDtls.getCustomerName()+"\r\n"+dashboardDtls.getAgainstPartyClientType());
+			System.out.println("CaseNumber::" +dashboardDtls.getCaseNumber());
+			System.out.println("Stage::" +dashboardDtls.getStage());
+			System.out.println("Hearing Date::" +dashboardDtls.getCourtCity()+"\r\n"+dashboardDtls.getHearingDate());
+			System.out.println("Risk::" +dashboardDtls.getRisk());
+			System.out.println("Possible Claim::" +dashboardDtls.getClaim());
+			System.out.println("Remark::" +dashboardDtls.getRemark());
+			litigationSummaryVO.setLitigationOId(dashboardDtls.getLitigationoId());
+			litigationSummaryVO.setLitigationId(dashboardDtls.getLitigationId());
+			litigationSummaryVO.setStatus(dashboardDtls.getStatus());
+			//litigationSummaryVO.setFileNo(fileNo);
+			litigationSummaryVO.setEntityName(dashboardDtls.getEntityName());
+			litigationSummaryVO.setUnitName(dashboardDtls.getunitName());
+			litigationSummaryVO.setCounterPartyName(dashboardDtls.getCustomerName());
+			litigationSummaryVO.setAgainstPartyClientType(dashboardDtls.getAgainstPartyClientType());
+			litigationSummaryVO.setCaseNumber(dashboardDtls.getCaseNumber());
+			litigationSummaryVO.setStage(dashboardDtls.getStage());
+			litigationSummaryVO.setHearingDate(dashboardDtls.getHearingDate());
+			litigationSummaryVO.setCourtCity(dashboardDtls.getCourtCity());
+			litigationSummaryVO.setRisk(dashboardDtls.getRisk());
+			litigationSummaryVO.setClaim(dashboardDtls.getClaim());
+			litigationSummaryVO.setRemark(dashboardDtls.getRemark());
 			listDashboardSummary.add(litigationSummaryVO);
 		}
 		return listDashboardSummary;

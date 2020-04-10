@@ -13,6 +13,7 @@ public class LitigationSummaryVO {
 	private String fileNo;
 	private String entityName;
 	private String unitName; // LocationName
+	private int unitOId;
 	private String counterPartyName;
 	private String customerType;
 	private String caseNumber;
@@ -40,6 +41,7 @@ public class LitigationSummaryVO {
 	private String otherUnderAct;
 	private String stateName;
 	private String cityName;
+	private String courtCity;
 	private String policeStation;
 	private String courtTypeName;
 	private String courtForum;
@@ -111,6 +113,14 @@ public class LitigationSummaryVO {
 	}
 
 	
+
+	public int getUnitOId() {
+		return unitOId;
+	}
+
+	public void setUnitOId(int unitOId) {
+		this.unitOId = unitOId;
+	}
 
 	public String getCounterPartyName() {
 		return counterPartyName;
@@ -317,6 +327,14 @@ public class LitigationSummaryVO {
 
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
+	}
+
+	public String getCourtCity() {
+		return courtCity;
+	}
+
+	public void setCourtCity(String courtCity) {
+		this.courtCity = courtCity;
 	}
 
 	public String getPoliceStation() {
