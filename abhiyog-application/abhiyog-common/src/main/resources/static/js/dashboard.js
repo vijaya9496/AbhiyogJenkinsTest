@@ -35,7 +35,7 @@ $(document).ready(function(){
 			formatoptions:{baseLinkUrl:'/notUpdatedHearing'},
 		*/	width : 100,
 			align : 'center'
-		},{
+		},{ 
 			name : 'total',
 			index : 'total',
 			formatter:'showlink',

@@ -4,7 +4,7 @@ $(document).ready(function(){
 	var unioId=urlParams.get('unioid');
 	console.log("urlParams--"+urlParams+" unioId--"+unioId);
 	var UrlStr ="/getDashboardDtlByUnitoId?unitoid="+unioId;
-	
+	  
 	$("#dashboardDetailsData").jqGrid({
 		url : UrlStr,
 		width : 1300,

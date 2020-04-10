@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public interface DashboardDtlVO {
-
+ 
 	public String getLitigationId();
 	public int getLitigationoId();
 	public String getunitName();
