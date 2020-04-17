@@ -1,4 +1,4 @@
-jQuery(document).ready(function() {
+$(document).ready(function() {
 
 	$(function() {
 		$("#nextHearingDate").datepicker({
@@ -15,7 +15,7 @@ jQuery(document).ready(function() {
 
 	});
 	
-	$("#matterByAgainst").multiselect();
+	$("#matterByAgainstId").multiselect();
 	
 	$("#addLitigationBtn").click(function(){
 		if($("#entityNameId").val()	=== "Select"){
@@ -293,6 +293,10 @@ jQuery(document).ready(function() {
 			success : function(response) {
 				alert(response);
 				addUnitLocationDropdown(response);
+				$("#modalentityName").val("");
+				$("#modalzoneName").val("");
+				$("#modalunitName").val("");
+				modal.style.display = "none";
 			},
 			error: function(){
 				alert("Error while request");
@@ -336,7 +340,11 @@ jQuery(document).ready(function() {
 
 	$("#modalAddUnitLocationcancelBtn").click(function() {
 		modal.style.display = "none";
+		$("#modalentityName").val("");
+		$("#modalzoneName").val("");
+		$("#modalunitName").val("");
 	});
+	
 	
 	//End Add UnitLocation
 
@@ -515,7 +523,7 @@ jQuery(document).ready(function() {
 	}
 	
 	$("#modalAddMatterByAgainstResetBtn").click(function(){
-		$("#modalcourtTypeName").val("");
+		$("#modalmatterBy").val("");
 	});
 	
 	$("#modalAddMatterByAgainstCancelBtn").click(function() {
@@ -714,7 +722,7 @@ jQuery(document).ready(function() {
 		cmTemplate : {
 			sortable : false
 		},
-	})
+	});
 
 
 	
@@ -734,7 +742,7 @@ function addCourtTypeDropdown(data){
 
 function addCategoryDropdown(data){
 	alert("In called function");
-	$('#categoryNameId').append(`<option value="${data}"> ${data} </option>`); 
+	$('#categoryName').append(`<option value="${data}"> ${data} </option>`); 
 }
 
 function addUnderActDropdown(data){
@@ -744,7 +752,7 @@ function addUnderActDropdown(data){
 
 function addCounterPartyDropdown(data){
 	alert("In called function");
-	$('#counterPartyNameId').append(`<option value="${data}"> ${data} </option>`);
+	$('#counterPartyName').append(`<option value="${data}"> ${data} </option>`);
 }
 
 function addUnitLocationDropdown(data){
@@ -754,7 +762,7 @@ function addUnitLocationDropdown(data){
 
 function addMatterByAgainst(data){
 	alert("In called function");
-	$('#matterByAgainst').append(`<option value="${data}"> ${data} </option>`);
+	$('#matterByAgainstId').append(`<option value="${data}"> ${data} </option>`);
 }
 function addCityNameDropDown(data){
 	alert("In called function");

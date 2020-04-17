@@ -40,9 +40,11 @@ public class MetricsReportStatisticsService {
 			int count = litigationRepository.findCountofCasesByZoneName(allZoneDtl.getZoneName());
 			if(count != 0) {
 				zoneWiseStatistics.put(allZoneDtl.getZoneName(), count);
+				System.out.println(allZoneDtl.getZoneName() + "count"+count) ;
 			}
 		}
 		zoneWiseStatisticsList.add(zoneWiseStatistics);
+		System.out.println("Size:: " +zoneWiseStatisticsList.size());
 		return zoneWiseStatisticsList;
 	}
 
@@ -81,9 +83,10 @@ public class MetricsReportStatisticsService {
 		List<Map<String, Integer>> litigationWiseStatisticsList = new ArrayList<Map<String,Integer>>();
 		for(String litigationStatistic: litigationStatistics) {
 			int count = litigationRepository.findLitigationByStatistics(litigationStatistic);
-			if(count != 0) {
+			System.out.println("Count" +count);
+//			if(count != 0) {
 				litigationWiseStatistics.put(litigationStatistic, count);
-			}
+//			}
 		}
 		litigationWiseStatisticsList.add(litigationWiseStatistics);
 		return litigationWiseStatisticsList;

@@ -45,21 +45,28 @@
 <div th:include="header :: header"></div>
 <body>
 	<div class="wrapper">
+		<p th:text="${message}" th:unless="${message == null}"
+			class="alert alert-success">Test</p>
 		<div class="middle-part midiile-bg">
 			<div class="middle-right">
 				<span class="welcome-head">Update Hearing  Details</span>
 				<div class="hidden_form">
 					<form id="updateHistoryDetailsForm" th:object="${updateHistoryDetails}"
-						class="form-horizontal">
+						class="form-horizontal" action="#"
+						th:action="@{/updateHistory}">
 						<div class="filter-form">
 							<ul>
 								<li>
 									<span class="boldtxt_gap">LitigationId: </span> <label for="litigationId"
 											th:text="${updateHistoryDetails.litigationId}"></label>
+											<input type="hidden" id="litigationId"
+											th:field="*{litigationId}"/>
 								</li>
 								<li class="last">
 									<span class="boldtxt_gap">HearingId: </span> <label for="hearingId"
 											th:text="${updateHistoryDetails.hearingId}"></label>
+											<input type="hidden" id="hearingId"
+											th:field="*{hearingId}"/>
 								</li>
 							</ul>
 						</div>
@@ -68,7 +75,7 @@
 								<li>
 									<label for="hearingDate">Hearing Date:</label>
 									<input type="text" id="hearingDate"
-											th:field="*{hearingDt}" th:value="${updateHistoryDetails.hearingDt}"
+											th:field="*{hearingDate}"
 											class="form-control calander" data-date-format="yyyy-MM-dd">
 									
 								</li>
@@ -94,6 +101,12 @@
 								</li>
 							</ul>
 						</div>
+						<div class="bottom-buttons">
+						<button type="submit" id="updateHistoryBtn" value="Update"
+							class="btn btn-primary">UPDATE</button>
+						<button type="button" id="cancelBtn"
+							value="CANCEL" class="btn btn-secondary">CANCEL</button>
+					</div>
 					</form>
 				</div>
 			</div>

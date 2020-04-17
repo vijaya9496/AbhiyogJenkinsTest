@@ -7,5 +7,5 @@ public interface DashboardVO {
 	public int getupcoming();
 	public int getnotUpdated();
 	public int gettotal();
-	
+	public int getUnitOId();
 }

@@ -14,5 +14,8 @@ public interface WitnessRepository extends JpaRepository<Witness, Integer>{
 
 	@Query(value="select w from Witness as w join Litigation as lt on w.litigation.litigationOid = lt.litigationOid where lt.litigationId=:litigationId")
 	List<Witness> findAllByLitigationId(@Param("litigationId")String litigationId);
+	
+	@Query(value="select w from Witness as w join Litigation as lt on w.litigation.litigationOid = lt.litigationOid where w.litigation.litigationOid=:id")
+	List<Witness> getWitnessDtls(@Param("id")int id);
 
 }

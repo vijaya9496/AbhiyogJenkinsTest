@@ -64,8 +64,9 @@
 							<ul>
 								<li>
 									<div class="filter-form">
-										<span class="boldtxt_gap">LitigationId </span> 
-										<label for="litigationId" th:text="${litigationData.litigationId}"> </label>
+										<span class="boldtxt_gap">LitigationId </span> <label
+											for="litigationId" th:text="${litigationData.litigationId}">
+										</label>
 										<!-- <input type="text"
 											th:name="*{litigationId}" th:value="${litigationData.litigationId}"> -->
 									</div>
@@ -94,7 +95,7 @@
 										<span class="boldtxt_gap">Counter Party (<span
 											th:text="${litigationData.againstPartyClientType}"></span>)
 										</span> <label for="counterParty"
-											th:value="${litigationData.counterPartyName}"> </label>
+											th:text="${litigationData.counterPartyName}"> </label>
 									</div>
 								</li>
 								<li class="last">
@@ -117,7 +118,7 @@
 								<li>
 									<div class="filter-form">
 										<span class="boldtxt_gap">Format </span> <label for="format"
-											th:value="${litigationData.format}"></label>
+											th:text="${litigationData.format}"></label>
 									</div>
 								</li>
 								<li class="last">
@@ -138,7 +139,7 @@
 								</li>
 								<li>
 									<div class="filter-form">
-										<span class="boldtxt_gap">Zone </span> <label for="coZone"
+										<span class="boldtxt_gap">CoZone </span> <label for="coZone"
 											th:text="${litigationData.coZone}"></label>
 									</div>
 								</li>
@@ -146,7 +147,7 @@
 									<div class="filter-form">
 										<span class="boldtxt_gap">Matter By/Against </span> <label
 											for="matterByAgainst"
-											th:text="${litigationData.matterBy}"></label>
+											th:text="${litigationData.matterByAgainst}"></label>
 									</div>
 								</li>
 							</ul>
@@ -168,7 +169,7 @@
 								<li class="last">
 									<div class="filter-form">
 										<span class="boldtxt_gap">Address </span> <label for="address"
-											th:value="${litigationData.address}"></label>
+											th:text="${litigationData.address}"></label>
 									</div>
 								</li>
 							</ul>
@@ -220,590 +221,601 @@
 					</form>
 				</div>
 			</div>
-			<div class="container">
-				<ul class="nav nav-tabs">
-					<li><a href="#a" data-toggle="tab">Details</a></li>
-					<li><a href="#b" data-toggle="tab">Witness</a></li>
-					<li><a href="#c" data-toggle="tab">Connected Litigation</a></li>
-					<li><a href="#d" data-toggle="tab">Completion</a></li>
-					<li><a href="#e" data-toggle="tab">Billing</a></li>
-					<li><a href="#historyTab" id="historyTabId" data-toggle="tab">History</a></li>
-					<li><a href="#g" data-toggle="tab">Documents</a></li>
-				</ul>
+			<div class="wrapper">
+				<div class="hidden_form">
+					<!-- 			<div class="container"> -->
+					<ul class="nav nav-tabs">
+						<li><a href="#a" data-toggle="tab">Details</a></li>
+						<li><a href="#b" data-toggle="tab">Witness</a></li>
+						<li><a href="#c" data-toggle="tab">Connected Litigation</a></li>
+						<li><a href="#d" data-toggle="tab">Completion</a></li>
+						<li><a href="#e" data-toggle="tab">Billing</a></li>
+						<li><a href="#historyTab" id="historyTabId" data-toggle="tab">History</a></li>
+						<li><a href="#g" data-toggle="tab">Documents</a></li>
+					</ul>
 
-				<div class="tab-content">
-					<div class="tab-pane active" id="a">
-						<form id="caseDetailsForm" th:object="${litigationSummaryVO}"
-							class="form-horizontal"
-							th:each="litigationData: ${allLitiagtionDtls}">
-							<span class="welcome-head"> Case Details</span>
-							<div class="filter-form">
-								<ul>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">Category </span> <label
-												for="category" th:text="${litigationData.categoryName}"></label>
-										</div>
+					<div class="tab-content">
+						<div class="tab-pane active" id="a">
+							<form id="caseDetailsForm" th:object="${litigationSummaryVO}"
+								class="form-horizontal"
+								th:each="litigationData: ${allLitiagtionDtls}">
+								<span class="welcome-head"> Case Details</span>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Category </span> <label
+													for="category" th:text="${litigationData.categoryName}"></label>
+											</div>
 
-									</li>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">Risk Assessment</span> <label
-												for="risk" th:text="${litigationData.risk}"></label>
-										</div>
+										</li>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Risk Assessment</span> <label
+													for="risk" th:text="${litigationData.risk}"></label>
+											</div>
 
-									</li>
-									<li class="last">
-										<div class="form-group">
-											<span class="boldtxt_gap">Under Act </span> <label
-												for="underAct" th:text="${litigationData.underActName}"></label>
-										</div>
-									</li>
-								</ul>
-							</div>
-							<div class="filter-form">
-								<ul>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap"> Possible Claim (Range)</span> <label
-												for="claimRange" th:text="${litigationData.possibleClaim}"></label>
-										</div>
-
-									</li>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">Under Section (U/S)</span> <label
-												for="underSection" th:text="${litigationData.underSection}"></label>
-										</div>
-
-									</li>
-									<li class="last">
-										<div class="form-group">
-											<span class="boldtxt_gap">Other Under Act</span> <label
-												for="otherUnderAct"
-												th:text="${litigationData.otherUnderAct}"></label>
-										</div>
-									</li>
-
-								</ul>
-							</div>
-							<div class="filter-form">
-								<ul>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">Pantaloon File No</span> <label
-												for="pantaloonFileNo" th:text="${litigationData.fileNo}"></label>
-										</div>
-
-									</li>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">Date of Receipt of
-												Matter/Case</span> <label for="dateOfReceiptOfMatter"
-												th:text="${litigationData.dateOfReceiptOfMatterCase}">
-											</label>
-										</div>
-
-									</li>
-									<li class="last">
-										<div class="form-group">
-											<span class="boldtxt_gap">State </span> <label for="state"
-												th:text="${litigationData.stateName}"></label>
-										</div>
-									</li>
-
-								</ul>
-							</div>
-							<div class="filter-form">
-								<ul>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">Case/SCN Relate FromDate</span> <label
-												for="caseRelateFromDate"
-												th:text="${litigationData.caseRelateFromDate}"></label>
-										</div>
-
-									</li>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">City</span> <label for="city"
-												th:text="${litigationData.cityName}"> </label>
-										</div>
-
-									</li>
-
-									<li class="last">
-										<div class="form-group">
-											<span class="boldtxt_gap">Case/SCN Relate ToDate</span> <label
-												for="caseRelateToDate"
-												th:text="${litigationData.caseRelateToDate}"></label>
-										</div>
-									</li>
-								</ul>
-							</div>
-							<div class="filter-form">
-								<ul>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">CourtType</span> <label
-												for="courtType" th:text="${litigationData.courtTypeName}">
-											</label>
-										</div>
-
-									</li>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">PoliceStation</span> <label
-												for="policeStation"
-												th:text="${litigationData.policeStation}"> </label>
-										</div>
-
-									</li>
-
-									<li class="last">
-										<div class="form-group">
-											<span class="boldtxt_gap">FIRNO</span> <label for="firNo"
-												th:text="${litigationData.firNo}"></label>
-										</div>
-									</li>
-								</ul>
-							</div>
-							<div class="filter-form">
-								<ul>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">Court/Forum</span> <label
-												for="courtForum" th:text="${litigationData.courtForum}"></label>
-										</div>
-
-									</li>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">Store/Office Premises</span> <label
-												for="storeOfficePremises"
-												th:text="${litigationData.storeOfficePremises}"></label>
-										</div>
-									</li>
-									<li class="last">
-										<div class="form-group">
-											<span class="boldtxt_gap">JudgeAuthority Name</span> <label
-												for="judgeName" th:text="${litigationData.judgeName}">
-											</label>
-										</div>
-
-									</li>
-								</ul>
-							</div>
-							<div class="filter-form">
-								<ul>
-
-
-									<li class="full-list">
-										<div class="form-group">
-											<span class="boldtxt_gap">Fact of Litigation</span> <label
-												for="factsOfLitigation"
-												th:text="${litigationData.factsOfLitigation}"> </label>
-										</div>
-									</li>
-									<li class="full-list">
-										<div class="form-group">
-											<span class="boldtxt_gap">Counsel Assessment</span> <label
-												for="counselAssessment"
-												th:text="${litigationData.counselAssesment}"> </label>
-										</div>
-									</li>
-								</ul>
-							</div>
-							<span class="welcome-head">Counsel Details </span>
-							<div class="filter-form">
-								<ul>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">Function Head(s)</span> <label
-												for="email">Shrikant Gupta, prashant rane, pankaj
-												patel</label>
-										</div>
-
-									</li>
-
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">Unit/Location Head(s)</span> <label
-												for="unitLocationHeads">Industrial Court at Mumbai</label>
-										</div>
-
-									</li>
-
-									<li class="last">
-										<div class="form-group">
-											<span class="boldtxt_gap">Law Firm/Individual</span> <label
-												for="lawfirmIndividual"> <a href="#"><span
-													th:text="${litigationData.lawfirm}"></span></a></label>
-										</div>
-									</li>
-								</ul>
-							</div>
-							<div class="filter-form">
-								<ul>
-									<li>
-										<div class="form-group">
-											<span class="boldtxt_gap">Partner/Counsel</span> <label
-												for="partnerCounsel">xxxxxxxxxxxxxxxxxxxxxxxx</label>
-										</div>
-
-									</li>
-									<li class="last">
-										<div class="form-group">
-											<span class="boldtxt_gap">Senior Counsel</span> <label
-												for="seniorCounsel"> xxxxxxxxxxxxxxxxxx</label>
-										</div>
-									</li>
-								</ul>
-							</div>
-							<div class="bottom-buttons">
-								<input type="button" class="fourth login-bottom apply"
-									id="editBtn" value="EDIT">
-							</div>
-						</form>
-					</div>
-					<div class="tab-pane" id="b">
-						<form id="witnessDetailsForm" th:object="${connectedLitigationVO}"
-							class="form-horizontal">
-							<div class="filter-form">
-								<ul>
-									<li><input type="button" class="fourth login-bottom apply"
-										id="addNewWitness" value="ADD NEW WITNESS"></li>
-								</ul>
-							</div>
-							<div class="data-tablemain">
-								<table id="witnessDtlsSummary" class="bgtable">
-									<tr>
-										<td />
-									</tr>
-								</table>
-								<div id="witnessDtlsSummarypager"></div>
-							</div>
-
-
-							<div id="addWitnessModal" class="modal">
-								<!-- Modal content -->
-								<div class="modal-content">
-									<span class="close">&times;</span> <span class="welcome-head">ADD
-										WITNESS DETAILS</span>
-
-									<div class="filter-form">
-										<ul>
-											<li class="last">
-												<div class="filter-form">
-													<label><sup class="red">*</sup>Name of Witness :</label> <input
-														type="text" name="witnessName" id="modalWitnessName"
-														required="required" />
-												</div>
-											</li>
-										</ul>
-									</div>
-									<div class="bottom-buttons">
-										<button type="button" id="addWitnessBtn" value="ADD"
-											class="btn btn-primary">ADD</button>
-										<button type="button" id="modalAddWitnessResetBtn"
-											value="Reset" class="btn btn-secondary">RESET</button>
-										<button type="button" id="modalAddWitnesscancelBtn"
-											value="CANCEL" class="btn btn-secondary">CANCEL</button>
-									</div>
-
+										</li>
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">Under Act </span> <label
+													for="underAct" th:text="${litigationData.underActName}"></label>
+											</div>
+										</li>
+									</ul>
 								</div>
-							</div>
-						</form>
-					</div>
-					<div class="tab-pane" id="c">
-						<form id="connectedLitigationForm"
-							th:object="${connectedLitigationVO}" class="form-horizontal">
-							<div class="filter-form">
-								<ul>
-									<li><input type="button" class="fourth login-bottom apply"
-										id="addConnectedLitigation" value="ADD CONNECTED LITIGATION"></li>
-								</ul>
-							</div>
-							<div id="addConnectedLitigationModal" class="modal">
-								<!-- Modal content -->
-								<div class="modal-content">
-									<span class="close">&times;</span> <span class="welcome-head">ADD
-										CONNECTED LITIGATION</span>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap"> Possible Claim (Range)</span> <label
+													for="claimRange" th:text="${litigationData.possibleClaim}"></label>
+											</div>
 
-									<div class="filter-form">
-										<ul>
-											<li>
-												<div class="filter-form">
-													<label><sup class="red">*</sup>LitigationID :</label> <select
-														id="modalLitigationId" th:field="*{litigationId}"
-														class="custom-select">
-														<option value="Select">Select</option>
-														<option th:each="ltgnId: ${allLitigationIDs}"
-															th:value="${ltgnId.litigationId}"
-															th:text="${ltgnId.litigationId}">test</option>
-													</select>
-												</div>
-											</li>
-											<li>
-												<div class="filter-form">
-													<label><sup class="red">*</sup>Comments :</label> <input
-														type="text" name="comments" id="modalComments"
-														required="required" />
-												</div>
-											</li>
-										</ul>
-									</div>
-									<div class="bottom-buttons">
-										<button type="button" id="addConnectedLtgnBtn" value="ADD"
-											class="btn btn-primary">ADD</button>
-										<button type="button" id="modalConnectedLtgnResetBtn"
-											value="Reset" class="btn btn-secondary">RESET</button>
-										<button type="button" id="modalConnectedLtgncancelBtn"
-											value="CANCEL" class="btn btn-secondary">CANCEL</button>
-									</div>
+										</li>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Under Section (U/S)</span> <label
+													for="underSection" th:text="${litigationData.underSection}"></label>
+											</div>
 
+										</li>
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">Other Under Act</span> <label
+													for="otherUnderAct"
+													th:text="${litigationData.otherUnderAct}"></label>
+											</div>
+										</li>
+
+									</ul>
 								</div>
-							</div>
-						</form>
-					</div>
-					<div class="tab-pane" id="d">
-						<form id="completionForm" th:object="${connectedLitigationVO}"
-							class="form-horizontal" th:each="ltgnDtls:${allLitiagtionDtls}">
-							<span class="welcome-head">Litigation Disposal</span>
-							<div class="filter-form">
-								<ul>
-									<li>
-										<div class="filter-form">
-											<label>Status :</label> <span th:text="${ltgnDtls.status}">
-											</span>
-										</div>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Pantaloon File No</span> <label
+													for="pantaloonFileNo" th:text="${litigationData.fileNo}"></label>
+											</div>
 
-									</li>
-									<li>
-										<div class="filter-form">
-											<label><sup class="red">*</sup>Result :</label> <select
-												id="modalResult" th:field="*{resultName}"
-												class="custom-select">
-												<option value="Select">Select</option>
-												<option th:each="result: ${allResults}"
-													th:value="${result.resultName}"
-													th:text="${result.resultName}">test</option>
-											</select>
-										</div>
+										</li>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Date of Receipt of
+													Matter/Case</span> <label for="dateOfReceiptOfMatter"
+													th:text="${litigationData.dateOfReceiptOfMatterCase}">
+												</label>
+											</div>
 
-									</li>
-									<li class="last">
-										<div class="filter-form">
-											<label><sup class="red">*</sup>Disposed Date :</label> <input
-												type="date" id="modalDisposedDate"
-												th:field="*{disposedDate}" placeholder="Todays">
-										</div>
+										</li>
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">State </span> <label for="state"
+													th:text="${litigationData.stateName}"></label>
+											</div>
+										</li>
 
-									</li>
-								</ul>
-							</div>
-							<div class="filter-form">
-								<ul>
-									<li><label><sup class="red">*</sup>Comments :</label> <input
-										type="text" th:field="*{comments}" id="modalDisposedComments"
-										required="required" /></li>
-								</ul>
-							</div>
-							<div class="bottom-buttons">
-								<button type="button" id="modalDisposedDateBtn" value="Dispose"
-									class="btn btn-primary">Dispose</button>
-
-								<button type="button" id="modalConnectedLtgncancelBtn"
-									value="CANCEL" class="btn btn-secondary">CANCEL</button>
-							</div>
-						</form>
-					</div>
-					<div class="tab-pane" id="e">
-						<form id="billingForm" th:object="${connectedLitigationVO}"
-							class="form-horizontal" enctype="multipart/form-data">
-							<span class="welcome-head">Billing</span>
-							<div class="filter-form">
-								<table border="1">
-									<tr>
-										<td>Lawfirm/Individual Billing Amount:</td>
-										<td>0.00</td>
-									</tr>
-									<tr>
-										<td>Total Amount:</td>
-										<td>0.00</td>
-									</tr>
-								</table>
-							</div>
-							<span class="welcome-head">Lawfirm/Individual</span>
-							<div class="filter-form">
-								<ul>
-									<li><input type="button" class="fourth login-bottom"
-										id="addlawfirmBilling" value="Add Lawfirm/Individual Billing"></li>
-								</ul>
-							</div>
-							<div id="addLawfirmBillingModal" class="modal">
-								Modal content
-								<div class="modal-content">
-									<span class="close">&times;</span> <span class="welcome-head">ADD
-										LAWFIRM BILLING</span>
-
-									<div class="filter-form">
-										<ul>
-											<li>
-												<div class="filter-form">
-													<label><sup class="red">*</sup>Billing Type :</label> <select
-														id="modalBillingType" th:field="*{billingType}"
-														class="custom-select">
-														<option value="Select">Select</option>
-														<option th:each="billingType: ${allBillingTypes}"
-															th:value="${billingType.billingType}"
-															th:text="${billingType.billingType}">test</option>
-													</select>
-												</div>
-											</li>
-											<li>
-												<div class="filter-form">
-													<label><sup class="red">*</sup>Billing Type :</label> <input
-														type="text" th:field="*{billingAmount}"
-														id="modalBillingAmount" required="required" />
-												</div>
-											</li>
-											<li class="last">
-												<div class="filter-form">
-													<label><sup class="red">*</sup>Billing Dt :</label> <input
-														type="date" id="modalBillingDate"
-														th:field="*{billingDate}" placeholder="Todays">
-												</div>
-
-											</li>
-										</ul>
-									</div>
-									<div class="filter-form">
-										<ul>
-											<li>
-												<div class="filter-form">
-													<label>Remark :</label> <input type="text"
-														th:field="*{remark}" id="modalRemarks" required="required" />
-												</div>
-											</li>
-											<li class="last">
-												<div class="filter-form">
-													<label>Upload Document :</label><input type="file"
-														id="modalUploadFile" th:field="*{uploadFile}" />
-												</div>
-											</li>
-										</ul>
-									</div>
-									<div class="bottom-buttons">
-										<button type="button" id="addLawfirmBillingBtn" value="ADD"
-											class="btn btn-primary">ADD</button>
-										<button type="button" id="modalAddLawfirmBillingResetBtn"
-											value="Reset" class="btn btn-secondary">RESET</button>
-										<button type="button" id="modalAddLawfirmBillingCancelBtn"
-											value="CANCEL" class="btn btn-secondary">CANCEL</button>
-									</div>
-
+									</ul>
 								</div>
-							</div>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Case/SCN Relate FromDate</span> <label
+													for="caseRelateFromDate"
+													th:text="${litigationData.caseRelateFrmDte}"></label>
+											</div>
 
-						</form>
-					</div>
-					<div class="tab-pane" id="historyTab">
-						<form id="historyForm" th:object="${connectedLitigationVO}"
-							class="form-horizontal">
-							<div class="filter-form">
-								<ul>
-									<li><input type="button" class="fourth login-bottom"
-										id="addNextHearingDt" value="ADD NEXT HEARING DT"></li>
-								</ul>
-							</div>
-							<div class="data-tablemain">
-								<table id="historySummary" class="jqGrid" border="1">
-									<tr>
-										<th>Hearing Id</th>
-										<th>Litigation Id</th>
-										<th>Hearing Date</th>
-										<th>Stage Name</th>
-										<th>Stage Detail</th>
-										<th>Event</th>
-										<th>Added By</th>
-										<th>Attended By</th>
-										<th>Document</th>
-										<th>Update</th>
-										<th>Delete</th>
-									</tr>
-								</table>
-								<div id="historySummarypager"></div>
-							</div>
+										</li>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">City</span> <label for="city"
+													th:text="${litigationData.cityName}"> </label>
+											</div>
 
-							<div id="addNextHearingDtModal" class="modal">
-								<!-- Modal content -->
-								<div class="modal-content">
-									<span class="close">&times;</span> <span class="welcome-head">ADD
-										NEXT HEARING DATE</span>
+										</li>
 
-									<div class="filter-form">
-										<ul>
-											<li>
-												<div class="filter-form">
-													<label><sup class="red">*</sup>Next Hearing Dt :</label> <input
-														type="date" name="hearingDt" id="modalHearingDt"
-														required="required" />
-												</div>
-											</li>
-											<li>
-												<div class="filter-form">
-													<label><sup class="red">*</sup>Stage :</label> <select
-														id="modalStage" th:field="*{stage}">
-														<option value="Select">Select</option>
-														<option th:each="stageDtls: ${allStageDetails}"
-															th:value="${stageDtls.stage}"
-															th:text="${stageDtls.stage}">test</option>
-													</select>
-												</div>
-
-
-											</li>
-											<li class="last">
-												<div class="filter-form">
-													<label><sup class="red">*</sup>Stage Details :</label> <input
-														type="text" name="stageDetails" id="modalStageDetails"
-														required="required" />
-												</div>
-											</li>
-										</ul>
-									</div>
-									<div class="bottom-buttons">
-										<button type="button" id="modalAddNextHearingBtn" value="ADD"
-											class="btn btn-primary">ADD</button>
-										<button type="button" id="modalAddNextHearingBtn"
-											value="CANCEL" class="btn btn-secondary">CANCEL</button>
-									</div>
-
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">Case/SCN Relate ToDate</span> <label
+													for="caseRelateToDate"
+													th:text="${litigationData.caseRelateToDte}"></label>
+											</div>
+										</li>
+									</ul>
 								</div>
-							</div>
-						</form>
-					</div>
-					<div class="tab-pane" id="g">
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">CourtType</span> <label
+													for="courtType" th:text="${litigationData.courtTypeName}">
+												</label>
+											</div>
 
-						<div class="filter-form">
-							<ul>
-								<li><input type="button" class="fourth login-bottom"
-									id="uploadDocuments" value="UPLOAD DOCUMENTS"></li>
-							</ul>
+										</li>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">PoliceStation</span> <label
+													for="policeStation"
+													th:text="${litigationData.policeStation}"> </label>
+											</div>
+
+										</li>
+
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">FIRNO</span> <label for="firNo"
+													th:text="${litigationData.firNo}"></label>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Court/Forum</span> <label
+													for="courtForum" th:text="${litigationData.courtForum}"></label>
+											</div>
+
+										</li>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Store/Office Premises</span> <label
+													for="storeOfficePremises"
+													th:text="${litigationData.storeOfficePremises}"></label>
+											</div>
+										</li>
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">JudgeAuthority Name</span> <label
+													for="judgeName" th:text="${litigationData.judgeName}">
+												</label>
+											</div>
+
+										</li>
+									</ul>
+								</div>
+								<div class="filter-form">
+									<ul>
+
+
+										<li class="full-list">
+											<div class="form-group">
+												<span class="boldtxt_gap">Fact of Litigation</span> <label
+													for="factsOfLitigation"
+													th:text="${litigationData.factsOfLitigation}"> </label>
+											</div>
+										</li>
+										<li class="full-list">
+											<div class="form-group">
+												<span class="boldtxt_gap">Counsel Assessment</span> <label
+													for="counselAssessment"
+													th:text="${litigationData.counselAssesment}"> </label>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<span class="welcome-head">Counsel Details </span>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Function Head(s)</span> <label
+													for="email">Shrikant Gupta, prashant rane, pankaj
+													patel</label>
+											</div>
+
+										</li>
+
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Unit/Location Head(s)</span> <label
+													for="unitLocationHeads">Industrial Court at Mumbai</label>
+											</div>
+
+										</li>
+
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">Law Firm/Individual</span> <input
+													type="hidden" id="lawfirmId"
+													th:value="${litigationData.lawfirm}"> <label
+													for="lawfirmIndividual" id="lawfirmVal"
+													th:value="${litigationData.lawfirm}"> <a href="#"
+													onclick="getOutsideCounselData( lawfirmId.value)"><span
+														th:text="${litigationData.lawfirm}"></span></a></label>
+
+
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Partner/Counsel</span> <label
+													for="partnerCounsel"
+													th:text="${litigationData.partnerCounsel}"></label>
+											</div>
+
+										</li>
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">Senior Counsel</span> <label
+													for="seniorCounsel"
+													th:text="${litigationData.seniorCounsel}"></label>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="bottom-buttons">
+									<input type="button" class="fourth login-bottom apply"
+										id="editBtn" value="EDIT">
+								</div>
+							</form>
 						</div>
-						<div id="uploadDocumentModal" class="modal">
-							<form id="uploadDocumentForm"
-								th:object="${connectedLitigationVO}" class="form-horizontal"
-								enctype="multipart/form-data">
-								<div class="modal-content">
-									<span class="close">&times;</span> <span class="welcome-head">UPLOAD
-										DOCUMENTS</span>
-									<div id="responseMsg" style="padding: 8px"></div>
+						<div class="tab-pane" id="b">
+							<form id="witnessDetailsForm"
+								th:object="${connectedLitigationVO}" class="form-horizontal">
+								<div class="filter-form">
+									<ul>
+										<li><input type="button" class="fourth login-bottom"
+											id="addNewWitness" value="ADD NEW WITNESS"></li>
+									</ul>
+								</div>
+								<div class="data-tablemain">
+									<table id="witnessDtlsSummary" class="bgtable">
+										<tr>
+											<td />
+										</tr>
+									</table>
+									<div id="witnessDtlsSummarypager"></div>
+								</div>
 
-									<div class="filter-form">
-										<ul>
-											<!-- <li>
+
+								<div id="addWitnessModal" class="modal">
+									<!-- Modal content -->
+									<div class="modal-content">
+										<span class="close">&times;</span> <span class="welcome-head">ADD
+											WITNESS DETAILS</span>
+
+										<div class="filter-form">
+											<ul>
+												<li class="last">
+													<div class="filter-form">
+														<label><sup class="red">*</sup>Name of Witness :</label> <input
+															type="text" name="witnessName" id="modalWitnessName"
+															required="required" />
+													</div>
+												</li>
+											</ul>
+										</div>
+										<div class="bottom-buttons">
+											<button type="button" id="addWitnessBtn" value="ADD"
+												class="btn btn-primary">ADD</button>
+											<button type="button" id="modalAddWitnessResetBtn"
+												value="Reset" class="btn btn-secondary">RESET</button>
+											<button type="button" id="modalAddWitnesscancelBtn"
+												value="CANCEL" class="btn btn-secondary">CANCEL</button>
+										</div>
+
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="tab-pane" id="c">
+							<form id="connectedLitigationForm"
+								th:object="${connectedLitigationVO}" class="form-horizontal">
+								<div class="filter-form">
+									<ul>
+										<li><input type="button" class="fourth login-bottom"
+											id="addConnectedLitigation" value="ADD CONNECTED LITIGATION"></li>
+									</ul>
+								</div>
+								<div id="addConnectedLitigationModal" class="modal">
+									<!-- Modal content -->
+									<div class="modal-content">
+										<span class="close">&times;</span> <span class="welcome-head">ADD
+											CONNECTED LITIGATION</span>
+
+										<div class="filter-form">
+											<ul>
+												<li>
+													<div class="filter-form">
+														<label><sup class="red">*</sup>LitigationID :</label> <select
+															id="modalLitigationId" th:field="*{litigationId}"
+															class="custom-select">
+															<option value="Select">Select</option>
+															<option th:each="ltgnId: ${allLitigationIDs}"
+																th:value="${ltgnId.litigationId}"
+																th:text="${ltgnId.litigationId}">test</option>
+														</select>
+													</div>
+												</li>
+												<li>
+													<div class="filter-form">
+														<label><sup class="red">*</sup>Comments :</label> <input
+															type="text" name="comments" id="modalComments"
+															required="required" />
+													</div>
+												</li>
+											</ul>
+										</div>
+										<div class="bottom-buttons">
+											<button type="button" id="addConnectedLtgnBtn" value="ADD"
+												class="btn btn-primary">ADD</button>
+											<button type="button" id="modalConnectedLtgnResetBtn"
+												value="Reset" class="btn btn-secondary">RESET</button>
+											<button type="button" id="modalConnectedLtgncancelBtn"
+												value="CANCEL" class="btn btn-secondary">CANCEL</button>
+										</div>
+
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="tab-pane" id="d">
+							<form id="completionForm" th:object="${connectedLitigationVO}"
+								class="form-horizontal" th:each="ltgnDtls:${allLitiagtionDtls}">
+								<span class="welcome-head">Litigation Disposal</span>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="filter-form">
+												<label>Status :</label> <span th:text="${ltgnDtls.status}">
+												</span>
+											</div>
+
+										</li>
+										<li>
+											<div class="filter-form">
+												<label><sup class="red">*</sup>Result :</label> <select
+													id="modalResult" th:field="*{resultName}"
+													class="custom-select">
+													<option value="Select">Select</option>
+													<option th:each="result: ${allResults}"
+														th:value="${result.resultName}"
+														th:text="${result.resultName}">test</option>
+												</select>
+											</div>
+
+										</li>
+										<li class="last">
+											<div class="filter-form">
+												<label><sup class="red">*</sup>Disposed Date :</label> <input
+													type="date" id="modalDisposedDate"
+													th:field="*{disposedDate}" placeholder="Todays">
+											</div>
+
+										</li>
+									</ul>
+								</div>
+								<div class="filter-form">
+									<ul>
+										<li><label><sup class="red">*</sup>Comments :</label> <input
+											type="text" th:field="*{comments}" id="modalDisposedComments"
+											required="required" /></li>
+									</ul>
+								</div>
+								<div class="bottom-buttons">
+									<button type="button" id="modalDisposedDateBtn" value="Dispose"
+										class="btn btn-primary">Dispose</button>
+
+									<button type="button" id="modalConnectedLtgncancelBtn"
+										value="CANCEL" class="btn btn-secondary">CANCEL</button>
+								</div>
+							</form>
+						</div>
+						<div class="tab-pane" id="e">
+							<form id="billingForm" th:object="${connectedLitigationVO}"
+								class="form-horizontal" enctype="multipart/form-data">
+								<span class="welcome-head">Billing</span>
+								<div class="filter-form">
+									<table border="1">
+										<tr>
+											<td>Lawfirm/Individual Billing Amount:</td>
+											<td>0.00</td>
+										</tr>
+										<tr>
+											<td>Total Amount:</td>
+											<td>0.00</td>
+										</tr>
+									</table>
+								</div>
+								<span class="welcome-head">Lawfirm/Individual</span>
+								<div class="filter-form">
+									<ul>
+										<li><input type="button" class="fourth login-bottom"
+											id="addlawfirmBilling" value="Add Lawfirm/Individual Billing"></li>
+									</ul>
+								</div>
+								<div id="addLawfirmBillingModal" class="modal">
+									Modal content
+									<div class="modal-content">
+										<span class="close">&times;</span> <span class="welcome-head">ADD
+											LAWFIRM BILLING</span>
+
+										<div class="filter-form">
+											<ul>
+												<li>
+													<div class="filter-form">
+														<label><sup class="red">*</sup>Billing Type :</label> <select
+															id="modalBillingType" th:field="*{billingType}"
+															class="custom-select">
+															<option value="Select">Select</option>
+															<option th:each="billingType: ${allBillingTypes}"
+																th:value="${billingType.billingType}"
+																th:text="${billingType.billingType}">test</option>
+														</select>
+													</div>
+												</li>
+												<li>
+													<div class="filter-form">
+														<label><sup class="red">*</sup>Billing Type :</label> <input
+															type="text" th:field="*{billingAmount}"
+															id="modalBillingAmount" required="required" />
+													</div>
+												</li>
+												<li class="last">
+													<div class="filter-form">
+														<label><sup class="red">*</sup>Billing Dt :</label> <input
+															type="date" id="modalBillingDate"
+															th:field="*{billingDate}" placeholder="Todays">
+													</div>
+
+												</li>
+											</ul>
+										</div>
+										<div class="filter-form">
+											<ul>
+												<li>
+													<div class="filter-form">
+														<label>Remark :</label> <input type="text"
+															th:field="*{remark}" id="modalRemarks"
+															required="required" />
+													</div>
+												</li>
+												<li class="last">
+													<div class="filter-form">
+														<label>Upload Document :</label><input type="file"
+															id="modalUploadFile" th:field="*{uploadFile}" />
+													</div>
+												</li>
+											</ul>
+										</div>
+										<div class="bottom-buttons">
+											<button type="button" id="addLawfirmBillingBtn" value="ADD"
+												class="btn btn-primary">ADD</button>
+											<button type="button" id="modalAddLawfirmBillingResetBtn"
+												value="Reset" class="btn btn-secondary">RESET</button>
+											<button type="button" id="modalAddLawfirmBillingCancelBtn"
+												value="CANCEL" class="btn btn-secondary">CANCEL</button>
+										</div>
+
+									</div>
+								</div>
+
+							</form>
+						</div>
+						<div class="tab-pane" id="historyTab">
+							<form id="historyForm" th:object="${connectedLitigationVO}"
+								class="form-horizontal">
+								<div class="filter-form">
+									<ul>
+										<li><input type="button" class="fourth login-bottom"
+											id="addNextHearingDt" value="ADD NEXT HEARING DT"></li>
+									</ul>
+								</div>
+								<div class="data-tablemain">
+									<table id="historySummary" class="jqGrid" border="1">
+										<tr>
+											<th>Hearing Id</th>
+											<th>Litigation Id</th>
+											<th>Hearing Date</th>
+											<th>Stage Name</th>
+											<th>Stage Detail</th>
+											<th>Event</th>
+											<th>Added By</th>
+											<th>Attended By</th>
+											<th>Document</th>
+											<th>Update</th>
+											<th>Delete</th>
+										</tr>
+									</table>
+									<div id="historySummarypager"></div>
+								</div>
+
+								<div id="addNextHearingDtModal" class="modal">
+									<!-- Modal content -->
+									<div class="modal-content">
+										<span class="close">&times;</span> <span class="welcome-head">ADD
+											NEXT HEARING DATE</span>
+
+										<div class="filter-form">
+											<ul>
+												<li>
+													<div class="filter-form">
+														<label><sup class="red">*</sup>Next Hearing Dt :</label> <input
+															type="date" name="hearingDt" id="modalHearingDt"
+															required="required" />
+													</div>
+												</li>
+												<li>
+													<div class="filter-form">
+														<label><sup class="red">*</sup>Stage :</label> <select
+															id="modalStage" th:field="*{stage}">
+															<option value="Select">Select</option>
+															<option th:each="stageDtls: ${allStageDetails}"
+																th:value="${stageDtls.stage}"
+																th:text="${stageDtls.stage}">test</option>
+														</select>
+													</div>
+
+
+												</li>
+												<li class="last">
+													<div class="filter-form">
+														<label><sup class="red">*</sup>Stage Details :</label> <input
+															type="text" name="stageDetails" id="modalStageDetails"
+															required="required" />
+													</div>
+												</li>
+											</ul>
+										</div>
+										<div class="bottom-buttons">
+											<button type="button" id="modalAddNextHearingBtn" value="ADD"
+												class="btn btn-primary">ADD</button>
+											<button type="button" id="modalAddNextHearingBtn"
+												value="CANCEL" class="btn btn-secondary">CANCEL</button>
+										</div>
+
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="tab-pane" id="g">
+
+							<div class="filter-form">
+								<ul>
+									<li><input type="button" class="fourth login-bottom"
+										id="uploadDocuments" value="UPLOAD DOCUMENTS"></li>
+								</ul>
+							</div>
+							<div id="uploadDocumentModal" class="modal">
+								<form id="uploadDocumentForm"
+									th:object="${connectedLitigationVO}" class="form-horizontal"
+									enctype="multipart/form-data">
+									<div class="modal-content">
+										<span class="close">&times;</span> <span class="welcome-head">UPLOAD
+											DOCUMENTS</span>
+										<div id="responseMsg" style="padding: 8px"></div>
+
+										<div class="filter-form">
+											<ul>
+												<!-- <li>
 											<div class="filter-form">
 												<label><sup class="red">*</sup>Hearing Dt :</label> 
 												<select
@@ -815,46 +827,47 @@
 												</select>
 											</div>
 										</li> -->
-											<li>
-												<div class="filter-form">
-													<label><sup class="red">*</sup>Document Title:</label> <input
-														type="text" th:field="*{documentTitle}"
-														id="modalDocumentTitle" required="required" />
-												</div>
+												<li>
+													<div class="filter-form">
+														<label><sup class="red">*</sup>Document Title:</label> <input
+															type="text" th:field="*{documentTitle}"
+															id="modalDocumentTitle" required="required" />
+													</div>
 
 
-											</li>
-											<li class="last">
-												<div class="filter-form">
-													<label><sup class="red">*</sup>Comments:</label> <input
-														type="text" th:field="*{uploadComments}"
-														id="modalUploadComments" required="required" />
-												</div>
-											</li>
-										</ul>
-									</div>
-									<div class="filter-form">
-										<ul>
-											<li>
-												<div class="filter-form">
-													<label><sup class="red">*</sup>Upload File:</label> <input
-														type="file" th:field="*{uploadFile}" id="modaluploadFile"
-														required="required" />
-												</div>
-											</li>
-										</ul>
-									</div>
-									<div class="bottom-buttons">
-										<button type="button" id="modalUploadDocumentBtn"
-											value="Upload" class="btn btn-primary">UPLOAD</button>
-										<button type="button" id="modaluploadDocumentCancelBtn"
-											value="CANCEL" class="btn btn-secondary">CANCEL</button>
-									</div>
+												</li>
+												<li class="last">
+													<div class="filter-form">
+														<label><sup class="red">*</sup>Comments:</label> <input
+															type="text" th:field="*{uploadComments}"
+															id="modalUploadComments" required="required" />
+													</div>
+												</li>
+											</ul>
+										</div>
+										<div class="filter-form">
+											<ul>
+												<li>
+													<div class="filter-form">
+														<label><sup class="red">*</sup>Upload File:</label> <input
+															type="file" th:field="*{uploadFile}" id="modaluploadFile"
+															required="required" />
+													</div>
+												</li>
+											</ul>
+										</div>
+										<div class="bottom-buttons">
+											<button type="button" id="modalUploadDocumentBtn"
+												value="Upload" class="btn btn-primary">UPLOAD</button>
+											<button type="button" id="modaluploadDocumentCancelBtn"
+												value="CANCEL" class="btn btn-secondary">CANCEL</button>
+										</div>
 
-								</div>
-							</form>
+									</div>
+								</form>
+							</div>
+
 						</div>
-
 					</div>
 				</div>
 			</div>

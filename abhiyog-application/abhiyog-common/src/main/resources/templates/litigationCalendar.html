@@ -56,7 +56,7 @@
 			<div class="middle-right">
 				<span class="welcome-head">LITIGATION CALENDAR</span>
 				<div class="hidden_form">
-					<form id="litigationCalendarForm" th:object="${userVO}"
+					<form id="litigationCalendarForm" th:object="${litigationSummaryVO}"
 						class="form-horizontal">
 
 						<div class="filter-form">
@@ -66,7 +66,7 @@
 										<label for="usr">Zone</label> <select id="zoneName"
 											th:field="*{zoneName}" class="custom-select">
 											<option value="ALL">ALL</option>
-											<option th:each="zone: ${allZones}"
+											<option th:each="zone: ${allRegions}"
 												th:value="${zone.zoneName}" th:text="${zone.zoneName}">test</option>
 										</select>
 									</div>
@@ -104,17 +104,15 @@
 										</select>
 									</div>
 								</li>
-								<li class="last">
+								<!-- <li class="last">
 									<div class="filter-form">
 										<label for="usr">Function</label> <select id="deptName"
 											th:field="*{deptName}" class="custom-select">
 											<option value="ALL">ALL</option>
-											<option th:each="function: ${allFunction}"
-												th:value="${function.deptName}"
-												th:text="${function.deptName}">test</option>
+											<option value="Legal">Legal</option>
 										</select>
 									</div>
-								</li>
+								</li> -->
 							</ul>
 						</div>
 						<div class="filter-form">
@@ -136,7 +134,7 @@
 										<label for="usr">Category</label> <select id="categoryName"
 											th:field="*{categoryName}" class="custom-select">
 											<option value="ALL">ALL</option>
-											<option th:each="category: ${allCategories}"
+											<option th:each="category: ${allCategory}"
 												th:value="${category.categoryName}"
 												th:text="${category.categoryName}">test</option>
 										</select>
@@ -161,7 +159,7 @@
 										<label for="usr">State</label> <select id="stateName"
 											th:field="*{stateName}" class="custom-select">
 											<option value="ALL">ALL</option>
-											<option th:each="state: ${allStates}"
+											<option th:each="state: ${allStateDtls}"
 												th:value="${state.stateName}" th:text="${state.stateName}">test</option>
 										</select>
 									</div>
@@ -291,9 +289,18 @@
 									<div class="form-group">
 										<label for="usr">Month</label> <select class="custom-select" id="fromMonth">
 											<!-- <option selected>Select Menu</option>
-											<option value="volvo">Jan</option>
-											<option value="fiat">Feb</option>
-											<option value="audi">March</option> -->
+											<option value="January">January</option>
+											<option value="February">February</option>
+											<option value="March">March</option> 
+											<option value="April">April</option>
+											<option value="May">May</option> 
+											<option value="June">June</option>
+											<option value="July">July</option> 
+											<option value="August">August</option>
+											<option value="September">September</option> 
+											<option value="October">October</option>
+											<option value="November">November</option> 
+											<option value="December">December</option> -->
 										</select>
 									</div>
 
@@ -346,6 +353,8 @@
 									</div>
 								</li>
 							</ul>
+						</div>
+						<div class="form-group" id="allCalendar">
 						</div>
 					</form>
 				</div>

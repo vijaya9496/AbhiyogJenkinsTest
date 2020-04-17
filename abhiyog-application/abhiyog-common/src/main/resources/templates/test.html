@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="header :: headerFragment">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Litigation Details</title>
+</head>
+<!-- Bootstrap CSS -->
+
+
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css?v3"
+	rel="stylesheet" type="text/css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+	integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+	integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+	crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="css/common.css">
+
+
+<!-- JQ Grid Css & Js -->
+<link rel="stylesheet" type="text/css"
+	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/redmond/jquery-ui.css" />
+<link rel="stylesheet" type="text/css"
+	href="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-4.3.1/css/ui.jqgrid.css" />
+<link rel="stylesheet" type="text/css"
+	href="http://www.ok-soft-gmbh.com/jqGrid/jquery-ui-multiselect/1.12/jquery.multiselect.css" />
+<script type="text/javascript"
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script type="text/javascript"
+	src="http://www.ok-soft-gmbh.com/jqGrid/jquery-ui-multiselect/1.12/jquery.multiselect.js"></script>
+<script type="text/javascript"
+	src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-4.3.1/js/i18n/grid.locale-en.js"></script>
+<script type="text/javascript"
+	src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-4.3.1/js/jquery.jqGrid.src-multiple1.js"></script>
+<script src="../static/js/litigationDetails.js" type="text/javascript"
+	th:src="@{js/litigationDetails.js}"></script>
+<style>
+      .ui-jqgrid .ui-jqgrid-hbox{
+      }
+        padding-right:0px !important;
+</style>
+<style>
+
+.ui-widget-content a{
+	text-decoration: underline;
+}
+</style>
+<script src="../static/js/litigationDetails.js" type="text/javascript"
+	th:src="@{js/litigationDetails.js}"></script>
+<div th:include="header :: header"></div>
+<body>
+	<div class="wrapper">
+		<p th:text="${message}" th:unless="${message == null}"
+			class="alert alert-success">Test</p>
+		<div class="middle-part midiile-bg">
+			<div class="middle-right">
+				<span class="welcome-head">LITIGATION DETAILS</span>
+				<div class="hidden_form">
+					<form id="litigationDetailsForm" th:object="${litigationSummaryVO}"
+						class="form-horizontal"
+						th:each="litigationData: ${allLitiagtionDtls}">
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<span class="boldtxt_gap">LitigationId </span> <label
+											for="litigationId" th:text="${litigationData.litigationId}">
+										</label>
+										<!-- <input type="text"
+											th:name="*{litigationId}" th:value="${litigationData.litigationId}"> -->
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<label></label> <input type="button"
+											class="fourth login-bottom apply fr" value="Back"
+											id="backBtn">
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<span class="boldtxt_gap">Entity (<span
+											th:text="${litigationData.customerType}"></span>)
+										</span> <label for="entityName"
+											th:text="${litigationData.entityName}"> </label>
+									</div>
+								</li>
+								<li>
+									<div class="filter-form">
+										<span class="boldtxt_gap">Counter Party (<span
+											th:text="${litigationData.againstPartyClientType}"></span>)
+										</span> <label for="counterParty"
+											th:text="${litigationData.counterPartyName}"> </label>
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<span class="boldtxt_gap">Co-Parties </span> <label
+											for="coParties" th:text="${litigationData.coParties}"></label>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<span class="boldtxt_gap">Co-Counter Parties </span> <label
+											for="coCounterParties"
+											th:text="${litigationData.coCounterParties}"></label>
+									</div>
+								</li>
+								<li>
+									<div class="filter-form">
+										<span class="boldtxt_gap">Format </span> <label for="format"
+											th:text="${litigationData.format}"></label>
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<span class="boldtxt_gap">Co-Format </span> <label
+											for="coFormat" th:text="${litigationData.coFormat}"></label>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<span class="boldtxt_gap">Zone </span> <label for="zoneName"
+											th:text="${litigationData.zoneName}"></label>
+									</div>
+								</li>
+								<li>
+									<div class="filter-form">
+										<span class="boldtxt_gap">CoZone </span> <label for="coZone"
+											th:text="${litigationData.coZone}"></label>
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<span class="boldtxt_gap">Matter By/Against </span> <label
+											for="matterByAgainst"
+											th:text="${litigationData.matterByAgainst}"></label>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<span class="boldtxt_gap">Unit/Location </span> <label
+											for="unitName" th:text="${litigationData.unitName}"></label>
+									</div>
+								</li>
+								<li>
+									<div class="filter-form">
+										<span class="boldtxt_gap">Function </span> <label
+											for="function" th:text="${litigationData.function}"></label>
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<span class="boldtxt_gap">Address </span> <label for="address"
+											th:text="${litigationData.address}"></label>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<span class="boldtxt_gap">Status </span> <label for="status"
+											th:text="${litigationData.status}"></label>
+									</div>
+								</li>
+								<li>
+									<div class="filter-form">
+										<span class="boldtxt_gap">Subject </span> <label for="subject"
+											th:text="${litigationData.subject}"></label>
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<span class="boldtxt_gap">Current Stage </span> <label
+											for="stage" th:text="${litigationData.stage}"></label>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="filter-form">
+							<ul>
+								<li>
+									<div class="filter-form">
+										<span class="boldtxt_gap">Hearing Date </span> <label
+											for="hearingDate" th:text="${litigationData.hearingDate}"></label>
+									</div>
+								</li>
+								<li>
+									<div class="filter-form">
+										<span class="boldtxt_gap">Remark </span> <label for="remark"
+											th:text="${litigationData.remark}"></label>
+									</div>
+								</li>
+								<li class="last">
+									<div class="filter-form">
+										<span class="boldtxt_gap">Case Number </span> <label
+											for="caseNumber" th:text="${litigationData.caseNumber}"></label>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="check_form tab-gap">
+				<div class="detail-view">
+					<div class="col-xs-12 tab-nav">
+						<nav>
+							<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+								<a class="nav-item nav-link active" id="Details"
+									data-toggle="tab" href="#nav-Details" role="tab"
+									aria-controls="Details" aria-selected="true">Details</a> <a
+									class="nav-item nav-link" id="navHistory" data-toggle="tab"
+									href="#nav-History" role="tab" aria-controls="History"
+									aria-selected="false">History</a> <a class="nav-item nav-link"
+									id="navDocuments" data-toggle="tab" href="#nav-Documents"
+									role="tab" aria-controls="Documents" aria-selected="false">Documents</a>
+								<a class="nav-item nav-link" id="navWitness" data-toggle="tab"
+									href="#nav-Witness" role="tab" aria-controls="Witness"
+									aria-selected="false">Witness</a> <a class="nav-item nav-link"
+									id="Completion" data-toggle="tab" href="#nav-Completion"
+									role="tab" aria-controls="Completion" aria-selected="false">Completion</a>
+								<a class="nav-item nav-link" id="navActivity" data-toggle="tab"
+									href="#nav-Activity" role="tab" aria-controls="Activity"
+									aria-selected="false">Activity Log</a> <a
+									class="nav-item nav-link" id="navBilling" data-toggle="tab"
+									href="#nav-Billing" role="tab" aria-controls="Billing"
+									aria-selected="false">Billing</a> <a class="nav-item nav-link"
+									id="navConnect" data-toggle="tab" href="#nav-Connect" role="tab"
+									aria-controls="Connect" aria-selected="false">Connect</a>
+							</div>
+						</nav>
+						<div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+							<div class="tab-pane fade show active" id="nav-Details"
+								role="tabpanel" aria-labelledby="Details">
+								<form id="caseDetailsForm" th:object="${litigationSummaryVO}"
+								class="form-horizontal"
+								th:each="litigationData: ${allLitiagtionDtls}">
+								<span class="welcome-head"> Case Details</span>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Category </span> <label
+													for="category" th:text="${litigationData.categoryName}"></label>
+											</div>
+
+										</li>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Risk Assessment</span> <label
+													for="risk" th:text="${litigationData.risk}"></label>
+											</div>
+
+										</li>
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">Under Act </span> <label
+													for="underAct" th:text="${litigationData.underActName}"></label>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap"> Possible Claim (Range)</span> <label
+													for="claimRange" th:text="${litigationData.possibleClaim}"></label>
+											</div>
+
+										</li>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Under Section (U/S)</span> <label
+													for="underSection" th:text="${litigationData.underSection}"></label>
+											</div>
+
+										</li>
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">Other Under Act</span> <label
+													for="otherUnderAct"
+													th:text="${litigationData.otherUnderAct}"></label>
+											</div>
+										</li>
+
+									</ul>
+								</div>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Pantaloon File No</span> <label
+													for="pantaloonFileNo" th:text="${litigationData.fileNo}"></label>
+											</div>
+
+										</li>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Date of Receipt of
+													Matter/Case</span> <label for="dateOfReceiptOfMatter"
+													th:text="${litigationData.dateOfReceiptOfMatterCase}">
+												</label>
+											</div>
+
+										</li>
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">State </span> <label for="state"
+													th:text="${litigationData.stateName}"></label>
+											</div>
+										</li>
+
+									</ul>
+								</div>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Case/SCN Relate FromDate</span> <label
+													for="caseRelateFromDate"
+													th:text="${litigationData.caseRelateFrmDte}"></label>
+											</div>
+
+										</li>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">City</span> <label for="city"
+													th:text="${litigationData.cityName}"> </label>
+											</div>
+
+										</li>
+
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">Case/SCN Relate ToDate</span> <label
+													for="caseRelateToDate"
+													th:text="${litigationData.caseRelateToDte}"></label>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">CourtType</span> <label
+													for="courtType" th:text="${litigationData.courtTypeName}">
+												</label>
+											</div>
+
+										</li>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">PoliceStation</span> <label
+													for="policeStation"
+													th:text="${litigationData.policeStation}"> </label>
+											</div>
+
+										</li>
+
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">FIRNO</span> <label for="firNo"
+													th:text="${litigationData.firNo}"></label>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Court/Forum</span> <label
+													for="courtForum" th:text="${litigationData.courtForum}"></label>
+											</div>
+
+										</li>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Store/Office Premises</span> <label
+													for="storeOfficePremises"
+													th:text="${litigationData.storeOfficePremises}"></label>
+											</div>
+										</li>
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">JudgeAuthority Name</span> <label
+													for="judgeName" th:text="${litigationData.judgeName}">
+												</label>
+											</div>
+
+										</li>
+									</ul>
+								</div>
+								<div class="filter-form">
+									<ul>
+
+
+										<li class="full-list">
+											<div class="form-group">
+												<span class="boldtxt_gap">Fact of Litigation</span> <label
+													for="factsOfLitigation"
+													th:text="${litigationData.factsOfLitigation}"> </label>
+											</div>
+										</li>
+										<li class="full-list">
+											<div class="form-group">
+												<span class="boldtxt_gap">Counsel Assessment</span> <label
+													for="counselAssessment"
+													th:text="${litigationData.counselAssesment}"> </label>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<span class="welcome-head">Counsel Details </span>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Function Head(s)</span> <label
+													for="email">Shrikant Gupta, prashant rane, pankaj
+													patel</label>
+											</div>
+
+										</li>
+
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Unit/Location Head(s)</span> <label
+													for="unitLocationHeads">Industrial Court at Mumbai</label>
+											</div>
+
+										</li>
+
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">Law Firm/Individual</span> <input
+													type="hidden" id="lawfirmId"
+													th:value="${litigationData.lawfirm}"> <label
+													for="lawfirmIndividual" id="lawfirmVal"
+													th:value="${litigationData.lawfirm}"> <a href="#"
+													onclick="getOutsideCounselData( lawfirmId.value)"><span
+														th:text="${litigationData.lawfirm}"></span></a></label>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="filter-form">
+									<ul>
+										<li>
+											<div class="form-group">
+												<span class="boldtxt_gap">Partner/Counsel</span> <label
+													for="partnerCounsel"
+													th:text="${litigationData.partnerCounsel}"></label>
+											</div>
+
+										</li>
+										<li class="last">
+											<div class="form-group">
+												<span class="boldtxt_gap">Senior Counsel</span> <label
+													for="seniorCounsel"
+													th:text="${litigationData.seniorCounsel}"></label>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="bottom-buttons">
+									<input type="button" class="fourth login-bottom apply"
+										id="editBtn" value="EDIT">
+								</div>
+							</form>
+							</div>
+							<div class="tab-pane fade" id="nav-History" role="tabpanel"
+								aria-labelledby="History">
+								<div class="top-plugins">
+									<input type="button"
+										class="fourth login-bottom fl widthauto remove-leftgap left-btngap"
+										data-toggle="modal" data-target="#myModal1"
+										value="Add Next Hearing Dt"> 
+										<!-- <input type="button"
+										class="fourth login-bottom fr widthauto remove-leftgap "
+										value="EXPORT TO Word"> --> 
+										<input type="button" id="historyReportExportToExcel"
+										class="fourth login-bottom fr widthauto remove-leftgap left-btngap"
+										value="EXPORT TO EXCEL">
+
+								</div>
+								<div class="data-tablemain">
+									<table id="historySummary" class="jqgrid"></table>
+									<div id="historySummaryPager"></div>
+								</div>
+
+							</div>
+							<div class="tab-pane fade" id="nav-Documents" role="tabpanel" aria-labelledby="Documents">
+
+				                  <div class="top-plugins">
+				                    <input type="button" class="fourth login-bottom fl widthauto remove-leftgap left-btngap" value="Upload Documents"
+				                    data-toggle="modal" data-target="#documentModal"> 
+				                  </div>
+				                <div class="data-tablemain"> 
+				                 
+				                 <table id="documentSummary" class="jqgrid"></table>
+				                   <div id="documentSummaryPager"></div>
+				                </div> 
+		                	</div>
+		                	 <div class="tab-pane fade" id="nav-Witness" role="tabpanel" aria-labelledby="Witness">
+
+				                  <div class="top-plugins">
+				                    <input type="button" class="fourth login-bottom fl widthauto remove-leftgap left-btngap"  data-toggle="modal" data-target="#witnessModal" value="ADD NEW WITNESS"> 
+				                  </div>
+				                  <div class="data-tablemain">
+									<table id="witnessSummary" class="jqgrid"></table>
+									<div id="witnessSummaryPager"></div>
+								</div>
+               				</div>
+               				<div class="tab-pane fade" id="nav-Completion" role="tabpanel" aria-labelledby="Completion">
+								<form id="completionForm" th:object="${connectedLitigationVO}"
+									class="form-horizontal" th:each="ltgnDtls:${allLitiagtionDtls}">
+									<span class="welcome-head">Litigation Disposal</span>
+									<div class="filter-form">
+										<ul>
+											<li>
+												<div class="filter-form">
+													<label>Status :</label> <span th:text="${ltgnDtls.status}">
+													</span>
+												</div>
+
+											</li>
+											<li>
+												<div class="filter-form">
+													<label><sup class="red">*</sup>Result :</label> <select
+														id="modalResult" th:field="*{resultName}"
+														class="custom-select">
+														<option value="Select">Select</option>
+														<option th:each="result: ${allResults}"
+															th:value="${result.resultName}"
+															th:text="${result.resultName}">test</option>
+													</select>
+												</div>
+
+											</li>
+											<li class="last">
+												<div class="filter-form">
+													<label><sup class="red">*</sup>Disposed Date :</label> <input
+														type="date" id="modalDisposedDate"
+														th:field="*{disposedDate}" placeholder="Todays">
+												</div>
+
+											</li>
+										</ul>
+									</div>
+									<div class="filter-form">
+										<ul>
+											<li><label><sup class="red">*</sup>Comments :</label> <input
+												type="text" th:field="*{comments}"
+												id="modalDisposedComments" required="required" /></li>
+										</ul>
+									</div>
+									<div class="bottom-buttons">
+										<button type="button" id="modalDisposedDateBtn"
+											value="Dispose" class="btn btn-primary">Dispose</button>
+
+										<button type="button" id="modalConnectedLtgnResetBtn"
+											value="RESET" class="btn btn-secondary">RESET</button>
+									</div>	
+								</form>
+							</div>
+               					<div class="tab-pane fade" id="nav-Activity" role="tabpanel" aria-labelledby="Activity">
+              						<span>Transaction Log <br> <br>
+              						</span>
+                					<table id="activityLogSummary" class="jqgrid"></table>
+                					<div id="activityLogSummaryPager"></div>
+              					</div>
+              					<div class="tab-pane fade" id="nav-Billing" role="tabpanel" aria-labelledby="Billing">
+
+					                <table id="customers" border="1">
+					                  <tr>
+					                    <th>Billing</th>
+					                    <th></th>
+					                  </tr>
+					                  <tr>
+					                    <td>Law Firm/Individual Billing</td>
+					                    <td>00.00</td>
+					                  </tr>
+					                  <tr>
+					                    <td class="red">Total Amount</td>
+					                    <td class="red">00.00</td>
+					                  </tr>
+					                </table>
+<!--                 					<span class="welcome-head clear-div">Law Firm/Individual Billing</span> -->
+					                <div class="top-plugins">
+					                  <input type="button" class="fourth login-bottom fl widthauto remove-leftgap left-btngap"  value="Add Law Firm/Individual Billing"
+					                  data-toggle="modal" data-target="#myModal3"> 
+					                </div>
+									<div class="data-tablemain">
+									<table id="lawfirmBillingSummary" class="jqgrid"></table>
+									<div id="lawfirmBillingSummaryPager"></div>
+								</div>
+							
+								
+              			</div>
+							<div class="tab-pane fade" id="nav-Connect" role="tabpanel"
+								aria-labelledby="Connect">
+								<div class="top-plugins">
+									<input type="button"
+										class="fourth login-bottom fl widthauto remove-leftgap left-btngap"
+										value="Add Connected Litigation" data-toggle="modal" data-target="#myModal2">
+								</div>
+								<div class="data-tablemain">
+									<table id="connectedLitigationSummary" class="jqgrid"></table>
+									<div id="connectedLitigationSummaryPager"></div>
+								</div>
+								
+
+							</div>
+						</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="myModal1" class="modal fade" role="dialog"
+		data-backdrop="static">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+<!-- 					<h4 class="modal-title">Modal Header</h4> -->
+					<span class="welcome-head">ADD NEXT HEARING DATE</span>
+				</div>
+				<form id="historyForm" th:object="${connectedLitigationVO}"
+					class="form-horizontal">
+					<div class="filter-form">
+						<ul>
+							<li>
+								<div class="filter-form">
+									<label><sup class="red">*</sup>Next Hearing Dt :</label> <input
+										type="date" name="hearingDt" id="modalHearingDt"
+										required="required" />
+								</div>
+							</li>
+							<li>
+								 <div class="filter-form">
+									<label><sup class="red">*</sup>Stage :</label> <select
+										id="modalStage" th:field="*{stage}" class="custom-select">
+										<option value="Select">Select</option>
+										<option th:each="stageDtls: ${allStageDetails}"
+											th:value="${stageDtls.stage}" th:text="${stageDtls.stage}">test</option>
+									</select>
+								</div>
+								<!-- <div class="filter-form">
+									<label><sup class="red">*</sup>LitigationID :</label> <select
+										id="modalLitigationId" th:field="*{litigationId}"
+										class="custom-select">
+										<option value="Select">Select</option>
+										<option th:each="ltgnId: ${allLitigationIDs}"
+											th:value="${ltgnId.litigationId}"
+											th:text="${ltgnId.litigationId}">test</option>
+									</select>
+								</div> -->
+
+							</li>
+							<li class="last">
+								<div class="filter-form">
+									<label><sup class="red">*</sup>Stage Details :</label> <input
+										type="text" name="stageDetails" id="modalStageDetails"
+										required="required" />
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="bottom-buttons">
+						<button type="button" id="modalAddNextHearingBtn" value="ADD"
+							class="btn btn-primary">ADD</button>
+						<button type="button" id="modalCanelNextHearingBtn" value="CANCEL"
+							class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+	<div id="myModal2" class="modal fade" role="dialog"
+		data-backdrop="static">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+<!-- 					<h4 class="modal-title">Modal Header</h4> -->
+					<span class="welcome-head">ADD CONNECTED LITIGATION</span>
+				</div>
+				<form id="connectedLitigationForm"
+					th:object="${connectedLitigationVO}" class="form-horizontal">
+					<div class="filter-form">
+						<ul>
+							<li>
+								<div class="filter-form">
+									<label><sup class="red">*</sup>LitigationID :</label> <select
+										id="modalLitigationId" th:field="*{litigationId}"
+										class="custom-select">
+										<option value="Select">Select</option>
+										<option th:each="ltgnId: ${allLitigationIDs}"
+											th:value="${ltgnId.litigationId}"
+											th:text="${ltgnId.litigationId}">test</option>
+									</select>
+								</div>
+							</li>
+							<li>
+								<div class="filter-form">
+									<label><sup class="red">*</sup>Comments :</label> <input
+										type="text" name="comments" id="modalComments"
+										required="required" />
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="bottom-buttons">
+						<button type="button" id="addConnectedLtgnBtn" value="ADD"
+							class="btn btn-primary">ADD</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+					</div>
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+	
+	<div id="myModal3" class="modal fade" role="dialog"
+		data-backdrop="static">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+<!-- 					<h4 class="modal-title">Modal Header</h4> -->
+					<span class="welcome-head">ADD LAWFIRM BILLING</span>
+				</div>
+				<form id="billingForm" th:object="${connectedLitigationVO}"
+					class="form-horizontal" enctype="multipart/form-data">
+					<div class="filter-form">
+						<ul>
+							<li>
+								<div class="filter-form">
+									<label><sup class="red">*</sup>Billing Type :</label> <select
+										id="modalBillingType" th:field="*{billingType}"
+										class="custom-select">
+										<option value="Select">Select</option>
+										<option th:each="billingType: ${allBillingTypes}"
+											th:value="${billingType.billingType}"
+											th:text="${billingType.billingType}">test</option>
+									</select>
+								</div>
+							</li>
+							<li>
+								<div class="filter-form">
+									<label><sup class="red">*</sup>Billing Type :</label> <input
+										type="text" th:field="*{billingAmount}"
+										id="modalBillingAmount" required="required" />
+								</div>
+							</li>
+							<li class="last">
+								<div class="filter-form">
+									<label><sup class="red">*</sup>Billing Dt :</label> <input
+										type="date" id="modalBillingDate" th:field="*{billingDate}"
+										placeholder="Todays">
+								</div>
+
+							</li>
+						</ul>
+					</div>
+					<div class="filter-form">
+						<ul>
+							<li>
+								<div class="filter-form">
+									<label>Remark :</label> <input type="text" th:field="*{remark}"
+										id="modalRemarks" required="required" />
+								</div>
+							</li>
+							<li class="last">
+								<div class="filter-form">
+									<label>Upload Document :</label><input type="file"
+										id="modalUploadFile" th:field="*{uploadFile}" />
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="bottom-buttons">
+						<button type="button" id="addLawfirmBillingBtn" value="ADD"
+							class="btn btn-primary">ADD</button>
+						<button type="button" id="modalAddLawfirmBillingResetBtn"
+							value="Reset" class="btn btn-secondary">RESET</button>
+						<button type="button" id="modalAddLawfirmBillingCancelBtn"
+							value="CANCEL" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div id="witnessModal" class="modal fade" role="dialog"
+		data-backdrop="static">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+<!-- 					<h4 class="modal-title">Modal Header</h4> -->
+					<span class="welcome-head">ADD WITNESS</span>
+				</div>
+				<form id="witnessDetailsForm" th:object="${connectedLitigationVO}"
+					class="form-horizontal">
+
+					<div class="filter-form">
+						<ul>
+							<li class="last">
+								<div class="filter-form">
+									<label><sup class="red">*</sup>Name of Witness :</label> <input
+										type="text" name="witnessName" id="modalWitnessName"
+										required="required" />
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="bottom-buttons">
+						<button type="button" id="addWitnessBtn" value="ADD"
+							class="btn btn-primary">ADD</button>
+						<button type="button" id="modalAddWitnessResetBtn" value="Reset"
+							class="btn btn-secondary">RESET</button>
+						<button type="button" id="modalAddWitnesscancelBtn" value="CANCEL"
+							class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div id="documentModal" class="modal fade" role="dialog"
+		data-backdrop="static">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+<!-- 					<h4 class="modal-title">Modal Header</h4> -->
+					<span class="welcome-head">UPLOAD DOCUMENT</span>
+				</div>
+				<form id="uploadDocumentForm" th:object="${connectedLitigationVO}"
+					class="form-horizontal" enctype="multipart/form-data">
+
+					<div class="filter-form">
+						<ul>
+							<!-- <li>
+								<div class="filter-form">
+									<label><sup class="red">*</sup>Hearing Dt :</label> <select
+										id="hearingDate" th:field="*{hearingDate}"
+										class="custom-select">
+										<option value="Select">Select</option>
+										<option value="General">General</option>
+										<option th:each="stageDtls: ${allStageDetails}"
+											th:value="${stageDtls.stage}" th:text="${stageDtls.stage}">test</option>
+									</select>
+								</div>
+							</li> -->
+							<li>
+								<div class="filter-form">
+									<label><sup class="red">*</sup>Document Title:</label> <input
+										type="text" th:field="*{documentTitle}"
+										id="modalDocumentTitle" required="required" />
+								</div>
+
+
+							</li>
+							<li class="last">
+								<div class="filter-form">
+									<label><sup class="red">*</sup>Comments:</label> <input
+										type="text" th:field="*{uploadComments}"
+										id="modalUploadComments" required="required" />
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="filter-form">
+						<ul>
+							<li>
+								<div class="filter-form">
+									<label><sup class="red">*</sup>Upload File:</label> <input
+										type="file" th:field="*{uploadFile}" id="modaluploadFile"
+										required="required" />
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="bottom-buttons">
+						<button type="button" id="modalUploadDocumentBtn" value="Upload"
+							class="btn btn-primary">UPLOAD</button>
+						<button type="button" id="modaluploadDocumentCancelBtn"
+							value="CANCEL" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	<div th:include="footer :: footer"></div>
+	
+</body>
+</html>

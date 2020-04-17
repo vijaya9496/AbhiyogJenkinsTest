@@ -82,6 +82,7 @@ public class UnitsSummaryService implements IUnitsSummaryService {
 			unitSummaryDto.setZoneName(unitList.getValue().get(0).getRegions().getZoneName());
 			unitSummaryDto.setUnitName(unitList.getValue().get(0).getUnitName());
 			for (UnitHeads unitheads : unitList.getValue().get(0).getUnitHeads()) {
+				System.out.println("FNAME::"+unitheads.getUser().getFirstName()+"LastNAME::"+unitheads.getUser().getLastName());
 				unitSummaryDto.getUnitHead()
 						.add(unitheads.getUser().getFirstName() + " " + unitheads.getUser().getLastName());
 			}

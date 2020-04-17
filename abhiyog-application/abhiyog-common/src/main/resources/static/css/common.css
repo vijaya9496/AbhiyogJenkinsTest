@@ -209,7 +209,8 @@ a.create-accou{font-size: 0.8em;}
 span.dash{float: left; display: block; padding:0px 5px 0px 5px;}
 .middle-part{width: 100%; clear: both; display: block;}
 .middle-left{width: 16%; float: left;}
-.middle-right{width: 97%;  height: auto; margin:0px auto; overflow-y: auto; padding:15px 25px 30px 25px; min-height: 900px;}
+.middle-right{width: 97%;  height: auto; margin:0px auto; overflow-y: auto; padding:15px 25px 30px 25px;}
+/* min-height: 900px; */
 .top-plugins{width: 100%; display: block; clear: both;}
 .data-tablemain {
   width: 100%;
@@ -468,4 +469,12 @@ nav > .nav.nav-tabs{ border: none; color:#fff; border-radius:0;}
 .nav-tabs a.active{background: #ffaa00 !important; color:#fff !important; }
 #nav-tabs a:hover{background: #ffaa00 !important; color:#fff !important; }
 li.full-list{width: 100% !important;}
+
+.modal-backdrop {
+  display: none;
+}
+.modal-open .modal {
+/*     width: 300px; */
+    margin: 0 auto;
+}
   

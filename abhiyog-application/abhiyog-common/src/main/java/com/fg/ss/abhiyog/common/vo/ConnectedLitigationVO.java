@@ -21,6 +21,7 @@ public class ConnectedLitigationVO {
 	private String statusName;
 	private String hearingDate;
 	private String documentTitle;
+	private int lawfirmBillingId;
 	private String billingType;
 	private float billingAmount;
 	private LocalDate billingDate;
@@ -40,6 +41,7 @@ public class ConnectedLitigationVO {
 	private int lHistoryId; // hearingId in history tab(ltgn_litigation_log id)
 	private int logId; // litigationhistorytLogId
 	private LocalDateTime modifiedDate;
+	private Long fileSize;
 
 	public String getLitigationId() {
 		return litigationId;
@@ -287,6 +289,22 @@ public class ConnectedLitigationVO {
 
 	public void setUploadComments(String uploadComments) {
 		this.uploadComments = uploadComments;
+	}
+
+	public int getLawfirmBillingId() {
+		return lawfirmBillingId;
+	}
+
+	public void setLawfirmBillingId(int lawfirmBillingId) {
+		this.lawfirmBillingId = lawfirmBillingId;
+	}
+
+	public Long getFileSize() {
+		return fileSize;
+	}
+
+	public void setFileSize(Long fileSize) {
+		this.fileSize = fileSize;
 	}
 	
 	

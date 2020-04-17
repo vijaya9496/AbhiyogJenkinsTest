@@ -13,6 +13,7 @@ public class LitigationSummaryVO {
 	private String fileNo;
 	private String entityName;
 	private String unitName; // LocationName
+	private int unitOId;
 	private String counterPartyName;
 	private String customerType;
 	private String caseNumber;
@@ -28,9 +29,11 @@ public class LitigationSummaryVO {
 	private String coParties;
 	private String format;
 	private String coFormat;
+	private String hearingEvent;
 	private String coZone;
 	private String matterBy; // matterBy/Against
 	private List<String> matterByAgainst = new ArrayList<>();
+	private String litigationBy;
 	private String function; // deptName
 	private String address;
 	private String againstPartyClientType;
@@ -48,17 +51,23 @@ public class LitigationSummaryVO {
 	private String storeOfficePremises;
 	private String lawfirm; //Lawfirm/Individual
 	private String seniorCounsel;
+	private String partnerCounsel;
 	private LocalDate caseRelateFromDate;
 	private LocalDate caseRelateToDate;
 	private String caseRelateFrmDte;
 	private String caseRelateToDte;
 	private LocalDate dateOfReceiptOfMatterCase; //CaseFileOnDate
 	private LocalDate nextHearingDate;
+	private String nextHearingDt;
+	private String dateOfReceiptOfMtrCase;
 	private String counselAssesment;
 	private String firNo;
 	private int updated;
 	private int notUpdated;
 	private int total;
+	private String fromDate;
+	private String toDate;
+	private String courtCity;
 
 	private int litigationOId;
 
@@ -493,6 +502,78 @@ public class LitigationSummaryVO {
 
 	public void setCaseRelateToDte(String caseRelateToDte) {
 		this.caseRelateToDte = caseRelateToDte;
+	}
+
+	public String getPartnerCounsel() {
+		return partnerCounsel;
+	}
+
+	public void setPartnerCounsel(String partnerCounsel) {
+		this.partnerCounsel = partnerCounsel;
+	}
+
+	public String getNextHearingDt() {
+		return nextHearingDt;
+	}
+
+	public void setNextHearingDt(String nextHearingDt) {
+		this.nextHearingDt = nextHearingDt;
+	}
+
+	public String getDateOfReceiptOfMtrCase() {
+		return dateOfReceiptOfMtrCase;
+	}
+
+	public void setDateOfReceiptOfMtrCase(String dateOfReceiptOfMtrCase) {
+		this.dateOfReceiptOfMtrCase = dateOfReceiptOfMtrCase;
+	}
+
+	public String getHearingEvent() {
+		return hearingEvent;
+	}
+
+	public void setHearingEvent(String hearingEvent) {
+		this.hearingEvent = hearingEvent;
+	}
+
+	public String getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public String getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(String toDate) {
+		this.toDate = toDate;
+	}
+
+	public String getLitigationBy() {
+		return litigationBy;
+	}
+
+	public void setLitigationBy(String litigationBy) {
+		this.litigationBy = litigationBy;
+	}
+
+	public String getCourtCity() {
+		return courtCity;
+	}
+
+	public void setCourtCity(String courtCity) {
+		this.courtCity = courtCity;
+	}
+
+	public int getUnitOId() {
+		return unitOId;
+	}
+
+	public void setUnitOId(int unitOId) {
+		this.unitOId = unitOId;
 	}
 	
 	

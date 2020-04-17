@@ -54,8 +54,8 @@
 											Litigation</a></li>
 									<li><a href="/showRestoreLitigationSummary"
 										th:href="@{/showRestoreLitigationSummary}">Restore Litigation</a></li>
-									<li><a href="/litigationCalender"
-										th:href="@{litigationCalender}">Litigation Calender</a></li>
+									<li><a href="/litigationCalendar"
+										th:href="@{/litigationCalendar}">Litigation Calender</a></li>
 								</ul></li>
 							<li><a href="/showNoticeSummary"
 								th:href="@{/showNoticeSummary}">Notice</a></li>
@@ -117,7 +117,24 @@
 										th:href="@{/showEntitySummary}">Entity</a></li>
 									<li><a href="/holidays" th:href="@{/holidays}">Holidays</a></li>
 								</ul></li>
-							<li><a href="/reports" th:href="@{/reports}">Reports</a></li>
+							<!-- <li><a href="/reports" th:href="@{/reports}">Reports</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a href="/causeListReport"
+										th:href="@{/causeListReport}">CauseList Report</a></li>
+							</ul>
+							</li> -->
+							<li class="dropdown"><a class="dropdown-toggle"
+								href="/reports" th:href="@{/reports}"
+								id="navbarDropdown" role="button" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false">Reports</a>
+								<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<li><a href="/causeListReport" th:href="@{/causeListReport}">CauseList Report
+											</a></li>
+									<li><a href="/statusReportCases"
+										th:href="@{/statusReportCases}">Status Report Cases</a></li>
+									<li><a href="/metricsReportCases"
+										th:href="@{/metricsReportCases}">Metrics Report</a></li>
+								</ul></li>
 						</ul>
 					</div>
 				</nav>

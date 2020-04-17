@@ -148,6 +148,9 @@ public class Litigation {
 
 	@Column(name = "coregion")
 	private String coRegion;
+	
+	@Column(name="coformat")
+	private String coFormat;
 
 	@Column(name = "deletestatus")
 	private int deleteStatus;
@@ -290,8 +293,8 @@ public class Litigation {
 	@JoinColumn(name = "litigation_oid")
 	private LawfirmBilling lawfirmBilling;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "litigation_oid")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="litigation")
+//	@JoinColumn(name = "litigation_oid")
 	private List<LtgnLitigationLog> ltgnLitigationLog;
 
 	
@@ -951,5 +954,15 @@ public class Litigation {
 	public void setLtgnLitigationLog(List<LtgnLitigationLog> ltgnLitigationLog) {
 		this.ltgnLitigationLog = ltgnLitigationLog;
 	}
+
+	public String getCoFormat() {
+		return coFormat;
+	}
+
+	public void setCoFormat(String coFormat) {
+		this.coFormat = coFormat;
+	}
+	
+	
 
 }

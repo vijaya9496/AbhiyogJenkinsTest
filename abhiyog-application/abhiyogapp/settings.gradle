@@ -8,3 +8,5 @@
  */
 
 rootProject.name = 'abhiyogapp'
+include ':abhiyog-common'
+project(':abhiyog-common').projectDir = new File(settingsDir, '../abhiyog-common')

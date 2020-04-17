@@ -10,4 +10,5 @@ public class CommonConstants {
 	public static final String RECORDS = "records";
 	public static final String ROWS = "rows";
 	public static final String NOTICE_ID = "NOTICE_ID";
+	public static final String SESSION_REPORT_DATA = "reportData";
 }

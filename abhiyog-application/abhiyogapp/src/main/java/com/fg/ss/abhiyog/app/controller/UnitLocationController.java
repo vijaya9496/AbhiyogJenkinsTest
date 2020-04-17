@@ -220,7 +220,7 @@ public class UnitLocationController {
 				model.addAttribute("allRegions", zoneService.getAllZones());
 				model.addAttribute("unitHeadNames", unitsSummaryService.getUnitHeadNames());
 			}else {
-				model.addAttribute("message", "UNABLE TO ADD DATA");
+				model.addAttribute("message", "SUCCESSFULLY USER UNMAPPED WITH UNITNAME");
 				model.addAttribute("unitLocationDtls", new UnitSummaryVO());
 				model.addAttribute("allEntities", entityService.getAllEntities());
 				model.addAttribute("allRegions", zoneService.getAllZones());

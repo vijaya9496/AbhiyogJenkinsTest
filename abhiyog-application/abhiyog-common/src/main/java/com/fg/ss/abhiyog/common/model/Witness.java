@@ -24,7 +24,7 @@ public class Witness {
 	private String witness;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "litigation_oid")
+	@JoinColumn(name = "litigationoid")
 	private Litigation litigation;
 
 	public int getWitnessId() {

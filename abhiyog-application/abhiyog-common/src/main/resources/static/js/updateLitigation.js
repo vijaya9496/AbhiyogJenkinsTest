@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$("#matterByAgainstId").multiselect();
+	$("#matterByAgainst").multiselect();
 	$(function() {
 		$("#nextHearingDate").datepicker({
 			changeMonth : true,
@@ -604,7 +604,7 @@ function addLawfirmDropdown(data){
 }
 function addMatterByAgainst(data){
 	alert("In called function");
-	$('#matterByAgainstId').append(`<option value="${data}"> ${data} </option>`);
+	$('#matterByAgainst').append(`<option value="${data}"> ${data} </option>`);
 }
 function addUnitLocationDropdown(data){
 	alert("In called function");

@@ -46,6 +46,8 @@
 <div th:include="header :: header"></div>
 <body>
 	<div class="wrapper">
+	<p th:text="${message}" th:unless="${message == null}"
+			class="alert alert-success">Test</p>
 		<div class="middle-part midiile-bg">
 			<div class="middle-right">
 				<span class="welcome-head">LITIGATION SUMMARY</span>

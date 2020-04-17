@@ -451,16 +451,16 @@ public class LitigationRestController {
 		return ResponseEntity.ok().body(baseResponseVO);
 	}
 
-	@GetMapping("/showHistoryDtls/{litigationId}")
+	/*@GetMapping("/showHistoryDtls/{litigationId}")
 	public ResponseEntity<BaseResponseVO> showHistoryDtls(@PathVariable String litigationId) {
 		List<ConnectedLitigationVO> allHistoryDtls = litigationService.getHistoryDtls(litigationId);
 		baseResponseVO.setResponseCode(HttpStatus.OK.value());
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(allHistoryDtls);
 		return ResponseEntity.ok().body(baseResponseVO);
-	}
+	}*/
 
-	@PutMapping("/updateHearingDetails/{litigationId}")
+/*	@PutMapping("/updateHearingDetails/{litigationId}")
 	public ResponseEntity<BaseResponseVO> updateHearingDetails(@RequestBody ConnectedLitigationVO connectedLitigationVO,
 			@PathVariable String litigationId) {
 		litigationService.updateHearingDetails(connectedLitigationVO, litigationId);
@@ -477,7 +477,7 @@ public class LitigationRestController {
 		baseResponseVO.setResponseMessage("SUCCESS");
 		baseResponseVO.setData(allActivityLog);
 		return ResponseEntity.ok().body(baseResponseVO);
-	}
+	}*/
 
 	@GetMapping("/showEntityRegionUnits/{litigationId}")
 	public ResponseEntity<BaseResponseVO> showEntityRegionUnits(@PathVariable String litigationId) {

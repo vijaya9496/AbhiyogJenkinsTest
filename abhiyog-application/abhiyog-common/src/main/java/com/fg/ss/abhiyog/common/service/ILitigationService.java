@@ -3,6 +3,7 @@ package com.fg.ss.abhiyog.common.service;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +12,7 @@ import com.fg.ss.abhiyog.common.model.CourtCity;
 import com.fg.ss.abhiyog.common.model.CourtType;
 import com.fg.ss.abhiyog.common.model.Dept;
 import com.fg.ss.abhiyog.common.model.Litigation;
+import com.fg.ss.abhiyog.common.model.LitigationDocs;
 import com.fg.ss.abhiyog.common.model.LtgnCaseType;
 import com.fg.ss.abhiyog.common.model.LtgnRepresentativeMaster;
 import com.fg.ss.abhiyog.common.model.UnderAct;
@@ -107,11 +109,7 @@ public interface ILitigationService {
 
 	void saveNextHearingDate(ConnectedLitigationVO connectedLitigationVO);
 
-	List<ConnectedLitigationVO> getHistoryDtls(String litigationId);
-
-	void updateHearingDetails(ConnectedLitigationVO connectedLitigationVO, String litigationId);
-
-	List<ConnectedLitigationVO> getActivityLog(String litigationId);
+	List<ConnectedLitigationVO> getHistoryDtls(int litigationId);
 
 	void updateLitigationData(LitigationSummaryVO addLitigationVO);
 
@@ -145,14 +143,38 @@ public interface ILitigationService {
 
 	List<ConnectedLitigationVO> getAllStageDetails();
 
-	List<ConnectedLitigationVO> getHistorySummary(int id);
-
+	
 	ConnectedLitigationVO findHistoryDetails(int hearingId);
 
 	List<LitigationSummaryVO> getDashboardSummary();
 
-	
+	List<LitigationSummaryVO> getCauseListReportData(String frmDate, String toDate, String entityName, String unitLocation,
+			String matterByAgainst, String litigationByAgainst, String risk, String status);
 
+	List<Litigation> getStatusReportCasesData(String frmDate, String toDate, String entityName,
+			String unitLocation, String matterByAgainst, String litigationByAgainst, String risk, String status);
+
+	List<Litigation> getMetricsReportData(String frmDate, String toDate, String entityName, String unitLocation,
+			String matterByAgainst, String litigationByAgainst, String risk, String status, String format, String zone);
+
+	
+	List<ConnectedLitigationVO> getConnectedLitigationDtls(int id);
+
+	List<ConnectedLitigationVO> getWitnessDtls(int id);
+
+	List<ConnectedLitigationVO> getLawfirmBillingDtls(int id);
+
+	void updateHearingDetails(ConnectedLitigationVO connectedLitigationVO);
+
+	List<ConnectedLitigationVO> getActivityLog(int id);
+
+	List<ConnectedLitigationVO> getDocumentSummaryDtls(int id);
+
+	Optional<LitigationDocs> findDocumentNames(int id);
+
+	int deleteDocument(int id);
+
+	List<LitigationSummaryVO> getDashboardDetails(int unitoId);
 	
 
 	
