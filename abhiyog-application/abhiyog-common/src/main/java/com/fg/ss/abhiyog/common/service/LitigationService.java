@@ -1583,6 +1583,7 @@ public class LitigationService implements ILitigationService {
 		System.out.println("Size**" +dashboardSummary.size());
 		for(DashboardVO summaryDtls : dashboardSummary) {
 			LitigationSummaryVO litigationSummaryVO = new LitigationSummaryVO();
+			System.out.println("UnitOID::" +summaryDtls.getUnitOId());
 			System.out.println("UnitName::" +summaryDtls.getunitName());
 			System.out.println("regionName::" +summaryDtls.getregionName());
 			System.out.println("upcoming::" +summaryDtls.getupcoming());
@@ -1600,6 +1601,7 @@ public class LitigationService implements ILitigationService {
 		return listDashboardSummary;
 	}
 
+<<<<<<< HEAD
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<LitigationSummaryVO> getCauseListReportData(String frmDate, String toDate, String entityName,
@@ -1911,6 +1913,8 @@ public class LitigationService implements ILitigationService {
 		
 	}
 	
+=======
+>>>>>>> 02c378f024896bebad37e79cb2b5dfd139c27e33
 	@Override
 	public List<LitigationSummaryVO> getDashboardDetails(int unitoId) {
 		List<DashboardDtlVO> dashboardDtl= litigationRepository.getDashboardDetails(unitoId);
@@ -1949,7 +1953,11 @@ public class LitigationService implements ILitigationService {
 		}
 		return listDashboardSummary;
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 02c378f024896bebad37e79cb2b5dfd139c27e33
 	
 
 }
