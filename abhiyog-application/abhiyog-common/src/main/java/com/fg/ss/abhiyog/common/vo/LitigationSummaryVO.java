@@ -68,7 +68,7 @@ public class LitigationSummaryVO {
 	private int total;
 	private String fromDate;
 	private String toDate;
-	private String courtCity;
+//	private String courtCity;
 
 	private int litigationOId;
 
@@ -577,21 +577,7 @@ public class LitigationSummaryVO {
 		this.litigationBy = litigationBy;
 	}
 
-	public String getCourtCity() {
-		return courtCity;
-	}
-
-	public void setCourtCity(String courtCity) {
-		this.courtCity = courtCity;
-	}
-
-	public int getUnitOId() {
-		return unitOId;
-	}
-
-	public void setUnitOId(int unitOId) {
-		this.unitOId = unitOId;
-	}
+	
 	
 	
 

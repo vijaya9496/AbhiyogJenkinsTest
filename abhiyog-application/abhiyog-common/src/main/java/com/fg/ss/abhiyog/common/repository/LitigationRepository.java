@@ -125,11 +125,8 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 
 	
 
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> 02c378f024896bebad37e79cb2b5dfd139c27e33
+
 	@Query(value="select unitoid,entityoid,regionoid,unitname, regionname, sum(upcoming) as upcoming, sum(notupdated) as notupdated, count(*) as total from\r\n" + 
 			"(select u.unitoid,u.entityoid,u.regionoid,lt.litigationid, u.unitname, r.regionname, e.entityname, max(ltlog.date_of_hearing), \r\n" + 
 			"(case when (max(ltlog.date_of_hearing) > curdate()) then 0  else 1 end) as upcoming,\r\n" + 
@@ -141,8 +138,7 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 			"group by unitoid,entityoid,regionoid,unitname, regionname, entityname", nativeQuery=true)
 	List<DashboardVO> getDashboardSummary();
 
-<<<<<<< HEAD
-=======
+
 	/*@Query(value="SELECT UnitOID, EntityOID, RegionOID, UnitName, RegionName, EntityName, SUM(upcoming) AS Upcoming, SUM(NotUpdated) AS NotUpdated, COUNT(*) AS Total"
 			+"FROM (SELECT Units.UnitOID, Units.EntityOID, Units.RegionOID, LTGN_LITIGATION.LitigationID, Units.UnitName, Regions.RegionName,"
 			+"MAX(LTGN_LITIGATION_LOG.DATE_OF_HEARING) AS Expr1, Units.EntityOID AS Expr2, Entity.EntityName,"
@@ -159,7 +155,7 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 
 
 
->>>>>>> 02c378f024896bebad37e79cb2b5dfd139c27e33
+
 	@Query(value="select derivedtbl_2.unitoid, derivedtbl_2.entityoid, derivedtbl_2.regionoid,derivedtbl_2.litigation_oid as litigationoid, derivedtbl_2.litigationid, derivedtbl_2.unitname, derivedtbl_2.regionname, derivedtbl_2.expr2, " +
 			" derivedtbl_2.entityname, derivedtbl_2.claim, derivedtbl_2.risk, derivedtbl_2.remark, derivedtbl_2.litigationlogoid, " +
 			" derivedtbl_2.hearingdt1 as hearingdate, ltgn_litigation_log_1.stage, ltgn_customer.customer_name as customername, ltgn_litigation_1.court, ltgn_litigation_1.case_type_oid, ltgn_litigation_1.courtcityoid, " +
@@ -177,11 +173,10 @@ public interface LitigationRepository extends JpaRepository<Litigation, Integer>
 			" inner join courtcity on ltgn_litigation_1.courtcityoid = courtcity.courtcityoid"
 				, nativeQuery=true)
 	List<DashboardDtlVO> getDashboardDetails(@Param("unitoId")int unitoId);
-<<<<<<< HEAD
+
 
 	
-=======
->>>>>>> 02c378f024896bebad37e79cb2b5dfd139c27e33
+
 
 
 	/*@Query(value="select lt from Litigation as lt join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Zone as r on r.zoneId = u.regions.zoneId join Risk as rs on rs.riskId = lt.risk.riskId join Claim as c on c.claimId = lt.claim.claimId join Status as s on s.statusId = lt.status.statusId join CounterPartyDtls cpd on cpd.id = lt.counterPartyDtls.id join CustomerType as ct on ct.customerTypeId = lt.customerType.customerTypeId join Format as f on f.formatId = lt.format.formatId "

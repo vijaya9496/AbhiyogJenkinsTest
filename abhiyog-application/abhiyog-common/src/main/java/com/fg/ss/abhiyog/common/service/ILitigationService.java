@@ -148,7 +148,7 @@ public interface ILitigationService {
 
 	List<LitigationSummaryVO> getDashboardSummary();
 
-<<<<<<< HEAD
+
 	List<LitigationSummaryVO> getCauseListReportData(String frmDate, String toDate, String entityName, String unitLocation,
 			String matterByAgainst, String litigationByAgainst, String risk, String status);
 
@@ -157,9 +157,9 @@ public interface ILitigationService {
 
 	List<Litigation> getMetricsReportData(String frmDate, String toDate, String entityName, String unitLocation,
 			String matterByAgainst, String litigationByAgainst, String risk, String status, String format, String zone);
-=======
+
 	List<LitigationSummaryVO> getDashboardDetails(int unitoId);
->>>>>>> 02c378f024896bebad37e79cb2b5dfd139c27e33
+
 
 	
 	List<ConnectedLitigationVO> getConnectedLitigationDtls(int id);
@@ -178,7 +178,7 @@ public interface ILitigationService {
 
 	int deleteDocument(int id);
 
-	List<LitigationSummaryVO> getDashboardDetails(int unitoId);
+	
 	
 
 	

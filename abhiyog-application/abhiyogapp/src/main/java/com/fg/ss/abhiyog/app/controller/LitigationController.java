@@ -1155,10 +1155,7 @@ public class LitigationController {
 					cell.add(litigationSummary.getUpdated());
 					cell.add(litigationSummary.getNotUpdated());
 					cell.add(litigationSummary.getTotal());
-<<<<<<< HEAD
 
-=======
->>>>>>> 02c378f024896bebad37e79cb2b5dfd139c27e33
 //					cellObj.put(CommonConstants.CELL, cell);
 					cellObj.set(CommonConstants.CELL, cell);
 					cellArray.add(cellObj);
@@ -1202,11 +1199,8 @@ public class LitigationController {
 				totalRecord = dashboardDetails.size();
 				for (LitigationSummaryVO litigationSummary : dashboardDetails) {
 					cellObj = mapper.createObjectNode();
-<<<<<<< HEAD
+
 					cellObj.put(CommonConstants.ID, litigationSummary.getLitigationOId());
-=======
-//					cellObj.put(CommonConstants.ID, litigationSummary.getLitigationOId());
->>>>>>> 02c378f024896bebad37e79cb2b5dfd139c27e33
 					cell = mapper.createArrayNode();
 					cell.add(litigationSummary.getLitigationOId());
 					cell.add(litigationSummary.getLitigationId()+"\r\n"+litigationSummary.getStatus());
@@ -1238,12 +1232,8 @@ public class LitigationController {
 		}
 	}
 
-<<<<<<< HEAD
+
 	@RequestMapping(value = "/updateLtgn", method = RequestMethod.GET)
-=======
-	
-	@RequestMapping(value="/updateLtgn", method= RequestMethod.GET)
->>>>>>> 02c378f024896bebad37e79cb2b5dfd139c27e33
 	public String updateLtgn(Model model, HttpServletRequest request, HttpSession session) {
 //		model.addAttribute("updateLitigatinVO", new LitigationSummaryVO());
 		System.out.println("LitigationId" + request.getParameter("litigationId"));
