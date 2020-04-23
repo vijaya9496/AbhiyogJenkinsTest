@@ -47,7 +47,7 @@ public class UserService implements IUserService{
 	@Autowired
 	private EntityManager entityManager;
 	
-	private BaseResponseVO baseResponseVO = BaseResponseVO.getInstance();
+	
 	
 	@Override
 	public User findUserByLoginId(String loginId) {

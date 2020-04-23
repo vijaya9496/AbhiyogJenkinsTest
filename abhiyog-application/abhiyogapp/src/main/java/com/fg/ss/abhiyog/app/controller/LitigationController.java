@@ -36,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -59,6 +60,7 @@ import com.fg.ss.abhiyog.common.service.IFormatService;
 import com.fg.ss.abhiyog.common.service.ILitigationService;
 import com.fg.ss.abhiyog.common.service.IOutsideCounselService;
 import com.fg.ss.abhiyog.common.service.IRestoreLitigationService;
+import com.fg.ss.abhiyog.common.service.IShowCauseNoticeService;
 import com.fg.ss.abhiyog.common.service.IUnitsSummaryService;
 import com.fg.ss.abhiyog.common.service.IZoneService;
 import com.fg.ss.abhiyog.common.util.DateUtils;
@@ -91,6 +93,9 @@ public class LitigationController {
 
 	@Autowired
 	private IEntityService entityService;
+	
+	@Autowired
+	private IShowCauseNoticeService showCauseNoticeService;
 
 	@Autowired
 	private IUnitsSummaryService unitsSummaryService;
@@ -155,8 +160,8 @@ public class LitigationController {
 					cell.add(litigationSummary.getLitigationOId());
 					cell.add(litigationSummary.getLitigationId() + ' ' + litigationSummary.getStatus());
 					cell.add(litigationSummary.getFileNo());
-					cell.add(litigationSummary.getEntityName() + "(" + litigationSummary.getUnitName() + ")");
-					cell.add(litigationSummary.getCounterPartyName() + "(" + litigationSummary.getCustomerType() + ")");
+					cell.add(litigationSummary.getEntityName() + "\r\n"+  "(" + litigationSummary.getUnitName() + ")");
+					cell.add(litigationSummary.getCounterPartyName() + "\r\n" +"(" + litigationSummary.getCustomerType() + ")");
 					cell.add(litigationSummary.getCaseNumber());
 					cell.add(litigationSummary.getSubject());
 					cell.add(litigationSummary.getStage());
@@ -294,8 +299,8 @@ public class LitigationController {
 					cell.add(litigationData.getLitigationOId());
 					cell.add(litigationData.getLitigationId() + ' ' + litigationData.getStatus());
 					cell.add(litigationData.getFileNo());
-					cell.add(litigationData.getEntityName() + "(" + litigationData.getUnitName() + ")");
-					cell.add(litigationData.getCounterPartyName() + "(" + litigationData.getCustomerType() + ")");
+					cell.add(litigationData.getEntityName() + "\r\n"+"(" + litigationData.getUnitName() + ")");
+					cell.add(litigationData.getCounterPartyName() + "\r\n" +"(" + litigationData.getCustomerType() + ")");
 					cell.add(litigationData.getCaseNumber());
 					cell.add(litigationData.getSubject());
 					cell.add(litigationData.getStage());
@@ -418,6 +423,7 @@ public class LitigationController {
 		City cityDtls = litigationService.checkExistenceCity(cityNameVal);
 		if (cityDtls == null) {
 			litigationService.saveCityData(cityNameVal, stateVal);
+			litigationService.savePoliceStationData(cityNameVal, stateVal);
 		} else {
 			System.out.println("City Name Already Existed");
 		}
@@ -1204,7 +1210,7 @@ public class LitigationController {
 					cell = mapper.createArrayNode();
 					cell.add(litigationSummary.getLitigationOId());
 					cell.add(litigationSummary.getLitigationId()+"\r\n"+litigationSummary.getStatus());
-					cell.add("");
+					cell.add(litigationSummary.getFileNo());
 					cell.add(litigationSummary.getEntityName()+"\r\n"+litigationSummary.getUnitName());
 					cell.add(litigationSummary.getCounterPartyName()+"\r\n"+litigationSummary.getAgainstPartyClientType());
 					cell.add(litigationSummary.getCaseNumber());
@@ -1520,6 +1526,23 @@ public class LitigationController {
 			
 		}
 		return "test";
+		
+	}
+	
+	@RequestMapping(value="/getUnitLocationDataByZone", method=RequestMethod.GET, produces="application/json")
+	@ResponseBody
+	public String getUnitLocationByZone(@RequestParam String zoneNameVal, @RequestParam String entityNameVal){
+		List<ShowCauseNoticeVO> unitList = showCauseNoticeService.getUnitDtlsByZone(zoneNameVal,entityNameVal);
+		ObjectMapper mapper = new ObjectMapper();
+		String newJsonData = "";
+		try {
+			newJsonData = mapper.writeValueAsString(unitList);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return newJsonData;
+		
 		
 	}
 	

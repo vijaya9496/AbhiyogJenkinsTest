@@ -59,6 +59,11 @@
 <script src="../static/js/statusReportCases.js"
 	th:src="@{js/statusReportCases.js}" type="text/javascript"></script>
 <div th:include="header :: header"></div>
+<style>
+.ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+    }
+</style>
 <body>
 	<div class="wrapper">
 		<p th:text="${message}" th:unless="${message == null}"

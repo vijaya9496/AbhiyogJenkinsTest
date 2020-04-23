@@ -33,4 +33,8 @@ public interface UnitsRepository extends JpaRepository<Units, Integer> {
 	@Query(value = "select u from Units as u inner join EntitySummary as e on e.entityId = u.entitySummary.entityId inner join Zone as r on r.zoneId = u.regions.zoneId inner join UnitHeads as h on h.units.unitId = u.unitId inner join User as t on t.id = h.user.id where u.unitId=:id")
 	List<Units> getUnitLocationBy(@Param("id")int id);
 
+	@Query(value="select u from Units as u inner join Zone as r on r.zoneId = u.regions.zoneId join EntitySummary as e on e.entityId = u.entitySummary.entityId where r.zoneName=:zoneNameVal and e.entityName=:entityNameVal")
+	List<Units> getUnitDtlsByZone(@Param("zoneNameVal")String zoneNameVal, @Param("entityNameVal")String entityNameVal);
+	
+
 }

@@ -44,6 +44,14 @@
 <script src="../static/js/litigationSummary.js"
 	th:src="@{js/litigationSummary.js}" type="text/javascript"></script>
 <div th:include="header :: header"></div>
+<style>
+.ui-widget-content a{
+	text-decoration: underline;
+}
+.ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+    }
+</style>
 <body>
 	<div class="wrapper">
 	<p th:text="${message}" th:unless="${message == null}"

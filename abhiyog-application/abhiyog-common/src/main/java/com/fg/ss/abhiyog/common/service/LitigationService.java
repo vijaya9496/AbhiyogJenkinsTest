@@ -571,11 +571,11 @@ public class LitigationService implements ILitigationService {
 	}
 
 	@Override
-	public void savePoliceStationData(CityStateVO cityStateVO) {
+	public void savePoliceStationData(String cityName,String stateVal) {
 		// based on city name adding policeStation details.
 		PoliceStation policeStation = new PoliceStation();
-		City city = cityRepository.findByCityStateName(cityStateVO.getCityName(), cityStateVO.getStateName());
-		policeStation.setPoliceStation(cityStateVO.getPoliceStationName());
+		City city = cityRepository.findByCityStateName(cityName, stateVal);
+		policeStation.setPoliceStation(cityName + "police station");
 		policeStation.setCity(city);
 		policeStationRepository.save(policeStation);
 	}
@@ -1486,6 +1486,8 @@ public class LitigationService implements ILitigationService {
 			reportQuery.append(" and " +StringUtils.join(whereClause, " and "));
 		}
 
+		reportQuery.append(" order by lt.litigationId desc");
+		
 		LOGGER.info("Created Query::  " + reportQuery.toString());
 		Query jpaQuery = entityManager.createQuery(reportQuery.toString());
 		
@@ -1668,25 +1670,27 @@ public class LitigationService implements ILitigationService {
 	}
 
 	private List<LitigationSummaryVO> convertToCauseListReportData(List<Litigation> causeListReportData) {
+		Map<Integer, List<Litigation>> groupedData = causeListReportData.stream()
+				.collect(Collectors.groupingBy(Litigation::getLitigationOid, Collectors.toList()));
 		List<LitigationSummaryVO> listLitigationSummaryVO = new ArrayList<LitigationSummaryVO>();
-		for(Litigation ltgnData : causeListReportData) {
+		for (Entry<Integer, List<Litigation>> ltgnData : groupedData.entrySet()) {
 			LitigationSummaryVO litigationSummaryVO = new LitigationSummaryVO();
-			litigationSummaryVO.setLitigationOId(ltgnData.getLitigationOid());
-			litigationSummaryVO.setLitigationId(ltgnData.getLitigationId());
-			litigationSummaryVO.setEntityName(ltgnData.getUnits().getEntitySummary().getEntityName());
-			litigationSummaryVO.setUnitName(ltgnData.getUnits().getUnitName());
-			litigationSummaryVO.setCounterPartyName(ltgnData.getCounterPartyDtls().getCustomerName());
-			litigationSummaryVO.setCaseNumber(ltgnData.getCaseNumber());
-			litigationSummaryVO.setFileNo(ltgnData.getFileNo());
-			litigationSummaryVO.setFactsOfLitigation(ltgnData.getFactOfLitigationMatter());
-			litigationSummaryVO.setUnderSection(ltgnData.getUnderSection());
-			litigationSummaryVO.setStatus(ltgnData.getStatus().getStatus());
-			litigationSummaryVO.setHearingDate(ltgnData.getLtgnLitigationLog().get(0).getDateOfHearing());
-			litigationSummaryVO.setStage(ltgnData.getLtgnLitigationLog().get(0).getStage());
-			litigationSummaryVO.setHearingEvent(ltgnData.getLtgnLitigationLog().get(0).getHearingEvent());
-			litigationSummaryVO.setCourtForum(ltgnData.getCourtCity().getCourtCity());
-			litigationSummaryVO.setSubject(ltgnData.getSubject());
-			litigationSummaryVO.setFunction(ltgnData.getDept().getDeptName());
+			litigationSummaryVO.setLitigationOId(ltgnData.getValue().get(0).getLitigationOid());
+			litigationSummaryVO.setLitigationId(ltgnData.getValue().get(0).getLitigationId());
+			litigationSummaryVO.setEntityName(ltgnData.getValue().get(0).getUnits().getEntitySummary().getEntityName());
+			litigationSummaryVO.setUnitName(ltgnData.getValue().get(0).getUnits().getUnitName());
+			litigationSummaryVO.setCounterPartyName(ltgnData.getValue().get(0).getCounterPartyDtls().getCustomerName());
+			litigationSummaryVO.setCaseNumber(ltgnData.getValue().get(0).getCaseNumber());
+			litigationSummaryVO.setFileNo(ltgnData.getValue().get(0).getFileNo());
+			litigationSummaryVO.setFactsOfLitigation(ltgnData.getValue().get(0).getFactOfLitigationMatter());
+			litigationSummaryVO.setUnderSection(ltgnData.getValue().get(0).getUnderSection());
+			litigationSummaryVO.setStatus(ltgnData.getValue().get(0).getStatus().getStatus());
+			litigationSummaryVO.setHearingDate(ltgnData.getValue().get(0).getLtgnLitigationLog().get(0).getDateOfHearing());
+			litigationSummaryVO.setStage(ltgnData.getValue().get(0).getLtgnLitigationLog().get(0).getStage());
+			litigationSummaryVO.setHearingEvent(ltgnData.getValue().get(0).getLtgnLitigationLog().get(0).getHearingEvent());
+			litigationSummaryVO.setCourtForum(ltgnData.getValue().get(0).getCourtCity().getCourtCity());
+			litigationSummaryVO.setSubject(ltgnData.getValue().get(0).getSubject());
+			litigationSummaryVO.setFunction(ltgnData.getValue().get(0).getDept().getDeptName());
 			listLitigationSummaryVO.add(litigationSummaryVO);
 		}
 		return listLitigationSummaryVO;
@@ -1924,7 +1928,7 @@ public class LitigationService implements ILitigationService {
 			LitigationSummaryVO litigationSummaryVO = new LitigationSummaryVO();
 			System.out.println("Litigation OID::" +dashboardDtls.getLitigationoId());
 			System.out.println("L.ID/Status::" +dashboardDtls.getLitigationId()+"\r\n"+dashboardDtls.getStatus());
-			System.out.println("FileNo::");
+			System.out.println("FileNo::"+dashboardDtls.getFileNo());
 			System.out.println("Entity::" +dashboardDtls.getEntityName()+"\r\n"+dashboardDtls.getunitName());
 			System.out.println("CounterParty::" +dashboardDtls.getCustomerName()+"\r\n"+dashboardDtls.getAgainstPartyClientType());
 			System.out.println("CaseNumber::" +dashboardDtls.getCaseNumber());
@@ -1948,6 +1952,7 @@ public class LitigationService implements ILitigationService {
 			litigationSummaryVO.setRisk(dashboardDtls.getRisk());
 			litigationSummaryVO.setClaim(dashboardDtls.getClaim());
 			litigationSummaryVO.setRemark(dashboardDtls.getRemark());
+			litigationSummaryVO.setFileNo(dashboardDtls.getFileNo());
 			listDashboardSummary.add(litigationSummaryVO);
 		}
 		return listDashboardSummary;

@@ -170,8 +170,8 @@ $(document)
 					$("#submitBtn")
 							.click(
 									function() {
-										alert(jQuery
-												.trim($("#issueDate").val()));
+//										alert($("#issueDate").val().length);
+//										alert($("#issueDate").val());
 
 										if ($('#entityName :selected').text() === 'Select') {
 											alert("Please Select EntityName");
@@ -196,21 +196,18 @@ $(document)
 											alert("Please Select NoticeCategory");
 											return false;
 										}
-										if (!Date.parse(jQuery.trim($(
-												"#issueDate").val()))) {
+										if ($("#issueDate").val().length == 0) {
 											alert("Please Select IssueDate");
 											return false;
 										}
-										if (!Date.parse(jQuery.trim($(
-												"#receivedDate").val()))) {
+										if ($("#receivedDate").val().length == 0) {
 											alert("Please Select ReceivedDate");
 											return false;
 										}
-										/*if (!Date.parse(jQuery.trim($(
-												"#noticeReplyDeadline").val()))) {
+										if ($("#noticeReplyDeadline").val().length == 0) {
 											alert("Please Select Notice Reply Deadline");
 											return false;
-										}*/
+										}
 										if ($('#noticeCategoryName :selected')
 												.text() === 'Legal Notice'
 												&& $(
@@ -261,5 +258,50 @@ $(document)
 						$("#actionTaken").val("");
 						$("#uploadFile").val("");
 					});
+					
+					$("#zoneName").change(function(){
+						alert("Method called...");
+						var requestData = {};
+
+						alert($('#zoneName :selected').text());
+						requestData["zoneNameVal"] = $('#zoneName :selected').text();
+						requestData["entityNameVal"] = $('#entityName :selected').text();
+						
+						
+						$.ajax({
+							type : "get",
+							url : "/getUnitLocationByZone",
+							cache : false,
+							data : requestData,
+							dataType : 'text',
+							success : function(response) {
+								response = $.parseJSON(response);
+//								alert(response);
+								var options;
+								for(var i in response){
+//									alert("UnitValue"+response[i].unitName);
+									$('#unitName')
+								    .find('option')
+								    .remove();
+									
+									options += '<option value="' + response[i].unitName + '">' + response[i].unitName + '</option>';
+									
+//									$('#unitName').append(`<option value="${response[i].unitName}"> ${response[i].unitName} </option>`);
+								    
+								}
+								$("#unitName").html(options);
+
+							},
+							error: function(){
+								alert("Error while request");
+							}
+						})
+					});
 
 				});
+function addLawfirmDropdown(data){
+	alert("In called function");
+//	$('#zoneName').append(`<option value="${data}"> ${data} </option>`);
+	$('#zoneName').append(`<option value="${data}"> ${data} </option>`);
+	 
+}

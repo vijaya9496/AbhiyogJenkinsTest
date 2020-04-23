@@ -459,8 +459,8 @@ public class ShowCauseNoticeService implements IShowCauseNoticeService {
 			showCauseNoticeVO.setDocName(showCauseNoticeDocsList.getValue().get(0).getInputDocName());
 			showCauseNoticeVO.setShowCauseNoticeFormId(showCauseNoticeDocsList.getValue().get(0).getShowCauseNoticeFormsId());
 			showCauseNoticeVO.setShowCauseNoticeId(showCauseNoticeDocsList.getValue().get(0).getShowCauseNotice().getShowCauseNoticeId());
-//			showCauseNoticeVO.getCommentsDoc().add(showCauseNoticeDocsList.getValue().get(0).getComments());
-//			showCauseNoticeVO.getFileSize().add(showCauseNoticeDocsList.getValue().get(0).getDocSize());
+			showCauseNoticeVO.setCommentsDoc((showCauseNoticeDocsList.getValue().get(0).getComments()));
+			showCauseNoticeVO.setFileSize((showCauseNoticeDocsList.getValue().get(0).getDocSize()));
 			showCauseNoticeList.add(showCauseNoticeVO);
 		}
 		
@@ -472,6 +472,18 @@ public class ShowCauseNoticeService implements IShowCauseNoticeService {
 	public int deleteDocument(int id) {
 		int isDeleted = showCauseNoticeFormsRepository.deleteDocById(id);
 		return isDeleted;
+	}
+
+	@Override
+	public List<ShowCauseNoticeVO> getUnitDtlsByZone(String zoneNameVal, String entityNameVal) {
+		List<Units> unitsList = unitsRepository.getUnitDtlsByZone(zoneNameVal, entityNameVal);
+		List<ShowCauseNoticeVO> unitData = new ArrayList<>();
+		for(Units units: unitsList) {
+			ShowCauseNoticeVO showCauseNoticeVO = new ShowCauseNoticeVO();
+			showCauseNoticeVO.setUnitName(units.getUnitName());
+			unitData.add(showCauseNoticeVO);
+		}
+		return unitData;
 	}
 
 }

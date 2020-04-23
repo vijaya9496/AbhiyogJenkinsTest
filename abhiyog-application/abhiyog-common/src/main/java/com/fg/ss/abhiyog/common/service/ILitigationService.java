@@ -77,7 +77,7 @@ public interface ILitigationService {
 
 	boolean saveLitigationData(AddLitigationVO addLitigationVO);
 
-	void savePoliceStationData(CityStateVO cityStateVO);
+	void savePoliceStationData(String cityName, String stateVal);
 
 	List<LitigationSummaryVO> getLitigationSummary();
 

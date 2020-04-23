@@ -58,12 +58,12 @@ public class UnitsSummaryService implements IUnitsSummaryService {
 	@Autowired
 	private EntityManager entityManager;
 
-	private BaseResponseVO baseResponseVO = BaseResponseVO.getInstance();
+	
 
 	@Override
 	public List<UnitSummaryVO> getUnitSummary() {
 		List<Units> unitSummary = unitsRepository.getUnitSummary();
-//		System.out.println("unitSummary size:: " +unitSummary.size());
+//		LOGGER.info("unitSummary size:: " +unitSummary.size());
 		if (unitSummary == null) {
 			return null;
 		}
@@ -129,7 +129,7 @@ public class UnitsSummaryService implements IUnitsSummaryService {
 	public int updateCompanyUnitDetails(UnitSummaryVO unitSummaryVO) {
 //		System.out.println("name:: " +unitSummaryVO.getName());
 		// fetching units details
-		Units unitsEntity = unitsRepository.getUnitDtls(unitSummaryVO.getUnitName());
+		Units unitsEntity = unitsRepository.getUnitDtlsByEntityName(unitSummaryVO.getEntityName(), unitSummaryVO.getZoneName(), unitSummaryVO.getUnitName());
 		UnitHeads unitHeads = new UnitHeads();
 		int isInserted = 0;
 		ArrayList<String> loginIdList = new ArrayList<String>();
@@ -234,11 +234,9 @@ public class UnitsSummaryService implements IUnitsSummaryService {
 	@Override
 	public UnitSummaryVO getUnitLocationDtls(int id) {
 		List<Units> unitSummary = unitsRepository.getUnitLocationBy(id);
-//		System.out.println("unitSummary size:: " +unitSummary.size());
 		if (unitSummary == null) {
 			return null;
 		}
-		System.out.println(unitSummary.size());
 		return convertToVO(unitSummary);
 	}
 
@@ -262,7 +260,7 @@ public class UnitsSummaryService implements IUnitsSummaryService {
 	@Override
 	public List<UserVO> getUnitHeadNames() {
 		List<User> unitHeadNamesList = userRepository.getUnitHeadNames();
-		System.out.println("unitHeadNamesList size:: " + unitHeadNamesList.size());
+		LOGGER.info("unitHeadNamesList size:: " + unitHeadNamesList.size());
 		List<UserVO> userVOList = new ArrayList<>();
 		for (User unitHeadNames : unitHeadNamesList) {
 			UserVO userVO = new UserVO();

@@ -15,6 +15,7 @@
 						th:src="@{images/logo-inner.jpg}" alt="Abhiyog Logo"
 						title="abhiyog logo"> </a>
 				</div>
+				
 				<div id="welcomedetails"
 					th:if="${session.SESSION_USER_VO.roleId != null}">
 					<div class="right-outer ">
@@ -40,8 +41,8 @@
 
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav mr-auto">
-							<li class="active"><a href="#">Home <span
-									class="sr-only">(current)</span></a></li>
+							<!-- <li class="active"><a href="#">Home <span
+									class="sr-only">(current)</span></a></li> -->
 							<li><a href="/getDashboardSummary" th:href="@{/getDashboardSummary}">Dashboard</a></li>
 							<li class="dropdown"><a class="dropdown-toggle"
 								href="/litigation" th:href="@{/litigation}" id="navbarDropdown"
@@ -103,8 +104,8 @@
 												th:href="@{/showUserSummary}">User Summary</a></li>
 											<li><a href="/newUser" th:href="@{/newUser}">New
 													User</a></li>
-											<li><a href="/resetPassword" th:href="@{/resetPassword}">Reset
-													Password</a></li>
+<!-- 											<li><a href="/resetPassword" th:href="@{/resetPassword}">Reset -->
+<!-- 													Password</a></li> -->
 										</ul></li>
 									<!-- 								<li><a href="/functionSummary" th:href="@{/functionSummary}">Function Summary</a></li> -->
 									<li><a href="/showFormatSummary"
@@ -115,7 +116,7 @@
 										th:href="@{/showUnitLocationSummary}">Unit/Location</a></li>
 									<li><a href="/showEntitySummary"
 										th:href="@{/showEntitySummary}">Entity</a></li>
-									<li><a href="/holidays" th:href="@{/holidays}">Holidays</a></li>
+<!-- 									<li><a href="/holidays" th:href="@{/holidays}">Holidays</a></li> -->
 								</ul></li>
 							<!-- <li><a href="/reports" th:href="@{/reports}">Reports</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">

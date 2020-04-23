@@ -1,34 +1,23 @@
 package com.fg.ss.abhiyog.app.controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,9 +37,6 @@ import com.fg.ss.abhiyog.common.service.MetricsReportStatisticsService;
 import com.fg.ss.abhiyog.common.service.PDFGenerateService;
 import com.fg.ss.abhiyog.common.vo.BaseResponseVO;
 import com.fg.ss.abhiyog.common.vo.LitigationSummaryVO;
-import com.fg.ss.abhiyog.common.vo.UserVO;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 
 @Controller
 //@RequestMapping("/masters/Report")
@@ -269,22 +255,24 @@ public class ReportController {
 				cellArray = mapper.createArrayNode();
 				if (causeListReportData.size() > 0) {
 					totalRecord = causeListReportData.size();
-					for (Litigation statusReportCases : causeListReportData) {
+					Map<Integer, List<Litigation>> groupedData = causeListReportData.stream()
+							.collect(Collectors.groupingBy(Litigation::getLitigationOid, Collectors.toList()));
+					for (Entry<Integer, List<Litigation>> statusReportCases : groupedData.entrySet()) {
 						cellObj = mapper.createObjectNode();
-						cellObj.put(CommonConstants.ID, statusReportCases.getLitigationOid());
+						cellObj.put(CommonConstants.ID, statusReportCases.getValue().get(0).getLitigationOid());
 						cell = mapper.createArrayNode();
-						cell.add(statusReportCases.getLitigationOid());
-						cell.add(statusReportCases.getLitigationId());
-						cell.add(statusReportCases.getUnits().getEntitySummary().getEntityName()  +  statusReportCases.getUnits().getUnitName() );
-						cell.add(statusReportCases.getUnits().getEntitySummary().getEntityName()  +  statusReportCases.getCounterPartyDtls().getCustomerName() );
-						cell.add(statusReportCases.getCaseNumber());
-						cell.add(statusReportCases.getFileNo());
-						cell.add(statusReportCases.getFactOfLitigationMatter());
-						cell.add(statusReportCases.getUnderSection());
-						cell.add(statusReportCases.getStatus().getStatus());
-						cell.add(statusReportCases.getLtgnLitigationLog().get(0).getDateOfHearing().toString());
-						cell.add(statusReportCases.getLtgnLitigationLog().get(0).getStage());
-						cell.add(statusReportCases.getLtgnLitigationLog().get(0).getHearingEvent());
+						cell.add(statusReportCases.getValue().get(0).getLitigationOid());
+						cell.add(statusReportCases.getValue().get(0).getLitigationId());
+						cell.add(statusReportCases.getValue().get(0).getUnits().getEntitySummary().getEntityName()  +  statusReportCases.getValue().get(0).getUnits().getUnitName() );
+						cell.add(statusReportCases.getValue().get(0).getUnits().getEntitySummary().getEntityName()  +  statusReportCases.getValue().get(0).getCounterPartyDtls().getCustomerName() );
+						cell.add(statusReportCases.getValue().get(0).getCaseNumber());
+						cell.add(statusReportCases.getValue().get(0).getFileNo());
+						cell.add(statusReportCases.getValue().get(0).getFactOfLitigationMatter());
+						cell.add(statusReportCases.getValue().get(0).getUnderSection());
+						cell.add(statusReportCases.getValue().get(0).getStatus().getStatus());
+						cell.add(statusReportCases.getValue().get(0).getLtgnLitigationLog().get(0).getDateOfHearing().toString());
+						cell.add(statusReportCases.getValue().get(0).getLtgnLitigationLog().get(0).getStage());
+						cell.add(statusReportCases.getValue().get(0).getLtgnLitigationLog().get(0).getHearingEvent());
 //						cellObj.put(CommonConstants.CELL, cell);
 						cellObj.set(CommonConstants.CELL, cell);
 						cellArray.add(cellObj);
@@ -436,43 +424,46 @@ public class ReportController {
 				cellArray = mapper.createArrayNode();
 				if (metricsReportData.size() > 0) {
 					totalRecord = metricsReportData.size();
-					for (Litigation metricsReportCases : metricsReportData) {
+					//To overcome from duplicate data.
+					Map<Integer, List<Litigation>> groupedData = metricsReportData.stream()
+							.collect(Collectors.groupingBy(Litigation::getLitigationOid, Collectors.toList()));
+					for (Entry<Integer, List<Litigation>> metricsReportCases : groupedData.entrySet()) {
 						cellObj = mapper.createObjectNode();
-						cellObj.put(CommonConstants.ID, metricsReportCases.getLitigationOid());
+						cellObj.put(CommonConstants.ID, metricsReportCases.getValue().get(0).getLitigationOid());
 						cell = mapper.createArrayNode();
-						cell.add(metricsReportCases.getLitigationOid());
-						cell.add(metricsReportCases.getLitigationId());
-						cell.add(metricsReportCases.getUnits().getRegions().getZoneName());
-						cell.add(metricsReportCases.getUnits().getEntitySummary().getEntityName());
-						cell.add(metricsReportCases.getUnits().getUnitName());
-						cell.add(metricsReportCases.getFormat().getFormat());
-						cell.add(metricsReportCases.getLitigationMatterByAgainst().get(0).getLtgnRepresentativeMaster().getRepresentativeName());
-						cell.add(metricsReportCases.getCounterPartyDtls().getCustomerName());
+						cell.add(metricsReportCases.getValue().get(0).getLitigationOid());
+						cell.add(metricsReportCases.getValue().get(0).getLitigationId());
+						cell.add(metricsReportCases.getValue().get(0).getUnits().getRegions().getZoneName());
+						cell.add(metricsReportCases.getValue().get(0).getUnits().getEntitySummary().getEntityName());
+						cell.add(metricsReportCases.getValue().get(0).getUnits().getUnitName());
+						cell.add(metricsReportCases.getValue().get(0).getFormat().getFormat());
+						cell.add(metricsReportCases.getValue().get(0).getLitigationMatterByAgainst().get(0).getLtgnRepresentativeMaster().getRepresentativeName());
+						cell.add(metricsReportCases.getValue().get(0).getCounterPartyDtls().getCustomerName());
 						cell.add("Future Retail Limited");
-						cell.add(metricsReportCases.getUnderAct().getUnderAct());
-						cell.add(metricsReportCases.getUnderSection());
-						cell.add(metricsReportCases.getOtherUnderAct());
-						cell.add(metricsReportCases.getCounterPartyDtls().getCustomerName() +" Future Retail Limited");
-						cell.add(metricsReportCases.getLtgnCaseType().getCaseType());
-						cell.add(metricsReportCases.getCaseNumber());
-						cell.add(metricsReportCases.getFileNo());
-						cell.add(metricsReportCases.getCourtCity().getCourtCity());
-						cell.add(metricsReportCases.getCaseFileOnDate().toString());
-						cell.add(metricsReportCases.getCourtCity().getCity().getCityName());
-						cell.add(metricsReportCases.getCourtCity().getCity().getState().getStateName());
-						cell.add(metricsReportCases.getFactOfLitigationMatter());
-						cell.add(metricsReportCases.getLtgnLitigationLog().get(0).getDateOfHearing().toString());
-						if(metricsReportCases.getLtgnLitigationLog().get(0).getStageMaster().getStage() == null || metricsReportCases.getLtgnLitigationLog().get(0).getStageMaster().getStage() == "") {
+						cell.add(metricsReportCases.getValue().get(0).getUnderAct().getUnderAct());
+						cell.add(metricsReportCases.getValue().get(0).getUnderSection());
+						cell.add(metricsReportCases.getValue().get(0).getOtherUnderAct());
+						cell.add(metricsReportCases.getValue().get(0).getCounterPartyDtls().getCustomerName() +" Future Retail Limited");
+						cell.add(metricsReportCases.getValue().get(0).getLtgnCaseType().getCaseType());
+						cell.add(metricsReportCases.getValue().get(0).getCaseNumber());
+						cell.add(metricsReportCases.getValue().get(0).getFileNo());
+						cell.add(metricsReportCases.getValue().get(0).getCourtCity().getCourtCity());
+						cell.add(metricsReportCases.getValue().get(0).getCaseFileOnDate().toString());
+						cell.add(metricsReportCases.getValue().get(0).getCourtCity().getCity().getCityName());
+						cell.add(metricsReportCases.getValue().get(0).getCourtCity().getCity().getState().getStateName());
+						cell.add(metricsReportCases.getValue().get(0).getFactOfLitigationMatter());
+						cell.add(metricsReportCases.getValue().get(0).getLtgnLitigationLog().get(0).getDateOfHearing().toString());
+						if(metricsReportCases.getValue().get(0).getLtgnLitigationLog().get(0).getStageMaster().getStage() == null || metricsReportCases.getValue().get(0).getLtgnLitigationLog().get(0).getStageMaster().getStage() == "") {
 							cell.add("NA");
 						}else {
-							cell.add(metricsReportCases.getLtgnLitigationLog().get(0).getStageMaster().getStage());
+							cell.add(metricsReportCases.getValue().get(0).getLtgnLitigationLog().get(0).getStageMaster().getStage());
 						}
 						
-						cell.add(metricsReportCases.getClaim().getClaim());
-						cell.add(metricsReportCases.getExactClaimAmount());
-						cell.add(metricsReportCases.getLawFirm().getLawfirm());
-						cell.add(metricsReportCases.getRemark());
-						cell.add(metricsReportCases.getStatus().getStatus());
+						cell.add(metricsReportCases.getValue().get(0).getClaim().getClaim());
+						cell.add(metricsReportCases.getValue().get(0).getExactClaimAmount());
+						cell.add(metricsReportCases.getValue().get(0).getLawFirm().getLawfirm());
+						cell.add(metricsReportCases.getValue().get(0).getRemark());
+						cell.add(metricsReportCases.getValue().get(0).getStatus().getStatus());
 //						cellObj.put(CommonConstants.CELL, cell);
 						cellObj.set(CommonConstants.CELL, cell);
 						cellArray.add(cellObj);

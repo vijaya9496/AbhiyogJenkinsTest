@@ -139,7 +139,7 @@
 									<li class="last">
 										<div class="filter-form">
 											<label>Phone:</label> <input type="text" name="phone"
-												id="phone" th:value="${userDtls.phone}" />
+												id="phone" th:value="${userDtls.phone}" maxlength="10"/>
 										</div>
 									</li>
 								</ul>
@@ -150,7 +150,7 @@
 										<div class="filter-form">
 											<label>Mobile:</label> <input type="text" name="mobile"
 												id="mobile" onkeypress="return isNumberKey(event)"
-												required="required" th:value="${userDtls.mobile}" />
+												required="required" th:value="${userDtls.mobile}" maxlength="10"/>
 										</div>
 									</li>
 									<li>

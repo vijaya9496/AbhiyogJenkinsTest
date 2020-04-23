@@ -49,7 +49,7 @@ public class ShowCauseNoticeVO {
 	private String applicableSection;
 	private String noticeSentTo;
 	private String noticeSentAddress;
-	private List<Long> fileSize;
+	private Long fileSize;
 	private String commentsDoc; // ShowCausenoticeForms Comments Field.
 	private int reqId; // using in updateNotice
 
@@ -349,11 +349,13 @@ public class ShowCauseNoticeVO {
 		this.uploadFile = uploadFile;
 	}
 
-	public List<Long> getFileSize() {
+	
+
+	public Long getFileSize() {
 		return fileSize;
 	}
 
-	public void setFileSize(List<Long> fileSize) {
+	public void setFileSize(Long fileSize) {
 		this.fileSize = fileSize;
 	}
 

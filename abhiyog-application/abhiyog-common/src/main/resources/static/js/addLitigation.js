@@ -268,6 +268,7 @@ $(document).ready(function() {
 			success : function(response) {
 				alert(response);
 				addMatterByAgainst(response);
+				
 			},
 			error: function(){
 				alert("Error while request");
@@ -722,6 +723,43 @@ $(document).ready(function() {
 		cmTemplate : {
 			sortable : false
 		},
+	});
+	
+	$("#zoneNameId").change(function(){
+		alert("Method called...");
+		var requestData = {};
+		requestData["zoneNameVal"] = $('#zoneNameId :selected').text();
+		requestData["entityNameVal"] = $('#entityNameId :selected').text();
+		
+		
+		$.ajax({
+			type : "get",
+			url : "/getUnitLocationDataByZone",
+			cache : false,
+			data : requestData,
+			dataType : 'text',
+			success : function(response) {
+				response = $.parseJSON(response);
+//				alert(response);
+				var options;
+				for(var i in response){
+//					alert("UnitValue"+response[i].unitName);
+					$('#unitNameId')
+				    .find('option')
+				    .remove();
+					
+					options += '<option value="' + response[i].unitName + '">' + response[i].unitName + '</option>';
+					
+//					$('#unitName').append(`<option value="${response[i].unitName}"> ${response[i].unitName} </option>`);
+				    
+				}
+				$("#unitNameId").html(options);
+
+			},
+			error: function(){
+				alert("Error while request");
+			}
+		})
 	});
 
 

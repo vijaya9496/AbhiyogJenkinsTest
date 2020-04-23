@@ -38,7 +38,10 @@
 	th:src="@{js/grid.locale-en.js}"></script>
 <script src="../static/js/jquery.jqGrid.src-multiple1.js"
 	type="text/javascript" th:src="@{js/jquery.jqGrid.src-multiple1.js}"></script>
+<script src="../static/js/viewUserProfile.js"
+	type="text/javascript" th:src="@{js/viewUserProfile.js}"></script>
 <div th:include="header :: header"></div>
+
 <body>
 	<div class="container">
 		<span class="welcome-head">VIEW USER</span>
@@ -142,6 +145,10 @@
 							</div>
 						</li>
 					</ul>
+				</div>
+				<div class="bottom-buttons">
+					<button type="button" id="cancelBtn" value="CANCEL"
+						class="btn btn-secondary" onclick="cancelBtn()">CANCEL</button>
 				</div>
 			</div>
 		</form>

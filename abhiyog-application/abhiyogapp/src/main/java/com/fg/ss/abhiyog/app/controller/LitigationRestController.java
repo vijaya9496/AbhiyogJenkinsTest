@@ -278,7 +278,7 @@ public class LitigationRestController {
 		return ResponseEntity.ok().body(baseResponseVO);
 	}*/
 
-	@PostMapping("/addPoliceStation")
+	/*@PostMapping("/addPoliceStation")
 	public BaseResponseVO addPoliceStationDtls(@RequestBody CityStateVO cityStateVO) {
 		litigationService.savePoliceStationData(cityStateVO);
 		baseResponseVO.setResponseCode(HttpStatus.CREATED.value());
@@ -286,7 +286,7 @@ public class LitigationRestController {
 		baseResponseVO.setData(null);
 		return baseResponseVO;
 
-	}
+	}*/
 
 	@PostMapping("/addLitigation")
 	public ResponseEntity<BaseResponseVO> addLitigation(@RequestBody AddLitigationVO addLitigationVO) {

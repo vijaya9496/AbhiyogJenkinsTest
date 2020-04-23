@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -381,8 +382,8 @@ public class ShowCauseNoticeRestController {
 							cell.add(noticeDtls.getShowCauseNoticeFormId());
 							cell.add(noticeDtls.getDocName());
 							cell.add(noticeDtls.getShowCauseNoticeId());
-							cell.add("NA");
-							cell.add("NA");
+							cell.add(noticeDtls.getCommentsDoc());
+							cell.add(noticeDtls.getFileSize());
 							cell.add("Delete");
 //							cellObj.put(CommonConstants.CELL, cell);
 							cellObj.set(CommonConstants.CELL, cell);
@@ -524,6 +525,23 @@ public class ShowCauseNoticeRestController {
 			model.addAttribute("allUnitLocationDtls", unitsSummaryService.getUnitSummary());
 		}
 		return "updateNotice";
+		
+	}
+	
+	@RequestMapping(value="/getUnitLocationByZone", method=RequestMethod.GET, produces="application/json")
+	@ResponseBody
+	public String getUnitLocationByZone(@RequestParam String zoneNameVal, @RequestParam String entityNameVal){
+		List<ShowCauseNoticeVO> unitList = showCauseNoticeService.getUnitDtlsByZone(zoneNameVal,entityNameVal);
+		ObjectMapper mapper = new ObjectMapper();
+		String newJsonData = "";
+		try {
+			newJsonData = mapper.writeValueAsString(unitList);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return newJsonData;
+		
 		
 	}
 }

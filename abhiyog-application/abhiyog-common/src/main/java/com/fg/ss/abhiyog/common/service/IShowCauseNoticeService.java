@@ -32,6 +32,8 @@ public interface IShowCauseNoticeService {
 
 	int deleteDocument(int parseInt);
 
+	List<ShowCauseNoticeVO> getUnitDtlsByZone(String zoneNameVal,String entityNameVal);
+
 	
 
 	

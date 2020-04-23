@@ -144,7 +144,7 @@ public class UserController {
 			responseData.set(CommonConstants.ROWS, cellArray);
 			out.println(responseData);
 		} catch (IOException e) {
-			LOGGER.error("Exception generated in userSummaryData Method:: " + e.getMessage(), e);
+			LOGGER.error("Exception generated in getUserSummaryBy Method:: " + e.getMessage(), e);
 			e.printStackTrace();
 		}
 
@@ -153,7 +153,7 @@ public class UserController {
 	@RequestMapping(value="/viewUser")
 	public String viewUserProfile(Model model,HttpServletRequest request) {
 		model.addAttribute("userVO", new UserVO());
-		System.out.println("ID::" +request.getParameter("id"));
+		LOGGER.info("ID::" +request.getParameter("id"));
 		model.addAttribute("allUserDtls", userService.getUserProfile(Integer.parseInt(request.getParameter("id"))));
 		return "viewUserProfile";
 		
@@ -171,15 +171,15 @@ public class UserController {
 		LOGGER.info("inside addNewUser method");
 		
 		User checkUserExistence = userService.findUserByLoginId(user.getLoginId());
-		System.out.println("LoginId"+user.getLoginId());
+		LOGGER.info("LoginId"+user.getLoginId());
 		if(checkUserExistence != null) {
 			model.addAttribute("userVO",new UserVO());
 			model.addAttribute("message", "Login Id Already Existed");
 			model.addAttribute("allRoles", userService.getAllRoles());
 			
 		}else {
-			System.out.println("Role::" +user.getRoleDesc());
-			System.out.println("FirstName" +user.getFirstName());
+			LOGGER.info("Role::" +user.getRoleDesc());
+			LOGGER.info("FirstName" +user.getFirstName());
  			boolean isInserted = userService.saveUserData(user);
 			if(isInserted) {
 				model.addAttribute("message", "New User Added Successfully");
@@ -203,13 +203,14 @@ public class UserController {
 	
 	@RequestMapping(value="/updateUserDtls", method=RequestMethod.POST)
 	public String updateUserDtls(@ModelAttribute UserVO userVO, Model model) {
+		LOGGER.info("Inside updateUserDtls");
 		boolean isUpdated = userService.saveUserData(userVO);
 		if (isUpdated) {
 			model.addAttribute("message","USER UPDATED SUCCESSFULLY");
 			model.addAttribute("userDtls", new UserVO());
 			model.addAttribute("allRoles", userService.getAllRoles());
 		}else {
-			model.addAttribute("message","UNABLE TO USER DETAILS");
+			model.addAttribute("message","UNABLE TO UPDATED USER DETAILS");
 			model.addAttribute("userDtls", new UserVO());
 			model.addAttribute("allRoles", userService.getAllRoles());
 		}

@@ -43,6 +43,11 @@
 <script src="../static/js/formatSummary.js" type="text/javascript"
 	th:src="@{js/formatSummary.js}"></script>
 <div th:include="header :: header"></div>
+<style>
+.ui-widget-content a{
+	text-decoration: underline;
+}
+</style>
 <body>
 	<div class="wrapper">
 		<p th:text="${message}" th:unless="${message == null}"

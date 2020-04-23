@@ -66,16 +66,26 @@
 				return false;
 			}
 		});
+		$("#updateBtn").click(function(){
+			if($("#mobile").val().length != 10){
+				alert("Please Enter 10 Digits Mobile number");
+				$("#mobile").focus();
+				return false;
+			}
+		});
 	});
 	function isNumberKey(evt) {
 		var charCode = (evt.which) ? evt.which : event.keyCode;
 		if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
 			alert("please enter mobile No as numeric value only");
 			return false;
-		} else {
+		}else {
 			return true;
 		}
+		
 	}
+	
+	
 </script>
 <div th:include="header :: header"></div>
 <body>
@@ -107,9 +117,9 @@
 									<li><label for="usr">Address</label> <input type="text"
 										name="address" id="address"/></li>
 									<li><label for="usr">Mobile No</label> <input type="text"
-										name="mobile" id="mobile" onkeypress="return isNumberKey(event)" /></li>
+										name="mobile" id="mobile" onkeypress="return isNumberKey(event)" maxlength="10" /></li>
 									<li class="last"><label>Telephone</label> <input
-										type="text" name="telephone" id="telephone" onkeypress="return isNumberKey(event)" /></li>
+										type="text" name="telephone" id="telephone" onkeypress="return isNumberKey(event)" onkeyup="checkMobileLength(event)"/></li>
 								</ul>
 							</div>
 							<div class="filter-form">

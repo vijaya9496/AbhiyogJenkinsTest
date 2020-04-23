@@ -1,4 +1,19 @@
 jQuery(document).ready(function() {
+	
+	$("#submitBtn").click(function(){
+		if($("#mobile1").val().length != 10){
+			alert("Please Enter 10 Digits Mobile Number..");
+			$("#mobile1").focus();
+			return false;
+		}
+		
+		if($("#mobile2").val().length != 10){
+			alert("Please Enter 10 Digits Mobile Number..");
+			$("#mobile2").focus();
+			return false;
+		}
+	});
+	
 	$('#cancelBtn').click(function() {
 		var urlStr = "/showCustomerSummary";
 		$("#addNewCounterPartyForm").attr("action", urlStr);

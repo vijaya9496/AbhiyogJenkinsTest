@@ -24,16 +24,12 @@ $(document).ready(function(){
 		}, {
 			name : 'upcomingHearing',
 			index : 'upcomingHearing',
-			/*formatter:'showlink',
-			formatoptions:{baseLinkUrl:'/upcomingHearing'},
-		*/	width : 100,
+			width : 100,
 			align : 'center'
 		}, {
 			name : 'notUpdatedHearing',
 			index : 'notUpdatedHearing',
-		/*	formatter:'showlink',
-			formatoptions:{baseLinkUrl:'/notUpdatedHearing'},
-		*/	width : 100,
+			width : 100,
 			align : 'center'
 		},{ 
 			name : 'total',

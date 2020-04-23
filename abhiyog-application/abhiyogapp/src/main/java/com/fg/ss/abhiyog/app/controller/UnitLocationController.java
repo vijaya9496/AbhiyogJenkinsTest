@@ -174,7 +174,8 @@ public class UnitLocationController {
 	}
 	
 	@RequestMapping(value="/addNewUnitLocation", method=RequestMethod.POST)
-	public ModelAndView addNewUser(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public ModelAndView addNewUnitLocation(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		LOGGER.info("Calling addNewUnitLocation");
 		Units units = unitsSummaryService.findExistenceUnitName(request.getParameter("entityName"), request.getParameter("zoneName"), request.getParameter("unitName"));
 		UserVO userVO = (UserVO) session.getAttribute(CommonConstants.SESSION_USER_VO);	
 		System.out.println(request.getParameter("entityName")+ request.getParameter("zoneName")+ request.getParameter("unitName")+ userVO.getLoginId());
@@ -207,11 +208,10 @@ public class UnitLocationController {
 	}
 	
 	@RequestMapping(value="/updateUnitLocationDtls", method=RequestMethod.POST)
-	public String updateUserDtls(@ModelAttribute UnitSummaryVO unitSummaryVO, Model model, HttpServletRequest request) {
-		Units unitsDtls = unitsSummaryService.findUnitByName(unitSummaryVO.getUnitName());
+	public String updateUnitLocationDtls(@ModelAttribute UnitSummaryVO unitSummaryVO, Model model, HttpServletRequest request) {
+		LOGGER.info("Calling updateUnitLocationDtls");
+		Units unitsDtls = unitsSummaryService.findExistenceUnitName(unitSummaryVO.getEntityName(), unitSummaryVO.getZoneName(), unitSummaryVO.getUnitName());
 		if(unitsDtls != null) {
-			
-//			System.out.println("name:: " +unitSummaryVO.getName());
 			int isUpdated= unitsSummaryService.updateCompanyUnitDetails(unitSummaryVO);
 			if(isUpdated > 0) {
 				model.addAttribute("message", "SUCCESSFULLY USER MAPPED WITH UNITNAME");
