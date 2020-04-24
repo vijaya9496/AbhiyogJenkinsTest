@@ -41,11 +41,15 @@ $(document).ready(function(){
 			async : false,
 			success : function(response) {
 				alert(response);
+				jQuery("#witnessSummary").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
+				$("#modalWitnessName").val('');
+				hideLoading();
 				witnessmodal.style.display = "none";
 			},
 			error: function(){
 				alert("Error while request");
 			}
+			
 		})
 	});
 // End Witness Modal
@@ -67,6 +71,7 @@ $(document).ready(function(){
 			async : false,
 			success : function(response) {
 				alert(response);
+				jQuery("#connectedLitigationSummary").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
 				witnessmodal.style.display = "none";
 			},
 			error: function(){
@@ -95,6 +100,7 @@ $(document).ready(function(){
 			async : false,
 			success : function(response) {
 				alert(response);
+				jQuery("#historySummary").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
 				witnessmodal.style.display = "none";
 			},
 			error: function(){
@@ -119,6 +125,7 @@ $(document).ready(function(){
 		
 			success : function(response) {
 				alert(response);
+				jQuery("#lawfirmBillingSummary").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
 				witnessmodal.style.display = "none";
 			},
 			error: function(){
@@ -146,6 +153,9 @@ $(document).ready(function(){
 			async : false,
 			success : function(response) {
 				alert(response);
+				$("#modalResult").val('');
+				$("#modalDisposedDate").val('');
+				$("#modalDisposedComments").val('');
 				witnessmodal.style.display = "none";
 			},
 			error: function(){
@@ -174,6 +184,7 @@ $(document).ready(function(){
             async:false,
 			success : function(response) {
 				alert(response);
+				jQuery("#documentSummary").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
 				witnessmodal.style.display = "none";
 			},
 			error: function(){
@@ -553,4 +564,9 @@ function getOutsideCounselData(data){
 		alert(data);
 		window.location.href = "/getOutsideCounselDtls/"+ data;
 		
+}
+function hideLoading() {
+    $('#witnessModal').on('shown.bs.modal', function (e) {
+        $("#witnessModal").modal('hide');
+    })
 }

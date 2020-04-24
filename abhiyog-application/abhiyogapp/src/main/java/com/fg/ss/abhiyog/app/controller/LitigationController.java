@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,13 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,11 +42,9 @@ import com.fg.ss.abhiyog.common.model.CounterPartyDtls;
 import com.fg.ss.abhiyog.common.model.CourtCity;
 import com.fg.ss.abhiyog.common.model.CourtType;
 import com.fg.ss.abhiyog.common.model.LawFirm;
-import com.fg.ss.abhiyog.common.model.Litigation;
 import com.fg.ss.abhiyog.common.model.LitigationDocs;
 import com.fg.ss.abhiyog.common.model.LtgnCaseType;
 import com.fg.ss.abhiyog.common.model.LtgnRepresentativeMaster;
-import com.fg.ss.abhiyog.common.model.ShowCauseNoticeForms;
 import com.fg.ss.abhiyog.common.model.UnderAct;
 import com.fg.ss.abhiyog.common.model.Units;
 import com.fg.ss.abhiyog.common.service.FileStorageService;
@@ -67,11 +61,9 @@ import com.fg.ss.abhiyog.common.util.DateUtils;
 import com.fg.ss.abhiyog.common.vo.AddLitigationVO;
 import com.fg.ss.abhiyog.common.vo.ConnectedLitigationVO;
 import com.fg.ss.abhiyog.common.vo.CounterPartyVO;
-import com.fg.ss.abhiyog.common.vo.DashboardVO;
 import com.fg.ss.abhiyog.common.vo.LitigationSummaryVO;
 import com.fg.ss.abhiyog.common.vo.OutsideCounselVO;
 import com.fg.ss.abhiyog.common.vo.ShowCauseNoticeVO;
-import com.fg.ss.abhiyog.common.vo.UnitSummaryVO;
 import com.fg.ss.abhiyog.common.vo.UserVO;
 
 @Controller
@@ -330,7 +322,7 @@ public class LitigationController {
 
 	@RequestMapping(value = "/viewLitigationDetails")
 	public String viewLitigationDetails(Model model, HttpServletRequest request) {
-		
+		LOGGER.info("Calling viewLitigationDetails");
 		model.addAttribute("litigationSummaryVO", new LitigationSummaryVO());
 		model.addAttribute("connectedLitigationVO", new ConnectedLitigationVO());
 		System.out.println("ID::" + request.getParameter("id"));
@@ -351,6 +343,7 @@ public class LitigationController {
 
 	@RequestMapping(value = "/updateDeleteStatus")
 	public String updateDeleteStatus(Model model, HttpServletRequest request) {
+		LOGGER.info("Calling updateDeleteStatus");
 		int isUpdatedDeleteStatus = restoreLitigationService
 				.updateDeleteStatus(Integer.parseInt(request.getParameter("id")));
 		if (isUpdatedDeleteStatus > 0) {
@@ -382,7 +375,8 @@ public class LitigationController {
 	@RequestMapping(value = "/addMatterBy", method = RequestMethod.POST)
 	@ResponseBody
 	public String addMatterByAgainst(@RequestParam String matterByVal) {
-		System.out.println("MatterBY Against*** " + matterByVal);
+		LOGGER.info("Calling addMatterByAgainst"+ matterByVal);
+		
 		LtgnRepresentativeMaster ltgnRepresentativeMaster = litigationService
 				.checkExistenceRepresentativeName(matterByVal);
 		if (ltgnRepresentativeMaster == null) {
@@ -399,8 +393,8 @@ public class LitigationController {
 	@RequestMapping(value = "/addLawfirm", method = RequestMethod.POST)
 	@ResponseBody
 	public String addLawfirmIndividual(@RequestParam String lawfirmVal) {
-		System.out.println("inside addLawfirmIndividual");
-		System.out.println("Lawfirm ***  " + lawfirmVal);
+		LOGGER.info("inside addLawfirmIndividual"+ lawfirmVal);
+		
 		OutsideCounselVO outsideCounselVO = new OutsideCounselVO();
 		outsideCounselVO.setLawfirm(lawfirmVal);
 		LawFirm lawfirmDtls = outsideCounselService.findByLawfirm(lawfirmVal);
@@ -419,13 +413,13 @@ public class LitigationController {
 	@RequestMapping(value = "/addCityDtls", method = RequestMethod.POST)
 	@ResponseBody
 	public String addCourtType(@RequestParam String cityNameVal, @RequestParam String stateVal) {
-		System.out.println("CityName*** " + cityNameVal);
+		LOGGER.info("Calling  addCourtType" + cityNameVal);
 		City cityDtls = litigationService.checkExistenceCity(cityNameVal);
 		if (cityDtls == null) {
 			litigationService.saveCityData(cityNameVal, stateVal);
 			litigationService.savePoliceStationData(cityNameVal, stateVal);
 		} else {
-			System.out.println("City Name Already Existed");
+			LOGGER.info("City Name Already Existed");
 		}
 		return cityNameVal;
 	}
@@ -433,13 +427,13 @@ public class LitigationController {
 	@RequestMapping(value = "/addCourtType", method = RequestMethod.POST)
 	@ResponseBody
 	public String addCityDtls(@RequestParam String courtTypeVal) {
-		System.out.println("CourtTypeName*** " + courtTypeVal);
+		LOGGER.info("Calling addCity Dtls CourtTypeName*** " + courtTypeVal);
 		CourtType courtType = litigationService.checkExistenceCourtType(courtTypeVal);
 		if (courtType == null) {
 			litigationService.saveCourtType(courtTypeVal);
 
 		} else {
-			System.out.println("Court Type Name Already Existed");
+			LOGGER.info("Court Type Name Already Existed");
 		}
 
 		return courtTypeVal;
@@ -448,12 +442,12 @@ public class LitigationController {
 	@RequestMapping(value = "/addCourtForumDtls", method = RequestMethod.POST)
 	@ResponseBody
 	public String addCityDtls(@RequestParam String courtForumVal, @RequestParam String cityNameVal) {
-		System.out.println("CourtForumVal*** " + courtForumVal);
+		LOGGER.info("Calling addCityDtls CourtForumVal*** " + courtForumVal);
 		CourtCity courtCity = litigationService.findByCourtCity(courtForumVal);
 		if (courtCity == null) {
 			litigationService.saveCourtCityData(courtForumVal, cityNameVal);
 		} else {
-			System.out.println("CourtForum Already Existed");
+			LOGGER.info("CourtForum Already Existed");
 		}
 		return courtForumVal;
 	}
@@ -461,7 +455,7 @@ public class LitigationController {
 	@RequestMapping(value = "/addCategory", method = RequestMethod.POST)
 	@ResponseBody
 	public String addCategory(@RequestParam String categoryVal) {
-		System.out.println("CategoryName*** " + categoryVal);
+		LOGGER.info("Calling addCategory CategoryName*** " + categoryVal);
 		LtgnCaseType ltgnCaseType = litigationService.checkExistenceCaseType(categoryVal);
 		if (ltgnCaseType == null) {
 			litigationService.saveLtgnCaseType(categoryVal);
@@ -471,7 +465,7 @@ public class LitigationController {
 		} else {
 //			model.addAttribute("addLitigationVO", new AddLitigationVO());
 //			model.addAttribute("message", "Category Name Already Existed");
-			System.out.println("Category Name Already Existed");
+			LOGGER.info("Category Name Already Existed");
 		}
 		return categoryVal;
 	}
@@ -479,7 +473,7 @@ public class LitigationController {
 	@RequestMapping(value = "/addUnderAct", method = RequestMethod.POST)
 	@ResponseBody
 	public String addUnderAct(@RequestParam String underActVal) {
-		System.out.println("UnderAct Name ** " + underActVal);
+		LOGGER.info("Calling addUnderAct UnderAct Name ** " + underActVal);
 		UnderAct underAct = litigationService.findByUnderAct(underActVal);
 		if (underAct == null) {
 			litigationService.saveUnderActData(underActVal);
@@ -487,7 +481,7 @@ public class LitigationController {
 			System.out.println("UnderAct Name Added Successfully.");
 		} else {
 //			model.addAttribute("message", "UnderActName Already Existed");
-			System.out.println("UnderActName Already Existed");
+			LOGGER.info("UnderActName Already Existed");
 		}
 		return underActVal;
 	}
@@ -495,7 +489,7 @@ public class LitigationController {
 	@RequestMapping(value = "/addCounterPartyDtls")
 	@ResponseBody
 	public String addCounterParty(@RequestParam String counterPartyNameVal) {
-		System.out.println("CounterPartyVal**" + counterPartyNameVal);
+		LOGGER.info("Calling addCounterParty CounterPartyVal**" + counterPartyNameVal);
 		CounterPartyDtls counterPartyDtls = counterPartyService.findCustomerByName(counterPartyNameVal);
 		CounterPartyVO counterPartyVO = new CounterPartyVO();
 		counterPartyVO.setCounterPartyName(counterPartyNameVal);
@@ -503,11 +497,11 @@ public class LitigationController {
 			counterPartyService.saveCounterPartyData(counterPartyVO);
 //			model.addAttribute("counterPartyVO", new CounterPartyVO());
 //			model.addAttribute("message", "COUNTER PARTY DETAILS ADDED SUCCESSFULLY");
-			System.out.println("COUNTER PARTY DETAILS ADDED SUCCESSFULLY");
+			LOGGER.info("COUNTER PARTY DETAILS ADDED SUCCESSFULLY");
 		} else {
 //			model.addAttribute("counterPartyVO", new CounterPartyVO());
 //			model.addAttribute("message", "COUNTERPARTY NAME ALREADY EXISTED");
-			System.out.println("COUNTERPARTY NAME ALREADY EXISTED");
+			LOGGER.info("COUNTERPARTY NAME ALREADY EXISTED");
 		}
 		return counterPartyNameVal;
 	}
@@ -518,10 +512,10 @@ public class LitigationController {
 			HttpServletResponse response, HttpSession session) {
 		Units units = unitsSummaryService.findExistenceUnitName(entityVal, zoneVal, unitVal);
 		UserVO userVO = (UserVO) session.getAttribute(CommonConstants.SESSION_USER_VO);
-		System.out.println(entityVal + zoneVal + unitVal);
+		LOGGER.info(entityVal + zoneVal + unitVal);
 //		ModelAndView modelAndView = new ModelAndView();
 		if (units != null) {
-			System.out.println("UNIT NAME ALREADY EXISTED");
+			LOGGER.info("UNIT NAME ALREADY EXISTED");
 //			modelAndView.addObject("unitSummaryVO", new UnitSummaryVO());
 //			modelAndView.addObject("message", "UNIT NAME ALREADY EXISTED");
 //			modelAndView.addObject("allEntities", entityService.getAllEntities());
@@ -530,7 +524,7 @@ public class LitigationController {
 		} else {
 			unitsSummaryService.saveFormData(entityVal, zoneVal, unitVal, userVO.getLoginId());
 //			modelAndView.addObject("unitSummaryVO", new UnitSummaryVO());
-			System.out.println("UNIT NAME ADDED SUCCESSFULLY");
+			LOGGER.info("UNIT NAME ADDED SUCCESSFULLY");
 //			modelAndView.addObject("message", "UNIT NAME ADDED SUCCESSFULLY");
 //			modelAndView.addObject("allEntities", entityService.getAllEntities());
 //			modelAndView.addObject("allRegions", zoneService.getAllZones());
@@ -541,6 +535,7 @@ public class LitigationController {
 
 	@RequestMapping(value = "/newLitigation", method = RequestMethod.GET)
 	public String newLitigation(Model model) {
+		LOGGER.info("Calling newLitigation");
 		model.addAttribute("addLitigationVO", new AddLitigationVO());
 //		model.addAttribute("unitSummaryVO", new UnitSummaryVO());
 		model.addAttribute("allEntities", entityService.getAllEntities());
@@ -566,6 +561,7 @@ public class LitigationController {
 
 	@RequestMapping(value = "/saveLitigation", method = RequestMethod.POST)
 	public String saveLitigation(HttpServletRequest request, Model model, HttpSession session) throws ParseException {
+		LOGGER.info("inside saveLitigation");
 		UserVO userVO = (UserVO) session.getAttribute(CommonConstants.SESSION_USER_VO);
 		AddLitigationVO addLitigationVO = new AddLitigationVO();
 		System.out.println("EntityName**" + request.getParameter("entityName"));
@@ -601,7 +597,7 @@ public class LitigationController {
 		addLitigationVO.setStatus(request.getParameter("status"));
 		addLitigationVO.setFirNo(request.getParameter("firNo"));
 		addLitigationVO.setCourtForum(request.getParameter("courtForum"));
-		System.out.println("DateofReceiptOfMatter *** " + request.getParameter("dateOfReceiptOfMatter"));
+		LOGGER.info("DateofReceiptOfMatter *** " + request.getParameter("dateOfReceiptOfMatter"));
 
 		addLitigationVO
 				.setDateOfReceiptOfMatter(DateUtils.getDBFormatedDte(request.getParameter("dateOfReceiptOfMatter")));
@@ -647,6 +643,7 @@ public class LitigationController {
 
 	@RequestMapping(value = "/showRestoreLitigationSummary", method = RequestMethod.GET)
 	public String showRestoreLitigationSummary(Model model) {
+		LOGGER.info("inside showRestoreLitigationSummary method");
 		model.addAttribute("addLitigationVO", new AddLitigationVO());
 		model.addAttribute("allEntities", entityService.getAllEntities());
 		model.addAttribute("allCounterParty", counterPartyService.findAll());
@@ -827,7 +824,7 @@ public class LitigationController {
 		int id = (int) session.getAttribute("litigationSessionId");
 		System.out.println("LitigationID** " + id);
 		List<ConnectedLitigationVO> allWitnessDtls = litigationService.getWitnessDetails(id);
-		LOGGER.info("inside fillGridDetail method");
+		LOGGER.info("inside getWitnessDetails method");
 		int totalRecord = 0;
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode responseData = mapper.createObjectNode();
@@ -868,16 +865,15 @@ public class LitigationController {
 	@ResponseBody
 	public String addWitnessDetails(@RequestParam String witnessVal, HttpServletRequest request, HttpSession session,
 			Model model) {
-		System.out.println("Witness Name*** " + witnessVal);
-		System.out.println("LitigationID** " + request.getParameter("id"));
+		LOGGER.info("Calling addWitnessDetails Witness Name*** " + witnessVal +"LitigationID** " + request.getParameter("id"));
 		ConnectedLitigationVO connectedLitigationVO = new ConnectedLitigationVO();
 		connectedLitigationVO.setWitnessName(witnessVal);
 		int id = (int) session.getAttribute("litigationSessionId");
-		System.out.println("ID:: " + id);
+		LOGGER.info("ID:: " + id);
 		connectedLitigationVO.setLitigationOId(id);
 		litigationService.addWitnessDtls(connectedLitigationVO);
 //		model.addAttribute("message", "Witness Details Added Successfully");
-		return "Success";
+		return "Witness Details Added Successfully..";
 
 	}
 
@@ -885,15 +881,16 @@ public class LitigationController {
 	@ResponseBody
 	public String addConnectedLitigation(@RequestParam String commentsVal, @RequestParam String litigationIdVal,
 			HttpServletRequest request, HttpSession session) {
+		LOGGER.info("Calling addConnectedLitigation");
 		ConnectedLitigationVO connectedLitigationVO = new ConnectedLitigationVO();
 		int id = (int) session.getAttribute("litigationSessionId");
-		System.out.println("ID:: " + id);
+		LOGGER.info("ID:: " + id);
 		connectedLitigationVO.setConnectedLitigationId(litigationIdVal);
 		connectedLitigationVO.setComments(commentsVal);
 		connectedLitigationVO.setLitigationOId(id);
 		litigationService.addConnectedLitigation(connectedLitigationVO);
 
-		return "Success";
+		return "Litigation " + litigationIdVal + "Connected Successfully..";
 
 	}
 
@@ -902,9 +899,10 @@ public class LitigationController {
 	public String historyDetails(@RequestParam String hearingDateVal, @RequestParam String stageVal,
 			@RequestParam String stageDetailsVal, HttpServletRequest request, HttpSession session)
 			throws ParseException {
+		LOGGER.info("Calling historyDetails");
 		ConnectedLitigationVO connectedLitigationVO = new ConnectedLitigationVO();
 		int id = (int) session.getAttribute("litigationSessionId");
-		System.out.println("ID:: " + id);
+		LOGGER.info("ID:: " + id);
 		connectedLitigationVO.setHearingDt(DateUtils.getDBFormatedDte(hearingDateVal));
 		connectedLitigationVO.setStage(stageVal);
 		connectedLitigationVO.setStageDetails(stageDetailsVal);
@@ -913,7 +911,7 @@ public class LitigationController {
 		connectedLitigationVO.setLoginId(uservo.getLoginId());
 		litigationService.saveNextHearingDate(connectedLitigationVO);
 
-		return "Success";
+		return "Next Hearing Date Added Successfully..";
 
 	}
 
@@ -974,7 +972,7 @@ public class LitigationController {
 
 	@RequestMapping(value = "/updateHistoryDetails", method = RequestMethod.GET)
 	public String updateHistoryDetails(Model model, HttpServletRequest request) {
-
+		LOGGER.info("Calling updateHistoryDetails");
 		model.addAttribute("updateHistoryDetails",
 				litigationService.findHistoryDetails(Integer.parseInt(request.getParameter("id"))));
 		return "updateHistoryDetails";
@@ -982,7 +980,7 @@ public class LitigationController {
 
 	@RequestMapping(value = "/updateHistory", method = RequestMethod.GET)
 	public String updateHistory(@ModelAttribute ConnectedLitigationVO connectedLitigationVO, Model model) {
-
+		LOGGER.info("Calling updateHistory");
 		litigationService.updateHearingDetails(connectedLitigationVO);
 		model.addAttribute("updateHistoryDetails", new ConnectedLitigationVO());
 		model.addAttribute("message", "Hearing Details Updated Successfully");
@@ -991,6 +989,7 @@ public class LitigationController {
 
 	@RequestMapping(value = "/getActivityLog", method = RequestMethod.GET)
 	public void getActivityLog(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		LOGGER.info("Calling getActivityLog");
 		int id = (int) session.getAttribute("litigationSessionId");
 		List<ConnectedLitigationVO> allActivityLog = litigationService.getActivityLog(id);
 		int totalRecord = 0;
@@ -1044,9 +1043,8 @@ public class LitigationController {
 	@ResponseBody
 	public String addDisposedDate(@RequestParam String resultVal, @RequestParam String disposedDateVal,
 			@RequestParam String commentsVal, HttpServletRequest request, HttpSession session) throws ParseException {
-		System.out.println(resultVal);
-		System.out.println(disposedDateVal);
-		System.out.println(commentsVal);
+		LOGGER.info("Calling addDisposedDate " + "ResultVal"+ resultVal + " disposedDateVal "+ disposedDateVal + "commentsVal" + commentsVal);
+		
 		int id = (int) session.getAttribute("litigationSessionId");
 		System.out.println("ID:: " + id);
 		ConnectedLitigationVO connectedLitigationVO = new ConnectedLitigationVO();
@@ -1057,7 +1055,7 @@ public class LitigationController {
 
 		litigationService.addLitigationDisposal(connectedLitigationVO);
 
-		return "Success";
+		return "Litigation Disposed Successfully..";
 
 	}
 
@@ -1066,11 +1064,11 @@ public class LitigationController {
 	public String addLawfirmBilling(HttpServletRequest request, HttpSession session,
 			MultipartHttpServletRequest multiPartRequest) throws ParseException {
 		int id = (int) session.getAttribute("litigationSessionId");
-		System.out.println("ID:: " + id);
-		System.out.println("billing Type:: " + request.getParameter("billingType"));
-		System.out.println("billing Amount:: " + request.getParameter("billingAmount"));
-		System.out.println("billingDate::" + request.getParameter("billingDate"));
-		System.out.println("remark:: " + request.getParameter("remark"));
+		LOGGER.info("Calling addLawfirmBilling  " + "LitigationId"+ id + "billing Type:: " + request.getParameter("billingType"));
+		
+		LOGGER.info("billing Amount:: " + request.getParameter("billingAmount"));
+		LOGGER.info("billingDate::" + request.getParameter("billingDate"));
+		LOGGER.info("remark:: " + request.getParameter("remark"));
 
 		ConnectedLitigationVO connectedLitigationVO = new ConnectedLitigationVO();
 		connectedLitigationVO.setBillingType(request.getParameter("billingType"));
@@ -1094,9 +1092,10 @@ public class LitigationController {
 
 		ConnectedLitigationVO connectedLitigationVO = new ConnectedLitigationVO();
 		int id = (int) session.getAttribute("litigationSessionId");
-		System.out.println("ID:: " + id);
-		System.out.println("Comments::" + request.getParameter("uploadComments"));
-		System.out.println("DocumentTitle:: " + request.getParameter("documentTitle"));
+		LOGGER.info("Calling uploadDocument " +"ID:: " + id);
+		
+		LOGGER.info("Comments::" + request.getParameter("uploadComments"));
+		LOGGER.info("DocumentTitle:: " + request.getParameter("documentTitle"));
 		UserVO userVO = (UserVO) session.getAttribute(CommonConstants.SESSION_USER_VO);
 		connectedLitigationVO.setLitigationOId(id);
 		connectedLitigationVO.setLoginId(userVO.getLoginId());
@@ -1116,7 +1115,7 @@ public class LitigationController {
 
 	@RequestMapping(value = "/getOutsideCounselDtls/{lawfirmVal}", method = RequestMethod.GET)
 	public ModelAndView getOutsideCounselDtls(@PathVariable String lawfirmVal) {
-		System.out.println("lawfirm" + lawfirmVal);
+		LOGGER.info("Calling getOutsideCounselDtls lawfirm" + lawfirmVal);
 		ModelAndView modelAndView = new ModelAndView();
 		OutsideCounselVO outsideCounselVO = new OutsideCounselVO();
 		LawFirm lawfirmDtls = outsideCounselService.findByLawfirm(lawfirmVal);
@@ -1242,7 +1241,7 @@ public class LitigationController {
 	@RequestMapping(value = "/updateLtgn", method = RequestMethod.GET)
 	public String updateLtgn(Model model, HttpServletRequest request, HttpSession session) {
 //		model.addAttribute("updateLitigatinVO", new LitigationSummaryVO());
-		System.out.println("LitigationId" + request.getParameter("litigationId"));
+		LOGGER.info("Calling updateLtgn " + " LitigationId" + request.getParameter("litigationId"));
 		model.addAttribute("allEntities", entityService.getAllEntities());
 		model.addAttribute("allRegions", zoneService.getAllZones());
 		model.addAttribute("allUnitLocationDtls", unitsSummaryService.getUnitSummary());
@@ -1273,8 +1272,9 @@ public class LitigationController {
 		UserVO userVO = (UserVO) session.getAttribute(CommonConstants.SESSION_USER_VO);
 		litigationSummaryVO.setLitigationOId(id);
 		litigationSummaryVO.setLoginId(userVO.getLoginId());
-		System.out.println(request.getParameter("caseRelateFromDate"));
-		System.out.println(request.getParameter("caseRelateToDate"));
+		LOGGER.info("Calling updateLitigationDtls");
+		LOGGER.info("Case Relate From Date" +request.getParameter("caseRelateFromDate"));
+		LOGGER.info(request.getParameter("caseRelateToDate"));
 
 		litigationService.updateLitigationData(litigationSummaryVO);
 		model.addAttribute("allEntities", entityService.getAllEntities());
@@ -1303,6 +1303,7 @@ public class LitigationController {
 	
 	@RequestMapping(value="/getWitnessDtls", method=RequestMethod.GET)
 	public void getWitnessDtls(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		LOGGER.info("Calling getWitnessDtls");
 		int id = (int) session.getAttribute("litigationSessionId");
 		List<ConnectedLitigationVO> witnessDtls = litigationService.getWitnessDtls(id);
 		int totalRecord = 0;
@@ -1344,6 +1345,7 @@ public class LitigationController {
 	
 	@RequestMapping(value="/getLawfirmBillingDtls", method=RequestMethod.GET)
 	public void getLawfirmBillingDtls(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		LOGGER.info("Calling getLawfirmBillingDtls");
 		int id = (int) session.getAttribute("litigationSessionId");
 		List<ConnectedLitigationVO> lawfirmDtls = litigationService.getLawfirmBillingDtls(id);
 		int totalRecord = 0;
@@ -1389,6 +1391,7 @@ public class LitigationController {
 
 	@RequestMapping(value = "/getConnectedLitigationDtls", method = RequestMethod.GET)
 	public void getConnectedLitigation(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		LOGGER.info("Calling getConnectedLitigation");
 		int id = (int) session.getAttribute("litigationSessionId");
 		List<ConnectedLitigationVO> connectedLitigationDtls = litigationService.getConnectedLitigationDtls(id);
 		int totalRecord = 0;
@@ -1430,6 +1433,7 @@ public class LitigationController {
 	
 	@RequestMapping(value = "/getDocumentSummary", method = RequestMethod.GET)
 	public void getDocumentSummary(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		LOGGER.info("Calling getDocumentSummary");
 		int id = (int) session.getAttribute("litigationSessionId");
 		List<ConnectedLitigationVO> documentSummaryDtls = litigationService.getDocumentSummaryDtls(id);
 		int totalRecord = 0;
@@ -1475,6 +1479,7 @@ public class LitigationController {
 	@RequestMapping(value = "/historyReportExportToExcel",method = RequestMethod.GET)
 	public ModelAndView exportToStatusReportCasesExcel(HttpServletRequest request,HttpServletResponse response,HttpSession session)
 	{
+		LOGGER.info("Calling exportToStatusReportCasesExcel");
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setView(new historyReportView());
 		return new ModelAndView(new historyReportView());
@@ -1483,12 +1488,12 @@ public class LitigationController {
 	
 	@GetMapping("/downloadUploadedDoc")
 	public ResponseEntity<Resource> downloadFile(HttpServletRequest request) {
-		System.out.println(request.getParameter("id"));
+		LOGGER.info("Calling downloadUploadedDoc "+"Request Id" +request.getParameter("id"));
 		Optional<LitigationDocs> documents = litigationService
 				.findDocumentNames(Integer.parseInt(request.getParameter("id")));
 
 		if (documents.isPresent()) {
-			System.out.println(documents.get().getDocName());
+			LOGGER.info("DocName" +documents.get().getDocName());
 			// Load file as Resource
 			Resource resource = fileStorageService.loadFileAsResource(documents.get().getDocName());
 
@@ -1496,7 +1501,7 @@ public class LitigationController {
 			String contentType = null;
 			try {
 				contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-				System.out.println("contentType:: " + contentType);
+				LOGGER.info("contentType:: " + contentType);
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
@@ -1518,7 +1523,7 @@ public class LitigationController {
 	@GetMapping("/deleteUploadedDocument")
 	@ResponseBody
 	public String deleteDocument(Model model,HttpServletRequest request, HttpSession session) {
-		System.out.println(request.getParameter("id"));
+		LOGGER.info(request.getParameter("id"));
 		int isDeleted = litigationService.deleteDocument(Integer.parseInt(request.getParameter("id")));
 		
 		if(isDeleted > 0) {
@@ -1532,6 +1537,7 @@ public class LitigationController {
 	@RequestMapping(value="/getUnitLocationDataByZone", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public String getUnitLocationByZone(@RequestParam String zoneNameVal, @RequestParam String entityNameVal){
+		LOGGER.info("Calling getUnitLocationByZone");
 		List<ShowCauseNoticeVO> unitList = showCauseNoticeService.getUnitDtlsByZone(zoneNameVal,entityNameVal);
 		ObjectMapper mapper = new ObjectMapper();
 		String newJsonData = "";

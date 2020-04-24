@@ -963,10 +963,10 @@ public class LitigationService implements ILitigationService {
 		allActivityLog.setlHistoryId(activityLog.getLtgnLitigationLog().getLitigationLogId()); // ltgnLitigationOgid as
 																								// hearing id
 		allActivityLog.setActivityType(activityLog.getActivityType());
-		activityDescription.append("Hearing Dt: " + activityLog.getLtgnLitigationLog().getDateOfHearing());
-		activityDescription.append("Stage: " + activityLog.getLtgnLitigationLog().getStage());
-		activityDescription.append("Event: " + activityLog.getLtgnLitigationLog().getHearingEvent());
-		activityDescription.append("Attended By: " + activityLog.getLtgnLitigationLog().getHearingAttendedBy());
+		activityDescription.append("Hearing Dt: " + activityLog.getLtgnLitigationLog().getDateOfHearing() +"\r\n");
+		activityDescription.append("Stage: " + activityLog.getLtgnLitigationLog().getStage() +"\r\n");
+		activityDescription.append("Event: " + activityLog.getLtgnLitigationLog().getHearingEvent() +"\r\n");
+		activityDescription.append("Attended By: " + activityLog.getLtgnLitigationLog().getHearingAttendedBy() +"\r\n");
 		allActivityLog.setActivityDescription(activityDescription);
 		System.out.println("ActivityDesc:: " +activityDescription);
 		allActivityLog.setModifiedDate(activityLog.getCreateDate());
@@ -1842,7 +1842,7 @@ public class LitigationService implements ILitigationService {
 		List<ConnectedLitigationVO> listConnectedLitigationVO = new ArrayList<>();
 		for(ConnectedLitigation connectedLitigationDtls : connectedLitigation) {
 			ConnectedLitigationVO connectedLitigationVO =new ConnectedLitigationVO();
-			connectedLitigationVO.setLitigationId(connectedLitigationDtls.getLitigation().getConnectedLitigation().get(0).getLitigation().getLitigationId()); //connectedLitiagtionID
+			connectedLitigationVO.setLitigationId(connectedLitigationDtls.getConnectedLitigation().getLitigationId()); //ConnectedLitigationId
 			connectedLitigationVO.setComments(connectedLitigationDtls.getComment());
 			listConnectedLitigationVO.add(connectedLitigationVO);
 		}

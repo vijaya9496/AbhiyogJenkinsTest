@@ -74,7 +74,7 @@ public class ReportController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReportController.class);
 	
-	private BaseResponseVO baseResponseVO = BaseResponseVO.getInstance();
+	
 	
 	
 	@RequestMapping(value = "/causeListReport", method = RequestMethod.GET)

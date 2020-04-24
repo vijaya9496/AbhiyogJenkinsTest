@@ -23,7 +23,7 @@ import com.fg.ss.abhiyog.common.vo.LitigationSummaryVO;
 
 public class metricsReportView extends AbstractXlsView{
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(causeListReportView.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(metricsReportView.class);
 	
 	@SuppressWarnings("unchecked")
 	@Override

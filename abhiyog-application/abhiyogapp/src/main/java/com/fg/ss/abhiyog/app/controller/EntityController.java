@@ -30,7 +30,7 @@ import com.fg.ss.abhiyog.common.vo.UserVO;
 @Controller
 public class EntityController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EntityController.class);
 	
 	@Autowired
 	private IEntityService entityService;
