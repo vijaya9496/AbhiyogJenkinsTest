@@ -1,152 +1,199 @@
 jQuery(document).ready(function(){
-	// FromDate
-	var date = new Date();
-	date.setMonth(date.getMonth());
-	var months = 12;
-	var monthNames = ["January", "February", "March", "April", "May", "June",
-	  "July", "August", "September", "October", "November", "December"
-	];
-	var select = document.getElementById('fromMonth');
-	var html = '';
-	for (var i = 0; i < months; i++) {
-	  var m = date.getMonth();
-	  html += '<option value="' + monthNames[m] + '">' + monthNames[m] + '</option>'
-	  date.setMonth(date.getMonth() + 1);
-	}
-	select.innerHTML = html;
 	
-	// ToDate
-	var date = new Date();
-	date.setMonth(date.getMonth() + 3);
-	var months = 12;
-	var monthNames = ["January", "February", "March", "April", "May", "June",
-	  "July", "August", "September", "October", "November", "December"
-	];
-	var select = document.getElementById('toMonth');
-	var html = '';
-	for (var i = 0; i < months; i++) {
-	  var m = date.getMonth();
-	  html += '<option value="' + monthNames[m] + '">' + monthNames[m] + '</option>'
-	  date.setMonth(date.getMonth() + 1);
-	}
-	select.innerHTML = html;
+	$(function() {
+		$("#fromDate").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : 'yy-mm-dd'
+		}).datepicker("setDate", new Date());
+
+		var d = new Date();
+		d.setMonth(d.getMonth() + 3);
+		
+		$("#toDate").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : 'yy-mm-dd'
+		}).datepicker("setDate", d);
+	});
 	
-	$('#fromYear').each(function() {
+	$("#fromDate").change(function(){
+		var fromDt = $("#fromDate").val();
+		alert("FromDate:: " +fromDt);
+		var frmDt = new Date(fromDt);
+		alert(frmDt);
+		alert(frmDt.getDate());
+			
+		$("#toDate").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : 'yy-mm-dd'
+		}).datepicker("setDate", new Date(frmDt.setMonth(frmDt.getMonth() + 3)));
+	});
+	
+	
+	$("#toDate").change(function(){
+		var toDt = $("#toDate").val();
+		var toDate = new Date(toDt);
+			
+		$("#fromDate").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : 'yy-mm-dd'
+		}).datepicker("setDate", new Date(toDate.setMonth(toDate.getMonth() - 3)));
+	});
 
-		  var year = (new Date()).getFullYear();
-		  var current = year;
-		  year -= 3;
-		  for (var i = 0; i < 6; i++) {
-		    if ((year+i) == current)
-		      $(this).append('<option selected value="' + (year + i) + '">' + (year + i) + '</option>');
-		    else
-		      $(this).append('<option value="' + (year + i) + '">' + (year + i) + '</option>');
-		  }
+	
+	jQuery("#litigationCalendarSummary").jqGrid(
+			{
+//				url : "/getUserSummary",
+				width : 1150,
+				height : 250,
+				colNames : [ 'L.ID/Status', 'File No', 'Entity (Unit/Location)', 'Counterparty',
+						'Case Number', 'Subject', 'Stage', 'Hearing Date', 'Risk', 'Possible Claim', 'Remark', 'Handled By' ],
+				colModel : [ {
+					name : 'lid',
+					index : 'lid',
+					width : 100,
+					align : 'center',
+					
+				}, {
+					name : 'fileNo',
+					index : 'fileNo',
+					width : 100,
+					align : 'center'
+				}, {
+					name : 'entityUnitLcoation',
+					index : 'entityUnitLcoation',
+					width : 100,
+					align : 'center'
+				}, {
+					name : 'counterParty',
+					index : 'counterParty',
+					width : 100,
+					align : 'center'
+				}, {
+					name : 'caseNumber',
+					index : 'caseNumber',
+					width : 100,
+					formatter : 'showlink',
+					formatoptions : {
+						baseLinkUrl : '/viewLitigationDetails'
+					},
+					align : 'center'
+				}, {
+					name : 'subject',
+					index : 'subject',
+					width : 100,
+					align : 'center'
+				}, {
+					name : 'stage',
+					index : 'stage',
+					width : 100,
+					align : 'center'
+				}, {
+					name : 'hearingDate',
+					index : 'hearingDate',
+					width : 100,
+					align : 'center'
+				}, {
+					name : 'risk',
+					index : 'risk',
+					width : 100,
+					align : 'center'
+				},{
+					name : 'possibleClaim',
+					index : 'possibleClaim',
+					width : 100,
+					align : 'center'
+				}, {
+					name : 'remark',
+					index : 'remark',
+					width : 100,
+					align : 'center'
+				},{
+					name : 'handledBy',
+					index : 'handledBy',
+					width : 100,
+					align : 'center'
+				} ],
+				rowNum : 10,
+				rowList : [ 5, 10, 20 ],
+				pager : '#litigationCalendarSummarypager',
+				datatype : 'json',
+				loadonce : true,
+				viewrecords : true,
+				ignoreCase : true,
+				cmTemplate : {
+					sortable : false
+				},
+			// multiselect : true,
+			});
+	jQuery("#litigationCalendarSummary").jqGrid('filterToolbar', {
+		defaultSearch : "cn",
+		stringResult : true,
+		searchOnEnter : false
+	});
+	
+	
+	
+	$("#searchBtn").click(function(){
+		var urlStr = "/getLitigationCalendarSummaryData?";
+		var zone = jQuery.trim($('#zoneName').val());
+		var format = jQuery.trim($('#format').val());
+		var entity = jQuery.trim($('#entityName').val());
+		var unitLocation = jQuery.trim($("#unitLocation").val());
+		var counterParty = jQuery.trim($('#counterPartyName').val());
+		var category = jQuery.trim($('#categoryName').val());
+		var possibleClaim = jQuery.trim($('#claim').val());
+		var state = jQuery.trim($('#stateName').val());
+		var city = jQuery.trim($('#city').val());
+		var courtForum = jQuery.trim($('#courtForum').val());
+		var lawfirmIndividual = jQuery.trim($('#lawfirm').val());
+		var policeStation = jQuery.trim($('#policeStation').val());
+		var courtType = jQuery.trim($('#courtTypeName').val());
+		var underActs = jQuery.trim($('#underActName').val());
+		var risk = jQuery.trim($('#risk').val());
+		var status = jQuery.trim($('#status').val());
+		var matterByAgainst = jQuery.trim($('#matterBy').val());
+		var fromDate = jQuery.trim($('#fromDate').val());
+		var toDate = jQuery.trim($("#toDate").val());
+		
+		
+		
+		var requestData = {};
+		urlStr = urlStr + "zoneName=" + zone + "&format=" + format + "&entityName="
+				+ entity + "&unitLocation=" + unitLocation + "&counterPartyName=" + counterParty
+				+ "&categoryName=" + category + "&claim=" + possibleClaim
+				+ "&stateName=" + state + "&city=" + city + "&courtForum=" +courtForum + "&lawfirm=" + lawfirmIndividual
+				+ "&policeStation=" + policeStation + "&courtTypeName=" + courtType + "&underActName=" + underActs + "&risk="
+				+ risk + "&status=" + status + "&matterBy="
+				+ matterByAgainst + "&fromDate=" + fromDate + "&toDate=" +toDate;
 
+		$.ajax({
+			type : "post",
+			url : urlStr,
+			cache : false,
+			async : false,
+			data : requestData,
+			dataType : 'json',
+			
+			success : function(response){
+				jQuery("#litigationCalendarSummary").jqGrid('setGridParam', {
+					url : urlStr,
+					ajaxGridOptions : {
+						async : false
+					},
+					datatype : 'json',
+					page : 1
+				}).trigger("reloadGrid");
+				
+			},
+			error: function(){
+				alert("error while request");
+			}
+			
 		});
-	$('#toYear').each(function() {
-
-		  var year = (new Date()).getFullYear();
-		  var current = year;
-		  year -= 3;
-		  for (var i = 0; i < 6; i++) {
-		    if ((year+i) == current)
-		      $(this).append('<option selected value="' + (year + i) + '">' + (year + i) + '</option>');
-		    else
-		      $(this).append('<option value="' + (year + i) + '">' + (year + i) + '</option>');
-		  }
-
-		});
-	
-	
-	cal_days_labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-	cal_months_labels = ['January', 'February', 'March', 'April',
-	                 'May', 'June', 'July', 'August', 'September',
-	                 'October', 'November', 'December'];
-	// these are the days of the week for each month, in order
-	cal_days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-	// this is the current date
-	cal_current_date = new Date();
-
-	function Calendar(month, year) {
-	    this.month = (isNaN(month) || month == null) ? cal_current_date.getMonth() : month;
-	    this.year = (isNaN(year) || year == null) ? cal_current_date.getFullYear() : year;
-	    this.html = '';
-	}
-
-
-	Calendar.prototype.generateHTML = function () {
-
-	    // get first day of month
-	    var firstDay = new Date((new Date().getFullYear(), 0, 1));
-	    // var firstDay = new Date(this.year, this.month, 1);
-	    var startingDay = firstDay.getDay();
-
-	    // find number of days in month
-	    var monthLength = cal_days_in_month[this.month];
-
-	    // compensate for leap year
-	    if (this.month == 1) { // February only!
-	        if ((this.year % 4 == 0 && this.year % 100 != 0) || this.year % 400 == 0) {
-	            monthLength = 29;
-	        }
-	    }
-
-	    // do the header
-	    var html = ""
-	    for(var cal=0; cal<3; cal++){
-	     var curr = new Date(this.year, (this.month+cal), 1);
-	     var startingDay = curr.getDay();
-	     console.log(startingDay);
-	      var monthName = cal_months_labels[this.month+cal];
-	      var monthLength = cal_days_in_month[this.month+cal];
-	      html += '<table class="calendar-table">';
-	      html += '<tr><th colspan="7">';
-	      html += monthName + "&nbsp;" + this.year;
-	      html += '</th></tr>';
-	      html += '<tr class="calendar-header">';
-	      for (var i = 0; i <= 6; i++) {
-	          html += '<td class="calendar-header-day">';
-	          html += cal_days_labels[i];
-	          html += '</td>';
-	      }
-	      html += '</tr><tr>';
-
-	      // fill in the days
-	      var day = 1;
-	      // this loop is for is weeks (rows)
-	      for (var i = 0; i < 9; i++) {
-	          // this loop is for weekdays (cells)
-	          for (var j = 0; j <= 6; j++) {
-	              html += '<td class="calendar-day">';
-	              if (day <= monthLength && (i > 0 || j >= startingDay)) {
-	                  html += day;
-	                  day++;
-	              }
-	              html += '</td>';
-	          }
-	          // stop making rows if we've run out of days
-	          if (day > monthLength) {
-	              break;
-	          } else {
-	              html += '</tr><tr>';
-	          }
-	      }
-	      html += '</tr></table>';
-	    
-	    }// end of calendar loop
-
-	    this.html = html;
-	    
-	}
-
-	Calendar.prototype.getHTML = function () {
-	    return this.html;
-	}
-
-	var cal = new Calendar();
-	cal.generateHTML();
-	document.getElementById("allCalendar").innerHTML = cal.getHTML()
+	});
 	
 });

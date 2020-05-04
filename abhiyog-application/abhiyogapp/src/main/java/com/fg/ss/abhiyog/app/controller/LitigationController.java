@@ -5,7 +5,10 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +45,7 @@ import com.fg.ss.abhiyog.common.model.CounterPartyDtls;
 import com.fg.ss.abhiyog.common.model.CourtCity;
 import com.fg.ss.abhiyog.common.model.CourtType;
 import com.fg.ss.abhiyog.common.model.LawFirm;
+import com.fg.ss.abhiyog.common.model.Litigation;
 import com.fg.ss.abhiyog.common.model.LitigationDocs;
 import com.fg.ss.abhiyog.common.model.LtgnCaseType;
 import com.fg.ss.abhiyog.common.model.LtgnRepresentativeMaster;
@@ -1557,15 +1561,19 @@ public class LitigationController {
 	public String litigationCalendar(Model model) {
 		model.addAttribute("litigationSummaryVO", new LitigationSummaryVO());
 
-		model.addAttribute("allZones", zoneService.getAllZones());
+		model.addAttribute("allRegions", zoneService.getAllZones());
 		model.addAttribute("allFormats", formatService.getAllFormats());
 		model.addAttribute("allEntities", entityService.getAllEntities());
-		model.addAttribute("allFunction", litigationService.getdept());
+//		model.addAttribute("allFunction", litigationService.getdept());
+		model.addAttribute("allUnitLocationDtls", unitsSummaryService.getUnitSummary());
 		model.addAttribute("allCounterParty", counterPartyService.findAll());
 		model.addAttribute("allCategories", litigationService.findAllCategoryData());
 		model.addAttribute("allPossibleClaim", litigationService.findAllClaimPossible());
 		model.addAttribute("allStates", litigationService.findAllStates());
+		model.addAttribute("allCityDtls", litigationService.findAllCities());
+		model.addAttribute("allCourtForumDtls", litigationService.getAllCourtForum());
 		model.addAttribute("allLawfirmDtls", outsideCounselService.findAll());
+//		policeStation
 		model.addAttribute("allCourtTypeDtls", litigationService.findCourtType());
 		model.addAttribute("allUnderActDtls", litigationService.findAllUnderActData());
 		model.addAttribute("allRiskDtls", litigationService.findAllRiskLevel());
@@ -1573,5 +1581,164 @@ public class LitigationController {
 		model.addAttribute("allMatterByAgainstDtls", litigationService.findAll());
 
 		return "litigationCalendar";
+	}
+	
+	@RequestMapping("/getLitigationCalendarSummaryData")
+	private void getLitigationCalendarSummaryData( HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
+		LOGGER.info("inside getLitigationCalendarSummaryData method");
+		int totalRecord = 0;
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode responseData = mapper.createObjectNode();
+		ArrayNode cellArray = null;
+		ArrayNode cell = null;
+		ObjectNode cellObj = null;
+		try {
+			PrintWriter out = response.getWriter();
+			String frmDate="";
+			String toDate="";
+			String zone ="";
+			String format ="";
+			String entityName = "";
+			String unitLocation = "";
+			String counterParty = "";
+			String category = "";
+			String possibleClaim = "";
+			String state = "";
+			String city="";
+			String courtForum ="";
+			String lawfirm = "";
+			String policeStation = "";
+			String courtType = "";
+			String underActs = "";
+			String risk = "";
+			String status = "";
+			String litigationByAgainst = "";
+			String matterByAgainst ="";
+					
+					
+//			UserVO userVO = (UserVO) session.getAttribute(CommonConstants.SESSION_USER_VO);
+			
+			if(request.getParameter("fromDate")!=null && request.getParameter("fromDate")!="")
+				frmDate=request.getParameter("fromDate");
+			if(request.getParameter("toDate")!=null && request.getParameter("toDate")!="")
+				toDate = request.getParameter("toDate");
+			if (request.getParameter("entityName") != "ALL" && request.getParameter("entityName") != null) {
+				entityName = request.getParameter("entityName");
+			}
+			
+			if (request.getParameter("format") != "ALL" && request.getParameter("format") != null) {
+				format = request.getParameter("format");
+			}
+			
+			if (request.getParameter("zoneName") != "ALL" && request.getParameter("zoneName") != null) {
+				zone = request.getParameter("zoneName");
+			}
+			
+			if(request.getParameter("unitName") != "ALL" && request.getParameter("unitName") != null) {
+				unitLocation = request.getParameter("unitName");
+			}
+			
+			if(request.getParameter("counterPartyName") != "ALL" && request.getParameter("counterPartyName") != null) {
+				counterParty = request.getParameter("counterPartyName");
+			}
+			
+			if(request.getParameter("categoryName") != "ALL" && request.getParameter("categoryName") != null) {
+				category = request.getParameter("categoryName");
+			}
+			
+			if(request.getParameter("claim") != "ALL" && request.getParameter("claim") != null) {
+				possibleClaim = request.getParameter("claim");
+			}
+			
+			if(request.getParameter("stateName") != "ALL" && request.getParameter("stateName") != null) {
+				state = request.getParameter("stateName");
+			}
+			
+			if(request.getParameter("cityName") != "ALL" && request.getParameter("cityName") != null) {
+				city = request.getParameter("cityName");
+			}
+			
+			if(request.getParameter("courtForum") != "ALL" && request.getParameter("courtForum") != null) {
+				courtForum = request.getParameter("courtForum");
+			}
+			
+			if(request.getParameter("lawfirm") != "ALL" && request.getParameter("lawfirm") != null) {
+				lawfirm = request.getParameter("lawfirm");
+			}
+			
+			if(request.getParameter("courtTypeName") != "ALL" && request.getParameter("courtTypeName") != null) {
+				courtType = request.getParameter("courtTypeName");
+			}
+			
+			if(request.getParameter("underActName") != "ALL" && request.getParameter("underActName") != null) {
+				underActs = request.getParameter("underActName");
+			}
+			
+			if(request.getParameter("risk") != "ALL" && request.getParameter("risk") != null) {
+				risk = request.getParameter("risk");
+			}
+			
+			if(request.getParameter("status") != "ALL" && request.getParameter("status") != null) {
+				status = request.getParameter("status");
+			}
+			
+			if(request.getParameter("litigationBy") != "ALL" && request.getParameter("litigationBy") != null) {
+				litigationByAgainst = request.getParameter("litigationBy");
+			}
+			
+			if(request.getParameter("matterBy") != "ALL" && request.getParameter("matterBy") != null) {
+				matterByAgainst = request.getParameter("matterBy");
+			}
+			
+			
+			
+			List<Litigation> litigationCalendarData = null;
+			if(frmDate != null && toDate != null && frmDate != "" && toDate != "") {
+				litigationCalendarData = litigationService.getLitigationCalendarData(frmDate,toDate, zone, format, entityName, unitLocation, counterParty, 
+						category, possibleClaim, state, city, courtForum, lawfirm, courtType, underActs, risk, status, litigationByAgainst, matterByAgainst);
+				cellArray = mapper.createArrayNode();
+				if (litigationCalendarData.size() > 0) {
+					totalRecord = litigationCalendarData.size();
+					Map<Integer, List<Litigation>> groupedData = litigationCalendarData.stream()
+							.collect(Collectors.groupingBy(Litigation::getLitigationOid, Collectors.toList()));
+					for (Entry<Integer, List<Litigation>> litigationSummary : groupedData.entrySet()) {
+						cellObj = mapper.createObjectNode();
+						cellObj.put(CommonConstants.ID, litigationSummary.getValue().get(0).getLitigationOid());
+						cell = mapper.createArrayNode();
+//						cell.add(litigationSummary.getValue().get(0).getLitigationOid());
+						cell.add(litigationSummary.getValue().get(0).getLitigationId());
+						cell.add(litigationSummary.getValue().get(0).getFileNo());
+						cell.add(litigationSummary.getValue().get(0).getUnits().getEntitySummary().getEntityName()  + "-" + litigationSummary.getValue().get(0).getUnits().getUnitName()  );
+						cell.add(litigationSummary.getValue().get(0).getCounterPartyDtls().getCustomerName() );
+						cell.add(litigationSummary.getValue().get(0).getCaseNumber());
+						cell.add(litigationSummary.getValue().get(0).getSubject());
+						cell.add(litigationSummary.getValue().get(0).getLtgnLitigationLog().get(0).getStageMaster().getStage());
+						cell.add(litigationSummary.getValue().get(0).getLtgnLitigationLog().get(0).getDateOfHearing().toString());
+						cell.add(litigationSummary.getValue().get(0).getRisk().getRisk());
+						cell.add(litigationSummary.getValue().get(0).getClaim().getClaim());
+						cell.add(litigationSummary.getValue().get(0).getRemark());
+						cell.add(litigationSummary.getValue().get(0).getLtgnLitigationLog().get(0).getHearingAttendedBy());
+//						cellObj.put(CommonConstants.CELL, cell);
+						cellObj.set(CommonConstants.CELL, cell);
+						cellArray.add(cellObj);
+
+					}
+				}
+			}else {
+				System.out.println("FromDate and ToDate null");
+			}
+			
+			
+			responseData.put(CommonConstants.PAGE, CommonConstants.PAGE_NO);
+			responseData.put(CommonConstants.RECORDS, totalRecord);
+//			responseData.put(CommonConstants.ROWS, cellArray);
+			responseData.set(CommonConstants.ROWS, cellArray);
+			out.println(responseData);
+			
+		} catch (IOException e) {
+			LOGGER.error("Exception generated in FillingGrid Method:: " + e.getMessage(), e);
+			e.printStackTrace();
+		}
 	}
 }

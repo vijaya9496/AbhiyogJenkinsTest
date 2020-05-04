@@ -1958,6 +1958,123 @@ public class LitigationService implements ILitigationService {
 		return listDashboardSummary;
 	}
 
+	@Override
+	public List<Litigation> getLitigationCalendarData(String frmDate, String toDate, String zone,
+			String format, String entityName, String unitLocation, String counterParty, String category,
+			String possibleClaim, String state, String city, String courtForum, String lawfirm, String courtType,
+			String underActs, String risk, String status, String litigationByAgainst, String matterByAgainst) {
+		
+		List<Litigation> litigationCalendarData = new ArrayList<>();
+		Map<String, Object> parameterMap = new HashMap<>();
+		List<String> whereClause = new ArrayList<>();
+		StringBuilder reportQuery = new StringBuilder();
+
+		reportQuery.append("select lt from Litigation as lt join Status as s on s.statusId = lt.status.statusId  join CounterPartyDtls as lc on lc.id = lt.counterPartyDtls.id join Units as u on u.unitId = lt.units.unitId join EntitySummary as e on e.entityId = u.entitySummary.entityId join Risk as rs on rs.riskId = lt.risk.riskId join LtgnLitigationLog as ltlog on lt.litigationOid = ltlog.litigation.litigationOid join LitigationUnits as  lu on lt.litigationOid = lu.litigation.litigationOid  join LtgnCaseType as lct on lct.caseTypeId = lt.ltgnCaseType.caseTypeId join LawFirm as lf on lf.lawfirmId = lt.lawFirm.lawfirmId join LitigationMatterByAgainst as lma on lt.litigationOid = lma.litigation.litigationOid join UnderAct as ua on ua.underActId = lt.underAct.underActId join CourtType as ct on ct.courtTypeId = lt.courtType.courtTypeId join CourtCity as cf on cf.courtCityId = lt.courtCity.courtCityId ");
+			   
+				 
+//		where LocalDate(lt.nextDateOfHearing) between :frmDate and :toDate 
+		LocalDate fromDate  = LocalDate.parse(frmDate);
+		LocalDate toDt = LocalDate.parse(toDate);
+		if(frmDate != null && toDate != null) {
+			reportQuery.append(" where ltlog.dateOfHearing between :frmDate and :toDate  ");
+			parameterMap.put("frmDate", fromDate);
+			parameterMap.put("toDate", toDt);
+		}
+		if (!entityName.equals("ALL") && entityName != ""  ) {
+			whereClause.add(" e.entityName=:entityName ");
+			parameterMap.put("entityName", entityName);
+		}
+		
+		if (!unitLocation.equals("ALL") && unitLocation != "") {
+			whereClause.add(" u.unitName=:unitLocation ");
+			parameterMap.put("unitLocation", unitLocation);
+		}
+		
+		if(!counterParty.equals("ALL") && counterParty != "") {
+			whereClause.add(" lc.customerName =:counterParty ");
+			parameterMap.put("counterParty", counterParty);
+		}
+		
+		if(!category.equals("ALL") && category != "") {
+			whereClause.add(" lct.caseType = :category ");
+			parameterMap.put("category", category);
+		}
+		
+		if(!possibleClaim.equals("ALL") && possibleClaim != "") {
+			whereClause.add(" lt.claim.claim = :possibleClaim ");
+			parameterMap.put("possibleClaim", possibleClaim);
+		}
+		
+		if(!courtType.equals("ALL") && courtType != "") {
+			whereClause.add(" ct.courtType = :courtType ");
+			parameterMap.put("courtType", courtType);
+		}
+		
+		if(!courtForum.equals("ALL") && courtForum != "") {
+			whereClause.add(" cf.courtCity = :courtForum ");
+			parameterMap.put("courtForum", courtForum);
+		}
+		
+		if(!city.equals("ALL") && city != "") {
+			whereClause.add(" lt.city = :city ");
+			parameterMap.put("city", city);
+		}
+		
+		if(!lawfirm.equals("ALL") && lawfirm != "") {
+			whereClause.add(" lf.lawfirm = :lawfirm ");
+			parameterMap.put("lawfirm", lawfirm);
+		}
+		
+		if(!underActs.equals("ALL") && underActs != "") {
+			whereClause.add(" ua.underAct = :underActs ");
+			parameterMap.put("underActs", underActs);
+		}
+		
+		if (!risk.equals("ALL") && risk != "") {
+			System.out.println(risk);
+			whereClause.add(" rs.risk=:risk ");
+			parameterMap.put("risk", risk);
+		}
+		if (!status.equals("ALL") && status != "") {
+			whereClause.add(" s.status=:status ");
+			parameterMap.put("status", status);
+		}
+		if (!matterByAgainst.equals("ALL") && matterByAgainst!= "") {
+			whereClause.add(" lt.ltgnRepresentativeMaster.representativeName=:matterByAgainst ");
+			parameterMap.put("matterByAgainst", matterByAgainst);
+		}
+		if (!litigationByAgainst.equals("ALL") && litigationByAgainst != "") {
+			whereClause.add(" lt.ltgnRepresentativeMaster.representativeName=:litigationByAgainst ");
+			parameterMap.put("litigationByAgainst", litigationByAgainst);
+		}
+		if(!zone.equals("ALL") && zone != "") {
+			whereClause.add(" u.regions.zoneName=:zone ");
+			parameterMap.put("zone", zone);
+		}
+		
+		if(!format.equals("ALL") && format != "") {
+			whereClause.add(" lt.format.format=:format ");
+			parameterMap.put("format", format);
+		}
+		
+		if ((!entityName.equals("ALL") && entityName != "") || (!unitLocation.equals("ALL") && unitLocation != "") || (!risk.endsWith("ALL") && risk != "") || 
+				(!status.equals("ALL") && status != "")|| (!matterByAgainst.equals("ALL") && matterByAgainst != "")|| (!litigationByAgainst.equals("ALL") && litigationByAgainst != "") 
+				|| (!zone.equals("ALL") && zone != "") || (!format.equals("ALL") && format != "") || (!counterParty.equals("ALL") && counterParty != "") || (!category.equals("ALL") && category != "") ||
+				(!possibleClaim.equals("ALL") && possibleClaim != "") || (!courtForum.equals("ALL") && courtForum != "") ||  (!courtType.equals("ALL") && courtType != "") || (!lawfirm.equals("ALL") && lawfirm != ""))  {
+			reportQuery.append(" and " +StringUtils.join(whereClause, " and "));
+		}
+
+		LOGGER.info("Created Query::  " + reportQuery.toString());
+		Query jpaQuery = entityManager.createQuery(reportQuery.toString());
+		
+		for (String key : parameterMap.keySet()) {
+			jpaQuery.setParameter(key, parameterMap.get(key));
+		}
+		litigationCalendarData = jpaQuery.getResultList();	
+		LOGGER.info("List Size:: " + litigationCalendarData.size());
+		return litigationCalendarData;
+	}
+
 	
 
 }

@@ -21,6 +21,7 @@
 					<div class="right-outer ">
 						<div class="welcome">
 							Welcome <span th:text="${session.SESSION_USER_VO.fullName}"></span>
+							
 						</div>
 						<div class="right-link">
 							<a href="#">User Manual</a> <span class="dash">|</span> <a
@@ -92,7 +93,8 @@
 									<li><a href="/showAlertLogSummary"
 										th:href="@{/showAlertLogSummary}">Email Alert Log</a></li>
 								</ul></li>
-							<li class="dropdown"><a class="dropdown-toggle"
+							<li th:if="${session.SESSION_USER_VO.roleId != null and (session.SESSION_USER_VO.roleId == 6 or session.SESSION_USER_VO.roleId == 8)}"
+								class="dropdown"><a class="dropdown-toggle"
 								href="/showUserSummary" th:href="@{/showUserSummary}"
 								id="navbarDropdown" role="button" data-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false">Administration</a>

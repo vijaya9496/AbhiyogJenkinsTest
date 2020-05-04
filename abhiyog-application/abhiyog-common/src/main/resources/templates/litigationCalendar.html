@@ -50,14 +50,22 @@
 <script src="../static/js/litigationCalendar.js"
 	th:src="@{js/litigationCalendar.js}" type="text/javascript"></script>
 <div th:include="header :: header"></div>
+<style>
+.ui-widget-content a{
+	text-decoration: underline;
+}
+.ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+    }
+</style>
 <body>
 	<div class="wrapper">
 		<div class="middle-part midiile-bg">
 			<div class="middle-right">
 				<span class="welcome-head">LITIGATION CALENDAR</span>
 				<div class="hidden_form">
-					<form id="litigationCalendarForm" th:object="${litigationSummaryVO}"
-						class="form-horizontal">
+					<form id="litigationCalendarForm"
+						th:object="${litigationSummaryVO}" class="form-horizontal">
 
 						<div class="filter-form">
 							<ul>
@@ -99,8 +107,11 @@
 								<li>
 									<div class="filter-form">
 										<label for="usr">Unit/Location</label> <select
-											id="unitLocation" class="custom-select">
+											th:field="*{unitName}" id="unitLocation" class="custom-select">
 											<option value="ALL">ALL</option>
+											<option th:each="unit: ${allUnitLocationDtls}"
+												th:value="${unit.unitName}"
+												th:text="${unit.unitName}">test</option>
 										</select>
 									</div>
 								</li>
@@ -134,7 +145,7 @@
 										<label for="usr">Category</label> <select id="categoryName"
 											th:field="*{categoryName}" class="custom-select">
 											<option value="ALL">ALL</option>
-											<option th:each="category: ${allCategory}"
+											<option th:each="category: ${allCategories}"
 												th:value="${category.categoryName}"
 												th:text="${category.categoryName}">test</option>
 										</select>
@@ -159,7 +170,7 @@
 										<label for="usr">State</label> <select id="stateName"
 											th:field="*{stateName}" class="custom-select">
 											<option value="ALL">ALL</option>
-											<option th:each="state: ${allStateDtls}"
+											<option th:each="state: ${allStates}"
 												th:value="${state.stateName}" th:text="${state.stateName}">test</option>
 										</select>
 									</div>
@@ -167,16 +178,20 @@
 								<li>
 									<div class="filter-form">
 										<label for="usr">City</label> <select id="city"
-											class="custom-select">
+										th:field="*{cityName}"	class="custom-select">
 											<option value="ALL">ALL</option>
+											<option th:each="city: ${allCityDtls}"
+												th:value="${city.cityName}" th:text="${city.cityName}">test</option>
 										</select>
 									</div>
 								</li>
 								<li class="last">
 									<div class="filter-form">
 										<label for="usr">Court/Forum</label> <select id="courtForum"
-											class="custom-select">
+										th:field="*{courtForum}" class="custom-select">
 											<option value="ALL">ALL</option>
+											<option th:each="courtForumDtl: ${allCourtForumDtls}"
+												th:value="${courtForumDtl.courtForum}" th:text="${courtForumDtl.courtForum}">test</option>
 										</select>
 									</div>
 								</li>
@@ -256,7 +271,7 @@
 								<li>
 									<div class="filter-form">
 										<label for="usr">Litigation By/Against</label> <select
-											id="litigationByAgainst" class="custom-select">
+											th:field="*{litigationBy}" id="litigationByAgainst" class="custom-select">
 											<option value="ALL">ALL</option>
 											<option value="by">by</option>
 											<option value="Against">Against</option>
@@ -276,87 +291,45 @@
 								</li>
 							</ul>
 						</div>
-						<div class="bottom-buttons">
-							<input type="button" class="fourth login-bottom apply"
-								id="searchBtn" value="SEARCH">
-						</div>
 
 						<div class="filter-form">
 							<span class="inside-head">PERIOD</span> <span
 								class="black-head span-display">From Date</span>
 							<ul>
 								<li>
-									<div class="form-group">
-										<label for="usr">Month</label> <select class="custom-select" id="fromMonth">
-											<!-- <option selected>Select Menu</option>
-											<option value="January">January</option>
-											<option value="February">February</option>
-											<option value="March">March</option> 
-											<option value="April">April</option>
-											<option value="May">May</option> 
-											<option value="June">June</option>
-											<option value="July">July</option> 
-											<option value="August">August</option>
-											<option value="September">September</option> 
-											<option value="October">October</option>
-											<option value="November">November</option> 
-											<option value="December">December</option> -->
-										</select>
+									<div class="filter-form">
+										<label><sup class="red">*</sup>From Date:</label> <input
+											type="text" id="fromDate" th:field="*{fromDate}"
+											min="1000-01-01" placeholder="Todays" max="3000-12-31"
+											class="form-control calander">
 									</div>
 
 								</li>
 
 								<li class="last">
-									<div class="form-group">
-										<label for="usr">Year</label> <select class="custom-select" id="fromYear">
-											<!-- <option selected>Select Menu</option>
-											<option value="volvo">2018</option>
-											<option value="fiat">2019</option>
-											<option value="audi">2020</option> -->
-										</select>
-									</div>
-
-								</li>
-							</ul>
-						</div>
-						<div class="filter-form">
-							<span class="black-head span-display">To Date</span>
-							<ul>
-								<li>
-									<div class="form-group">
-										<label for="usr">Month</label> <select class="custom-select" id="toMonth">
-											<!-- <option value="1">January</option>
-											<option value="2">February</option>
-											<option value="3">March</option>
-											<option value="4">April</option>
-											<option value="5">May</option>
-											<option value="6">June</option>
-											<option value="7">July</option>
-											<option value="8">August</option>
-											<option value="9">September</option>
-											<option value="10">October</option>
-											<option value="11">November</option>
-											<option value="12">December</option> -->
-										</select>
-									</div>
-
-								</li>
-
-								<li class="last">
-									<div class="form-group">
-										<label for="usr">Year</label> <select class="custom-select" id="toYear">
-											<!-- <option selected>Select Menu</option>
-											<option value="volvo">2018</option>
-											<option value="fiat">2019</option>
-											<option value="audi">2020</option> -->
-										</select>
+									<div class="filter-form">
+										<label><sup class="red">*</sup>To Date:</label> <input
+											type="text" id="toDate" th:field="*{toDate}" min="1000-01-01"
+											placeholder="Todays" max="3000-12-31"
+											class="form-control calander">
 									</div>
 								</li>
 							</ul>
 						</div>
-						<div class="form-group" id="allCalendar">
+
+						<div class="bottom-buttons">
+							<input type="button" class="fourth login-bottom apply"
+								id="searchBtn" value="SEARCH">
 						</div>
 					</form>
+				</div>
+				<div class="data-tablemain">
+					<table id="litigationCalendarSummary" class="bgtable">
+						<tr>
+							<td />
+						</tr>
+					</table>
+					<div id="litigationCalendarSummarypager"></div>
 				</div>
 			</div>
 		</div>

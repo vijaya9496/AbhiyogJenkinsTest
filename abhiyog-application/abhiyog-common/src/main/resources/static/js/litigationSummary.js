@@ -80,8 +80,8 @@ jQuery(document).ready(
 							width : 100,
 							align : 'center'
 						},{
-							name : 'casenumber',
-							index : 'casenumber',
+							name : 'delete',
+							index : 'delete',
 							formatter:'showlink',
 							formatoptions:{baseLinkUrl:'/updateDeleteStatus'},
 							width : 100,

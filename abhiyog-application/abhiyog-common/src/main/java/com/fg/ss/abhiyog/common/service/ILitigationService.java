@@ -178,6 +178,11 @@ public interface ILitigationService {
 
 	int deleteDocument(int id);
 
+	List<Litigation> getLitigationCalendarData(String frmDate, String toDate, String zone, String format,
+			String entityName, String unitLocation, String counterParty, String category, String possibleClaim,
+			String state, String city, String courtForum, String lawfirm, String courtType, String underActs,
+			String risk, String status, String litigationByAgainst, String matterByAgainst);
+
 	
 	
 
