@@ -156,7 +156,8 @@ public class ShowCauseNoticeService implements IShowCauseNoticeService {
 		User user = userRepository.findByLoginId(showCauseNoticeVO.getLoginId());
 		showCauseNotice.setUser(user);
 
-		Units units = unitsRepository.getUnitDtls(showCauseNoticeVO.getUnitName());
+//		Units units = unitsRepository.getUnitDtls(showCauseNoticeVO.getUnitName());
+		Units units = unitsRepository.getUnitDtlsByEntityName(showCauseNoticeVO.getEntityName(), showCauseNoticeVO.getZoneName(), showCauseNoticeVO.getUnitName());
 		showCauseNotice.setUnits(units);
 
 		Format format = formatRepository.getFormatByName(showCauseNoticeVO.getFormatName());

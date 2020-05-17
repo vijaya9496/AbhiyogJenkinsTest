@@ -34,6 +34,13 @@ jQuery(document).ready(function(){
 		}
 	});
 	
+	$("#submitBtn").click(function(){
+		if ($('#role :selected').text() === 'Select') {
+			alert("Please Select Role");
+			return false;
+		}
+	});
+	
 	jQuery("#resetBtn").click(function(){
 		$("#loginId").val('');
 		$("#role").val('ALL');

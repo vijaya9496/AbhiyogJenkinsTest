@@ -34,14 +34,18 @@ $(document).ready(function() {
 			alert("Please Select Format");
 			return false;
 		}
+		if($("#categoryNameId").val() === "Select"){
+			alert("please Select Category");
+			return false;
+		}
 		
 		if($("#storeOfficePremises").val() === "Select"){
 			alert("Please Select StoreOfficePremises");
 			return false;
 		}
-		/*if($("#matterByAgainst").val() === " "){
+		if($("#matterByAgainst").val() === "Select"){
 			alert("Please Select Matter By Against);
-		}*/
+		}
 		if($("#customerType").val() === "Select"){
 			alert("Please Select CustomerType");
 			return false;
@@ -50,10 +54,7 @@ $(document).ready(function() {
 			alert("Please Select CounterParty");
 			return false;
 		}
-		if($("#categoryNameId").val() === "Select"){
-			alert("please Select Category");
-			return false;
-		}
+		
 		if($("#caseNumber").val() == ""){
 			alert("Please Enter CaseNumber");
 			return false;
@@ -96,6 +97,10 @@ $(document).ready(function() {
 		}
 		if($("#lawfirm").val() === "Select"){
 			alert("Please Select Lawfirm/Individual");
+			return false;
+		}
+		if($("#factsOfLitigation").val().length == 0){
+			alert("Please Enter Facts Of Litigation");
 			return false;
 		}
 	});

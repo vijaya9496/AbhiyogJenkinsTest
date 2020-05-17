@@ -69,7 +69,7 @@
 									<li class="last">
 										<div class="filter-form">
 											<label for="usr"><sup class="red">*</sup>Role</label> <select id="role"
-												th:field="*{roleDesc}" class="custom-select">
+												th:field="*{roleDesc}" class="custom-select" required="required">
 												<option value="Select">Select</option>
 												<option th:each="role: ${allRoles}"
 													th:value="${role.roleDesc}" th:text="${role.roleDesc}">test</option>
