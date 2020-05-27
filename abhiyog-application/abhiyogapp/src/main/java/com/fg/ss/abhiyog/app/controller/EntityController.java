@@ -113,22 +113,27 @@ public class EntityController {
 	public String updateEntity(Model model, HttpServletRequest request) {
 		model.addAttribute("entityVO", new EntityVO());
 		model.addAttribute("entityName", entityService.findById(Integer.parseInt(request.getParameter("id"))));
+		HttpSession  session = request.getSession();
+		session.setAttribute(CommonConstants.entityId, Integer.parseInt(request.getParameter("id")));
 		return "updateEntity";
 	}
 	
 	//update EntityName by id
 	@RequestMapping(value="/updateEntityDtls", method=RequestMethod.POST)
-	public String updateEntityDtls(@ModelAttribute EntityVO entityVO, Model model) {
+	public String updateEntityDtls(@ModelAttribute EntityVO entityVO, Model model, HttpSession session) {
 		System.out.println("Inside updateEntityDtls");
 		System.out.println("EntityName:: " +entityVO.getEntityName());
 		System.out.println("UpdatedEntityName:: " +entityVO.getUpdatedEntityName());
 		EntitySummary entity = entityService.getEntityByName(entityVO.getEntityName());
+//		int sessionEntityId = (int)session.getAttribute(CommonConstants.entityId);
 		if(entity != null) {
 			int isUpdated = entityService.updateEntityByName(entityVO.getEntityName(), entityVO.getUpdatedEntityName());
 			if(isUpdated > 0) {
 				model.addAttribute("message","ENTITY NAME UPDATED SUCCESSFULLY");
+//				model.addAttribute("entityVO", entityService.findById(sessionEntityId));
 			}else {
 				model.addAttribute("message","GIVEN ENTITY NAME ALREADY EXISTED");
+//				model.addAttribute("entityVO", entityService.findById(sessionEntityId));
 			}
 		}else {
 			model.addAttribute("message","ENTITY NAME NOT EXISTED");

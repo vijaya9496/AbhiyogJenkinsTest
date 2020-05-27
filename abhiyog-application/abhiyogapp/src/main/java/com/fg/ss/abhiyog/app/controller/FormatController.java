@@ -103,6 +103,7 @@ public class FormatController {
 	public String updateFormat(Model model, HttpServletRequest request) {
 		model.addAttribute("formatVO", new FormatVO());
 		model.addAttribute("formatName", formatService.findById(Integer.parseInt(request.getParameter("id"))));
+		
 		return "updateFormat";
 	}
 	

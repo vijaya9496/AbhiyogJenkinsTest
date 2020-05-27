@@ -54,9 +54,9 @@ jQuery(document).ready(function(){
 				onSelectRow: function(){
 					var myGrid = $("#restoreLitigationSummary");
 					var selectedRowId =  myGrid.jqGrid("getGridParam", 'selrow');
-					alert(selectedRowId);
+//					alert(selectedRowId);
 					allSelectedRows.push(selectedRowId);
-					alert(allSelectedRows.length);
+//					alert(allSelectedRows.length);
 					
 					
 					var requestData = {};

@@ -19,10 +19,10 @@ jQuery(document).ready(function(){
 	
 	$("#fromDate").change(function(){
 		var fromDt = $("#fromDate").val();
-		alert("FromDate:: " +fromDt);
+//		alert("FromDate:: " +fromDt);
 		var frmDt = new Date(fromDt);
-		alert(frmDt);
-		alert(frmDt.getDate());
+//		alert(frmDt);
+//		alert(frmDt.getDate());
 			
 		$("#toDate").datepicker({
 			changeMonth : true,

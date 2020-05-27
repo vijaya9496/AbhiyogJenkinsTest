@@ -9,7 +9,7 @@ $(document).ready(function(){
 	});
 	
 	$("#editBtn").click(function (){
-		alert("inside EditBtn");
+//		alert("inside EditBtn");
 		/*var urlStr = "/updateLtgn";
 		$("#caseDetailsForm").attr("action", urlStr);
 		$("#caseDetailsForm").attr("method", "GET");
@@ -26,7 +26,7 @@ $(document).ready(function(){
 	
 // Start Witness Modal
 	$("#addWitnessBtn").click(function(){
-		alert(" addWitnessBtn Method called...");
+//		alert(" addWitnessBtn Method called...");
 		var requestData = {};
 		alert($("#modalWitnessName").val());
 		requestData["witnessVal"] = $("#modalWitnessName").val();
@@ -55,7 +55,7 @@ $(document).ready(function(){
 // End Witness Modal
 // Start Connected Litigation Modal
 	$("#addConnectedLtgnBtn").click(function(){
-		alert(" addConnectedLtgnBtn Method called...");
+//		alert(" addConnectedLtgnBtn Method called...");
 		var requestData = {};
 
 		alert($("#modalComments").val());
@@ -83,13 +83,13 @@ $(document).ready(function(){
 	
 // Start History Modal
 	$("#modalAddNextHearingBtn").click(function(){
-		alert(" modalAddNextHearingBtn Method called...");
+//		alert(" modalAddNextHearingBtn Method called...");
 		var requestData = {};
-		alert($("#modalHearingDt").val());
+//		alert($("#modalHearingDt").val());
 		requestData["hearingDateVal"] = $("#modalHearingDt").val();
-		alert($("#modalStage").val());
+//		alert($("#modalStage").val());
 		requestData["stageVal"] = $("#modalStage").val();
-		alert($("#modalStageDetails").val());
+//		alert($("#modalStageDetails").val());
 		requestData["stageDetailsVal"] = $("#modalStageDetails").val();
 		$.ajax({
 			type : "post",
@@ -112,7 +112,7 @@ $(document).ready(function(){
 	
 // Start LawfirmBilling  Modal
 	$("#addLawfirmBillingBtn").click(function(){
-		alert(" addLawfirmBillingBtn Method called...");
+//		alert(" addLawfirmBillingBtn Method called...");
 		$.ajax({
 			type : "post",
 			url : "/addLawfirmBilling",
@@ -136,7 +136,7 @@ $(document).ready(function(){
 	});
 // End ConnectedLitigation	
 	$("#modalDisposedDateBtn").click(function(){
-		alert(" modalDisposedDateBtn Method called...");
+//		alert(" modalDisposedDateBtn Method called...");
 		var requestData = {};
 		alert($("#modalResult").val());
 		requestData["resultVal"] = $("#modalResult").val();
@@ -172,7 +172,7 @@ $(document).ready(function(){
 	
 // Start UploadDocument  Modal
 	$("#modalUploadDocumentBtn").click(function(){
-		alert(" modalUploadDocumentBtn Method called...");
+//		alert(" modalUploadDocumentBtn Method called...");
 		$.ajax({
 			type : "post",
 			url : "/uploadDocument",
@@ -555,6 +555,14 @@ $(document).ready(function(){
 	
 	$("#historyReportExportToExcel").click(function(){
 		window.location.href = "/historyReportExportToExcel";
+	});
+	
+	$("#modalAddLawfirmBillingResetBtn").click(function(){
+		$("#modalBillingType").val('');
+		$("#modalBillingAmount").val('');
+		$("#modalBillingDate").val('');
+		$("#modalRemarks").val('');
+		$("#modalUploadFile").val('');
 	});
 
 	

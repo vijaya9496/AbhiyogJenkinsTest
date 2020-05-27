@@ -121,6 +121,46 @@ $(document).ready(function() {
 		$("#uploadFile").val("");
 		$("#commentsDoc").val("");
 	});
+	
+	$("#zoneName").change(function(){
+//		alert("Method called...");
+		var requestData = {};
+
+//		alert($('#zoneName :selected').text());
+		requestData["zoneNameVal"] = $('#zoneName :selected').text();
+		requestData["entityNameVal"] = $('#entityName :selected').text();
+		var val = "Select";
+		
+		$.ajax({
+			type : "get",
+			url : "/getUnitLocationByZone",
+			cache : false,
+			data : requestData,
+			dataType : 'text',
+			success : function(response) {
+				response = $.parseJSON(response);
+//				alert(response);
+				var options;
+				options = '<option value="' + val + '">' + val + '</option>';
+				for(var i in response){
+//					alert("UnitValue"+response[i].unitName);
+					$('#unitName')
+				    .find('option')
+				    .remove();
+					
+					options += '<option value="' + response[i].unitName + '">' + response[i].unitName + '</option>';
+					
+//					$('#unitName').append(`<option value="${response[i].unitName}"> ${response[i].unitName} </option>`);
+				    
+				}
+				$("#unitName").html(options);
+
+			},
+			error: function(){
+				alert("Error while request");
+			}
+		})
+	});
 });
 
 /*function reloadDocumentGrid() {

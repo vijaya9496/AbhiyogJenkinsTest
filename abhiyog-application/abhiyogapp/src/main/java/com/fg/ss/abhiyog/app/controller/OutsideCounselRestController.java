@@ -115,19 +115,22 @@ public class OutsideCounselRestController {
 	@RequestMapping(value="/updateOutsideCounsel", method=RequestMethod.GET)
 	public String updateUser(Model model, HttpServletRequest request) {
 		model.addAttribute("allOutsideCounselDtls", outsideCounselService.getOutsideCounselProfile(Integer.parseInt(request.getParameter("id"))));
+		HttpSession  session = request.getSession();
+		session.setAttribute(CommonConstants.outsideCounselId, Integer.parseInt(request.getParameter("id")));
 		return "updateOutsideCounsel";
 	}
 	
 	
 	@RequestMapping(value="/updateOutsideCounselDtls", method=RequestMethod.POST)
-	public String updateOutsideCounsel(@ModelAttribute OutsideCounselVO outsideCounselVO, Model model){
+	public String updateOutsideCounsel(@ModelAttribute OutsideCounselVO outsideCounselVO, Model model, HttpSession session){
 		LawFirm lawfirmDtls = outsideCounselService.findByLawfirm(outsideCounselVO.getLawfirm());
+		int sessionOutsideCounselId = (int)session.getAttribute(CommonConstants.outsideCounselId);
 		if(lawfirmDtls == null) {
 			model.addAttribute("allOutsideCounselDtls", new OutsideCounselVO());
 			model.addAttribute("message","LAWFIRM DATA NOT EXISTED UNABLE TO UPDATE");
 		}
 			outsideCounselService.saveOutsideCounselData(outsideCounselVO);
-			model.addAttribute("allOutsideCounselDtls", new OutsideCounselVO());
+			model.addAttribute("allOutsideCounselDtls", outsideCounselService.getOutsideCounselProfile(sessionOutsideCounselId));
 			model.addAttribute("message","LAWFIRM DATA UPDATED SUCCESSFULLY");
 			
 		return "updateOutsideCounsel";

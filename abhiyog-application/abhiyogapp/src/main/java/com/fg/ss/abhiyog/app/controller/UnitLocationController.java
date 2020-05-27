@@ -203,25 +203,28 @@ public class UnitLocationController {
 		model.addAttribute("allEntities", entityService.getAllEntities());
 		model.addAttribute("allRegions", zoneService.getAllZones());
 		model.addAttribute("unitLocationDtls", unitsSummaryService.getUnitLocationDtls(Integer.parseInt(request.getParameter("id"))));
+		HttpSession session = request.getSession();
+		session.setAttribute(CommonConstants.unitLocationId, Integer.parseInt(request.getParameter("id")));
 		model.addAttribute("unitHeadNames", unitsSummaryService.getUnitHeadNames());
 		return "updateUnitLocation";
 	}
 	
 	@RequestMapping(value="/updateUnitLocationDtls", method=RequestMethod.POST)
-	public String updateUnitLocationDtls(@ModelAttribute UnitSummaryVO unitSummaryVO, Model model, HttpServletRequest request) {
+	public String updateUnitLocationDtls(@ModelAttribute UnitSummaryVO unitSummaryVO, Model model, HttpServletRequest request, HttpSession session) {
 		LOGGER.info("Calling updateUnitLocationDtls");
 		Units unitsDtls = unitsSummaryService.findExistenceUnitName(unitSummaryVO.getEntityName(), unitSummaryVO.getZoneName(), unitSummaryVO.getUnitName());
+		int sessionUnitLocationId = (int)session.getAttribute(CommonConstants.unitLocationId);
 		if(unitsDtls != null) {
 			int isUpdated= unitsSummaryService.updateCompanyUnitDetails(unitSummaryVO);
 			if(isUpdated > 0) {
 				model.addAttribute("message", "SUCCESSFULLY USER MAPPED WITH UNITNAME");
-				model.addAttribute("unitLocationDtls", new UnitSummaryVO());
+				model.addAttribute("unitLocationDtls", unitsSummaryService.getUnitLocationDtls(sessionUnitLocationId));
 				model.addAttribute("allEntities", entityService.getAllEntities());
 				model.addAttribute("allRegions", zoneService.getAllZones());
 				model.addAttribute("unitHeadNames", unitsSummaryService.getUnitHeadNames());
 			}else {
 				model.addAttribute("message", "SUCCESSFULLY USER UNMAPPED WITH UNITNAME");
-				model.addAttribute("unitLocationDtls", new UnitSummaryVO());
+				model.addAttribute("unitLocationDtls", unitsSummaryService.getUnitLocationDtls(sessionUnitLocationId));
 				model.addAttribute("allEntities", entityService.getAllEntities());
 				model.addAttribute("allRegions", zoneService.getAllZones());
 				model.addAttribute("unitHeadNames", unitsSummaryService.getUnitHeadNames());

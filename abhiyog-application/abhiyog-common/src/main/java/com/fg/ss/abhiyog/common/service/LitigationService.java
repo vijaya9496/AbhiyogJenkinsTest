@@ -1265,7 +1265,7 @@ public class LitigationService implements ILitigationService {
 			parameterMap.put("zone", zone);
 		}
 		if (!format.equals("ALL")) {
-			whereClause.add(" lt.format.format:format ");
+			whereClause.add(" lt.format.format=:format ");
 			parameterMap.put("format", format);
 		}
 		if (!entity.equals("ALL")) {

@@ -139,7 +139,8 @@
 									<li class="last">
 										<div class="filter-form">
 											<label>Phone:</label> <input type="text" name="phone"
-												id="phone" th:value="${userDtls.phone}" maxlength="10"/>
+												id="phone" th:value="${userDtls.phone}" maxlength="10" pattern = "^[6-9][0-9]{9}$"
+												onkeypress="return isNumberKey(event)"/>
 										</div>
 									</li>
 								</ul>
@@ -149,7 +150,7 @@
 									<li>
 										<div class="filter-form">
 											<label>Mobile:</label> <input type="text" name="mobile"
-												id="mobile" onkeypress="return isNumberKey(event)"
+												id="mobile" onkeypress="return isNumberKey(event)" pattern = "^[6-9][0-9]{9}$"
 												required="required" th:value="${userDtls.mobile}" maxlength="10"/>
 										</div>
 									</li>

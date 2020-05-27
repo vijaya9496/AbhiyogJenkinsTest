@@ -254,7 +254,7 @@ function getReportData() {
 	var format = jQuery.trim($("#format").val());
 	var zone =jQuery.trim($("#zoneName").val());
 
-	alert(fromDate);
+//	alert(fromDate);
 
 	if (fromDate == null || fromDate == '' || fromDate.length == 0) {
 		alert("Please Select From date");

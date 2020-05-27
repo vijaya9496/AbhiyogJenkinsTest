@@ -44,7 +44,8 @@ $(document).ready(function() {
 			return false;
 		}
 		if($("#matterByAgainst").val() === "Select"){
-			alert("Please Select Matter By Against);
+			alert("Please Select Matter By Against");
+			return false;
 		}
 		if($("#customerType").val() === "Select"){
 			alert("Please Select CustomerType");
@@ -108,7 +109,7 @@ $(document).ready(function() {
 	
 	//Button value Add
 		$("#addLocationBtn").click(function(){
-			alert("Inside addUnitLocation Btn");
+//			alert("Inside addUnitLocation Btn");
 			if($("#entityNameId").val()	!= "Select" && $("#zoneNameId").val() != "Select" && $("#unitNameId").val() !="Select"){
 				$("#entityRegionUnits").append("<tr><td>"+ $("#entityNameId").val() + "</td><td>" +$("#zoneNameId").val() + "</td><td>" + $("#unitNameId").val() +"</td><td> <a href=#> Remove </a></td></tr>")
 			}else{
@@ -131,7 +132,7 @@ $(document).ready(function() {
 	
 	// to change label value after selection in dropdown list
 		$("#customerType").change(function(){
-			alert("inside CustomerType Change Function");
+//			alert("inside CustomerType Change Function");
 			var map = new Map();
 			map.set("Plaintiff", "Defendant");
 			map.set("Defendant", "Plaintiff")
@@ -146,7 +147,7 @@ $(document).ready(function() {
 			map.set("Appeal Against Company", "Petitioner");
 			for(let [k,v] of map){
 				if($("#customerType").val() === k){
-					alert("Value: " +v);
+//					alert("Value: " +v);
 					$("#counterPartyId").text(v);
 					break;
 				}
@@ -156,10 +157,10 @@ $(document).ready(function() {
 	
 	
 	$("#addLawfirmBtn").click(function(){
-		alert("Method called...");
+//		alert("Method called...");
 		var requestData = {};
 
-		alert($("#modallawfirm").val());
+//		alert($("#modallawfirm").val());
 		requestData["lawfirmVal"] = $("#modallawfirm").val();
 		$.ajax({
 			type : "post",
@@ -168,7 +169,7 @@ $(document).ready(function() {
 			data : requestData,
 			dataType : 'text',
 			success : function(response) {
-				alert(response);
+//				alert(response);
 				addLawfirmDropdown(response);
 			},
 			error: function(){
@@ -182,7 +183,7 @@ $(document).ready(function() {
 	$("#addCourtTypeBtn").click(function(){
 		var requestData = {};
 
-		alert($("#modalcourtTypeName").val());
+//		alert($("#modalcourtTypeName").val());
 		requestData["courtTypeVal"] = $("#modalcourtTypeName").val();
 		$.ajax({
 			type : "post",
@@ -191,7 +192,7 @@ $(document).ready(function() {
 			data : requestData,
 			dataType : 'text',
 			success : function(response) {
-				alert(response);
+//				alert(response);
 				addCourtTypeDropdown(response);
 			},
 			error: function(){
@@ -202,7 +203,7 @@ $(document).ready(function() {
 	
 	$("#addCategoryBtn").click(function(){
 		var requestData = {};
-		alert($("#modalcourtTypeName").val());
+//		alert($("#modalcourtTypeName").val());
 		requestData["categoryVal"] = $("#modalCategory").val();
 		$.ajax({
 			type : "post",
@@ -211,7 +212,7 @@ $(document).ready(function() {
 			data : requestData,
 			dataType : 'text',
 			success : function(response) {
-				alert(response);
+//				alert(response);
 				addCategoryDropdown(response);
 			},
 			error: function(){
@@ -222,7 +223,7 @@ $(document).ready(function() {
 	
 	$("#addUnderActBtn").click(function(){
 		var requestData = {};
-		alert($("#modalUnderActs").val());
+//		alert($("#modalUnderActs").val());
 		requestData["underActVal"] = $("#modalUnderActs").val();
 		$.ajax({
 			type : "post",
@@ -231,7 +232,7 @@ $(document).ready(function() {
 			data : requestData,
 			dataType : 'text',
 			success : function(response) {
-				alert(response);
+//				alert(response);
 				addUnderActDropdown(response);
 			},
 			error: function(){
@@ -242,7 +243,7 @@ $(document).ready(function() {
 	
 	$("#addCounterPartyBtn").click(function(){
 		var requestData = {};
-		alert($("#modalcounterPartyName").val());
+//		alert($("#modalcounterPartyName").val());
 		requestData["counterPartyNameVal"] = $("#modalcounterPartyName").val();
 		$.ajax({
 			type : "post",
@@ -251,7 +252,7 @@ $(document).ready(function() {
 			data : requestData,
 			dataType : 'text',
 			success : function(response) {
-				alert(response);
+//				alert(response);
 				addCounterPartyDropdown(response);
 			},
 			error: function(){
@@ -262,7 +263,7 @@ $(document).ready(function() {
 	
 	$("#addMatterByBtn").click(function(){
 		var requestData = {};
-		alert($("#modalmatterBy").val());
+//		alert($("#modalmatterBy").val());
 		requestData["matterByVal"] = $("#modalmatterBy").val();
 		$.ajax({
 			type : "post",
@@ -271,7 +272,7 @@ $(document).ready(function() {
 			data : requestData,
 			dataType : 'text',
 			success : function(response) {
-				alert(response);
+//				alert(response);
 				addMatterByAgainst(response);
 				
 			},
@@ -283,9 +284,9 @@ $(document).ready(function() {
 	
 	$("#addUnitLocationBtn").click(function(){
 		var requestData = {};
-		alert($("#modalentityName").val());
+		/*alert($("#modalentityName").val());
 		alert($("#modalzoneName").val());
-		alert($("#modalunitName").val());
+		alert($("#modalunitName").val());*/
 		requestData["entityVal"] = $("#modalentityName").val();
 		requestData["zoneVal"] = $("#modalzoneName").val();
 		requestData["unitVal"] = $("#modalunitName").val();
@@ -297,11 +298,11 @@ $(document).ready(function() {
 			data : requestData,
 			dataType : 'text',
 			success : function(response) {
-				alert(response);
+//				alert(response);
 				addUnitLocationDropdown(response);
-				$("#modalentityName").val("");
+				/*$("#modalentityName").val("");
 				$("#modalzoneName").val("");
-				$("#modalunitName").val("");
+				$("#modalunitName").val("");*/
 				modal.style.display = "none";
 			},
 			error: function(){
@@ -665,6 +666,7 @@ $(document).ready(function() {
 		$("#firNo").val("");
 		$("#courtForum").val("");
 		$("#dateOfReceiptOfMatter").val("");
+		$("#nextHearingDate").val("");
 		$("#factsOfLitigation").val("");
 		$("#stage").val("");
 		$("#counselAssesment").val("");
@@ -731,11 +733,11 @@ $(document).ready(function() {
 	});
 	
 	$("#zoneNameId").change(function(){
-		alert("Method called...");
+//		alert("Method called...");
 		var requestData = {};
 		requestData["zoneNameVal"] = $('#zoneNameId :selected').text();
 		requestData["entityNameVal"] = $('#entityNameId :selected').text();
-		
+		var val = "Select";
 		
 		$.ajax({
 			type : "get",
@@ -747,6 +749,7 @@ $(document).ready(function() {
 				response = $.parseJSON(response);
 //				alert(response);
 				var options;
+				options = '<option value="' + val + '">' + val + '</option>';
 				for(var i in response){
 //					alert("UnitValue"+response[i].unitName);
 					$('#unitNameId')
@@ -773,47 +776,47 @@ $(document).ready(function() {
 
 
 function addLawfirmDropdown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#lawfirm').append(`<option value="${data}"> ${data} </option>`);
 	$('#seniorCounsel').append(`<option value="${data}"> ${data} </option>`); 
 }
 
 function addCourtTypeDropdown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#courtTypeName').append(`<option value="${data}"> ${data} </option>`); 
 }
 
 function addCategoryDropdown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#categoryName').append(`<option value="${data}"> ${data} </option>`); 
 }
 
 function addUnderActDropdown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#underActName').append(`<option value="${data}"> ${data} </option>`); 
 }
 
 function addCounterPartyDropdown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#counterPartyName').append(`<option value="${data}"> ${data} </option>`);
 }
 
 function addUnitLocationDropdown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#unitNameId').append(`<option value="${data}"> ${data} </option>`);
 }
 
 function addMatterByAgainst(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#matterByAgainstId').append(`<option value="${data}"> ${data} </option>`);
 }
 function addCityNameDropDown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#cityName').append(`<option value="${data}"> ${data} </option>`);
 }
 
 function addCourtForumDropDown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#courtForum').append(`<option value="${data}"> ${data} </option>`);
 }
 
@@ -821,8 +824,8 @@ function addCityDtls(data){
 	var requestData = {};
 
 //	alert($("#modalCity").val());
-	alert($("#state").val())
-	alert(data);
+//	alert($("#state").val())
+//	alert(data);
 	requestData["cityNameVal"] = data;
 	requestData["stateVal"] = $("#state").val();
 	$.ajax({
@@ -832,7 +835,7 @@ function addCityDtls(data){
 		data : requestData,
 		dataType : 'text',
 		success : function(response) {
-			alert(response);
+//			alert(response);
 			addCityNameDropDown(response);
 		},
 		error: function(){
@@ -844,9 +847,9 @@ function addCityDtls(data){
 function addCourtForumDtls(data){
 	var requestData = {};
 
-	alert($("#cityName").val());
+//	alert($("#cityName").val());
 //	alert($("#state").val())
-	alert(data);
+//	alert(data);
 	requestData["courtForumVal"] = data;
 	requestData["cityNameVal"] = $("#cityName").val();
 	$.ajax({
@@ -856,7 +859,7 @@ function addCourtForumDtls(data){
 		data : requestData,
 		dataType : 'text',
 		success : function(response) {
-			alert(response);
+//			alert(response);
 			addCourtForumDropDown(response);
 		},
 		error: function(){

@@ -105,7 +105,7 @@
 									<li><label for="usr"><sup class="red">*</sup>Address</label> <input type="text"
 										name="address" id="address" th:value="${allOutsideCounselDtls.address}" required="required"/></li>
 									<li><label for="usr"><sup class="red">*</sup>Mobile No</label> <input type="text"
-										name="mobile" id="mobile" onkeypress="return isNumberKey(event)" maxlength="10" th:value="${allOutsideCounselDtls.mobile}" required="required"/></li>
+										name="mobile" id="mobile" onkeypress="return isNumberKey(event)" maxlength="10" th:value="${allOutsideCounselDtls.mobile}" required="required" pattern = "^[6-9][0-9]{9}$"/></li>
 									<li class="last"><label>Telephone</label> <input
 										type="text" name="telephone" id="telephone" onkeypress="return isNumberKey(event)" maxlength="10" th:value="${allOutsideCounselDtls.telephone}"/></li>
 								</ul>

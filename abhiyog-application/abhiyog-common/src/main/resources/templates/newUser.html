@@ -136,7 +136,7 @@
 									<li class="last">
 										<div class="filter-form">
 											<label>Phone:</label> <input type="text" name="phone"
-												id="phone" />
+												id="phone" pattern = "^[6-9][0-9]{9}$" onkeypress="return isNumberKey(event)" />
 										</div>
 									</li>
 								</ul>
@@ -147,7 +147,7 @@
 										<div class="filter-form">
 											<label>Mobile:</label> <input type="text" name="mobile"
 												id="mobile" onkeypress="return isNumberKey(event)"
-												maxlength="10"/>
+												maxlength="10" pattern = "^[6-9][0-9]{9}$"/>
 										</div>
 									</li>
 									<li>

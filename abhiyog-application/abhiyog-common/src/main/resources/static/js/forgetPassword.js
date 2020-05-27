@@ -15,11 +15,8 @@ jQuery(document).ready(function(){
 		$("#forgetPswdForm").submit();
 	});
 	
-	$("#back").click(function(){
-		var urlStr = "/userLogin";
-		$("#forgetPswdForm").attr("action",urlStr);
-		$("#forgetPswdForm").attr("method","GET");
-		$("#forgetPswdForm").submit();
+	$("#clear").click(function(){
+		$('#loginId').val('');
 	});
 	
 })

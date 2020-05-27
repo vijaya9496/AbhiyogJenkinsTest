@@ -95,16 +95,23 @@ public class LoginController {
 		System.out.println("LoginID:: " +userVO.getLoginId());
 		LOGGER.info("LoginID:: " +userVO.getLoginId());
 		User user = userService.findUserByLoginId(userVO.getLoginId());
-		boolean mailSent = emailService.sendMail(user.getEmailId(), user.getLoginId());
-		if(mailSent) {
-			modelAndView.addObject("message", "Password has been sent to your mail");
-			modelAndView.addObject("userVO", userVO);
-			modelAndView.setViewName("forgetPassword");
+		if(user != null) {
+			boolean mailSent = emailService.sendMail(user.getEmailId(), user.getLoginId());
+			if(mailSent) {
+				modelAndView.addObject("message", "Password has been sent to your mail");
+				modelAndView.addObject("userVO", userVO);
+				modelAndView.setViewName("forgetPassword");
+			}else {
+				modelAndView.addObject("message", "Unable to Send Mail");
+				modelAndView.addObject("userVO", userVO);
+				modelAndView.setViewName("forgetPassword");
+			}
 		}else {
 			modelAndView.addObject("message", "Invalid Credential or InActive User");
 			modelAndView.addObject("userVO", userVO);
 			modelAndView.setViewName("forgetPassword");
 		}
+		
 		return modelAndView;
 	}
 	

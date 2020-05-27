@@ -29,6 +29,7 @@ import com.fg.ss.abhiyog.common.service.IUserService;
 import com.fg.ss.abhiyog.common.vo.EntityVO;
 import com.fg.ss.abhiyog.common.vo.UserVO;
 
+
 @Controller
 public class UserController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -178,9 +179,8 @@ public class UserController {
 			model.addAttribute("allRoles", userService.getAllRoles());
 			
 		}else {
-			LOGGER.info("Role::" +user.getRoleDesc());
-			LOGGER.info("FirstName" +user.getFirstName());
- 			boolean isInserted = userService.saveUserData(user);
+			LOGGER.info("Role::" +user.getRoleDesc() + "FirstName" +user.getFirstName());
+			boolean isInserted = userService.saveUserData(user);
 			if(isInserted) {
 				model.addAttribute("message", "New User Added Successfully");
 				model.addAttribute("userVO", new UserVO());
@@ -197,17 +197,22 @@ public class UserController {
 	@RequestMapping(value="/updateUser", method=RequestMethod.GET)
 	public String updateUser(Model model, HttpServletRequest request) {
 		model.addAttribute("allRoles", userService.getAllRoles());
+		int userId = Integer.parseInt(request.getParameter("id"));
+		HttpSession session = request.getSession();
+		session.setAttribute(CommonConstants.userId, userId);
 		model.addAttribute("userDtls", userService.getUserProfile(Integer.parseInt(request.getParameter("id"))));
 		return "updateUser";
 	}
 	
 	@RequestMapping(value="/updateUserDtls", method=RequestMethod.POST)
-	public String updateUserDtls(@ModelAttribute UserVO userVO, Model model) {
+	public String updateUserDtls(@ModelAttribute UserVO userVO, Model model, HttpServletRequest request, HttpSession session) {
 		LOGGER.info("Inside updateUserDtls");
 		boolean isUpdated = userService.saveUserData(userVO);
+		
+		int sessionUserId = (int) session.getAttribute(CommonConstants.userId);
 		if (isUpdated) {
 			model.addAttribute("message","USER UPDATED SUCCESSFULLY");
-			model.addAttribute("userDtls", new UserVO());
+			model.addAttribute("userDtls", userService.getUserProfile(sessionUserId));
 			model.addAttribute("allRoles", userService.getAllRoles());
 		}else {
 			model.addAttribute("message","UNABLE TO UPDATED USER DETAILS");

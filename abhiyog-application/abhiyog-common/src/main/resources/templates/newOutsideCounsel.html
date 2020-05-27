@@ -117,9 +117,9 @@
 									<li><label for="usr">Address</label> <input type="text"
 										name="address" id="address"/></li>
 									<li><label for="usr">Mobile No</label> <input type="text"
-										name="mobile" id="mobile" onkeypress="return isNumberKey(event)" maxlength="10" /></li>
+										name="mobile" id="mobile" onkeypress="return isNumberKey(event)" maxlength="10" pattern = "^[6-9][0-9]{9}$"/></li>
 									<li class="last"><label>Telephone</label> <input
-										type="text" name="telephone" id="telephone" onkeypress="return isNumberKey(event)" onkeyup="checkMobileLength(event)"/></li>
+										type="text" name="telephone" id="telephone" onkeypress="return isNumberKey(event)" onkeyup="checkMobileLength(event)" pattern = "^[6-9][0-9]{9}$"/></li>
 								</ul>
 							</div>
 							<div class="filter-form">

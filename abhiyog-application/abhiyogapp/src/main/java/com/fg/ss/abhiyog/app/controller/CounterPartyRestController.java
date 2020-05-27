@@ -43,8 +43,6 @@ public class CounterPartyRestController {
 	private ICounterPartyService counterPartyService;
 	
 	
-	private BaseResponseVO baseResponseVO = BaseResponseVO.getInstance();
-	
 	@RequestMapping(value="/newCounterParty", method=RequestMethod.GET)
 	public String newCounterParty(Model model) {
 		System.out.println("Inside newUnitLocation");
@@ -127,41 +125,32 @@ public class CounterPartyRestController {
 		model.addAttribute("counterPartyVO", new CounterPartyVO());
 		System.out.println("ID::" +request.getParameter("id"));
 		model.addAttribute("allCounterPartyDtls", counterPartyService.getCounterPartyProfile(Integer.parseInt(request.getParameter("id"))));
-		return "viewCounterPartyProfile";
+		return "viewCounterPartyProfile"; 
 		
 	}
 	
 	@RequestMapping(value="/updateCounterParty", method=RequestMethod.GET)
 	public String updateUser(Model model, HttpServletRequest request) {
 		model.addAttribute("allCounterPartyDtls", counterPartyService.getCounterPartyProfile(Integer.parseInt(request.getParameter("id"))));
+		HttpSession  session = request.getSession();
+		session.setAttribute(CommonConstants.counterPartyId, Integer.parseInt(request.getParameter("id")));
 		return "updateCounterParty";
 	}
 	
 	@RequestMapping(value="updateCounterPartyDtls", method=RequestMethod.POST)
-	public String updateUserDtls(@ModelAttribute CounterPartyVO counterPartyVO, Model model) {
+	public String updateUserDtls(@ModelAttribute CounterPartyVO counterPartyVO, Model model, HttpSession session) {
 		CounterPartyDtls counterPartyDtls = counterPartyService.findCustomerByName(counterPartyVO.getCounterPartyName());
+		int sessionCounterPartyId = (int)session.getAttribute(CommonConstants.counterPartyId);
 		if (counterPartyDtls == null) {
 			model.addAttribute("message","UNABLE TO UPDATE DETAILS");
-			model.addAttribute("allCounterPartyDtls", new CounterPartyVO());
+			model.addAttribute("allCounterPartyDtls", counterPartyService.getCounterPartyProfile(sessionCounterPartyId));
 		}else {
 			counterPartyService.saveCounterPartyData(counterPartyVO);
 			model.addAttribute("message","COUNTER PARTY DETAILS UPDATED SUCCESSFULLY");
-			model.addAttribute("allCounterPartyDtls", new CounterPartyVO());
+			model.addAttribute("allCounterPartyDtls", counterPartyService.getCounterPartyProfile(sessionCounterPartyId));
 		}
 		return "updateCounterParty";
 	}
 
-	@PutMapping("/updateCounterPartyDtls")
-	public ResponseEntity<BaseResponseVO> updateCounterPartyDtls(@RequestBody CounterPartyVO counterPartyVO){
-		CounterPartyDtls counterPartyDtls = counterPartyService.findCustomerByName(counterPartyVO.getCounterPartyName());
-		if(counterPartyDtls == null) {
-			baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
-			baseResponseVO.setResponseMessage("COUNTER PARTY NAME NOT EXISTED. UNABLE TO UPDATE");
-		}
-		counterPartyService.saveCounterPartyData(counterPartyVO);
-		baseResponseVO.setResponseCode(HttpStatus.OK.value());
-		baseResponseVO.setResponseMessage("COUNTER PARTY DETAILS UPDATED SUCCESSFULLY");
-		baseResponseVO.setData(null);
-		return ResponseEntity.ok().body(baseResponseVO);
-	}
+
 }

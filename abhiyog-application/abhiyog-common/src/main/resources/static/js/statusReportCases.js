@@ -126,7 +126,7 @@ function getReportData() {
 	var litigationBy = jQuery.trim($('#litigationBy').val());
 	var risk = jQuery.trim($('#risk').val());
 
-	alert(fromDate);
+//	alert(fromDate);
 
 	if (fromDate == null || fromDate == '' || fromDate.length == 0) {
 		alert("Please Select From date");

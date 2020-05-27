@@ -260,13 +260,13 @@ $(document)
 					});
 					
 					$("#zoneName").change(function(){
-						alert("Method called...");
+//						alert("Method called...");
 						var requestData = {};
 
-						alert($('#zoneName :selected').text());
+//						alert($('#zoneName :selected').text());
 						requestData["zoneNameVal"] = $('#zoneName :selected').text();
 						requestData["entityNameVal"] = $('#entityName :selected').text();
-						
+						var val = "Select";
 						
 						$.ajax({
 							type : "get",
@@ -278,6 +278,7 @@ $(document)
 								response = $.parseJSON(response);
 //								alert(response);
 								var options;
+								options = '<option value="' + val + '">' + val + '</option>';
 								for(var i in response){
 //									alert("UnitValue"+response[i].unitName);
 									$('#unitName')
@@ -299,9 +300,4 @@ $(document)
 					});
 
 				});
-function addLawfirmDropdown(data){
-	alert("In called function");
-//	$('#zoneName').append(`<option value="${data}"> ${data} </option>`);
-	$('#zoneName').append(`<option value="${data}"> ${data} </option>`);
-	 
-}
+

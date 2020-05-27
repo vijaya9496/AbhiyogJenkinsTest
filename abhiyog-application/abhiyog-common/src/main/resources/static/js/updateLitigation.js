@@ -1,4 +1,43 @@
 $(document).ready(function(){
+	
+	$("#zoneNameId").change(function(){
+//		alert("Method called...");
+		var requestData = {};
+		requestData["zoneNameVal"] = $('#zoneNameId :selected').text();
+		requestData["entityNameVal"] = $('#entityNameId :selected').text();
+		var val = "Select";
+		
+		$.ajax({
+			type : "get",
+			url : "/getUnitLocationDataByZone",
+			cache : false,
+			data : requestData,
+			dataType : 'text',
+			success : function(response) {
+				response = $.parseJSON(response);
+//				alert(response);
+				var options;
+				options = '<option value="' + val + '">' + val + '</option>';
+				for(var i in response){
+//					alert("UnitValue"+response[i].unitName);
+					$('#unitNameId')
+				    .find('option')
+				    .remove();
+					
+					options += '<option value="' + response[i].unitName + '">' + response[i].unitName + '</option>';
+					
+//					$('#unitName').append(`<option value="${response[i].unitName}"> ${response[i].unitName} </option>`);
+				    
+				}
+				$("#unitNameId").html(options);
+
+			},
+			error: function(){
+				alert("Error while request");
+			}
+		})
+	});
+	
 	$("#matterByAgainst").multiselect();
 	$(function() {
 		$("#nextHearingDate").datepicker({
@@ -55,9 +94,10 @@ $(document).ready(function(){
 			alert("Please Select StoreOfficePremises");
 			return false;
 		}
-		/*if($("#matterByAgainst").val() === " "){
-			alert("Please Select Matter By Against);
-		}*/
+		if($("#matterByAgainst").val() === "Select"){
+			alert("Please Select Matter By Against");
+			return false;
+		}
 		if($("#customerType").val() === "Select"){
 			alert("Please Select CustomerType");
 			return false;
@@ -172,7 +212,7 @@ $(document).ready(function(){
 	
 	$("#addCounterPartyBtn").click(function(){
 		var requestData = {};
-		alert($("#modalcounterPartyNameId").val());
+//		alert($("#modalcounterPartyNameId").val());
 		requestData["counterPartyNameVal"] = $("#modalcounterPartyNameId").val();
 		$.ajax({
 			type : "post",
@@ -181,7 +221,7 @@ $(document).ready(function(){
 			data : requestData,
 			dataType : 'text',
 			success : function(response) {
-				alert(response);
+//				alert(response);
 				addCounterPartyDropdown(response);
 			},
 			error: function(){
@@ -223,7 +263,7 @@ $(document).ready(function(){
 	
 	$("#addUnderActBtn").click(function(){
 		var requestData = {};
-		alert($("#modalUnderActs").val());
+//		alert($("#modalUnderActs").val());
 		requestData["underActVal"] = $("#modalUnderActId").val();
 		$.ajax({
 			type : "post",
@@ -232,7 +272,7 @@ $(document).ready(function(){
 			data : requestData,
 			dataType : 'text',
 			success : function(response) {
-				alert(response);
+//				alert(response);
 				addUnderActDropdown(response);
 			},
 			error: function(){
@@ -431,7 +471,7 @@ $(document).ready(function(){
 	
 	$("#addMatterByBtn").click(function(){
 		var requestData = {};
-		alert($("#modalmatterById").val());
+//		alert($("#modalmatterById").val());
 		requestData["matterByVal"] = $("#modalmatterById").val();
 		$.ajax({
 			type : "post",
@@ -440,7 +480,7 @@ $(document).ready(function(){
 			data : requestData,
 			dataType : 'text',
 			success : function(response) {
-				alert(response);
+//				alert(response);
 				addMatterByAgainst(response);
 			},
 			error: function(){
@@ -559,9 +599,9 @@ $(document).ready(function(){
 	
 	$("#addUnitLocationBtn").click(function(){
 		var requestData = {};
-		alert($("#modalentityName").val());
+		/*alert($("#modalentityName").val());
 		alert($("#modalzoneName").val());
-		alert($("#modalunitName").val());
+		alert($("#modalunitName").val());*/
 		requestData["entityVal"] = $("#modalentityName").val();
 		requestData["zoneVal"] = $("#modalzoneName").val();
 		requestData["unitVal"] = $("#modalunitName").val();
@@ -573,7 +613,7 @@ $(document).ready(function(){
 			data : requestData,
 			dataType : 'text',
 			success : function(response) {
-				alert(response);
+//				alert(response);
 				addUnitLocationDropdown(response);
 			},
 			error: function(){
@@ -583,38 +623,38 @@ $(document).ready(function(){
 	});
 });
 function addCounterPartyDropdown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#counterParty').append(`<option value="${data}"> ${data} </option>`);
 }
 function addUnderActDropdown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#underActName').append(`<option value="${data}"> ${data} </option>`); 
 }
 function addCategoryDropdown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#categoryName').append(`<option value="${data}"> ${data} </option>`); 
 }
 function addCourtTypeDropdown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#courtTypeName').append(`<option value="${data}"> ${data} </option>`); 
 }
 function addLawfirmDropdown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#lawfirm').append(`<option value="${data}"> ${data} </option>`); 
 }
 function addMatterByAgainst(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#matterByAgainst').append(`<option value="${data}"> ${data} </option>`);
 }
 function addUnitLocationDropdown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#unitNameId').append(`<option value="${data}"> ${data} </option>`);
 }
 
 function addLawfirmData(data){
-	alert("Method called...");
+//	alert("Method called...");
 	var requestData = {};
-	alert(data);
+//	alert(data);
 	/*alert($('#modalLawfirmId').val());
 	alert(document.getElementById("modalLawfirmId").value);
 	console.log(document.getElementById("modalLawfirmId").value);
@@ -627,7 +667,7 @@ function addLawfirmData(data){
 		data : requestData,
 		dataType : 'text',
 		success : function(response) {
-			alert(response);
+//			alert(response);
 			addLawfirmDropdown(response);
 		},
 		error: function(){
@@ -638,7 +678,7 @@ function addLawfirmData(data){
 
 function addCourtTypeData(data){
 	var requestData = {};
-	alert(data);
+//	alert(data);
 	/*alert($("#modalCourtTypeId").val());
 	alert(document.getElementById("modalCourtTypeId"));
 	requestData["courtTypeVal"] = $("#modalCourtTypeId").val();*/
@@ -650,7 +690,7 @@ function addCourtTypeData(data){
 		data : requestData,
 		dataType : 'text',
 		success : function(response) {
-			alert(response);
+//			alert(response);
 			addCourtTypeDropdown(response);
 		},
 		error: function(){
@@ -661,11 +701,7 @@ function addCourtTypeData(data){
 
 function addCategoryData(data){
 	var requestData = {};
-	alert(data);
-//	alert($("#modal_Category").val());
 	
-//	requestData["categoryVal"] = $("#categoryNameId").val();
-//	alert(document.getElementById("modal_Category"));
 	requestData["categoryVal"] = data;
 	$.ajax({
 		type : "post",
@@ -674,7 +710,7 @@ function addCategoryData(data){
 		data : requestData,
 		dataType : 'text',
 		success : function(response) {
-			alert(response);
+//			alert(response);
 			addCategoryDropdown(response);
 		},
 		error: function(){
@@ -684,21 +720,17 @@ function addCategoryData(data){
 }
 
 function addCityNameDropDown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#cityName').append(`<option value="${data}"> ${data} </option>`);
 }
 
 function addCourtForumDropDown(data){
-	alert("In called function");
+//	alert("In called function");
 	$('#courtForum').append(`<option value="${data}"> ${data} </option>`);
 }
 
 function addCityDtls(data){
 	var requestData = {};
-
-//	alert($("#modalCity").val());
-	alert($("#state").val())
-	alert(data);
 	requestData["cityNameVal"] = data;
 	requestData["stateVal"] = $("#state").val();
 	$.ajax({
@@ -708,7 +740,7 @@ function addCityDtls(data){
 		data : requestData,
 		dataType : 'text',
 		success : function(response) {
-			alert(response);
+//			alert(response);
 			addCityNameDropDown(response);
 		},
 		error: function(){
@@ -720,9 +752,6 @@ function addCityDtls(data){
 function addCourtForumDtls(data){
 	var requestData = {};
 
-	alert($("#cityName").val());
-//	alert($("#state").val())
-	alert(data);
 	requestData["courtForumVal"] = data;
 	requestData["cityNameVal"] = $("#cityName").val();
 	$.ajax({
@@ -732,7 +761,7 @@ function addCourtForumDtls(data){
 		data : requestData,
 		dataType : 'text',
 		success : function(response) {
-			alert(response);
+//			alert(response);
 			addCourtForumDropDown(response);
 		},
 		error: function(){
