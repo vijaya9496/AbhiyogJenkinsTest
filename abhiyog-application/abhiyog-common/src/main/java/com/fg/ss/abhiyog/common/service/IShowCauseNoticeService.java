@@ -19,7 +19,7 @@ public interface IShowCauseNoticeService {
 
 	boolean updateNoticeData(ShowCauseNoticeVO showCauseNoticeVO);
 	
-	void uploadFileandData(ShowCauseNoticeVO showCauseNoticeVO, MultipartFile file);
+	boolean uploadFileandData(ShowCauseNoticeVO showCauseNoticeVO, MultipartFile file);
 
 	List<ShowCauseNoticeVO> findShowCauseSummaryData(String entity, String zone, String unitName, String status,
 			String format);

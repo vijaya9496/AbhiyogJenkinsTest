@@ -116,7 +116,7 @@ public class UtilityRestController {
 			model.addAttribute("fromEmail", fromEmail);
 			model.addAttribute("commonEmailVO", new CommonEmailVO());
 		} else {
-			model.addAttribute("message", "Unable To Send Mail");
+			model.addAttribute("message", "Unable To Send Mail. Please Check Uploaded File Extention");
 			model.addAttribute("fromEmail", fromEmail);
 			model.addAttribute("commonEmailVO", new CommonEmailVO());
 		}

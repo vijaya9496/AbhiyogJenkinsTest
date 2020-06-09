@@ -8,12 +8,15 @@ $(document).ready(function(){
 		}).datepicker("setDate", new Date());
 	});
 	
+	// disable previous Dates..
+	$(function(){
+		$( "#modalHearingDt" ).datepicker({ minDate: 0});
+	});
+	
+	
+
+	
 	$("#editBtn").click(function (){
-//		alert("inside EditBtn");
-		/*var urlStr = "/updateLtgn";
-		$("#caseDetailsForm").attr("action", urlStr);
-		$("#caseDetailsForm").attr("method", "GET");
-		$("#caseDetailsForm").submit();*/
 		window.location.href = "/updateLtgn";
 	});
 	
@@ -24,13 +27,21 @@ $(document).ready(function(){
 		$("#litigationDetailsForm").submit();
 	});
 	
+	$("#modalAddWitnessResetBtn").click(function(){
+		$("#modalWitnessName").val('');
+	});
+	
 // Start Witness Modal
 	$("#addWitnessBtn").click(function(){
 //		alert(" addWitnessBtn Method called...");
 		var requestData = {};
-		alert($("#modalWitnessName").val());
+//		alert($("#modalWitnessName").val());
 		requestData["witnessVal"] = $("#modalWitnessName").val();
-		alert($("#litigationId").val());
+		if($("#modalWitnessName").val().length === 0){
+			alert("Please Enter Witness Name..");
+			return false;
+		}
+//		alert($("#litigationId").val());
 		requestData["litigationIdVal"] = $("#litigationId").val();
 		$.ajax({
 			type : "post",
@@ -58,9 +69,9 @@ $(document).ready(function(){
 //		alert(" addConnectedLtgnBtn Method called...");
 		var requestData = {};
 
-		alert($("#modalComments").val());
+//		alert($("#modalComments").val());
 		requestData["commentsVal"] = $("#modalComments").val();
-		alert($("#modalLitigationId").val());
+//		alert($("#modalLitigationId").val());
 		requestData["litigationIdVal"] = $("#modalLitigationId").val();
 		$.ajax({
 			type : "post",
@@ -72,6 +83,8 @@ $(document).ready(function(){
 			success : function(response) {
 				alert(response);
 				jQuery("#connectedLitigationSummary").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
+				$("#modalComments").val('');
+				$("#modalLitigationId").val('');
 				witnessmodal.style.display = "none";
 			},
 			error: function(){
@@ -101,6 +114,9 @@ $(document).ready(function(){
 			success : function(response) {
 				alert(response);
 				jQuery("#historySummary").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
+				$("#modalHearingDt").val('');
+				$("#modalStage").val('');
+				$("#modalStageDetails").val('');
 				witnessmodal.style.display = "none";
 			},
 			error: function(){
@@ -126,6 +142,11 @@ $(document).ready(function(){
 			success : function(response) {
 				alert(response);
 				jQuery("#lawfirmBillingSummary").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
+				$("#modalBillingType").val('');
+				$("#modalBillingAmount").val('');
+				$("#modalBillingDate").val('');
+				$("#modalRemarks").val('');
+				$("#modalUploadFile").val('');
 				witnessmodal.style.display = "none";
 			},
 			error: function(){
@@ -138,11 +159,11 @@ $(document).ready(function(){
 	$("#modalDisposedDateBtn").click(function(){
 //		alert(" modalDisposedDateBtn Method called...");
 		var requestData = {};
-		alert($("#modalResult").val());
+//		alert($("#modalResult").val());
 		requestData["resultVal"] = $("#modalResult").val();
-		alert($("#modalDisposedDate").val());
+//		alert($("#modalDisposedDate").val());
 		requestData["disposedDateVal"] = $("#modalDisposedDate").val();
-		alert($("#modalComments").val());
+//		alert($("#modalComments").val());
 		requestData["commentsVal"] = $("#modalDisposedComments").val();
 		$.ajax({
 			type : "post",
@@ -185,6 +206,9 @@ $(document).ready(function(){
 			success : function(response) {
 				alert(response);
 				jQuery("#documentSummary").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
+				$("#modalDocumentTitle").val('');
+				$("#modalUploadComments").val('');
+				$("#modaluploadFile").val('');
 				witnessmodal.style.display = "none";
 			},
 			error: function(){

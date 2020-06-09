@@ -464,14 +464,20 @@ public class ShowCauseNoticeRestController {
 		showCauseNoticeVO.setShowCauseNoticeId(showCauseNoticeId);
 		showCauseNoticeVO.setCommentsDoc(request.getParameter("commentsDoc"));
 		showCauseNoticeVO.setLoginId(uservo.getLoginId());
-		showCauseNoticeService.uploadFileandData(showCauseNoticeVO, multiPartFile);
+		boolean flag = showCauseNoticeService.uploadFileandData(showCauseNoticeVO, multiPartFile);
+		String message = "";
+		if(flag) {
+		message=	"Document Added Successfully";
+		}else {
+			message="Please Upload File Otherthan .exe or .war Extension";
+		}
 		ShowCauseNoticeVO showCauseNoticeDtls = showCauseNoticeService.findNoticeDtls(showCauseNoticeId);
 		model.addAttribute("showCauseNoticeVO", showCauseNoticeDtls);
 		model.addAttribute("allEntities", entityService.getAllEntities());
 		model.addAttribute("allRegions", zoneService.getAllZones());
 		model.addAttribute("allFormats", formatService.getAllFormats());
 		model.addAttribute("allUnitLocationDtls", unitsSummaryService.getUnitSummary());
-		model.addAttribute("message", "Document Added Successfully");
+		model.addAttribute("message", message);
 		return "updateNotice";
 
 	}

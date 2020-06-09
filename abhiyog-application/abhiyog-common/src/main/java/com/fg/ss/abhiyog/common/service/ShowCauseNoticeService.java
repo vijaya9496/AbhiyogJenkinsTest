@@ -281,35 +281,45 @@ public class ShowCauseNoticeService implements IShowCauseNoticeService {
 	}
 
 	@Override
-	public void uploadFileandData(ShowCauseNoticeVO showCauseNoticeVO, MultipartFile file) {
+	public boolean uploadFileandData(ShowCauseNoticeVO showCauseNoticeVO, MultipartFile file) {
 		// uploading File
+		boolean flag = false;
 		String fileName = fileStorageService.storeFile(file);
 		ShowCauseNoticeForms showCauseNoticeForms = new ShowCauseNoticeForms();
-		showCauseNoticeForms.setInputDocName(fileName);
-		showCauseNoticeForms.setInputDocPath(path + "/" + fileName);
-		LocalDateTime dateTime = LocalDateTime.now();
-		showCauseNoticeForms.setUploadedDate(dateTime);
-		showCauseNoticeForms.setDocSize(file.getSize());
-		showCauseNoticeForms.setFileExtension(file.getContentType());
-		showCauseNoticeForms.setComments(showCauseNoticeVO.getCommentsDoc());
-		List<ShowCauseNotice> showCauseNoticeList = showCauseNoticeRepository.findByID(showCauseNoticeVO.getShowCauseNoticeId());
-		for(ShowCauseNotice showCauseNotice:showCauseNoticeList) {
-			showCauseNoticeForms.setShowCauseNotice(showCauseNotice);
+		System.out.println("file.getContentType()::" +file.getContentType()+ "fileName:: " +fileName);
+		String extension = "";
+
+		int i = fileName.lastIndexOf('.');
+		if (i >= 0) {
+		    extension = fileName.substring(i+1);
 		}
-		
-//		showCauseNoticeForms.getShowCauseNotice().setShowCauseNoticeId(showCauseNoticeVO.getShowCauseNoticeId());
-		User user = userRepository.findByLoginId(showCauseNoticeVO.getLoginId());
-		showCauseNoticeForms.setUserDtls(user);
-		try {
-			showCauseNoticeForms.setFileData(file.getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
+		System.out.println("extension:: " +extension);
+		if(!extension.equals("war") && !extension.equals("exe")) {
+			showCauseNoticeForms.setInputDocName(fileName);
+			showCauseNoticeForms.setInputDocPath(path + "/" + fileName);
+			LocalDateTime dateTime = LocalDateTime.now();
+			showCauseNoticeForms.setUploadedDate(dateTime);
+			showCauseNoticeForms.setDocSize(file.getSize());
+			showCauseNoticeForms.setFileExtension(file.getContentType());
+			showCauseNoticeForms.setComments(showCauseNoticeVO.getCommentsDoc());
+			List<ShowCauseNotice> showCauseNoticeList = showCauseNoticeRepository.findByID(showCauseNoticeVO.getShowCauseNoticeId());
+			for(ShowCauseNotice showCauseNotice:showCauseNoticeList) {
+				showCauseNoticeForms.setShowCauseNotice(showCauseNotice);
+			}
+			
+//			showCauseNoticeForms.getShowCauseNotice().setShowCauseNoticeId(showCauseNoticeVO.getShowCauseNoticeId());
+			User user = userRepository.findByLoginId(showCauseNoticeVO.getLoginId());
+			showCauseNoticeForms.setUserDtls(user);
+			try {
+				showCauseNoticeForms.setFileData(file.getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			showCauseNoticeFormsRepository.save(showCauseNoticeForms);
+			flag = true;
 		}
-		showCauseNoticeFormsRepository.save(showCauseNoticeForms);
-	/*	baseResponseVO.setResponseCode(HttpStatus.OK.value());
-		baseResponseVO.setResponseMessage("UPLOADED SUCCESSFULLY");
-		baseResponseVO.setData(null); */
-//		return baseResponseVO;
+		return flag;
+	
 
 	}
 

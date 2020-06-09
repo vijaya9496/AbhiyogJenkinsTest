@@ -114,8 +114,8 @@ public class EmailService {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
-				baseResponseVO.setResponseMessage("Provide Valid TO Email address");
+//				baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
+//				baseResponseVO.setResponseMessage("Provide Valid TO Email address");
 			}
 			
 			System.out.println("bccMails Size*** " +commonEmailVO.getBccMails().size());
@@ -146,47 +146,41 @@ public class EmailService {
 
 			helper.setSubject(commonEmailVO.getSubject());
 			helper.setText(commonEmailVO.getMessage());
-
+			String extension = "";
 			if (!multiPartFile.isEmpty()) {
 				String attachName = multiPartFile.getOriginalFilename();
-				helper.addAttachment(attachName, new InputStreamSource() {
-					@Override
-					public InputStream getInputStream() throws IOException {
-						
-						return multiPartFile.getInputStream();
-					}
-				});
+				
+
+				int i = attachName.lastIndexOf('.');
+				if (i >= 0) {
+				    extension = attachName.substring(i+1);
+				}
+				System.out.println("extension:: " +extension);
+				if(!extension.equals("war") && !extension.equals("exe")) {
+					helper.addAttachment(attachName, new InputStreamSource() {
+						@Override
+						public InputStream getInputStream() throws IOException {
+							
+							return multiPartFile.getInputStream();
+						}
+					});
+				}else {
+					flag = false;
+					return flag;
+				}
+				
 			} else {
 				System.out.println("No file selected");
 			}
 
-			/*
-			 * if(attachmentFile != null) { File file =
-			 * convertMultiPartToFile(attachmentFile);
-			 * 
-			 * MimeBodyPart messageBodyPart = new MimeBodyPart();
-			 * messageBodyPart.setText("PFA");
-			 * 
-			 * Multipart multiPart = new MimeMultipart();
-			 * multiPart.addBodyPart(messageBodyPart); DataSource source = new
-			 * FileDataSource(file); messageBodyPart.setDataHandler(new
-			 * DataHandler(source));
-			 * 
-			 * multiPart.addBodyPart(messageBodyPart); message.setContent(multiPart); }else
-			 * { System.out.println("No file selected"); }
-			 */
-
 			javaMailSender.send(message);
 			flag = true;
 			
-//			baseResponseVO.setResponseCode(HttpStatus.OK.value());
-//			baseResponseVO.setResponseMessage("Email Sent Successfully.");
+
 		} catch (Exception e) {
-//			baseResponseVO.setResponseCode(HttpStatus.BAD_REQUEST.value());
-//			baseResponseVO.setResponseMessage("Unable to Send Email");
 			e.printStackTrace();
 		}
-//		baseResponseVO.setData(null);
+
 		return flag;
 	}
 
