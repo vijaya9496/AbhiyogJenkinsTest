@@ -97,7 +97,7 @@ jQuery(document).ready(
 						cmTemplate : {
 							sortable : false
 						},
-						multiselect : true,
+//						multiselect : true,
 					});
 			/*
 			 * $grid.jqGrid('navGrid', '#litigationSummarypager', {edit: false,
